@@ -5,7 +5,7 @@ VisualStudioVersion = 17.8.34316.72
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectClock.UI", "ProjectClock.UI\ProjectClock.UI.csproj", "{73033BC6-DDC9-4FB7-895B-5F86C427A552}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectClock.BussinesLogic", "ProjectClock.BussinesLogic\ProjectClock.BussinesLogic.csproj", "{FB1A429F-3BCD-4391-898D-D452ECBC8D75}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectClock.BusinessLogic", "ProjectClock.BussinesLogic\ProjectClock.BusinessLogic.csproj", "{FB1A429F-3BCD-4391-898D-D452ECBC8D75}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
