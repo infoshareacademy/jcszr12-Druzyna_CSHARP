@@ -1,0 +1,8 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/Solution1/ProjectClock.BussinesLogic/obj
+/Solution1/ProjectClock.UI/obj
+/Solution1/.vs/Solution1
