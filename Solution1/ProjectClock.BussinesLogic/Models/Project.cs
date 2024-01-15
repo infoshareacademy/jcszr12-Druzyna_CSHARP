@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace ProjectClock.BusinessLogic.Models
 {
-    internal class Project
-    {
+    public class Project
+    {       
         internal int Id { get; set; }
         internal string Name { get; set; }
         internal TimeSpan TotalProjectTime { get; set; }
