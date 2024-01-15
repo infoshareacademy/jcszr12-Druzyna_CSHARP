@@ -16,8 +16,8 @@ namespace ProjectClock.BusinessLogic.Services
             {
                 new Project() { Id = 1, Name = "ToDoApp"},
                 new Project() { Id = 2, Name = "Amazon Store"},
-                new Project() { Id = 0, Name = "Internal office tasks"},
-                new Project() { Id = 3, Name = "Internal marketing"}
+                new Project() { Id = 3, Name = "Internal office tasks"},
+                new Project() { Id = 4, Name = "Internal marketing"}
             };
             return projects;
         }     

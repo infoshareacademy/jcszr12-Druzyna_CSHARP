@@ -11,7 +11,7 @@ namespace ProjectClock.BusinessLogic.Services
     {
         public static void Save(List<Project> projects)
         {
-            //saving to json
+            //saving to json soon
             Console.WriteLine("saving");
         }
     }

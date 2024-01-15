@@ -13,8 +13,7 @@ namespace ProjectClock.BusinessLogic.Services
         {          
             var project = GetProject(id);
             SetID(project);
-            SetName(project);
-            var project1 = GetProject(3);
+            SetName(project);           
         }
 
         
