@@ -31,9 +31,26 @@ namespace ProjectClock.BusinessLogic.Services
             while (!isRight)
             {
                 Console.WriteLine("Insert project ID:");
-                isRight = int.TryParse(Console.ReadLine(), result: out Id);
+                isRight = int.TryParse(Console.ReadLine(), result: out Id);               
             }
             project.Id = Id;
+        }
+        internal static Project GetProject(int id)
+        {
+            List<Project> list = ProjectServicesProjectGetter.GetProjectList();           
+            foreach (Project project in list)
+            {
+                Console.WriteLine(project.Id);
+                Console.WriteLine(project.Name);
+                if (project.Id == id)
+                {
+                    Console.WriteLine($"Project {project.Name} founded");
+                    return project;
+                }                                                              
+            }
+            Console.WriteLine("Project with this id doesn't exist");
+            return null;
+            
         }
     }
 }

@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace ProjectClock.BusinessLogic.Services
 {
-    public class ProjectServicesModifyProject : ProjectServices
+    internal class ProjectServicesProjectSaver
     {
-        public static void ModifyProject(Project project)
-        {           
-            SetID(project);
-            SetName(project);           
+        public static void Save(List<Project> projects)
+        {
+            //saving to json
+            Console.WriteLine("saving");
         }
     }
 }

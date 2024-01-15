@@ -8,7 +8,7 @@ namespace ProjectClock.UI
     {
         static void Main(string[] args)
         {
-                   
+            
         }
     }
 }

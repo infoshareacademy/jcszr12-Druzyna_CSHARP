@@ -7,21 +7,16 @@ using System.Threading.Tasks;
 
 namespace ProjectClock.BusinessLogic.Services
 {
-    public class ProjectServicesCreateProject : ProjectServices
+    public class ProjectServicesProjectEditor : ProjectServices
     {
-        public static Project CreateProject()
-        {
-            var project = new Project();
+        public static void ModifyProject(int id)
+        {          
+            var project = GetProject(id);
             SetID(project);
             SetName(project);
-            return project;
+            var project1 = GetProject(3);
         }
 
         
-
-
-
-
-
     }
 }
