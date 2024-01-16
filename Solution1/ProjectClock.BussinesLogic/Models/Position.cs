@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProjectClock.BusinessLogic.Models
 {
-    internal enum Position
+    public enum Position
     {
         Manager,
         User,
