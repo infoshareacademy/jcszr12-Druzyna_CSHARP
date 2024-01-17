@@ -38,18 +38,15 @@ namespace ProjectClock.BusinessLogic.Services
         internal static Project GetProject(int id)
         {
             List<Project> list = ProjectServicesProjectGetter.GetProjectList();           
-            foreach (Project project in list)
+            var project = list.FirstOrDefault( e => e.Id == id);
+            if(project == null)
             {
-                Console.WriteLine(project.Id);
-                Console.WriteLine(project.Name);
-                if (project.Id == id)
-                {
-                    Console.WriteLine($"Project {project.Name} founded");
-                    return project;
-                }                                                              
+                Console.WriteLine("Project doesn't found!");
+                return null;
             }
-            Console.WriteLine("Project with this id doesn't exist");
-            return null;
+            Console.WriteLine($"Project {project.Name} founded");
+            return project;
+               
             
         }
     }
