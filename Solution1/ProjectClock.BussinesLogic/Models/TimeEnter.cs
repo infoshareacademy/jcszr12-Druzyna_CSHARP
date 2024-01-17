@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace ProjectClock.BusinessLogic.Models
 {
-    internal class TimeEnter
+    public class TimeEnter
     {
-        internal DateTime StartTime { get; set; }
-        internal DateTime EndTime { get; set; }
-        internal Project Project { get; set; }
-        internal string Description { get; set; }
-        internal TimeSpan Time {  get; set; }
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
+        public Project Project { get; set; }
+        public string Description { get; set; }
+        public TimeSpan Time {  get; set; }
     }
 }

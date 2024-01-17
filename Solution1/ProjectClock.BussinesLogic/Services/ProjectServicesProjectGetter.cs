@@ -4,21 +4,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace ProjectClock.BusinessLogic.Services
 {
     internal class ProjectServicesProjectGetter
     {
-        //hard coded list of projects in future should be get from json
         public static List<Project> GetProjectList()
         {
-            List<Project> projects = new List<Project>()
-            {
-                new Project() { Id = 1, Name = "ToDoApp"},
-                new Project() { Id = 2, Name = "Amazon Store"},
-                new Project() { Id = 3, Name = "Internal office tasks"},
-                new Project() { Id = 4, Name = "Internal marketing"}
-            };
+            var json = File.ReadAllText(@"d:\00_InfoShare Academy\000_Project\Solution1\ProjectClock.BussinesLogic\Data\projects.json");
+            List<Project> projects = JsonConvert.DeserializeObject<List<Project>>(json);
             return projects;
         }     
     }

@@ -8,8 +8,8 @@ namespace ProjectClock.BusinessLogic.Models
 {
     public class Project
     {       
-        internal int Id { get; set; }
-        internal string Name { get; set; }
-        internal TimeSpan TotalProjectTime { get; set; }       
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public TimeSpan TotalProjectTime { get; set; }       
     }
 }

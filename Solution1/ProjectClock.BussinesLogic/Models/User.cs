@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace ProjectClock.BusinessLogic.Models
 {
-    internal class User
+    public class User
     {
-        internal int ID { get; set; }
-        internal string Name { get; set; }
-        internal string Surname { get; set; }
-        internal Position UserPosition { get; set; }
-        internal TimeSpan TotalWorkTime { get; set; }
+        public int ID { get; set; }
+        public string Name { get; set; }
+        public string Surname { get; set; }
+        public Position UserPosition { get; set; }
+        public TimeSpan TotalWorkTime { get; set; }
     }
 }
