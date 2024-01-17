@@ -9,7 +9,7 @@ Project clock is a concise program designed to facilitate the tracking of time d
 
 ## Our team:
 - Tymoteusz Micherda - Mentor and Trainer
-- Tomasz Żukwowski - Team Leader
+- Tomasz Żukowski - Team Leader
 - Grzegorz Sajewicz - Scrum Master
 - Robert Nizio - C# Developer
 
