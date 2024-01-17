@@ -19,12 +19,7 @@ namespace ProjectClock.BusinessLogic.Services
             te.StartTime = DateTime.Now;
             te.Project = project;
 
-            Console.WriteLine($"\nSelected project: {project.Name} ");
-            Console.WriteLine($"\nStart time of working on the project {DateTime.Now} ");
-
-
             return te;
-
 
         }
 
@@ -34,8 +29,6 @@ namespace ProjectClock.BusinessLogic.Services
             var te = new TimeEnter();
             te.EndTime = DateTime.Now;
             te.Description = description;
-             
-            Console.WriteLine($"\n Stop Selected project: {te.EndTime} ");
 
             return te;
         }
@@ -45,11 +38,6 @@ namespace ProjectClock.BusinessLogic.Services
             TimeSpan diff = stopTime - startTime;
             var te = new TimeEnter();
             te.Time = diff;
-
-
-            
-            
-           // Console.WriteLine($"\n Stop Selected project: {diff.TotalHours} hours ");
 
             return te; 
         }
