@@ -18,10 +18,6 @@ namespace ProjectClock.BusinessLogic.Services
             timeEnter.StartTime = DateTime.Now;
             timeEnter.Project = GetProject(idOfProject);
 
-            //Console.WriteLine($"\n Selected project ID: {project.Id} ");
-            //Console.WriteLine($"\n Selected project name: {project.Name} ");
-            //Console.WriteLine($"\n Start time of working on the project {DateTime.Now} ");
-
             return timeEnter;
         }
 
@@ -29,22 +25,10 @@ namespace ProjectClock.BusinessLogic.Services
         { 
             timeEnter.EndTime = DateTime.Now;
             timeEnter.Description = descriptionActivitysInProject;
-
-            //Console.WriteLine($"\n End of working time on the project: {timeEnter.EndTime} ");
-            //Console.WriteLine($"\n Description activities in project : {timeEnter.Description} ");
+            timeEnter.Time = timeEnter.EndTime - timeEnter.StartTime;
 
             return timeEnter;
         }
 
-        public static TimeEnter CalculateTime(TimeEnter timeEnter)
-        {
-            var project = new Project();
-            project.TotalProjectTime = timeEnter.EndTime - timeEnter.StartTime;
-            timeEnter.Project = project;
-
-            //Console.WriteLine($"\n Working time on the project: {timeEnter.Project.TotalProjectTime} ");
-            
-            return timeEnter; 
-        }
     }
 }
