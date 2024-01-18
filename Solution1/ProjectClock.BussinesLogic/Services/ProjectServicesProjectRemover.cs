@@ -13,7 +13,7 @@ namespace ProjectClock.BusinessLogic.Services
         {
             var projects = ProjectServicesProjectGetter.GetProjectList();
             var project = GetProject(id);
-            var path = @"d:\00_InfoShare Academy\000_Project\Solution1\ProjectClock.BussinesLogic\Data\projects.json";
+            var path = GetDirectoryToFile("projects.json");
 
             projects.Remove(project);
             Console.WriteLine($"{project.Name} deleted!");

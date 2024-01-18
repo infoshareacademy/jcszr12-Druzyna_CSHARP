@@ -12,7 +12,8 @@ namespace ProjectClock.BusinessLogic.Services
     {
         public static void CreateProject()
         {
-            var path = @"d:\00_InfoShare Academy\000_Project\Solution1\ProjectClock.BussinesLogic\Data\projects.json";
+
+            var path = GetDirectoryToFile("projects.json");
             var projects = ProjectServicesProjectGetter.GetProjectList();
             var project = new Project();
             

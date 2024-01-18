@@ -5,14 +5,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using System.IO;
 
 namespace ProjectClock.BusinessLogic.Services
 {
-    internal class ProjectServicesProjectGetter
+    public class ProjectServicesProjectGetter : ProjectServices
     {
         public static List<Project> GetProjectList()
         {
-            var json = File.ReadAllText(@"d:\00_InfoShare Academy\000_Project\Solution1\ProjectClock.BussinesLogic\Data\projects.json");
+            var json = File.ReadAllText(GetDirectoryToFile("projects.json"));
             List<Project> projects = JsonConvert.DeserializeObject<List<Project>>(json);
             return projects;
         }     

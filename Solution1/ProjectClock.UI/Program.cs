@@ -7,25 +7,26 @@ namespace ProjectClock.UI
     internal class Program
     {
         static void Main(string[] args)
-        {         
-            //Menu menu = new Menu();
+        {
 
-            //menu.RunPositionMenu();
+            Menu menu = new Menu();
 
-            //switch (menu.SelectedIndex)
-            //{
-            //    case 0:
-            //        menu.RunManager();
-            //        break;
+            menu.RunPositionMenu();
 
-            //    case 1:
-            //        menu.RunUser();
-            //        break;
+            switch (menu.SelectedIndex)
+            {
+                case 0:
+                    menu.RunManager();
+                    break;
 
-            //    case 2:
-            //        menu.RunExit();
-            //        break;
-            //}
+                case 1:
+                    menu.RunUser();
+                    break;
+
+                case 2:
+                    menu.RunExit();
+                    break;
+            }
 
 
 
