@@ -20,7 +20,7 @@ namespace ProjectClock.UI.Menu
         private string prompt;
         private string[] options;
 
-        public string Intro()
+        public static string Intro()
         {
             StringBuilder sb = new StringBuilder();
 
@@ -61,6 +61,27 @@ namespace ProjectClock.UI.Menu
             MenuServices menuService = new MenuServices();
 
             SelectedIndex = menuService.MoveableMenu(prompt, options, Intro());
+
+            switch (SelectedIndex)
+            {
+                case 0:
+
+                    ManagerMenu managerMenu = new ManagerMenu();
+                    managerMenu.Run();
+                    break;
+
+                case 1:
+
+                    UserMenu userMenu = new UserMenu();
+                    userMenu.Run();
+                    break;
+
+                case 2:
+
+                    ExitMenu exitMenu = new ExitMenu();
+                    exitMenu.Run();
+                    break;
+            }
 
         }
 
