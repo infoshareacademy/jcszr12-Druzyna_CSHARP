@@ -38,14 +38,14 @@ namespace ProjectClock.UI
 
         }
 
-        public void RunPositionMenu()
+        public void RunMainMenu()
         {
             
             options = GetPositionsFromEnum();
             options[options.Length - 1] = "Exit";
             prompt = "Choose your position: ";                 
                         
-            SelectedIndex = Run(prompt, options);         
+            SelectedIndex = MoveableMenu(prompt, options);         
 
         }
 
@@ -93,7 +93,7 @@ namespace ProjectClock.UI
 
         }
 
-        private int Run(string prompt, string[]options)
+        private int MoveableMenu(string prompt, string[]options)
         {
             ConsoleKey keyPressed;
             SelectedIndex = 0;
@@ -133,14 +133,24 @@ namespace ProjectClock.UI
 
         internal void RunManager()
         {
-            //to implement
-            throw new NotImplementedException();
+            WriteLine("\nInsert your name:");
+
+            string name = ReadLine();
+
+            WriteLine("\nInsert your surname:");
+
+            string surname = ReadLine();
         }
 
         internal void RunUser()
         {
-            //to implement
-            throw new NotImplementedException();
+            WriteLine("\nInsert your name:");
+
+            string name = ReadLine();
+
+            WriteLine("\nInsert your surname:");
+
+            string surname = ReadLine();
         }
 
         internal void RunExit()
