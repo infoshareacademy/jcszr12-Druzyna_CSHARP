@@ -1,12 +1,15 @@
 ﻿using System;
+using System.Buffers;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
 using ProjectClock.BusinessLogic.Models;
+using ProjectClock.UI.Menu.Services;
 using static System.Console;
 
 namespace ProjectClock.UI.Menu
@@ -17,10 +20,11 @@ namespace ProjectClock.UI.Menu
         private string prompt;
         private string[] options;
 
-        public void DisplayIntro()
+        public string Intro()
         {
+            StringBuilder sb = new StringBuilder();
 
-            ForegroundColor = ConsoleColor.Cyan;
+            
 
             string intro = @"
    ___              _              _      ___  _               _    
@@ -31,11 +35,19 @@ namespace ProjectClock.UI.Menu
                  |__/ 
 ";
 
-            WriteLine(intro);
-            WriteLine("       ProjectClock allows to manage your employees worktime");
-            WriteLine("    Use up and down to navigate and press the Enter key to select");
-            WriteLine();
-            ResetColor();
+
+            sb.Append(intro);
+
+            string introTextFirstLine = ("       ProjectClock allows to manage your employees worktime");
+            string introTextSecondLine = ("    Use up and down to navigate and press the Enter key to select");
+            string introTextThirdLine = ("                                                                      ");
+
+            sb.AppendLine(introTextFirstLine);
+            sb.AppendLine(introTextSecondLine);
+            sb.AppendLine(introTextThirdLine);
+
+
+            return sb.ToString();
 
         }
 
@@ -46,7 +58,9 @@ namespace ProjectClock.UI.Menu
             options[options.Length - 1] = "Exit";
             prompt = "Choose your position: ";
 
-            SelectedIndex = MoveableMenu(prompt, options);
+            MenuServices menuService = new MenuServices();
+
+            SelectedIndex = menuService.MoveableMenu(prompt, options, Intro());
 
         }
 
@@ -65,72 +79,9 @@ namespace ProjectClock.UI.Menu
             return postionsToDisplayInMenu;
         }
 
-        private void DisplayOptions(string prompt, string[] options)
-        {
-            WriteLine(prompt);
+      
 
-            for (int i = 0; i < options.Length; i++)
-            {
-                string currentOption = options[i];
-                string prefix;
-
-                if (i == SelectedIndex)
-                {
-                    prefix = "*";
-                    ForegroundColor = ConsoleColor.Black;
-                    BackgroundColor = ConsoleColor.White;
-                }
-                else
-                {
-                    prefix = " ";
-                    ForegroundColor = ConsoleColor.White;
-                    BackgroundColor = ConsoleColor.Black;
-                }
-
-                WriteLine($" {prefix} << {currentOption} >>");
-            }
-
-            ResetColor();
-
-        }
-
-        private int MoveableMenu(string prompt, string[] options)
-        {
-            ConsoleKey keyPressed;
-            SelectedIndex = 0;
-
-            do
-            {
-                Clear();
-                DisplayIntro();
-                DisplayOptions(prompt, options);
-
-                ConsoleKeyInfo keyInfo = ReadKey(true);
-                keyPressed = keyInfo.Key;
-
-                if (keyPressed == ConsoleKey.UpArrow)
-                {
-                    SelectedIndex--;
-                    if (SelectedIndex == -1)
-                    {
-                        SelectedIndex = options.Length - 1;
-                    }
-                }
-                else if (keyPressed == ConsoleKey.DownArrow)
-                {
-                    SelectedIndex++;
-                    if (SelectedIndex == options.Length)
-                    {
-                        SelectedIndex = 0;
-                    }
-                }
-
-
-
-            } while (keyPressed != ConsoleKey.Enter);
-
-            return SelectedIndex;
-        }
+       
 
       
 
