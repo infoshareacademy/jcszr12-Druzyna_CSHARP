@@ -1,6 +1,7 @@
 ﻿
 using ProjectClock.BusinessLogic.Models;
 using ProjectClock.BusinessLogic.Services;
+using ProjectClock.UI.Menu;
 
 namespace ProjectClock.UI
 {
@@ -8,30 +9,36 @@ namespace ProjectClock.UI
     {
         static void Main(string[] args)
         {
-            Menu menu = new Menu();
+            RunMenu();
+        }
+
+        private static void RunMenu()
+        {
+
+            MainMenu menu = new MainMenu();
 
             menu.RunMainMenu();
 
             switch (menu.SelectedIndex)
             {
                 case 0:
-                    menu.RunManager();
+
+                    ManagerMenu managerMenu = new ManagerMenu();
+                    managerMenu.Run();
                     break;
 
                 case 1:
-                    menu.RunUser();
+
+                    UserMenu userMenu = new UserMenu();
+                    userMenu.Run();
                     break;
 
                 case 2:
-                    menu.RunExit();
+
+                    ExitMenu exitMenu = new ExitMenu();
+                    exitMenu.Run();
                     break;
             }
-
-
-
-
-
-
         }
     }
 }

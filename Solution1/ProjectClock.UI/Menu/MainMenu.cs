@@ -3,22 +3,23 @@ using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
 using ProjectClock.BusinessLogic.Models;
 using static System.Console;
 
-namespace ProjectClock.UI
+namespace ProjectClock.UI.Menu
 {
-    public class Menu
+    public class MainMenu
     {
         public int SelectedIndex { private set; get; }
         private string prompt;
-        private string[] options;      
-       
+        private string[] options;
+
         public void DisplayIntro()
         {
-            
+
             ForegroundColor = ConsoleColor.Cyan;
 
             string intro = @"
@@ -28,24 +29,24 @@ namespace ProjectClock.UI
 / ___/ | |  | (_) || ||  __/| (__ | |_ / /___ | || (_) || (__ |   < 
 \/     |_|   \___/_/ | \___| \___| \__|\____/ |_| \___/  \___||_|\_\
                  |__/ 
-";                                   
-          
+";
+
             WriteLine(intro);
-            WriteLine("       ProjectClock allows to manage your employees worktime"); 
+            WriteLine("       ProjectClock allows to manage your employees worktime");
             WriteLine("    Use up and down to navigate and press the Enter key to select");
             WriteLine();
-            ResetColor();           
+            ResetColor();
 
         }
 
         public void RunMainMenu()
         {
-            
+
             options = GetPositionsFromEnum();
             options[options.Length - 1] = "Exit";
-            prompt = "Choose your position: ";                 
-                        
-            SelectedIndex = MoveableMenu(prompt, options);         
+            prompt = "Choose your position: ";
+
+            SelectedIndex = MoveableMenu(prompt, options);
 
         }
 
@@ -58,7 +59,7 @@ namespace ProjectClock.UI
 
             for (int i = 0; i < positionsFromEnum.Length; i++)
             {
-                postionsToDisplayInMenu[i] = positionsFromEnum.GetValue(i)?.ToString() ?? String.Empty;
+                postionsToDisplayInMenu[i] = positionsFromEnum.GetValue(i)?.ToString() ?? string.Empty;
             }
 
             return postionsToDisplayInMenu;
@@ -78,7 +79,7 @@ namespace ProjectClock.UI
                     prefix = "*";
                     ForegroundColor = ConsoleColor.Black;
                     BackgroundColor = ConsoleColor.White;
-                }   
+                }
                 else
                 {
                     prefix = " ";
@@ -86,14 +87,14 @@ namespace ProjectClock.UI
                     BackgroundColor = ConsoleColor.Black;
                 }
 
-                WriteLine($" {prefix} << {currentOption} >>");                
+                WriteLine($" {prefix} << {currentOption} >>");
             }
 
             ResetColor();
 
         }
 
-        private int MoveableMenu(string prompt, string[]options)
+        private int MoveableMenu(string prompt, string[] options)
         {
             ConsoleKey keyPressed;
             SelectedIndex = 0;
@@ -131,35 +132,18 @@ namespace ProjectClock.UI
             return SelectedIndex;
         }
 
-        internal void RunManager()
-        {
-            WriteLine("\nInsert your name:");
+      
 
-            string name = ReadLine();
+      
 
-            WriteLine("\nInsert your surname:");
+     
 
-            string surname = ReadLine();
-        }
 
-        internal void RunUser()
-        {
-            WriteLine("\nInsert your name:");
 
-            string name = ReadLine();
 
-            WriteLine("\nInsert your surname:");
 
-            string surname = ReadLine();
 
-            //small change
-        }
 
-        internal void RunExit()
-        {
-            WriteLine("\nPress any key to exit");
-            ReadKey(true);
-            Environment.Exit(0);
-        }
+
     }
 }
