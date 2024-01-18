@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ProjectClock.BusinessLogic.Services
 {
-    public abstract class ProjectServices
+    public class ProjectServices : Services
     {
         internal static void SetName(Project project)
         {
