@@ -13,5 +13,8 @@ Project clock is a concise program designed to facilitate the tracking of time d
 - Grzegorz Sajewicz - Scrum Master
 - Robert Nizio - C# Developer
 
+## First idea:
+![ProjectClockFirstDiagram](ProjectClockFirstDiagram.jpg)
+
 
 
