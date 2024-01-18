@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 
 namespace ProjectClock.BusinessLogic.Services
 {
-    internal class ProjectServicesProjectGetter
+    public class ProjectServicesProjectGetter
     {
         public static List<Project> GetProjectList()
         {

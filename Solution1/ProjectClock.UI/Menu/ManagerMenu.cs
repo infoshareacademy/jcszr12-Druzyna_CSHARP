@@ -1,4 +1,6 @@
 ﻿using ProjectClock.BusinessLogic.Models;
+using ProjectClock.BusinessLogic.Services;
+using ProjectClock.UI.Menu.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,6 +29,23 @@ namespace ProjectClock.UI.Menu
             manager.UserPosition = Position.Manager;           
 
             return manager;
+
+            RunSubManagerMenu();
+
+        }
+
+        private void RunSubManagerMenu()
+        {
+
+            MenuServices menuServices = new MenuServices();
+
+
+        }
+
+        private string[] GetProjects()
+        {
+
+            //to continues
         }
     }
 }
