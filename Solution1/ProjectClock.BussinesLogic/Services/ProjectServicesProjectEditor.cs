@@ -9,11 +9,11 @@ namespace ProjectClock.BusinessLogic.Services
 {
     public class ProjectServicesProjectEditor : ProjectServices
     {
-        public static void ModifyProject(int id)
+        public static void ModifyProject(int id, string name)
         {          
             var project = GetProject(id);
-            SetID(project);
-            SetName(project);           
+            SetID(project, id);
+            SetName(project, name);           
         }
 
         

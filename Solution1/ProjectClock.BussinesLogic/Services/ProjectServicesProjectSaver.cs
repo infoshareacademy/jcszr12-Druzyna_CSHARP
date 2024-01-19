@@ -15,8 +15,7 @@ namespace ProjectClock.BusinessLogic.Services
         public static void Save(List <Project> projects,string path)
         {                                
             string json = JsonConvert.SerializeObject(projects);
-            File.WriteAllText(path, json);           
-            Console.WriteLine("saving...");
+            File.WriteAllText(path, json);                     
         }
     }
 }

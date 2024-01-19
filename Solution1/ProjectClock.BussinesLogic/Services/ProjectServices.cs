@@ -9,42 +9,40 @@ namespace ProjectClock.BusinessLogic.Services
 {
     public class ProjectServices : Services
     {
-        internal static void SetName(Project project)
+        internal static bool ExistProject(int id )
         {
-            bool isRight = false;
-            string name = "";
-
-            while (!isRight)
+            List<Project> list = ProjectServicesProjectGetter.GetProjectList();
+            foreach (var item in list)
             {
-                Console.WriteLine("Insert project name:");
-                name = Console.ReadLine();
-                if (name != "" && name != null) isRight = true;
+                if(item.Id == id)
+                {
+                    return true;
+                }
             }
+            return false;
+
+        }
+        internal static void SetName(Project project, string name)
+        {            
             project.Name = name;
         }
 
-        internal static void SetID(Project project)
+        internal static void SetID(Project project, int id)
         {
-            bool isRight = false;
-            int Id = 1;
-
-            while (!isRight)
+            if (ExistProject(id))
             {
-                Console.WriteLine("Insert project ID:");
-                isRight = int.TryParse(Console.ReadLine(), result: out Id);               
+                project.Id = id;
             }
-            project.Id = Id;
+            
         }
         internal static Project GetProject(int id)
         {
             List<Project> list = ProjectServicesProjectGetter.GetProjectList();           
             var project = list.FirstOrDefault( e => e.Id == id);
             if(project == null)
-            {
-                Console.WriteLine("Project doesn't found!");
+            {               
                 return null;
-            }
-            Console.WriteLine($"Project {project.Name} founded");
+            }            
             return project;
                
             

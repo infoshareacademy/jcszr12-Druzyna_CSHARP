@@ -14,9 +14,7 @@ namespace ProjectClock.BusinessLogic.Services
             var projects = ProjectServicesProjectGetter.GetProjectList();
             var project = GetProject(id);
             var path = GetDirectoryToFile("projects.json");
-
-            projects.Remove(project);
-            Console.WriteLine($"{project.Name} deleted!");
+            projects.Remove(project);          
             ProjectServicesProjectSaver.Save(projects, path);
         }
 

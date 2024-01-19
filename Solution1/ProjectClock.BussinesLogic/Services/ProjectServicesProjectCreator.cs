@@ -10,15 +10,15 @@ namespace ProjectClock.BusinessLogic.Services
 {
     public class ProjectServicesProjectCreator : ProjectServices
     {
-        public static void CreateProject()
+        public static void CreateProject(string name)
         {
 
             var path = GetDirectoryToFile("projects.json");
             var projects = ProjectServicesProjectGetter.GetProjectList();
             var project = new Project();
             
-            SetID(project);
-            SetName(project); 
+            SetID(project, projects.Count+1);
+            SetName(project, name); 
             projects.Add(project);
             ProjectServicesProjectSaver.Save(projects,path);                     
         }
