@@ -6,24 +6,24 @@ using System.Text;
 using System.Threading.Tasks;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
-namespace ProjectClock.BusinessLogic.Services
+namespace ProjectClock.BusinessLogic.Services.ProjectServices
 {
-    public class ProjectServicesProjectCreator : ProjectServices
+    public class ProjectCreator : General
     {
         public static void CreateProject(string name)
         {
 
             var path = GetDirectoryToFile("projects.json");
-            var projects = ProjectServicesProjectGetter.GetProjectList();
+            var projects = ProjectGetter.GetProjectList();
             var project = new Project();
-            
-            SetID(project, projects.Count+1);
-            SetName(project, name); 
+
+            SetID(project, projects.Count + 1);
+            SetName(project, name);
             projects.Add(project);
-            ProjectServicesProjectSaver.Save(projects,path);                     
+            ProjectSaver.Save(projects, path);
         }
 
-        
+
 
 
 

@@ -5,17 +5,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProjectClock.BusinessLogic.Services
+namespace ProjectClock.BusinessLogic.Services.ProjectServices
 {
-    public class ProjectServicesProjectEditor : ProjectServices
+    public class ProjectEditor : General
     {
         public static void ModifyProject(int id, string name)
-        {          
+        {
             var project = GetProject(id);
             SetID(project, id);
-            SetName(project, name);           
+            SetName(project, name);
         }
 
-        
+
     }
 }

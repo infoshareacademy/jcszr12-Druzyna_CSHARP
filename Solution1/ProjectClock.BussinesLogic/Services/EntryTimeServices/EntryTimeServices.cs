@@ -1,5 +1,4 @@
 ﻿using ProjectClock.BusinessLogic.Models;
-
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -7,10 +6,11 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using ProjectClock.BusinessLogic.Services.ProjectServices;
 
-namespace ProjectClock.BusinessLogic.Services
+namespace ProjectClock.BusinessLogic.Services.EntryTimeServices
 {
-    public class EntryTimeServices :ProjectServices
+    public class EntryTimeServices : General
     {
         public static TimeEnter Start(int idOfProject)
         {
@@ -22,7 +22,7 @@ namespace ProjectClock.BusinessLogic.Services
         }
 
         public static TimeEnter Stop(string descriptionActivitysInProject, TimeEnter timeEnter)
-        { 
+        {
             timeEnter.EndTime = DateTime.Now;
             timeEnter.Description = descriptionActivitysInProject;
             timeEnter.Time = timeEnter.EndTime - timeEnter.StartTime;

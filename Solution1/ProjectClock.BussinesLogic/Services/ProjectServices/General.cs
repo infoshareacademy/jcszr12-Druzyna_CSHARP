@@ -5,16 +5,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProjectClock.BusinessLogic.Services
+namespace ProjectClock.BusinessLogic.Services.ProjectServices
 {
-    public class ProjectServices : Services
+    public class General : Services
     {
-        internal static bool ExistProject(int id )
+        internal static bool ExistProject(int id)
         {
-            List<Project> list = ProjectServicesProjectGetter.GetProjectList();
+            List<Project> list = ProjectGetter.GetProjectList();
             foreach (var item in list)
             {
-                if(item.Id == id)
+                if (item.Id == id)
                 {
                     return true;
                 }
@@ -23,7 +23,7 @@ namespace ProjectClock.BusinessLogic.Services
 
         }
         internal static void SetName(Project project, string name)
-        {            
+        {
             project.Name = name;
         }
 
@@ -33,19 +33,19 @@ namespace ProjectClock.BusinessLogic.Services
             {
                 project.Id = id;
             }
-            
+
         }
         internal static Project GetProject(int id)
         {
-            List<Project> list = ProjectServicesProjectGetter.GetProjectList();           
-            var project = list.FirstOrDefault( e => e.Id == id);
-            if(project == null)
-            {               
+            List<Project> list = ProjectGetter.GetProjectList();
+            var project = list.FirstOrDefault(e => e.Id == id);
+            if (project == null)
+            {
                 return null;
-            }            
+            }
             return project;
-               
-            
+
+
         }
     }
 }

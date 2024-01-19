@@ -5,17 +5,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProjectClock.BusinessLogic.Services
+namespace ProjectClock.BusinessLogic.Services.ProjectServices
 {
-    public class ProjectServicesProjectRemover : ProjectServices
+    public class ProjectRemover : General
     {
         public static void RemoveProject(int id)
         {
-            var projects = ProjectServicesProjectGetter.GetProjectList();
+            var projects = ProjectGetter.GetProjectList();
             var project = GetProject(id);
             var path = GetDirectoryToFile("projects.json");
-            projects.Remove(project);          
-            ProjectServicesProjectSaver.Save(projects, path);
+            projects.Remove(project);
+            ProjectSaver.Save(projects, path);
         }
 
 
