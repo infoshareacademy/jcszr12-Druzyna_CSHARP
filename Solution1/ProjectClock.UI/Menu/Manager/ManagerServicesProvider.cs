@@ -34,11 +34,14 @@ namespace ProjectClock.UI.Menu.Manager
             MenuServices menuServices = new MenuServices();
             var projectNames = GetProjects();
             projectNames[projectNames.Length - 1] = "Exit";
-            string prompt = "Choose your project: ";
 
-            //MenuServices menuService = new MenuServices();
+            Console.WriteLine("List of projects:");
 
-            //SelectedIndex = menuService.MoveableMenu(prompt, projectNames);
+            foreach ( var projectName in projectNames )            
+            {
+                Console.WriteLine($"Project: {projectName}");
+            }          
+            
         }
 
         private string[] GetProjects()

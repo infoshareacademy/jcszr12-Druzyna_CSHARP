@@ -13,13 +13,28 @@ namespace ProjectClock.UI
             RunMenu();
         }
 
-        private static void RunMenu()
-        {
+            //menu.RunPositionMenu();
 
-            MainMenu menu = new MainMenu();
+            //switch (menu.SelectedIndex)
+            //{
+            //    case 0:
+            //        menu.RunManager();
+            //        break;
 
-            menu.RunMainMenu();
-       
+            //    case 1:
+            //        menu.RunUser();
+            //        break;
+
+            //    case 2:
+            //        menu.RunExit();
+            //        break;
+            //}
+
+
+
+
+
+
         }
     }
 }
