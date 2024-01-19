@@ -13,7 +13,7 @@ namespace ProjectClock.BusinessLogic.Services.ProjectServices
         public static void CreateProject(string name)
         {
 
-            var path = GetDirectoryToFile("projects.json");
+            var path = GetDirectoryToFileFromDataFolder("projects.json");
             var projects = ProjectGetter.GetProjectList();
             var project = new Project();
 

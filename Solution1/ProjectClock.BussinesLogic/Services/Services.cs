@@ -8,7 +8,7 @@ namespace ProjectClock.BusinessLogic.Services
 {
     public class Services
     {
-        public static string GetDirectoryToFile(string fileName)
+        public static string GetDirectoryToFileFromDataFolder(string fileName)
         {
             var pathOrigin = Directory.GetCurrentDirectory();
             var index = pathOrigin.IndexOf("Solution1");

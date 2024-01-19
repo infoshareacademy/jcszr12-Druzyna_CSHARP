@@ -13,7 +13,7 @@ namespace ProjectClock.BusinessLogic.Services.ProjectServices
         {
             var projects = ProjectGetter.GetProjectList();
             var project = GetProject(id);
-            var path = GetDirectoryToFile("projects.json");
+            var path = GetDirectoryToFileFromDataFolder("projects.json");
             projects.Remove(project);
             ProjectSaver.Save(projects, path);
         }

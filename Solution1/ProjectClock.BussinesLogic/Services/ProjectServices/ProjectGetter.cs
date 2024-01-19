@@ -13,7 +13,7 @@ namespace ProjectClock.BusinessLogic.Services.ProjectServices
     {
         public static List<Project> GetProjectList()
         {
-            var json = File.ReadAllText(GetDirectoryToFile("projects.json"));
+            var json = File.ReadAllText(GetDirectoryToFileFromDataFolder("projects.json"));
             List<Project> projects = JsonConvert.DeserializeObject<List<Project>>(json);
             return projects;
         }
