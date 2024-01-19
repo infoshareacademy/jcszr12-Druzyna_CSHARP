@@ -14,20 +14,22 @@ namespace ProjectClock.UI.Menu.Manager
         public Project Project { get; private set; }
         
         
-        public void CreateNewProject(out Project project)
+        internal void CreateNewProject(out Project project)
         {                      
             
-            Console.WriteLine("Insert the name of new project:");
+            Console.WriteLine("\nInsert the name of new project:");
 
             string projectName = Console.ReadLine();
 
             project = new Project();
 
             project.Name = projectName;
-            
+
+            Console.WriteLine($"\nProject {project.Name} has been created.");
+
         }
 
-        private void ShowAllProjects()
+        internal void ShowAllProjects()
         {
             MenuServices menuServices = new MenuServices();
             var projectNames = GetProjects();

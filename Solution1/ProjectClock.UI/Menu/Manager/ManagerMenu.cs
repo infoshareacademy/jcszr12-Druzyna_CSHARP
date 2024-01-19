@@ -13,6 +13,9 @@ namespace ProjectClock.UI.Menu.Manager
     internal class ManagerMenu
     {
         public int SelectedIndex { private set; get; }
+        private MenuServices _menuServices = new MenuServices();
+        private ManagerServicesProvider _managerServicesProvider = new ManagerServicesProvider();
+        private Project _project;
         public string[] MainManagerMenuOptions { private set; get; } = new string[5] { "Create new project", "Remove project", "Display all projects", "Start work", "Exit" };
 
         internal User Run()
@@ -39,44 +42,62 @@ namespace ProjectClock.UI.Menu.Manager
 
         private void RunSubManagerMenu()
         {
-            MenuServices menuServices = new MenuServices();
+            bool wantExit = false;
+            bool wantClear = true;
+            bool projectCreated = false;
 
-            string prompt = "  ";
+            do
+            {                
 
-            MenuServices menuService = new MenuServices();
+                string prompt = "  "; 
+                
+                SelectedIndex = _menuServices.MoveableMenu(prompt, MainManagerMenuOptions, wantClear, MainMenu.Intro());                       
+                              
+                switch (SelectedIndex)
+                {
+                    case 0:
 
-            SelectedIndex = menuService.MoveableMenu(prompt, MainManagerMenuOptions, MainMenu.Intro());
+                        
+                         _managerServicesProvider.CreateNewProject(out Project project);                                              
 
-            switch (SelectedIndex)
-            {
-                case 0:
+                        Console.WriteLine("\nPress any key to continue...");
 
-                    ManagerMenu managerMenu = new ManagerMenu();
-                    managerMenu.Run();
-                    break;
+                        Console.ReadKey(true); 
 
-                case 1:
+                        
 
-                    UserMenu userMenu = new UserMenu();
-                    userMenu.Run();
-                    break;
+                        break;
 
-                case 2:
-
-
-                    break;
-
-                case 3:
+                    case 1:
 
 
-                    break;
+                        break;
 
-                case 4:
+                    case 2:
 
-                    ExitMenu exitMenu = new ExitMenu();
-                    exitMenu.Run();
-                    break;
-            }
+                        _managerServicesProvider.ShowAllProjects();
+
+                        Console.WriteLine("\nPress any key to continue...");
+
+                        Console.ReadKey(true);           
+
+                        break;
+
+                    case 3:
+
+
+                        break;
+
+                    case 4:
+
+                        ExitMenu exitMenu = new ExitMenu();
+                        exitMenu.Run();
+                        break;
+                }
+
+            } while (!wantExit);
+            
+           
 
 
 

@@ -38,14 +38,17 @@ namespace ProjectClock.UI.Menu.Services
 
         }
 
-        internal int MoveableMenu(string prompt, string[] options, string introMenu = "")
+        internal int MoveableMenu(string prompt, string[] options, bool wantClear, string introMenu = "")
         {
             ConsoleKey keyPressed;
             int selectedIndex = 0;
 
             do
             {
-                Clear();
+                if (wantClear)
+                {
+                    Clear();
+                }                
 
                 ForegroundColor = ConsoleColor.Cyan;
                 Console.WriteLine(introMenu);

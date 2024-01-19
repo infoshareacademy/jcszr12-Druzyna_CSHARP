@@ -58,10 +58,13 @@ namespace ProjectClock.UI.Menu
             options = GetPositionsFromEnum();
             options[options.Length - 1] = "Exit";
             prompt = "Choose your position: ";
+            bool wantClear = true;
 
             MenuServices menuService = new MenuServices();
 
-            SelectedIndex = menuService.MoveableMenu(prompt, options, Intro());
+
+
+            SelectedIndex = menuService.MoveableMenu(prompt, options, wantClear, Intro());
 
             switch (SelectedIndex)
             {
