@@ -16,7 +16,13 @@ namespace ProjectClock.UI.Menu.Manager
         private MenuServices _menuServices = new MenuServices();
         private ManagerServicesProvider _managerServicesProvider = new ManagerServicesProvider();
         private Project _project;
-        public string[] MainManagerMenuOptions { private set; get; } = new string[5] { "Create new project", "Remove project", "Display all projects", "Start work", "Exit" };
+        public string[] MainManagerMenuOptions { private set; get; } = new string[5] { 
+            "Create new project", 
+            "Remove project", 
+            "Display all projects", 
+            "Start work", 
+            "Exit" 
+        };
 
         internal User Run()
         {

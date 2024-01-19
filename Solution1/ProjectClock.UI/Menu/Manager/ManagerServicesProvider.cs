@@ -42,7 +42,7 @@ namespace ProjectClock.UI.Menu.Manager
                 Console.WriteLine($"Project: {projectName}");
             }          
             
-        }
+        }        
 
         private string[] GetProjects()
         {
@@ -52,6 +52,8 @@ namespace ProjectClock.UI.Menu.Manager
             return projects.Select(x => x.Name).ToList().ToArray();
 
         }
+
+        
 
     }
 }
