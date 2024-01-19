@@ -3,6 +3,7 @@ using ProjectClock.BusinessLogic.Models;
 using ProjectClock.BusinessLogic.Services;
 using ProjectClock.UI.Menu;
 
+
 namespace ProjectClock.UI
 {
     internal class Program

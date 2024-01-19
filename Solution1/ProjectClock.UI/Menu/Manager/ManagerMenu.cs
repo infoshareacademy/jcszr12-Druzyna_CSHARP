@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static System.Console;
 
-namespace ProjectClock.UI.Menu
+namespace ProjectClock.UI.Menu.Manager
 {
     internal class ManagerMenu
     {
@@ -33,42 +33,57 @@ namespace ProjectClock.UI.Menu
 
             RunSubManagerMenu();
 
-            return manager;                       
+            return manager;
 
         }
 
         private void RunSubManagerMenu()
         {
             MenuServices menuServices = new MenuServices();
-            
-           
+
             string prompt = "  ";
 
             MenuServices menuService = new MenuServices();
 
             SelectedIndex = menuService.MoveableMenu(prompt, MainManagerMenuOptions, MainMenu.Intro());
-           
+
+            switch (SelectedIndex)
+            {
+                case 0:
+
+                    ManagerMenu managerMenu = new ManagerMenu();
+                    managerMenu.Run();
+                    break;
+
+                case 1:
+
+                    UserMenu userMenu = new UserMenu();
+                    userMenu.Run();
+                    break;
+
+                case 2:
+
+
+                    break;
+
+                case 3:
+
+
+                    break;
+
+                case 4:
+
+                    ExitMenu exitMenu = new ExitMenu();
+                    exitMenu.Run();
+                    break;
+            }
+
+
+
         }
 
-        private void ShowAllProjects()
-        {
-            MenuServices menuServices = new MenuServices();
-            var projectNames = GetProjects();
-            projectNames[projectNames.Length - 1] = "Exit";
-            string prompt = "Choose your project: ";
+      
 
-            MenuServices menuService = new MenuServices();
-
-            SelectedIndex = menuService.MoveableMenu(prompt, projectNames);
-        }
-
-        private string[] GetProjects()
-        {
-
-            var projects = ProjectServicesProjectGetter.GetProjectList();
-
-            return projects.Select(x => x.Name).ToList().ToArray();
-
-        }
+       
     }
 }
