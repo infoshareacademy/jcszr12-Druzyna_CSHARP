@@ -11,6 +11,7 @@ namespace ProjectClock.BusinessLogic.Models
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
         public Project Project { get; set; }
+        public User User { get; set; }  
         public string Description { get; set; }
         public TimeSpan Time {  get; set; }
     }
