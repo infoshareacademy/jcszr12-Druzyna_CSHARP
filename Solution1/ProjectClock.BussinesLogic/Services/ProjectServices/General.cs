@@ -29,7 +29,7 @@ namespace ProjectClock.BusinessLogic.Services.ProjectServices
 
         internal static void SetID(Project project, int id)
         {
-            if (ExistProject(id))
+            if (!ExistProject(id))
             {
                 project.Id = id;
             }
