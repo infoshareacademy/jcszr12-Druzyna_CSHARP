@@ -1,5 +1,6 @@
 ﻿using ProjectClock.BusinessLogic.Models;
 using ProjectClock.BusinessLogic.Services;
+using ProjectClock.BusinessLogic.Services.ProjectServices;
 using ProjectClock.UI.Menu.Services;
 using System;
 using System.Collections.Generic;
@@ -47,7 +48,7 @@ namespace ProjectClock.UI.Menu.Manager
         private string[] GetProjects()
         {
 
-            var projects = ProjectServicesProjectGetter.GetProjectList();
+            var projects = ProjectGetter.GetProjectList();
 
             return projects.Select(x => x.Name).ToList().ToArray();
 
