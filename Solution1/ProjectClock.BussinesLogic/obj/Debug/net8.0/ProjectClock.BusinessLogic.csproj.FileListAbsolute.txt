@@ -1,0 +1,13 @@
+D:\00_InfoShare Academy\000_Project\Solution1\ProjectClock.BussinesLogic\bin\Debug\net8.0\ProjectClock.BusinessLogic.deps.json
+D:\00_InfoShare Academy\000_Project\Solution1\ProjectClock.BussinesLogic\bin\Debug\net8.0\ProjectClock.BusinessLogic.dll
+D:\00_InfoShare Academy\000_Project\Solution1\ProjectClock.BussinesLogic\bin\Debug\net8.0\ProjectClock.BusinessLogic.pdb
+D:\00_InfoShare Academy\000_Project\Solution1\ProjectClock.BussinesLogic\obj\Debug\net8.0\ProjectClock.BusinessLogic.GeneratedMSBuildEditorConfig.editorconfig
+D:\00_InfoShare Academy\000_Project\Solution1\ProjectClock.BussinesLogic\obj\Debug\net8.0\ProjectClock.BusinessLogic.AssemblyInfoInputs.cache
+D:\00_InfoShare Academy\000_Project\Solution1\ProjectClock.BussinesLogic\obj\Debug\net8.0\ProjectClock.BusinessLogic.AssemblyInfo.cs
+D:\00_InfoShare Academy\000_Project\Solution1\ProjectClock.BussinesLogic\obj\Debug\net8.0\ProjectClock.BusinessLogic.csproj.CoreCompileInputs.cache
+D:\00_InfoShare Academy\000_Project\Solution1\ProjectClock.BussinesLogic\obj\Debug\net8.0\ProjectClock.BusinessLogic.sourcelink.json
+D:\00_InfoShare Academy\000_Project\Solution1\ProjectClock.BussinesLogic\obj\Debug\net8.0\ProjectClock.BusinessLogic.dll
+D:\00_InfoShare Academy\000_Project\Solution1\ProjectClock.BussinesLogic\obj\Debug\net8.0\refint\ProjectClock.BusinessLogic.dll
+D:\00_InfoShare Academy\000_Project\Solution1\ProjectClock.BussinesLogic\obj\Debug\net8.0\ProjectClock.BusinessLogic.pdb
+D:\00_InfoShare Academy\000_Project\Solution1\ProjectClock.BussinesLogic\obj\Debug\net8.0\ref\ProjectClock.BusinessLogic.dll
+D:\00_InfoShare Academy\000_Project\Solution1\ProjectClock.BussinesLogic\obj\Debug\net8.0\ProjectClock.BusinessLogic.csproj.AssemblyReference.cache
