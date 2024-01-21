@@ -9,10 +9,14 @@ namespace ProjectClock.BusinessLogic.Services.ProjectServices
 {
     public class ProjectEditor : General
     {
-        public static void ModifyProject(int id,int idNew, string nameNew)
+        public static bool ModifyProject(int id,int idNew, string nameNew)
         {
             var projects = ProjectGetter.GetProjectList();         
             var project = GetProject(id);
+            if(project == null )
+            {
+                return false;
+            }
             var path = GetDirectoryToFileFromDataFolder("projects.json");
 
             projects.Remove(project);
@@ -21,6 +25,7 @@ namespace ProjectClock.BusinessLogic.Services.ProjectServices
             projects.Add(project);
 
             ProjectSaver.Save(projects, path);
+            return true;
         }
 
 
