@@ -13,14 +13,14 @@ namespace ProjectClock.UI.Menu.Manager
     internal class ManagerMenu
     {
         public int SelectedIndex { private set; get; }
-        private MenuServices _menuServices = new MenuServices();       
+        private MenuServices _menuServices = new MenuServices();
         private Project _project;
-        public string[] MainManagerMenuOptions { private set; get; } = new string[5] { 
-            "Create new project", 
-            "Remove project", 
-            "Display all projects", 
-            "Start work", 
-            "Exit" 
+        public string[] MainManagerMenuOptions { private set; get; } = new string[5] {
+            "Create new project",
+            "Remove project",
+            "Display all projects",
+            "Start work",
+            "Exit"
         };
 
         //internal User Run()
@@ -52,35 +52,33 @@ namespace ProjectClock.UI.Menu.Manager
             bool projectCreated = false;
 
             do
-            {                
+            {
 
-                string prompt = "  "; 
-                
-                SelectedIndex = MenuServices.MoveableMenu(prompt, MainManagerMenuOptions, wantClear, MainMenu.Intro());                       
-                              
+                string prompt = "  ";
+
+                SelectedIndex = MenuServices.MoveableMenu(prompt, MainManagerMenuOptions, wantClear, MainMenu.Intro());
+
                 switch (SelectedIndex)
                 {
                     case 0:
-                        
-                         _managerServicesProvider.CreateNewProject();                                              
 
+                        ManagerServicesProvider.CreateNewProject();
                         Console.WriteLine("\nPress any key to continue...");
-                        Console.ReadKey(true); 
+                        Console.ReadKey(true);
                         break;
 
                     case 1:
 
-
-                        break;
+                        ManagerServicesProvider.RemoveProject();
+                        Console.WriteLine("\nPress any key to continue...");
+                        Console.ReadKey(true);
+                        break;                        
 
                     case 2:
 
-                        _managerServicesProvider.ShowAllProjects();
-
+                        ManagerServicesProvider.ShowAllProjects();
                         Console.WriteLine("\nPress any key to continue...");
-
-                        Console.ReadKey(true);           
-
+                        Console.ReadKey(true);
                         break;
 
                     case 3:
@@ -95,8 +93,8 @@ namespace ProjectClock.UI.Menu.Manager
                         break;
                 }
 
-            } while (!wantExit);            
-           
+            } while (!wantExit);
+
         }
 
     }

@@ -13,7 +13,7 @@ namespace ProjectClock.UI.Menu.Manager
     internal static class ManagerServicesProvider
     {
 
-        internal void CreateNewProject()
+        internal static void CreateNewProject()
         {
 
             Console.WriteLine("\nInsert the name of new project:");
@@ -26,7 +26,7 @@ namespace ProjectClock.UI.Menu.Manager
 
         }
 
-        internal void ShowAllProjects()
+        internal static void ShowAllProjects()
         {
             var projects = ProjectGetter.GetProjectList();
 
@@ -34,8 +34,23 @@ namespace ProjectClock.UI.Menu.Manager
 
             foreach (var project in projects)
             {
-                Console.WriteLine($" Project Id: {project.Id, -5}    Name: {project.Name, -30}");
+                Console.WriteLine($" Project Id: {project.Id,-5}    Name: {project.Name,-30}");
             }
+        }
+
+        internal static void RemoveProject()
+        {
+            Console.WriteLine("\nInsert Id of a project you want to remove:");                       
+
+            if (int.TryParse(Console.ReadLine(), out int id) && ProjectRemover.RemoveProject(id))
+            {               
+               Console.WriteLine($"Project with Id {id} has been removed.");               
+            }
+            else
+            {
+                Console.WriteLine("You entered either id that doesn't exit");
+            }
+
         }
 
     }
