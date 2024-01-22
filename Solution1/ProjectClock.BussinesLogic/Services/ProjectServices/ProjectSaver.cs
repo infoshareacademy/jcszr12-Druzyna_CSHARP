@@ -8,15 +8,14 @@ using Newtonsoft;
 using System.Text.Json.Nodes;
 using Newtonsoft.Json;
 
-namespace ProjectClock.BusinessLogic.Services
+namespace ProjectClock.BusinessLogic.Services.ProjectServices
 {
-    public class ProjectServicesProjectSaver
+    public class ProjectSaver
     {
-        public static void Save(List <Project> projects,string path)
-        {                                
+        public static void Save(List<Project> projects, string path)
+        {
             string json = JsonConvert.SerializeObject(projects);
-            File.WriteAllText(path, json);           
-            Console.WriteLine("saving...");
+            File.WriteAllText(path, json);
         }
     }
 }
