@@ -9,7 +9,7 @@ namespace ProjectClock.UI.Menu.Services
 {
     internal class MenuServices
     {
-        private void DisplayOptions(int selectedIndex, string prompt, string[] options)
+        internal static void DisplayOptions(int selectedIndex, string prompt, string[] options)
         {
             WriteLine(prompt);
 
@@ -38,7 +38,7 @@ namespace ProjectClock.UI.Menu.Services
 
         }
 
-        internal int MoveableMenu(string prompt, string[] options, bool wantClear, string introMenu = "")
+        internal static int MoveableMenu(string prompt, string[] options, bool wantClear, string introMenu = "")
         {
             ConsoleKey keyPressed;
             int selectedIndex = 0;

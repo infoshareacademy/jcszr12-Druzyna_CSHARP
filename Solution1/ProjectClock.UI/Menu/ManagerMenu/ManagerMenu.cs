@@ -13,8 +13,7 @@ namespace ProjectClock.UI.Menu.Manager
     internal class ManagerMenu
     {
         public int SelectedIndex { private set; get; }
-        private MenuServices _menuServices = new MenuServices();
-        private ManagerServicesProvider _managerServicesProvider = new ManagerServicesProvider();
+        private MenuServices _menuServices = new MenuServices();       
         private Project _project;
         public string[] MainManagerMenuOptions { private set; get; } = new string[5] { 
             "Create new project", 
@@ -24,29 +23,29 @@ namespace ProjectClock.UI.Menu.Manager
             "Exit" 
         };
 
-        internal User Run()
-        {
-            WriteLine("\nInsert your name:");
+        //internal User Run()
+        //{
+        //    WriteLine("\nInsert your name:");
 
-            string name = ReadLine();
+        //    string name = ReadLine();
 
-            WriteLine("\nInsert your surname:");
+        //    WriteLine("\nInsert your surname:");
 
-            string surname = ReadLine();
+        //    string surname = ReadLine();
 
-            User manager = new User();
+        //    User manager = new User();
 
-            manager.Name = name;
-            manager.Surname = surname;
-            manager.UserPosition = Position.Manager;
+        //    manager.Name = name;
+        //    manager.Surname = surname;
+        //    manager.UserPosition = Position.Manager;
 
-            RunSubManagerMenu();
+        //    RunSubManagerMenu();
 
-            return manager;
+        //    return manager;
 
-        }
+        //}
 
-        private void RunSubManagerMenu()
+        internal void RunManagerMenu()
         {
             bool wantExit = false;
             bool wantClear = true;
@@ -57,21 +56,16 @@ namespace ProjectClock.UI.Menu.Manager
 
                 string prompt = "  "; 
                 
-                SelectedIndex = _menuServices.MoveableMenu(prompt, MainManagerMenuOptions, wantClear, MainMenu.Intro());                       
+                SelectedIndex = MenuServices.MoveableMenu(prompt, MainManagerMenuOptions, wantClear, MainMenu.Intro());                       
                               
                 switch (SelectedIndex)
                 {
                     case 0:
-
                         
-                         _managerServicesProvider.CreateNewProject(out Project project);                                              
+                         _managerServicesProvider.CreateNewProject();                                              
 
                         Console.WriteLine("\nPress any key to continue...");
-
                         Console.ReadKey(true); 
-
-                        
-
                         break;
 
                     case 1:
@@ -101,16 +95,9 @@ namespace ProjectClock.UI.Menu.Manager
                         break;
                 }
 
-            } while (!wantExit);
-            
+            } while (!wantExit);            
            
-
-
-
         }
 
-      
-
-       
     }
 }

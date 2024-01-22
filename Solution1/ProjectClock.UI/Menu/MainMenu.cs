@@ -12,6 +12,9 @@ using ProjectClock.BusinessLogic.Models;
 using ProjectClock.UI.Menu.Services;
 using ProjectClock.UI.Menu.Manager;
 using static System.Console;
+using ProjectClock.BusinessLogic.Services.UserServices;
+using System.Drawing;
+using System.Runtime.CompilerServices;
 
 namespace ProjectClock.UI.Menu
 {
@@ -52,67 +55,141 @@ namespace ProjectClock.UI.Menu
 
         }
 
-        public void RunMainMenu()
+
+        public static void RunMenu()
         {
+            bool isLogged = false;
 
-            options = GetPositionsFromEnum();
-            options[options.Length - 1] = "Exit";
-            prompt = "Choose your position: ";
-            bool wantClear = true;
-
-            MenuServices menuService = new MenuServices();
+            ForegroundColor = ConsoleColor.Cyan;
+            AlignTextInOneThirdOfScreen(Intro());
+            ResetColor();
 
 
-
-            SelectedIndex = menuService.MoveableMenu(prompt, options, wantClear, Intro());
-
-            switch (SelectedIndex)
+            do
             {
-                case 0:
+                
+                string questionName = "Enter your name:";
+                AlignTextInOneThirdOfScreen(questionName);
+                string name = Console.ReadLine();
+                
+                string questionSurname = "Enter your surname:";
+                AlignTextInOneThirdOfScreen(questionSurname);
+                string surname = Console.ReadLine();
 
-                    ManagerMenu managerMenu = new ManagerMenu();
-                    managerMenu.Run();
-                    break;
 
-                case 1:
 
-                    UserMenu userMenu = new UserMenu();
-                    userMenu.Run();
-                    break;
+                if (AccessService.IsLogged(name, surname))
+                {
+                    Position? userPosition = General.GetUserPosition(name, surname);
 
-                case 2:
+                    if ( userPosition == Position.Manager)
+                    {
+                        string answear = $"         Welcome {name} {surname}. You're logged in as a {userPosition}!";
+                        ForegroundColor = ConsoleColor.Green;
+                        AlignTextInOneThirdOfScreen(answear);
+                        ResetColor();                     
 
-                    ExitMenu exitMenu = new ExitMenu();
-                    exitMenu.Run();
-                    break;
-            }
+                        string pressAnyKey = "Press any key to continue...";
+                        AlignTextInOneThirdOfScreen(pressAnyKey);
+                       
+                        Console.ReadKey(true);
+
+
+                        ManagerMenu menu = new ManagerMenu();
+                        menu.RunManagerMenu();
+                        return;
+                    }
+
+                    //run user menu
+                    return;
+                }
+
+                Console.WriteLine();
+                string failAnswear = "           You entered name and surname that is not in our system.";
+                ForegroundColor = ConsoleColor.Red;
+                AlignTextInOneThirdOfScreen(failAnswear);
+                ResetColor();
+                
+                string tryAgain = "     Try one more time. Press Escape to exit or any other key to continue...";
+                AlignTextInOneThirdOfScreen(tryAgain);
+                Console.WriteLine();
+
+                if (ReadKey(true).Key == ConsoleKey.Escape) 
+                {                   
+                    Environment.Exit(0);
+                    return;
+                }                
+
+            } while (!isLogged);          
 
         }
 
-        private string[] GetPositionsFromEnum()
+        private static void AlignTextInOneThirdOfScreen(string text)
         {
-
-            Array? positionsFromEnum = Enum.GetValues(typeof(Position));
-            int numberOfOptions = Enum.GetNames(typeof(Position)).Length + 1; //one extra for exit
-            string[]? postionsToDisplayInMenu = new string[numberOfOptions];
-
-            for (int i = 0; i < positionsFromEnum.Length; i++)
-            {
-                postionsToDisplayInMenu[i] = positionsFromEnum.GetValue(i)?.ToString() ?? string.Empty;
-            }
-
-            return postionsToDisplayInMenu;
+            Console.WriteLine(String.Format("{0," + ((Console.WindowWidth / 3) + (text.Length / 3)) + "}", text));
         }
 
-      
+        //public void RunMainMenu()
+        //{
 
-       
+        //    options = GetPositionsFromEnum();
+        //    options[options.Length - 1] = "Exit";
+        //    prompt = "Choose your position: ";
+        //    bool wantClear = true;
 
-      
+        //    MenuServices menuService = new MenuServices();
 
-      
 
-     
+
+        //    SelectedIndex = menuService.MoveableMenu(prompt, options, wantClear, Intro());
+
+        //    switch (SelectedIndex)
+        //    {
+        //        case 0:
+
+        //            ManagerMenu managerMenu = new ManagerMenu();
+        //            managerMenu.Run();
+        //            break;
+
+        //        case 1:
+
+        //            UserMenu userMenu = new UserMenu();
+        //            userMenu.Run();
+        //            break;
+
+        //        case 2:
+
+        //            ExitMenu exitMenu = new ExitMenu();
+        //            exitMenu.Run();
+        //            break;
+        //    }
+
+        //}
+
+        //private string[] GetPositionsFromEnum()
+        //{
+
+        //    Array? positionsFromEnum = Enum.GetValues(typeof(Position));
+        //    int numberOfOptions = Enum.GetNames(typeof(Position)).Length + 1; //one extra for exit
+        //    string[]? postionsToDisplayInMenu = new string[numberOfOptions];
+
+        //    for (int i = 0; i < positionsFromEnum.Length; i++)
+        //    {
+        //        postionsToDisplayInMenu[i] = positionsFromEnum.GetValue(i)?.ToString() ?? string.Empty;
+        //    }
+
+        //    return postionsToDisplayInMenu;
+        //}
+
+
+
+
+
+
+
+
+
+
 
 
 
