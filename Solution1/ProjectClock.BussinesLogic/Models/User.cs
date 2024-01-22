@@ -11,7 +11,6 @@ namespace ProjectClock.BusinessLogic.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
-        public Position UserPosition { get; set; }
-        public TimeSpan TotalWorkTime { get; set; }
+        public Position UserPosition { get; set; }       
     }
 }

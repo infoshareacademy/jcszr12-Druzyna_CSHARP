@@ -9,7 +9,6 @@ namespace ProjectClock.BusinessLogic.Models
     public class Project
     {       
         public int Id { get; set; }
-        public string Name { get; set; }
-        public TimeSpan TotalProjectTime { get; set; }       
+        public string Name { get; set; }           
     }
 }
