@@ -19,7 +19,7 @@ namespace ProjectClock.UI.Menu.Manager
             "Create new project",
             "Remove project",
             "Display all projects",
-            "Start work",
+            "Modify existing project",
             "Exit"
         };
 
@@ -83,13 +83,14 @@ namespace ProjectClock.UI.Menu.Manager
 
                     case 3:
 
-
+                        ManagerServicesProvider.ModifyProject();
+                        Console.WriteLine("\nPress any key to continue...");
+                        Console.ReadKey(true);
                         break;
 
                     case 4:
 
-                        ExitMenu exitMenu = new ExitMenu();
-                        exitMenu.Run();
+                        ExitMenu.ExitFromProgramUsingAnyKey();                     
                         break;
                 }
 
