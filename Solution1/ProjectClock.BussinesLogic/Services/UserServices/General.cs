@@ -15,12 +15,12 @@ namespace ProjectClock.BusinessLogic.Services.UserServices
         public static User GetUser(int id)
         {
             List<User> users = GetUserList();
-            var project = users.FirstOrDefault(u => u.Id == id);
+            var project = users.FirstOrDefault(u => u.Id == id); //ta zmienna nie powinna być user?
             if (project == null)
             {
                 return null;
             }
-            return project;
+            return project; //user?
         }
 
         public static List<User> GetUserList()
@@ -34,6 +34,19 @@ namespace ProjectClock.BusinessLogic.Services.UserServices
         {
             var json = JsonConvert.SerializeObject(users);
             File.WriteAllText(path, json);
+        }
+
+        public static Position? GetUserPosition(string name, string surnname)
+        {
+            List<User> users = GetUserList();
+            var user = users.FirstOrDefault(u => u.Name == name && u.Surname == surnname);
+            if (user == null) 
+            {
+                return null;
+            }
+
+            return user.UserPosition;
+
         }
     }
 }

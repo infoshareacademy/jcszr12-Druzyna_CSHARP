@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ProjectClock.UI.Menu.Manager;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,11 +10,22 @@ namespace ProjectClock.UI.Menu
 {
     internal class ExitMenu
     {
-        internal void Run()
+        internal static void ExitFromProgramUsingAnyKey()
         {
-            WriteLine("\nPress any key to exit");
+            WriteLine("\nPress any key to exit...");
             ReadKey(true);
             Environment.Exit(0);
+        }
+
+        internal static void ExitByPressingEscToManagerMenu()
+        {
+            if (Console.ReadKey(true).Key == ConsoleKey.Escape)
+            {
+                ManagerMenu managerMenu = new ManagerMenu();
+                managerMenu.RunManagerMenu();
+                return;
+            }
+
         }
 
     }

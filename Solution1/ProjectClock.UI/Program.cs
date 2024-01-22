@@ -12,8 +12,8 @@ namespace ProjectClock.UI
     {
         static void Main(string[] args)
         {
-            MainMenu mainMenu = new MainMenu();
-            mainMenu.RunMainMenu();
+            MainMenu.RunMenu();
+            
         }         
 
     }

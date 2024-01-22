@@ -44,8 +44,14 @@ namespace ProjectClock.BusinessLogic.Services.ProjectServices
                 return null;
             }
             return project;
+        }
 
+        public static bool IdVerificator (int id)
+        {
+            var list = ProjectGetter.GetProjectList();
+            var identificators = list.Select(e => e.Id);
 
+            return identificators.Contains(id);
         }
     }
 }
