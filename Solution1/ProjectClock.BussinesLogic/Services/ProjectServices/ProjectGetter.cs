@@ -15,7 +15,7 @@ namespace ProjectClock.BusinessLogic.Services.ProjectServices
         {
             var json = File.ReadAllText(GetDirectoryToFileFromDataFolder("projects.json"));
             List<Project> projects = JsonConvert.DeserializeObject<List<Project>>(json);
-            return projects;
+            return projects.OrderBy(p => p.Id).ToList();
         }
     }
 }

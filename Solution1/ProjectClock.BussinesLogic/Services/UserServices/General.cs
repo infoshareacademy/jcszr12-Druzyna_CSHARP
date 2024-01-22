@@ -15,12 +15,12 @@ namespace ProjectClock.BusinessLogic.Services.UserServices
         public static User GetUser(int id)
         {
             List<User> users = GetUserList();
-            var project = users.FirstOrDefault(u => u.Id == id); //ta zmienna nie powinna być user?
-            if (project == null)
+            var user = users.FirstOrDefault(u => u.Id == id); 
+            if (user == null)
             {
                 return null;
             }
-            return project; //user?
+            return user; 
         }
 
         public static List<User> GetUserList()

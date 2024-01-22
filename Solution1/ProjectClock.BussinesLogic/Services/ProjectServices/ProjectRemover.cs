@@ -12,15 +12,15 @@ namespace ProjectClock.BusinessLogic.Services.ProjectServices
         public static bool RemoveProject(int id)
         {
             var projects = ProjectGetter.GetProjectList();
-            var project = GetProject(id);
-            if (project == null)
+            var projectsWithout = projects.Where(p => p.Id != id).ToList();
+            if (projectsWithout.Count() == projects.Count())
             {
                 return false;
             }
             var path = GetDirectoryToFileFromDataFolder("projects.json");
 
-            projects.Remove(project);
-            ProjectSaver.Save(projects, path);
+            
+            ProjectSaver.Save(projectsWithout, path);
             return true;
         }
 
