@@ -22,13 +22,13 @@ namespace ProjectClock.UI
 
             //WorkingTimeRecorder.StartWork(1,2);
 
-            //WorkingTimeRecorder.StopWork(1,2);
+            //WorkingTimeRecorder.StopWork(5, 1);
 
             //WorkingTimeRecorder.ViewProjectsInProgress();
 
             //WorkingTimeRecorder.ViewClosedProjects();
 
-            //WorkingTimeRecorder.TotalTimeForProjectID(3);
+            //WorkingTimeRecorder.TotalTimeForProjectID(2);
 
             //WorkingTimeRecorder.TotalTimeForUserID(4);
 

@@ -29,6 +29,8 @@ namespace ProjectClock.UI.Menu.Manager
 
             ProjectCreator.CreateProject(projectName);
 
+            _projects = ProjectGetter.GetProjectList();
+
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine($"\nProject {projectName} has been created.");
             Console.ResetColor();
@@ -135,9 +137,6 @@ namespace ProjectClock.UI.Menu.Manager
             int userId = MainMenu.User.Id;
 
 
-
-            EntryTimeServices.Start(_idOfChoosenProject);
-
             if (WorkingTimeRecorder.StartWork(userId, _idOfChoosenProject)) 
             {
                 Console.WriteLine($"\nYour work began at \"{_selectedProject.Name}\".");
@@ -146,7 +145,6 @@ namespace ProjectClock.UI.Menu.Manager
             {
                 Console.WriteLine($"\nProject with ID {_idOfChoosenProject} for user with ID: {userId} is in progres. Choose another one. \n");
             }
-
 
         }
     }
