@@ -46,7 +46,13 @@ namespace ProjectClock.BusinessLogic.Services.UserServices
             }
 
             return user.UserPosition;
+        }
 
+        public static int GetUserIdByNameAndSurname(string name, string surnname)
+        {
+            List<User> users = GetUserList();
+            var user = users.FirstOrDefault(u => u.Name == name && u.Surname == surnname);
+            return user.Id;
         }
     }
 }

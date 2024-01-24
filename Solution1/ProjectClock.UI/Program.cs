@@ -20,7 +20,7 @@ namespace ProjectClock.UI
 
             //WorkingTimeRecorder.WriteToDatabaseSimulationData();
 
-            WorkingTimeRecorder.StartWork(1,2);
+            //WorkingTimeRecorder.StartWork(1,2);
 
             //WorkingTimeRecorder.StopWork(1,2);
 
@@ -39,12 +39,9 @@ namespace ProjectClock.UI
             //////////////////////////////////////////////////////
 
 
-            
 
 
-            
-
-             //MainMenu.RunMenu();
+            MainMenu.RunMenu();
 
         }
 

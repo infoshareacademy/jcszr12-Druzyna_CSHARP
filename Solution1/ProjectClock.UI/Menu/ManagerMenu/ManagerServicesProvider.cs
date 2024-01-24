@@ -2,6 +2,7 @@
 using ProjectClock.BusinessLogic.Services;
 using ProjectClock.BusinessLogic.Services.EntryTimeServices;
 using ProjectClock.BusinessLogic.Services.ProjectServices;
+using ProjectClock.BusinessLogic.Services.WorkingTimeRecorder;
 using ProjectClock.UI.Menu.Services;
 using System;
 using System.Collections.Generic;
@@ -57,8 +58,7 @@ namespace ProjectClock.UI.Menu.Manager
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("You entered either id that doesn't exit");
-                Console.ResetColor();
-            }
+                Console.ResetColor();            }
 
         }
 
@@ -116,9 +116,9 @@ namespace ProjectClock.UI.Menu.Manager
 
         internal static void StopWorking()
         {
-            EntryTimeServices.Start(_idOfChoosenProject);
+            //do implementacji
 
-            Console.WriteLine($"\nYor work stopped on \"{_selectedProject.Name}\".");
+            //Console.WriteLine($"\nYor work stopped on \"{_selectedProject.Name}\".");
 
         }
 
@@ -132,10 +132,21 @@ namespace ProjectClock.UI.Menu.Manager
 
             _idOfChoosenProject = _projects.ElementAt(SelectedIndex).Id;
             _selectedProject = _projects.ElementAt(SelectedIndex);
+            int userId = MainMenu.User.Id;
+
+
 
             EntryTimeServices.Start(_idOfChoosenProject);
 
-            Console.WriteLine($"\nYour work began at \"{_selectedProject.Name}\".");
+            if (WorkingTimeRecorder.StartWork(userId, _idOfChoosenProject)) 
+            {
+                Console.WriteLine($"\nYour work began at \"{_selectedProject.Name}\".");
+            }
+            else
+            {
+                Console.WriteLine($"\nProject with ID {_idOfChoosenProject} for user with ID: {userId} is in progres. Choose another one. \n");
+            }
+
 
         }
     }
