@@ -96,7 +96,7 @@ namespace ProjectClock.BusinessLogic.Services.WorkingTimeRecorder
         }
 
 
-        public static void StartWork(int userId, int projectId)
+        public static bool StartWork(int userId, int projectId)
         {
             CheckIfFileExistIfNotCreate();
 
@@ -107,8 +107,13 @@ namespace ProjectClock.BusinessLogic.Services.WorkingTimeRecorder
                 dataTimeRecorderStart.ProjectID = projectId;
                 dataTimeRecorderStart.TimeStart = DateTime.Now;
                 WriteStartDataToRecorder(dataTimeRecorderStart);
-                Console.Clear();
-                Console.WriteLine($"\n\n * Project about ID {projectId} for user about ID: {userId} is open and you can work. \n");
+                return true;
+                //Console.Clear();
+                //Console.WriteLine($"\n\n * Project about ID {projectId} for user about ID: {userId} is open and you can work. \n");
+            }
+            else
+            {
+                return false;
             }
 
         }
@@ -123,8 +128,8 @@ namespace ProjectClock.BusinessLogic.Services.WorkingTimeRecorder
             {
                 if (item.UserID == userId && item.ProjectID == projectId)
                 {
-                    Console.Clear();
-                    Console.WriteLine($"\n\n * Project about ID {projectId} for user about ID: {userId} is in progres. Choose another one. \n");
+                    //Console.Clear();
+                    //Console.WriteLine($"\n\n * Project about ID {projectId} for user about ID: {userId} is in progres. Choose another one. \n");
                     projectexist = true;
                 }
                 else

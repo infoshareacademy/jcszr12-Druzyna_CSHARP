@@ -19,8 +19,8 @@ using System.Runtime.CompilerServices;
 namespace ProjectClock.UI.Menu
 {
     public class MainMenu
-    {
-        public int SelectedIndex { private set; get; }
+    {       
+        public static User User { private set; get; }
         private string prompt;
         private string[] options;
 
@@ -59,6 +59,7 @@ namespace ProjectClock.UI.Menu
         public static void RunMenu()
         {
             bool isLogged = false;
+            User = new User();
 
             ForegroundColor = ConsoleColor.Cyan;
             AlignTextInOneThirdOfScreen(Intro());
@@ -80,6 +81,9 @@ namespace ProjectClock.UI.Menu
 
                 if (AccessService.IsLogged(name, surname))
                 {
+                    User.Name = name;
+                    User.Surname = surname;
+                    User.Id = General.GetUserIdByNameAndSurname(name, surname);
                     Position? userPosition = General.GetUserPosition(name, surname);
 
                     if ( userPosition == Position.Manager)
@@ -94,13 +98,15 @@ namespace ProjectClock.UI.Menu
                        
                         Console.ReadKey(true);
 
-
                         ManagerMenu menu = new ManagerMenu();
-                        menu.RunManagerMenu();
-                        return;
+                        menu.RunManagerMenu();                        
                     }
 
-                    //run user menu
+                    if (userPosition == Position.User)
+                    {
+                        //kod do zaimplementowania
+                    }
+
                     return;
                 }
 
@@ -128,75 +134,5 @@ namespace ProjectClock.UI.Menu
         {
             Console.WriteLine(String.Format("{0," + ((Console.WindowWidth / 3) + (text.Length / 3)) + "}", text));
         }
-
-        //public void RunMainMenu()
-        //{
-
-        //    options = GetPositionsFromEnum();
-        //    options[options.Length - 1] = "Exit";
-        //    prompt = "Choose your position: ";
-        //    bool wantClear = true;
-
-        //    MenuServices menuService = new MenuServices();
-
-
-
-        //    SelectedIndex = menuService.MoveableMenu(prompt, options, wantClear, Intro());
-
-        //    switch (SelectedIndex)
-        //    {
-        //        case 0:
-
-        //            ManagerMenu managerMenu = new ManagerMenu();
-        //            managerMenu.Run();
-        //            break;
-
-        //        case 1:
-
-        //            UserMenu userMenu = new UserMenu();
-        //            userMenu.Run();
-        //            break;
-
-        //        case 2:
-
-        //            ExitMenu exitMenu = new ExitMenu();
-        //            exitMenu.Run();
-        //            break;
-        //    }
-
-        //}
-
-        //private string[] GetPositionsFromEnum()
-        //{
-
-        //    Array? positionsFromEnum = Enum.GetValues(typeof(Position));
-        //    int numberOfOptions = Enum.GetNames(typeof(Position)).Length + 1; //one extra for exit
-        //    string[]? postionsToDisplayInMenu = new string[numberOfOptions];
-
-        //    for (int i = 0; i < positionsFromEnum.Length; i++)
-        //    {
-        //        postionsToDisplayInMenu[i] = positionsFromEnum.GetValue(i)?.ToString() ?? string.Empty;
-        //    }
-
-        //    return postionsToDisplayInMenu;
-        //}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
 }
