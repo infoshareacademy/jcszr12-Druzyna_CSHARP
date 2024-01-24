@@ -150,6 +150,29 @@ namespace ProjectClock.BusinessLogic.Services.WorkingTimeRecorder
             }
         }
 
+        public static List<StartWork> GetProjectsInProgress()
+        {
+            var dataFromDatabase = GetDataStartTimeFromDatabase();
+            return dataFromDatabase;
+        }
+
+
+        public static bool CheckIfProjectIsAvailable(List<StartWork> startWork, int userId, int projectId) 
+        {
+
+            foreach (var result in startWork)
+            {
+                if (result.UserID==userId&& result.ProjectID==projectId) 
+                {
+                    return false;
+                }
+
+            }
+
+            return true;
+        }
+
+
 
         public static void ViewClosedProjects()
         {

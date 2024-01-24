@@ -20,7 +20,7 @@ namespace ProjectClock.UI
 
             //WorkingTimeRecorder.WriteToDatabaseSimulationData();
 
-            //WorkingTimeRecorder.StartWork(1,2);
+            WorkingTimeRecorder.StartWork(1,2);
 
             //WorkingTimeRecorder.StopWork(1,2);
 
@@ -32,11 +32,19 @@ namespace ProjectClock.UI
 
             //WorkingTimeRecorder.TotalTimeForUserID(4);
 
-            //WorkingTimeRecorder.ClearDatabase();
+            // WorkingTimeRecorder.ClearDatabase();
+
+            //Console.WriteLine( WorkingTimeRecorder.CheckIfProjectIsAvailable(WorkingTimeRecorder.GetProjectsInProgress(),1,23));
 
             //////////////////////////////////////////////////////
 
-            // MainMenu.RunMenu();
+
+            
+
+
+            
+
+             //MainMenu.RunMenu();
 
         }
 
