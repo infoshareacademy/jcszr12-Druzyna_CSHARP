@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProjectClock.BusinessLogic.Models
 {
-    public class DataTimeRecorderStart
+    public class StartWork
     {
         public DateTime TimeStart { get; set; }       
         public int ProjectID { get; set; }
