@@ -19,8 +19,8 @@ using System.Runtime.CompilerServices;
 namespace ProjectClock.UI.Menu
 {
     public class MainMenu
-    {
-        public int SelectedIndex { private set; get; }
+    {       
+        public static User User { private set; get; }
         private string prompt;
         private string[] options;
 
@@ -59,6 +59,7 @@ namespace ProjectClock.UI.Menu
         public static void RunMenu()
         {
             bool isLogged = false;
+            User = new User();
 
             ForegroundColor = ConsoleColor.Cyan;
             AlignTextInOneThirdOfScreen(Intro());
@@ -80,6 +81,9 @@ namespace ProjectClock.UI.Menu
 
                 if (AccessService.IsLogged(name, surname))
                 {
+                    User.Name = name;
+                    User.Surname = surname;
+                    User.Id = General.GetUserIdByNameAndSurname(name, surname);
                     Position? userPosition = General.GetUserPosition(name, surname);
 
                     if ( userPosition == Position.Manager)
@@ -94,13 +98,15 @@ namespace ProjectClock.UI.Menu
                        
                         Console.ReadKey(true);
 
-
                         ManagerMenu menu = new ManagerMenu();
-                        menu.RunManagerMenu();
-                        return;
+                        menu.RunManagerMenu();                        
                     }
 
-                    //run user menu
+                    if (userPosition == Position.User)
+                    {
+                        //kod do zaimplementowania
+                    }
+
                     return;
                 }
 
