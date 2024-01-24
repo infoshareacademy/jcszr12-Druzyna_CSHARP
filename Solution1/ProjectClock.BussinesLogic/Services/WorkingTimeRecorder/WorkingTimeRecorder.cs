@@ -171,8 +171,17 @@ namespace ProjectClock.BusinessLogic.Services.WorkingTimeRecorder
             var dataFromStartTimeDatabase = GetDataStartTimeFromDatabase();
             var ProjectToClose = dataFromStartTimeDatabase.Where(p => p.UserID == userId).Where(p => p.ProjectID == projectId);
 
-            if (dataFromStartTimeDatabase.Count == 0)
-                Console.WriteLine("\n\n      * No projects to close.");
+
+
+            if (ProjectToClose.Count() == 0)
+            {
+                Console.WriteLine($"\n * No projects to close for Project ID {projectId} and user about ID: {userId}. \n");
+            }
+
+            if (dataFromStartTimeDatabase.Count() == 0)
+            {
+                Console.WriteLine("\n * No projects to close.\n");
+            }
 
             foreach (var result in ProjectToClose)
             {
@@ -193,27 +202,12 @@ namespace ProjectClock.BusinessLogic.Services.WorkingTimeRecorder
 
                 }
 
-
-
             }
-            /*
-            foreach (var result in dataFromStartTimeDatabase)
-            {
-                if (result.ProjectID != projectId || result.UserID != userId)
-                {
-                    Console.Clear();
-                    Console.WriteLine($"\n * No projects to close for Project ID {projectId} and user about ID: {userId}. \n");
-                }
-            }
-            */
 
-
-            var authorsList = dataFromStartTimeDatabase.ToList();
-            authorsList.RemoveAll(o => o.UserID == userId && o.ProjectID == projectId);
-            Console.WriteLine($"\n * The number of remaining open projects is: {authorsList.Count}\n\n\n");
-            WriteToStartTimeDatabase(authorsList, GetDirectoryToFileFromDataFolder("recordsOfTimeStart.json"));
-
-
+            var startTimeList = dataFromStartTimeDatabase.ToList();
+            startTimeList.RemoveAll(o => o.UserID == userId && o.ProjectID == projectId);
+            Console.WriteLine($"\n * The number of remaining open projects is: {startTimeList.Count}\n\n\n");
+            WriteToStartTimeDatabase(startTimeList, GetDirectoryToFileFromDataFolder("recordsOfTimeStart.json"));
         }
 
 

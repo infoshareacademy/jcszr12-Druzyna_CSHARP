@@ -13,16 +13,16 @@ namespace ProjectClock.UI
     {
         static void Main(string[] args)
         {
-            
+
             //////////////////////////////////////////////////////
             //              Demo WorkingTimeRecorder            //
             //////////////////////////////////////////////////////
-            
-            // WorkingTimeRecorder.WriteToDatabaseSimulationData();
 
-            WorkingTimeRecorder.StartWork(4, 3);
+            //WorkingTimeRecorder.WriteToDatabaseSimulationData();
 
-            //WorkingTimeRecorder.StopWork(4, 3);
+            //WorkingTimeRecorder.StartWork(1,2);
+
+            WorkingTimeRecorder.StopWork(1,2);
 
             //WorkingTimeRecorder.ViewProjectsInProgress();
 
@@ -30,14 +30,15 @@ namespace ProjectClock.UI
 
             //WorkingTimeRecorder.TotalTimeForProjectID(3);
 
-            //WorkingTimeRecorder.TotalTimeForUserID(5);
+            //WorkingTimeRecorder.TotalTimeForUserID(4);
 
             //WorkingTimeRecorder.ClearDatabase();
 
+            //////////////////////////////////////////////////////
 
-            //MainMenu.RunMenu();
-            
-        }         
+            // MainMenu.RunMenu();
+
+        }
 
     }
 }
