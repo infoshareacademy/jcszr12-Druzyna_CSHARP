@@ -32,12 +32,14 @@ namespace ProjectClock.UI
 
             //WorkingTimeRecorder.TotalTimeForUserID(4);
 
-           // WorkingTimeRecorder.ClearDatabase();
+            // WorkingTimeRecorder.ClearDatabase();
+
+            //Console.WriteLine( WorkingTimeRecorder.CheckIfProjectIsAvailable(WorkingTimeRecorder.GetProjectsInProgress(),1,23));
 
             //////////////////////////////////////////////////////
 
 
-            Console.WriteLine( WorkingTimeRecorder.CheckIfProjectIsAvailable(WorkingTimeRecorder.GetProjectsInProgress(),1,23));
+            
 
 
             

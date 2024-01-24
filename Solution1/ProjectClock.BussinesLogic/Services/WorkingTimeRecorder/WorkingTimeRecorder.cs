@@ -153,16 +153,6 @@ namespace ProjectClock.BusinessLogic.Services.WorkingTimeRecorder
         public static List<StartWork> GetProjectsInProgress()
         {
             var dataFromDatabase = GetDataStartTimeFromDatabase();
-
-           // Console.Clear();
-           // Console.WriteLine($"\n\n\n\n * All Projects in progress.\n");
-            if (dataFromDatabase.Count == 0)
-               // Console.WriteLine("      - No projects in progress");
-            foreach (var result in dataFromDatabase)
-            {
-               // Console.WriteLine($"     - UserID: {result.UserID}, Project ID {result.ProjectID}");
-            }
-
             return dataFromDatabase;
         }
 
@@ -172,7 +162,6 @@ namespace ProjectClock.BusinessLogic.Services.WorkingTimeRecorder
 
             foreach (var result in startWork)
             {
-                //Console.WriteLine($"     - UserID: {result.UserID}, Project ID {result.ProjectID}");
                 if (result.UserID==userId&& result.ProjectID==projectId) 
                 {
                     return false;
