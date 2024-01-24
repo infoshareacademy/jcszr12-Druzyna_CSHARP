@@ -162,7 +162,7 @@ namespace ProjectClock.BusinessLogic.Services.WorkingTimeRecorder
 
             foreach (var result in startWork)
             {
-                if (result.UserID==userId&& result.ProjectID==projectId) 
+                if (result.UserID == userId && result.ProjectID == projectId)
                 {
                     return false;
                 }

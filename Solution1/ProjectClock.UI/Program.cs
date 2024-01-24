@@ -20,11 +20,11 @@ namespace ProjectClock.UI
 
             //WorkingTimeRecorder.WriteToDatabaseSimulationData();
 
-            WorkingTimeRecorder.StartWork(1,2);
+            WorkingTimeRecorder.StartWork(1,5);
 
-            //WorkingTimeRecorder.StopWork(1,2);
+           // WorkingTimeRecorder.StopWork(1,2);
 
-            //WorkingTimeRecorder.ViewProjectsInProgress();
+           // WorkingTimeRecorder.ViewProjectsInProgress();
 
             //WorkingTimeRecorder.ViewClosedProjects();
 
