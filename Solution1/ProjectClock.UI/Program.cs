@@ -22,7 +22,7 @@ namespace ProjectClock.UI
 
             //WorkingTimeRecorder.StartWork(1,2);
 
-            WorkingTimeRecorder.StopWork(1,2);
+            //WorkingTimeRecorder.StopWork(1,2);
 
             //WorkingTimeRecorder.ViewProjectsInProgress();
 

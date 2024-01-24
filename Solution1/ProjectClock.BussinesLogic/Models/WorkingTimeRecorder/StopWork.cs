@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProjectClock.BusinessLogic.Models.DataTimeRecorder
 {
-    public class DataTimeRecorderStop
+    public class StopWork
     {
         public DateTime TimeStart { get; set; }
         public DateTime TimeStop { get; set; }

@@ -67,7 +67,7 @@ namespace ProjectClock.BusinessLogic.Services.WorkingTimeRecorder
                 Random rndp = new Random();
                 int projectId = rndu.Next(1, 20);
 
-                DataTimeRecorderStart dataTimeRecorderStart = new()
+                StartWork dataTimeRecorderStart = new()
                 {
                     UserID = usersId,
                     ProjectID = projectId,
@@ -76,6 +76,7 @@ namespace ProjectClock.BusinessLogic.Services.WorkingTimeRecorder
                 WriteStartDataToRecorder(dataTimeRecorderStart);
             }
 
+            Console.WriteLine("\n\n   * Database TimeStart is filled  \n");
         }
 
 
@@ -101,7 +102,7 @@ namespace ProjectClock.BusinessLogic.Services.WorkingTimeRecorder
 
             if (CheckIfProjectIsOpen(userId, projectId) == false)
             {
-                DataTimeRecorderStart dataTimeRecorderStart = new DataTimeRecorderStart();
+                StartWork dataTimeRecorderStart = new StartWork();
                 dataTimeRecorderStart.UserID = userId;
                 dataTimeRecorderStart.ProjectID = projectId;
                 dataTimeRecorderStart.TimeStart = DateTime.Now;
@@ -187,7 +188,7 @@ namespace ProjectClock.BusinessLogic.Services.WorkingTimeRecorder
             {
                 if (result.ProjectID == projectId && result.UserID == userId)
                 {
-                    DataTimeRecorderStop dataTimeRecorderStop = new()
+                    StopWork dataTimeRecorderStop = new()
                     {
                         UserID = userId,
                         ProjectID = projectId,
@@ -221,16 +222,16 @@ namespace ProjectClock.BusinessLogic.Services.WorkingTimeRecorder
         }
 
 
-        private static void WriteStartDataToRecorder(DataTimeRecorderStart dataTimeRecorderStart)
+        private static void WriteStartDataToRecorder(StartWork dataTimeRecorderStart)
         {
 
 
             var dataStartTimeRecordsFromDataBase = GetDataStartTimeFromDatabase();
-            DataTimeRecorderStart dataTimeRecordsStart = dataTimeRecorderStart;
+            StartWork dataTimeRecordsStart = dataTimeRecorderStart;
 
             if (dataStartTimeRecordsFromDataBase == null)
             {
-                List<DataTimeRecorderStart> whenFileIsEmpty = [dataTimeRecorderStart];
+                List<StartWork> whenFileIsEmpty = [dataTimeRecorderStart];
                 WriteToStartTimeDatabase(whenFileIsEmpty, GetDirectoryToFileFromDataFolder("recordsOfTimeStart.json"));
             }
             else
@@ -242,16 +243,16 @@ namespace ProjectClock.BusinessLogic.Services.WorkingTimeRecorder
         }
 
 
-        private static void WriteStopDataToRecorder(DataTimeRecorderStop dataTimeRecorderStop)
+        private static void WriteStopDataToRecorder(StopWork dataTimeRecorderStop)
         {
 
 
             var dataStopTimeRecordsFromDataBase = GetDataStopTimeFromDatabase();
-            DataTimeRecorderStop dataTimeRecordsStop = dataTimeRecorderStop;
+            StopWork dataTimeRecordsStop = dataTimeRecorderStop;
 
             if (dataStopTimeRecordsFromDataBase == null)
             {
-                List<DataTimeRecorderStop> whenFileIsEmpty = [dataTimeRecorderStop];
+                List<StopWork> whenFileIsEmpty = [dataTimeRecorderStop];
                 WriteToStopTimeDatabase(whenFileIsEmpty, GetDirectoryToFileFromDataFolder("recordsOfTimeStop.json"));
             }
             else
@@ -263,30 +264,30 @@ namespace ProjectClock.BusinessLogic.Services.WorkingTimeRecorder
         }
 
 
-        private static List<DataTimeRecorderStart> GetDataStartTimeFromDatabase()
+        private static List<StartWork> GetDataStartTimeFromDatabase()
         {
             var json = File.ReadAllText(GetDirectoryToFileFromDataFolder("recordsOfTimeStart.json"));
-            List<DataTimeRecorderStart> dataTimeRecords = JsonConvert.DeserializeObject<List<DataTimeRecorderStart>>(json);
+            List<StartWork> dataTimeRecords = JsonConvert.DeserializeObject<List<StartWork>>(json);
             return dataTimeRecords;
         }
 
 
-        private static List<DataTimeRecorderStop> GetDataStopTimeFromDatabase()
+        private static List<StopWork> GetDataStopTimeFromDatabase()
         {
             var json = File.ReadAllText(GetDirectoryToFileFromDataFolder("recordsOfTimeStop.json"));
-            List<DataTimeRecorderStop> dataTimeRecords = JsonConvert.DeserializeObject<List<DataTimeRecorderStop>>(json);
+            List<StopWork> dataTimeRecords = JsonConvert.DeserializeObject<List<StopWork>>(json);
             return dataTimeRecords;
         }
 
 
-        private static void WriteToStartTimeDatabase(List<DataTimeRecorderStart> dtr, string path)
+        private static void WriteToStartTimeDatabase(List<StartWork> dtr, string path)
         {
             string json = JsonConvert.SerializeObject(dtr);
             File.WriteAllText(path, json);
         }
 
 
-        private static void WriteToStopTimeDatabase(List<DataTimeRecorderStop> dtr, string path)
+        private static void WriteToStopTimeDatabase(List<StopWork> dtr, string path)
         {
             string json = JsonConvert.SerializeObject(dtr);
             File.WriteAllText(path, json);
