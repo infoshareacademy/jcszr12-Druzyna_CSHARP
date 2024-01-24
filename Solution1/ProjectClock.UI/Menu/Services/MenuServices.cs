@@ -9,11 +9,11 @@ namespace ProjectClock.UI.Menu.Services
 {
     internal class MenuServices
     {
-        internal static void DisplayOptions(int selectedIndex, string prompt, string[] options)
+        internal static void DisplayOptions(int selectedIndex, string prompt, List<string> options)
         {
             WriteLine(prompt);
 
-            for (int i = 0; i < options.Length; i++)
+            for (int i = 0; i < options.Count; i++)
             {
                 string currentOption = options[i];
                 string prefix;
@@ -38,17 +38,14 @@ namespace ProjectClock.UI.Menu.Services
 
         }
 
-        internal static int MoveableMenu(string prompt, string[] options, bool wantClear, string introMenu = "")
+        internal static int MoveableMenu(string prompt, List<string> options, string introMenu = "")
         {
             ConsoleKey keyPressed;
             int selectedIndex = 0;
 
             do
             {
-                if (wantClear)
-                {
-                    Clear();
-                }                
+                Clear();
 
                 ForegroundColor = ConsoleColor.Cyan;
                 Console.WriteLine(introMenu);
@@ -64,13 +61,13 @@ namespace ProjectClock.UI.Menu.Services
                     selectedIndex--;
                     if (selectedIndex == -1)
                     {
-                        selectedIndex = options.Length - 1;
+                        selectedIndex = options.Count - 1;
                     }
                 }
                 else if (keyPressed == ConsoleKey.DownArrow)
                 {
                     selectedIndex++;
-                    if (selectedIndex == options.Length)
+                    if (selectedIndex == options.Count)
                     {
                         selectedIndex = 0;
                     }

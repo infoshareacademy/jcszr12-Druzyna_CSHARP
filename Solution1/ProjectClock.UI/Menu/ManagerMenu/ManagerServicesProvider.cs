@@ -1,5 +1,6 @@
 ﻿using ProjectClock.BusinessLogic.Models;
 using ProjectClock.BusinessLogic.Services;
+using ProjectClock.BusinessLogic.Services.EntryTimeServices;
 using ProjectClock.BusinessLogic.Services.ProjectServices;
 using ProjectClock.UI.Menu.Services;
 using System;
@@ -11,8 +12,12 @@ using System.Threading.Tasks;
 
 namespace ProjectClock.UI.Menu.Manager
 {
-    internal static class ManagerServicesProvider
+    internal class ManagerServicesProvider
     {
+        public static int SelectedIndex { private set; get; }
+        public static int _idOfChoosenProject { private set; get; }
+        public static Project _selectedProject { private set; get; }
+        public static List<Project> _projects { get; private set; } = ProjectGetter.GetProjectList();
 
         internal static void CreateNewProject()
         {
@@ -31,11 +36,10 @@ namespace ProjectClock.UI.Menu.Manager
 
         internal static void ShowAllProjects()
         {
-            var projects = ProjectGetter.GetProjectList();
 
             Console.WriteLine("\nList of projects:");
 
-            foreach (var project in projects)
+            foreach (var project in _projects)
             {
                 Console.WriteLine($" Project Id: {project.Id,-5}    Name: {project.Name,-30}");
             }
@@ -86,10 +90,10 @@ namespace ProjectClock.UI.Menu.Manager
             Console.WriteLine();
             Console.WriteLine(newIdQuestion);
 
-            while (!(int.TryParse(Console.ReadLine(), out newId)))
+            while (!int.TryParse(Console.ReadLine(), out newId) || (General.IdVerificator(newId)))
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("You entered non-integer id. Press Escape to exit or any other key to conitue.");
+                Console.WriteLine("You entered either non-integer id or id that exist. Press Escape to exit or any other key to conitue.");
                 Console.ResetColor();
 
                 ExitMenu.ExitByPressingEscToManagerMenu();
@@ -107,7 +111,32 @@ namespace ProjectClock.UI.Menu.Manager
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("Project id and/or name has been changed.");
                 Console.ResetColor();
-            }           
+            }
+        }
+
+        internal static void StopWorking()
+        {
+            EntryTimeServices.Start(_idOfChoosenProject);
+
+            Console.WriteLine($"\nYor work stopped on \"{_selectedProject.Name}\".");
+
+        }
+
+        internal static void StartWorking()
+        {
+            string prompt = String.Format("Choose project you want to work on:\n");
+
+            var projectNames = _projects.Select(p => p.Name).ToList();
+
+            SelectedIndex = MenuServices.MoveableMenu(prompt, projectNames, MainMenu.Intro());
+
+            _idOfChoosenProject = _projects.ElementAt(SelectedIndex).Id;
+            _selectedProject = _projects.ElementAt(SelectedIndex);
+
+            EntryTimeServices.Start(_idOfChoosenProject);
+
+            Console.WriteLine($"\nYour work began at \"{_selectedProject.Name}\".");
+
         }
     }
 }

@@ -14,49 +14,27 @@ namespace ProjectClock.UI.Menu.Manager
     {
         public int SelectedIndex { private set; get; }
         private MenuServices _menuServices = new MenuServices();
-        private Project _project;
-        public string[] MainManagerMenuOptions { private set; get; } = new string[5] {
+        
+        public List<string> MainManagerMenuOptions { private set; get; } = new List<string> {
             "Create new project",
             "Remove project",
             "Display all projects",
             "Modify existing project",
+            "Start working",
+            "Stop working",
             "Exit"
         };
 
-        //internal User Run()
-        //{
-        //    WriteLine("\nInsert your name:");
-
-        //    string name = ReadLine();
-
-        //    WriteLine("\nInsert your surname:");
-
-        //    string surname = ReadLine();
-
-        //    User manager = new User();
-
-        //    manager.Name = name;
-        //    manager.Surname = surname;
-        //    manager.UserPosition = Position.Manager;
-
-        //    RunSubManagerMenu();
-
-        //    return manager;
-
-        //}
-
         internal void RunManagerMenu()
         {
-            bool wantExit = false;
-            bool wantClear = true;
-            bool projectCreated = false;
+            bool wantExit = false;                       
 
             do
             {
 
                 string prompt = "  ";
 
-                SelectedIndex = MenuServices.MoveableMenu(prompt, MainManagerMenuOptions, wantClear, MainMenu.Intro());
+                SelectedIndex = MenuServices.MoveableMenu(prompt, MainManagerMenuOptions, MainMenu.Intro());
 
                 switch (SelectedIndex)
                 {
@@ -89,6 +67,20 @@ namespace ProjectClock.UI.Menu.Manager
                         break;
 
                     case 4:
+
+                        ManagerServicesProvider.StartWorking();
+                        Console.WriteLine("\nPress any key to continue...");
+                        Console.ReadKey(true);
+                        break;
+                    
+                    case 5:
+
+                        ManagerServicesProvider.StopWorking();
+                        Console.WriteLine("\nPress any key to continue...");
+                        Console.ReadKey(true);
+                        break;
+                    
+                    case 6:
 
                         ExitMenu.ExitFromProgramUsingAnyKey();                     
                         break;
