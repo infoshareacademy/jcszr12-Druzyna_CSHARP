@@ -16,8 +16,14 @@ namespace ProjectClock.BusinessLogic.Services.ProjectServices
             var path = GetDirectoryToFileFromDataFolder("projects.json");
             var projects = ProjectGetter.GetProjectList();
             var project = new Project();
-
-            SetID(project, projects.Count + 1);
+            var idList = projects.Select(p => p.Id).ToList();
+            var i = 0;
+            while (i == idList[i])
+            {
+                i++;
+            }
+            var id = i;
+            SetID(project, id);
             SetName(project, name);
             projects.Add(project);
             ProjectSaver.Save(projects, path);
