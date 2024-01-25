@@ -14,35 +14,8 @@ namespace ProjectClock.UI
         static void Main(string[] args)
         {
 
-            //////////////////////////////////////////////////////
-            //              Demo WorkingTimeRecorder            //
-            //////////////////////////////////////////////////////
-
-            //WorkingTimeRecorder.WriteToDatabaseSimulationData();
-
-            //WorkingTimeRecorder.StartWork(1,2);
-
-            //WorkingTimeRecorder.StopWork(5, 1);
-
-            //WorkingTimeRecorder.ViewProjectsInProgress();
-
-            //WorkingTimeRecorder.ViewClosedProjects();
-
-            //WorkingTimeRecorder.TotalTimeForProjectID(2);
-
-            //WorkingTimeRecorder.TotalTimeForUserID(4);
-
-            // WorkingTimeRecorder.ClearDatabase();
-
-            //Console.WriteLine( WorkingTimeRecorder.CheckIfProjectIsAvailable(WorkingTimeRecorder.GetProjectsInProgress(),1,23));
-
-            //////////////////////////////////////////////////////
-
-
-
-
             MainMenu.RunMenu();
-
+            
         }
 
     }

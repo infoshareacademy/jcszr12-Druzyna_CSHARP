@@ -10,9 +10,9 @@ namespace ProjectClock.BusinessLogic.Models.DataTimeRecorder
     {
         public DateTime TimeStart { get; set; }
         public DateTime TimeStop { get; set; }
+        public TimeSpan WorkTime { get; set; }
         public int ProjectID { get; set; }
         public int UserID { get; set; }
-
 
     }
 }

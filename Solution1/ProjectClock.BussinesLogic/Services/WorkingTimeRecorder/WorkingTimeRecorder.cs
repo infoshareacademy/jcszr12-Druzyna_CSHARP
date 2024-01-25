@@ -11,9 +11,188 @@ namespace ProjectClock.BusinessLogic.Services.WorkingTimeRecorder
 {
     public class WorkingTimeRecorder
     {
-        public static TimeSpan TotalTimeForProjectID(int projectId)
+
+        
+
+        public static bool StartWork(int userId, int projectId)
+        {
+            CheckIfFileExistIfNotCreate();
+            if (CheckIfProjectIsOpen(userId, projectId) == false)
+            {
+                StartWork dataTimeRecorderStart = new()
+                {
+                    UserID = userId,
+                    ProjectID = projectId,
+                    TimeStart = DateTime.Now
+                };
+                WriteStartDataToRecorder(dataTimeRecorderStart);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        }
+        public static void StopWork(int userId, int projectId)
         {
 
+            var dataFromStartTimeDatabase = GetDataStartTimeFromDatabase();
+            var ProjectToClose = dataFromStartTimeDatabase.Where(p => p.UserID == userId).Where(p => p.ProjectID == projectId);
+            foreach (var result in ProjectToClose)
+            {
+                if (result.ProjectID == projectId && result.UserID == userId)
+                {
+                    StopWork dataTimeRecorderStop = new()
+                    {
+                        UserID = userId,
+                        ProjectID = projectId,
+                        TimeStart = result.TimeStart,
+                        TimeStop = DateTime.Now,
+                        WorkTime = DateTime.Now - result.TimeStart
+                    };
+                    WriteStopDataToRecorder(dataTimeRecorderStop);                                       
+                }
+
+            }
+            var startTimeList = dataFromStartTimeDatabase.ToList();
+            startTimeList.RemoveAll(o => o.UserID == userId && o.ProjectID == projectId);
+            WriteToStartTimeDatabase(startTimeList, GetDirectoryToFileFromDataFolder("recordsOfTimeStart.json"));
+        }
+        public static List<StartWork> AllProjectsOpenedByUser(int userId)
+        {
+            var dataFromStartTimeDatabase = GetDataStartTimeFromDatabase();
+            var projectToClose = dataFromStartTimeDatabase.Where(p => p.UserID == userId);
+            return projectToClose.ToList();
+        }
+        private static bool CheckIfProjectIsOpen(int userId, int projectId)
+        {
+            var dataFromStartTimeDatabase = GetDataStartTimeFromDatabase();
+            var ProjectToClose = dataFromStartTimeDatabase.Where(p => p.UserID == userId).Where(p => p.ProjectID == projectId);
+            bool projectexist = false;
+            foreach (var item in dataFromStartTimeDatabase)
+            {
+                if (item.UserID == userId && item.ProjectID == projectId)
+                {
+                    
+                    projectexist = true;
+                }
+                else
+                {
+                    projectexist = false;
+                }
+            }
+            return projectexist;
+        }
+
+
+
+
+        private static string GetDirectoryToFileFromDataFolder(string fileName)
+        {
+            var pathOrigin = Directory.GetCurrentDirectory();
+            var index = pathOrigin.IndexOf("Solution1");
+            var pathPart = pathOrigin.Substring(0, index);
+            var path = $@"{pathPart}\Solution1\ProjectClock.BussinesLogic\Data\WorkingTimeRecorder\{fileName}";
+            return path;
+        }
+        private static void WriteStartDataToRecorder(StartWork dataTimeRecorderStart)
+        {
+
+
+            var dataStartTimeRecordsFromDataBase = GetDataStartTimeFromDatabase();
+            StartWork dataTimeRecordsStart = dataTimeRecorderStart;
+
+            if (dataStartTimeRecordsFromDataBase == null)
+            {
+                List<StartWork> whenFileIsEmpty = [dataTimeRecorderStart];
+                WriteToStartTimeDatabase(whenFileIsEmpty, GetDirectoryToFileFromDataFolder("recordsOfTimeStart.json"));
+            }
+            else
+            {
+                dataStartTimeRecordsFromDataBase.Add(dataTimeRecordsStart);
+                WriteToStartTimeDatabase(dataStartTimeRecordsFromDataBase, GetDirectoryToFileFromDataFolder("recordsOfTimeStart.json"));
+            }
+
+        }
+        private static void WriteStopDataToRecorder(StopWork dataTimeRecorderStop)
+        {
+
+
+            var dataStopTimeRecordsFromDataBase = GetDataStopTimeFromDatabase();
+            StopWork dataTimeRecordsStop = dataTimeRecorderStop;
+
+            if (dataStopTimeRecordsFromDataBase == null)
+            {
+                List<StopWork> whenFileIsEmpty = [dataTimeRecorderStop];
+                WriteToStopTimeDatabase(whenFileIsEmpty, GetDirectoryToFileFromDataFolder("recordsOfTimeStop.json"));
+            }
+            else
+            {
+                dataStopTimeRecordsFromDataBase.Add(dataTimeRecordsStop);
+                WriteToStopTimeDatabase(dataStopTimeRecordsFromDataBase, GetDirectoryToFileFromDataFolder("recordsOfTimeStop.json"));
+            }
+
+        }
+        private static List<StartWork> GetDataStartTimeFromDatabase()
+        {
+            var json = File.ReadAllText(GetDirectoryToFileFromDataFolder("recordsOfTimeStart.json"));
+            List<StartWork> dataTimeRecords = JsonConvert.DeserializeObject<List<StartWork>>(json);
+            return dataTimeRecords;
+        }
+        private static List<StopWork> GetDataStopTimeFromDatabase()
+        {
+            var json = File.ReadAllText(GetDirectoryToFileFromDataFolder("recordsOfTimeStop.json"));
+            List<StopWork> dataTimeRecords = JsonConvert.DeserializeObject<List<StopWork>>(json);
+            return dataTimeRecords;
+        }
+        private static void WriteToStartTimeDatabase(List<StartWork> dtr, string path)
+        {
+            string json = JsonConvert.SerializeObject(dtr);
+            File.WriteAllText(path, json);
+        }
+        private static void WriteToStopTimeDatabase(List<StopWork> dtr, string path)
+        {
+            string json = JsonConvert.SerializeObject(dtr);
+            File.WriteAllText(path, json);
+        }
+        private static void CheckIfFileExistIfNotCreate()
+        {
+            if (!File.Exists(GetDirectoryToFileFromDataFolder("recordsOfTimeStart.json")))
+            {
+                File.Create(GetDirectoryToFileFromDataFolder("recordsOfTimeStart.json"));
+            }
+
+            if (!File.Exists(GetDirectoryToFileFromDataFolder("recordsOfTimeStop.json")))
+            {
+                File.Create(GetDirectoryToFileFromDataFolder("recordsOfTimeStop.json"));
+            }
+
+        }
+        public static List<StartWork> GetProjectsInProgress()
+        {
+            var dataFromDatabase = GetDataStartTimeFromDatabase();
+            return dataFromDatabase;
+        }
+        public static bool CheckIfProjectIsAvailable(List<StartWork> startWork, int userId, int projectId)
+        {
+
+            foreach (var result in startWork)
+            {
+                if (result.UserID == userId && result.ProjectID == projectId)
+                {
+                    return false;
+                }
+
+            }
+
+            return true;
+        }
+
+
+
+        public static TimeSpan DemoTotalTimeForProjectID(int projectId)
+        {
 
             var dataFromDatabase = GetDataStopTimeFromDatabase();
             var dataProjectId = dataFromDatabase.Where(p => p.ProjectID == projectId);
@@ -32,10 +211,8 @@ namespace ProjectClock.BusinessLogic.Services.WorkingTimeRecorder
 
             return timeSpanRaw;
         }
-
-        public static TimeSpan TotalTimeForUserID(int userId)
+        public static TimeSpan DemoTotalTimeForUserID(int userId)
         {
-
 
             var dataFromDatabase = GetDataStopTimeFromDatabase();
             var dataUserId = dataFromDatabase.Where(p => p.UserID == userId);
@@ -54,8 +231,7 @@ namespace ProjectClock.BusinessLogic.Services.WorkingTimeRecorder
 
             return timeSpanRaw;
         }
-
-        public static void WriteToDatabaseSimulationData()
+        public static void DemoWriteToDatabaseSimulationData()
         {
             CheckIfFileExistIfNotCreate();
 
@@ -78,9 +254,7 @@ namespace ProjectClock.BusinessLogic.Services.WorkingTimeRecorder
 
             Console.WriteLine("\n\n   * Database TimeStart is filled  \n");
         }
-
-
-        public static void ClearDatabase()
+        public static void DemoClearDatabase()
         {
             var dataTimeStartList = GetDataStartTimeFromDatabase().ToList();
             var dataTimeStopList = GetDataStopTimeFromDatabase().ToList();
@@ -94,92 +268,7 @@ namespace ProjectClock.BusinessLogic.Services.WorkingTimeRecorder
             Console.Clear();
             Console.WriteLine($"\n\n * Database is empty \n");
         }
-
-
-        public static bool StartWork(int userId, int projectId)
-        {
-            CheckIfFileExistIfNotCreate();
-
-            if (CheckIfProjectIsOpen(userId, projectId) == false)
-            {
-                StartWork dataTimeRecorderStart = new StartWork();
-                dataTimeRecorderStart.UserID = userId;
-                dataTimeRecorderStart.ProjectID = projectId;
-                dataTimeRecorderStart.TimeStart = DateTime.Now;
-                WriteStartDataToRecorder(dataTimeRecorderStart);
-                return true;
-                //Console.Clear();
-                //Console.WriteLine($"\n\n * Project about ID {projectId} for user about ID: {userId} is open and you can work. \n");
-            }
-            else
-            {
-                return false;
-            }
-
-        }
-
-
-        private static bool CheckIfProjectIsOpen(int userId, int projectId)
-        {
-            var dataFromStartTimeDatabase = GetDataStartTimeFromDatabase();
-            var ProjectToClose = dataFromStartTimeDatabase.Where(p => p.UserID == userId).Where(p => p.ProjectID == projectId);
-            bool projectexist = false;
-            foreach (var item in dataFromStartTimeDatabase)
-            {
-                if (item.UserID == userId && item.ProjectID == projectId)
-                {
-                    //Console.Clear();
-                    //Console.WriteLine($"\n\n * Project about ID {projectId} for user about ID: {userId} is in progres. Choose another one. \n");
-                    projectexist = true;
-                }
-                else
-                {
-                    projectexist = false;
-                }
-            }
-            return projectexist;
-        }
-
-
-        public static void ViewProjectsInProgress()
-        {
-            var dataFromDatabase = GetDataStartTimeFromDatabase();
-
-            Console.Clear();
-            Console.WriteLine($"\n\n\n\n * All Projects in progress.\n");
-            if (dataFromDatabase.Count == 0)
-                Console.WriteLine("      - No projects in progress");
-            foreach (var result in dataFromDatabase)
-            {
-                Console.WriteLine($"     - UserID: {result.UserID}, Project ID {result.ProjectID}");
-            }
-        }
-
-        public static List<StartWork> GetProjectsInProgress()
-        {
-            var dataFromDatabase = GetDataStartTimeFromDatabase();
-            return dataFromDatabase;
-        }
-
-
-        public static bool CheckIfProjectIsAvailable(List<StartWork> startWork, int userId, int projectId) 
-        {
-
-            foreach (var result in startWork)
-            {
-                if (result.UserID==userId&& result.ProjectID==projectId) 
-                {
-                    return false;
-                }
-
-            }
-
-            return true;
-        }
-
-
-
-        public static void ViewClosedProjects()
+        public static void DemoViewClosedProjects()
         {
             var dataFromDatabase = GetDataStopTimeFromDatabase();
 
@@ -192,9 +281,20 @@ namespace ProjectClock.BusinessLogic.Services.WorkingTimeRecorder
                 Console.WriteLine($"     - UserID: {result.UserID}, Project ID {result.ProjectID}");
             }
         }
+        public static void DemoViewProjectsInProgress()
+        {
+            var dataFromDatabase = GetDataStartTimeFromDatabase();
 
-
-        public static void StopWork(int userId, int projectId)
+            Console.Clear();
+            Console.WriteLine($"\n\n\n\n * All Projects in progress.\n");
+            if (dataFromDatabase.Count == 0)
+                Console.WriteLine("      - No projects in progress");
+            foreach (var result in dataFromDatabase)
+            {
+                Console.WriteLine($"     - UserID: {result.UserID}, Project ID {result.ProjectID}");
+            }
+        }
+        public static void DemoStopWork(int userId, int projectId)
         {
 
             var dataFromStartTimeDatabase = GetDataStartTimeFromDatabase();
@@ -238,104 +338,67 @@ namespace ProjectClock.BusinessLogic.Services.WorkingTimeRecorder
             Console.WriteLine($"\n * The number of remaining open projects is: {startTimeList.Count}\n\n\n");
             WriteToStartTimeDatabase(startTimeList, GetDirectoryToFileFromDataFolder("recordsOfTimeStart.json"));
         }
-
-
-        private static string GetDirectoryToFileFromDataFolder(string fileName)
+        public static bool DemoStartWork(int userId, int projectId)
         {
-            var pathOrigin = Directory.GetCurrentDirectory();
-            var index = pathOrigin.IndexOf("Solution1");
-            var pathPart = pathOrigin.Substring(0, index);
-            var path = $@"{pathPart}\Solution1\ProjectClock.BussinesLogic\Data\WorkingTimeRecorder\{fileName}";
-            return path;
-        }
+            CheckIfFileExistIfNotCreate();
 
-
-        private static void WriteStartDataToRecorder(StartWork dataTimeRecorderStart)
-        {
-
-
-            var dataStartTimeRecordsFromDataBase = GetDataStartTimeFromDatabase();
-            StartWork dataTimeRecordsStart = dataTimeRecorderStart;
-
-            if (dataStartTimeRecordsFromDataBase == null)
+            if (DemoCheckIfProjectIsOpen(userId, projectId) == false)
             {
-                List<StartWork> whenFileIsEmpty = [dataTimeRecorderStart];
-                WriteToStartTimeDatabase(whenFileIsEmpty, GetDirectoryToFileFromDataFolder("recordsOfTimeStart.json"));
+                StartWork dataTimeRecorderStart = new()
+                {
+                    UserID = userId,
+                    ProjectID = projectId,
+                    TimeStart = DateTime.Now
+                };
+                WriteStartDataToRecorder(dataTimeRecorderStart);
+                Console.Clear();
+                Console.WriteLine($"\n\n * Project about ID {projectId} for user about ID: {userId} is open and you can work. \n");
+                return true;
             }
             else
             {
-                dataStartTimeRecordsFromDataBase.Add(dataTimeRecordsStart);
-                WriteToStartTimeDatabase(dataStartTimeRecordsFromDataBase, GetDirectoryToFileFromDataFolder("recordsOfTimeStart.json"));
+                return false;
             }
 
         }
-
-
-        private static void WriteStopDataToRecorder(StopWork dataTimeRecorderStop)
+        private static bool DemoCheckIfProjectIsOpen(int userId, int projectId)
         {
-
-
-            var dataStopTimeRecordsFromDataBase = GetDataStopTimeFromDatabase();
-            StopWork dataTimeRecordsStop = dataTimeRecorderStop;
-
-            if (dataStopTimeRecordsFromDataBase == null)
+            var dataFromStartTimeDatabase = GetDataStartTimeFromDatabase();
+            var ProjectToClose = dataFromStartTimeDatabase.Where(p => p.UserID == userId).Where(p => p.ProjectID == projectId);
+            bool projectexist = false;
+            foreach (var item in dataFromStartTimeDatabase)
             {
-                List<StopWork> whenFileIsEmpty = [dataTimeRecorderStop];
-                WriteToStopTimeDatabase(whenFileIsEmpty, GetDirectoryToFileFromDataFolder("recordsOfTimeStop.json"));
+                if (item.UserID == userId && item.ProjectID == projectId)
+                {
+                    projectexist = true;
+                }
+                else
+                {
+                    projectexist = false;
+                }
             }
-            else
+            return projectexist;
+        }
+        public static List<StartWork> DemoAllProjectsOpenedByUser(int userId)
+        {
+            var dataFromStartTimeDatabase = GetDataStartTimeFromDatabase();
+            var projectToClose = dataFromStartTimeDatabase.Where(p => p.UserID == userId);
+
+            Console.Clear();
+            Console.WriteLine($"\n\n\n\n * All Projects opened by user about ID {userId}.\n");
+
+            if (projectToClose.Count() == 0)
             {
-                dataStopTimeRecordsFromDataBase.Add(dataTimeRecordsStop);
-                WriteToStopTimeDatabase(dataStopTimeRecordsFromDataBase, GetDirectoryToFileFromDataFolder("recordsOfTimeStop.json"));
+                Console.WriteLine("     - No projects in progress.");
             }
 
-        }
-
-
-        private static List<StartWork> GetDataStartTimeFromDatabase()
-        {
-            var json = File.ReadAllText(GetDirectoryToFileFromDataFolder("recordsOfTimeStart.json"));
-            List<StartWork> dataTimeRecords = JsonConvert.DeserializeObject<List<StartWork>>(json);
-            return dataTimeRecords;
-        }
-
-
-        private static List<StopWork> GetDataStopTimeFromDatabase()
-        {
-            var json = File.ReadAllText(GetDirectoryToFileFromDataFolder("recordsOfTimeStop.json"));
-            List<StopWork> dataTimeRecords = JsonConvert.DeserializeObject<List<StopWork>>(json);
-            return dataTimeRecords;
-        }
-
-
-        private static void WriteToStartTimeDatabase(List<StartWork> dtr, string path)
-        {
-            string json = JsonConvert.SerializeObject(dtr);
-            File.WriteAllText(path, json);
-        }
-
-
-        private static void WriteToStopTimeDatabase(List<StopWork> dtr, string path)
-        {
-            string json = JsonConvert.SerializeObject(dtr);
-            File.WriteAllText(path, json);
-        }
-
-
-        private static void CheckIfFileExistIfNotCreate()
-        {
-            if (!File.Exists(GetDirectoryToFileFromDataFolder("recordsOfTimeStart.json")))
+            foreach (var result in projectToClose)
             {
-                File.Create(GetDirectoryToFileFromDataFolder("recordsOfTimeStart.json"));
+                Console.WriteLine($"     -  Project ID: {result.ProjectID}.");
             }
 
-            if (!File.Exists(GetDirectoryToFileFromDataFolder("recordsOfTimeStop.json")))
-            {
-                File.Create(GetDirectoryToFileFromDataFolder("recordsOfTimeStop.json"));
-            }
-
+            return projectToClose.ToList();
         }
-
 
     }
 }
