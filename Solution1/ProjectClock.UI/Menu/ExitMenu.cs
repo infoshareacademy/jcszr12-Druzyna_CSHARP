@@ -25,9 +25,13 @@ namespace ProjectClock.UI.Menu
                 managerMenu.RunManagerMenu();
                 return;
             }
-
         }
 
-       
+        internal static void PressAnyKeyToContinue()
+        {
+            Console.WriteLine("\nPress any key to continue...");
+            Console.ReadKey(true);
+        }      
+
     }
 }

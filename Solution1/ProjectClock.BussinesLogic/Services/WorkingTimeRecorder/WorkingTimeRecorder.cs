@@ -58,7 +58,9 @@ namespace ProjectClock.BusinessLogic.Services.WorkingTimeRecorder
             var startTimeList = dataFromStartTimeDatabase.ToList();
             startTimeList.RemoveAll(o => o.UserID == userId && o.ProjectID == projectId);
             WriteToStartTimeDatabase(startTimeList, GetDirectoryToFileFromDataFolder("recordsOfTimeStart.json"));
+            
         }
+
         public static List<StartWork> AllProjectsOpenedByUser(int userId)
         {
             var dataFromStartTimeDatabase = GetDataStartTimeFromDatabase();
