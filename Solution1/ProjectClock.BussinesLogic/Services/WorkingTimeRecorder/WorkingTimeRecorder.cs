@@ -71,20 +71,16 @@ namespace ProjectClock.BusinessLogic.Services.WorkingTimeRecorder
         {
             var dataFromStartTimeDatabase = GetDataStartTimeFromDatabase();
             var ProjectToClose = dataFromStartTimeDatabase.Where(p => p.UserID == userId).Where(p => p.ProjectID == projectId);
-            bool projectexist = false;
             foreach (var item in dataFromStartTimeDatabase)
             {
                 if (item.UserID == userId && item.ProjectID == projectId)
                 {
                     
-                    projectexist = true;
+                    return true;
                 }
-                else
-                {
-                    projectexist = false;
-                }
+             
             }
-            return projectexist;
+            return false ;
         }
 
 
