@@ -15,7 +15,7 @@ namespace ProjectClock.UI
         {
 
             MainMenu.RunMenu();
-            //WorkingTimeRecorder.ClearDatabase();
+            
         }
 
     }
