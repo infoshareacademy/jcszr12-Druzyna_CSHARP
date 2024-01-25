@@ -15,6 +15,7 @@ using static System.Console;
 using ProjectClock.BusinessLogic.Services.UserServices;
 using System.Drawing;
 using System.Runtime.CompilerServices;
+using ProjectClock.UI.Menu.EmployeeMenu;
 
 namespace ProjectClock.UI.Menu
 {
@@ -44,11 +45,11 @@ namespace ProjectClock.UI.Menu
 
             string introTextFirstLine = ("       ProjectClock allows to manage your employees worktime");
             string introTextSecondLine = ("    Use up and down to navigate and press the Enter key to select");
-            string introTextThirdLine = ("                                                                      ");
+            
 
             sb.AppendLine(introTextFirstLine);
             sb.AppendLine(introTextSecondLine);
-            sb.AppendLine(introTextThirdLine);
+           
 
 
             return sb.ToString();
@@ -59,16 +60,16 @@ namespace ProjectClock.UI.Menu
         public static void RunMenu()
         {
             bool isLogged = false;
-            User = new User();
-
-            ForegroundColor = ConsoleColor.Cyan;
-            AlignTextInOneThirdOfScreen(Intro());
-            ResetColor();
+            User = new User();          
 
 
             do
             {
-                
+                Console.Clear();
+                ForegroundColor = ConsoleColor.Cyan;
+                AlignTextInOneThirdOfScreen(Intro());
+                ResetColor();
+
                 string questionName = "Enter your name:";
                 AlignTextInOneThirdOfScreen(questionName);
                 string name = Console.ReadLine();
@@ -88,7 +89,7 @@ namespace ProjectClock.UI.Menu
 
                     if ( userPosition == Position.Manager)
                     {
-                        string answear = $"         Welcome {name} {surname}. You're logged in as a {userPosition}!";
+                        string answear = $"      \t   Welcome {name} {surname}. You're logged in as a {userPosition}!";
                         ForegroundColor = ConsoleColor.Green;
                         AlignTextInOneThirdOfScreen(answear);
                         ResetColor();                     
@@ -98,13 +99,24 @@ namespace ProjectClock.UI.Menu
                        
                         Console.ReadKey(true);
 
-                        ManagerMenu menu = new ManagerMenu();
-                        menu.RunManagerMenu();                        
+                        ManagerMenu managerMenu = new ManagerMenu();
+                        managerMenu.RunManagerMenu();                      
                     }
 
                     if (userPosition == Position.User)
                     {
-                        //kod do zaimplementowania
+                        string answear = $"      \t   Welcome {name} {surname}. You're logged in as a {userPosition}!";
+                        ForegroundColor = ConsoleColor.Green;
+                        AlignTextInOneThirdOfScreen(answear);
+                        ResetColor();
+
+                        string pressAnyKey = "Press any key to continue...";
+                        AlignTextInOneThirdOfScreen(pressAnyKey);
+
+                        Console.ReadKey(true);
+
+                        UserMenu userMenu = new UserMenu();
+                        userMenu.RunUserMenu();
                     }
 
                     return;
@@ -123,7 +135,7 @@ namespace ProjectClock.UI.Menu
                 if (ReadKey(true).Key == ConsoleKey.Escape) 
                 {                   
                     Environment.Exit(0);
-                    return;
+                    //return;
                 }                
 
             } while (!isLogged);          
