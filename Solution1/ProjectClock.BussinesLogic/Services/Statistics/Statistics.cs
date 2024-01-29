@@ -12,7 +12,7 @@ namespace ProjectClock.BusinessLogic.Services.Statistics
     {
 
 
-        public static TimeSpan TotalTimeForProjectID(int projectId)
+        public static TimeSpan TotalTimeForProjectId(int projectId)
         {
             var dataFromDatabase = GetDataStopTimeFromDatabase();
             var dataProjectId = dataFromDatabase.Where(p => p.ProjectID == projectId);
@@ -27,7 +27,7 @@ namespace ProjectClock.BusinessLogic.Services.Statistics
             return timeSpanRaw;
         }
 
-        public static TimeSpan TotalTimeForUserID(int userId)
+        public static TimeSpan TotalTimeForUserId(int userId)
         {
 
             var dataFromDatabase = GetDataStopTimeFromDatabase();
@@ -197,7 +197,7 @@ namespace ProjectClock.BusinessLogic.Services.Statistics
             return timeSpanRaw;
         }
 
-        public static TimeSpan DemoWorkTimeForUserIdAndProjectID(int userId,int projectId)
+        public static TimeSpan DemoWorkTimeForUserIdAndProjectId(int userId,int projectId)
         {
 
             var dataFromDatabase = GetDataStopTimeFromDatabase();
