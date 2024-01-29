@@ -12,7 +12,6 @@
 
   <ItemGroup>
     <Folder Include="Data\WorkingTimeRecorder\" />
-    <Folder Include="Services\Statistics\" />
   </ItemGroup>
 
 </Project>
