@@ -75,6 +75,22 @@ namespace ProjectClock.BusinessLogic.Services.Statistics
             return timeSpanRaw;
         }
 
+        public static TimeSpan WorkTimeForUserIdAndProjectId(int userId, int projectId)
+        {
+
+            var dataFromDatabase = GetDataStopTimeFromDatabase();
+            var dataUserId = dataFromDatabase.Where(p => p.UserID == userId).Where(p => p.ProjectID == projectId);
+            List<TimeSpan> timeSpans = [];
+            foreach (var result in dataUserId)
+            {
+                TimeSpan timeSpan = result.TimeStop.Subtract(result.TimeStart);
+                timeSpans.Add(timeSpan);
+            }
+            long timeSpanTics = timeSpans.Sum(p => p.Ticks);
+            TimeSpan timeSpanRaw = new TimeSpan(timeSpanTics);
+            return timeSpanRaw;
+        }
+
 
 
 
@@ -97,7 +113,7 @@ namespace ProjectClock.BusinessLogic.Services.Statistics
 
        
 
-        public static TimeSpan DemoTotalTimeForProjectID(int projectId)
+        public static TimeSpan DemoTotalWorkTimeForProjectId(int projectId)
         {
 
             var dataFromDatabase = GetDataStopTimeFromDatabase();
@@ -118,7 +134,7 @@ namespace ProjectClock.BusinessLogic.Services.Statistics
             return timeSpanRaw;
         }
 
-        public static TimeSpan DemoTotalTimeForAllProjectsWorkedOn()
+        public static TimeSpan DemoTotalWorkTimeForAllProjectsWorkedOn()
         {
 
             var dataFromDatabase = GetDataStopTimeFromDatabase();
@@ -139,8 +155,7 @@ namespace ProjectClock.BusinessLogic.Services.Statistics
             return timeSpanRaw;
         }
 
-
-        public static TimeSpan DemoTotalTimeForAllUsersWhoWorked()
+        public static TimeSpan DemoTotalWorkTimeForAllUsersWhoWorked()
         {
 
             var dataFromDatabase = GetDataStopTimeFromDatabase();
@@ -161,7 +176,7 @@ namespace ProjectClock.BusinessLogic.Services.Statistics
             return timeSpanRaw;
         }
 
-        public static TimeSpan DemoTotalTimeForUserID(int userId)
+        public static TimeSpan DemoTotalWorkTimeForUserID(int userId)
         {
 
             var dataFromDatabase = GetDataStopTimeFromDatabase();
@@ -178,6 +193,27 @@ namespace ProjectClock.BusinessLogic.Services.Statistics
             long timeSpanTics = timeSpans.Sum(p => p.Ticks);
             TimeSpan timeSpanRaw = new TimeSpan(timeSpanTics);
             Console.WriteLine($"\n\n   * Total time on the projects for user about ID {userId} is: {timeSpanRaw.Days}D {timeSpanRaw.Hours}H {timeSpanRaw.Minutes}m {timeSpanRaw.Seconds}s \n\n\n\n\n\n\n\n\n");
+
+            return timeSpanRaw;
+        }
+
+        public static TimeSpan DemoWorkTimeForUserIdAndProjectID(int userId,int projectId)
+        {
+
+            var dataFromDatabase = GetDataStopTimeFromDatabase();
+            var dataUserId = dataFromDatabase.Where(p => p.UserID == userId).Where(p=>p.ProjectID==projectId);
+            List<TimeSpan> timeSpans = [];
+            Console.WriteLine($"\n\n * Data for user about ID: {userId} and project ID: {projectId}. \n\n");
+            Console.WriteLine("   * Time of work for: \n");
+            foreach (var result in dataUserId)
+            {
+                TimeSpan timeSpan = result.TimeStop.Subtract(result.TimeStart);
+                Console.WriteLine($"     * of user about ID: {result.ProjectID} and of project about ID: {result.UserID} is {timeSpan}");
+                timeSpans.Add(timeSpan);
+            }
+            long timeSpanTics = timeSpans.Sum(p => p.Ticks);
+            TimeSpan timeSpanRaw = new TimeSpan(timeSpanTics);
+            Console.WriteLine($"\n\n   * Total time for the projects obout ID: {projectId} and for the user about ID {userId} is: {timeSpanRaw.Days}D {timeSpanRaw.Hours}H {timeSpanRaw.Minutes}m {timeSpanRaw.Seconds}s \n\n\n\n\n\n\n\n\n");
 
             return timeSpanRaw;
         }
