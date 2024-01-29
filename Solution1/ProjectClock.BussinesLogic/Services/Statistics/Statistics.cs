@@ -59,6 +59,22 @@ namespace ProjectClock.BusinessLogic.Services.Statistics
             return timeSpanRaw;
         }
 
+        public static TimeSpan TotalTimeForAllUsersWhoWorked()
+        {
+
+            var dataFromDatabase = GetDataStopTimeFromDatabase();
+            var dataProjectId = dataFromDatabase;
+            List<TimeSpan> timeSpans = [];
+            foreach (var result in dataProjectId)
+            {
+                TimeSpan timeSpan = result.TimeStop.Subtract(result.TimeStart);
+                timeSpans.Add(timeSpan);
+            }
+            long timeSpanTics = timeSpans.Sum(p => p.Ticks);
+            TimeSpan timeSpanRaw = new TimeSpan(timeSpanTics);
+            return timeSpanRaw;
+        }
+
 
 
 
@@ -119,6 +135,28 @@ namespace ProjectClock.BusinessLogic.Services.Statistics
             long timeSpanTics = timeSpans.Sum(p => p.Ticks);
             TimeSpan timeSpanRaw = new TimeSpan(timeSpanTics);
             Console.WriteLine($"\n\n  * Total time for all projects worked on is: {timeSpanRaw.Days}D {timeSpanRaw.Hours}H {timeSpanRaw.Minutes}m {timeSpanRaw.Seconds}s \n\n\n\n");
+
+            return timeSpanRaw;
+        }
+
+
+        public static TimeSpan DemoTotalTimeForAllUsersWhoWorked()
+        {
+
+            var dataFromDatabase = GetDataStopTimeFromDatabase();
+            var dataProjectId = dataFromDatabase;
+            List<TimeSpan> timeSpans = [];
+            Console.WriteLine($"\n\n  * Total time for all usars who worked:  \n");
+            Console.WriteLine("\n    * Individual times for users who worked: \n");
+            foreach (var result in dataProjectId)
+            {
+                TimeSpan timeSpan = result.TimeStop.Subtract(result.TimeStart);
+                Console.WriteLine($"     * ID: {result.UserID} is {timeSpan}");
+                timeSpans.Add(timeSpan);
+            }
+            long timeSpanTics = timeSpans.Sum(p => p.Ticks);
+            TimeSpan timeSpanRaw = new TimeSpan(timeSpanTics);
+            Console.WriteLine($"\n\n  * Total time for all users who worked is: {timeSpanRaw.Days}D {timeSpanRaw.Hours}H {timeSpanRaw.Minutes}m {timeSpanRaw.Seconds}s \n\n\n\n");
 
             return timeSpanRaw;
         }
