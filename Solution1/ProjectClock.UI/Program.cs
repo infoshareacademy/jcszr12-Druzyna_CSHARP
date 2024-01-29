@@ -15,8 +15,8 @@ namespace ProjectClock.UI
     {
         static void Main(string[] args)
         {
-            
-            
+
+
             //MainMenu.RunMenu();
 
 
@@ -31,7 +31,7 @@ namespace ProjectClock.UI
 
             // Console.WriteLine($"\n\n  * Total time for all users who worked is: {Statistics.TotalTimeForAllUsersWhoWorked().Days}D {Statistics.TotalTimeForAllUsersWhoWorked().Hours}H {Statistics.TotalTimeForAllUsersWhoWorked().Minutes}m {Statistics.TotalTimeForAllUsersWhoWorked().Seconds}s");
 
-             Console.WriteLine($"\n\n   * Total time for the projects obout ID: {2} and for the user about ID {5} is: {Statistics.WorkTimeForUserIdAndProjectId(2,5).Days}D {Statistics.WorkTimeForUserIdAndProjectId(2, 5).Hours}H {Statistics.WorkTimeForUserIdAndProjectId(2, 5).Minutes}m {Statistics.WorkTimeForUserIdAndProjectId(2, 5).Seconds}s \n");
+            //Console.WriteLine($"\n\n   * Total time for the projects obout ID: {2} and for the user about ID {5} is: {Statistics.WorkTimeForUserIdAndProjectId(2,5).Days}D {Statistics.WorkTimeForUserIdAndProjectId(2, 5).Hours}H {Statistics.WorkTimeForUserIdAndProjectId(2, 5).Minutes}m {Statistics.WorkTimeForUserIdAndProjectId(2, 5).Seconds}s \n");
 
 
             //Statistics.DemoWorkTimeForUserIdAndProjectId(2,5);
@@ -41,6 +41,8 @@ namespace ProjectClock.UI
             //Statistics.DemoTotalTimeForAllProjectsWorkedOn();
 
             //Statistics.DemoTotalTimeForProjectID(2);
+
+            Statistics.DemoTotalWorkTimeForUserID(3);
         }
 
     }
