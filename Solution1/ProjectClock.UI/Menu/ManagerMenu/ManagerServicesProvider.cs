@@ -63,15 +63,12 @@ namespace ProjectClock.UI.Menu.Manager
             if (int.TryParse(Console.ReadLine(), out int id) && ProjectRemover.RemoveProject(id))
             {
                 Console.WriteLine($"Project with Id {id} has been removed.");
-                _projects = ProjectGetter.GetProjectList();
-
             }
             else
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("You entered either id that doesn't exit");
-                Console.ResetColor();            
-            }
+                Console.ResetColor();            }
 
         }
 
@@ -90,7 +87,7 @@ namespace ProjectClock.UI.Menu.Manager
             while (!(int.TryParse(Console.ReadLine(), out oldId) && General.IdVerificator(oldId)))
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("You entered id that doesn't exist. Press Escape to exit or any other key to continue.");
+                Console.WriteLine("You entered either non-integer or id that doesn't exist. Press Escape to exit or any other key to continue.");
                 Console.ResetColor();
 
                 ExitMenu.ExitByPressingEscToManagerMenu();
