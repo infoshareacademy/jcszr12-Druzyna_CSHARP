@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "dVre16nn7DD8XLKTXMDz9FJW+6Vi4QrEuKJW/vzKST0EXDKxx5DeEewGF3VErptGCZ3A7enBN3bR3jj7xVu2Ug==",
+  "success": true,
+  "projectFilePath": "E:\\projects\\jcszr12-Druzyna_CSHARP\\Solution1\\ProjectClock.BussinesLogic\\ProjectClock.BusinessLogic.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\tomas\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}
