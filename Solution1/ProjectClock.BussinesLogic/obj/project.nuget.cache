@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "YQ9vCuoGAZx9MPBzDJH07MwI1H952/xJ7lvTjEapR31METwXWKQDIzAPdYF/PcAPoRWLPHPKdp+OPoxaA46JZA==",
+  "dgSpecHash": "dVre16nn7DD8XLKTXMDz9FJW+6Vi4QrEuKJW/vzKST0EXDKxx5DeEewGF3VErptGCZ3A7enBN3bR3jj7xVu2Ug==",
   "success": true,
-  "projectFilePath": "D:\\00_InfoShare Academy\\000_Project\\Solution1\\ProjectClock.BussinesLogic\\ProjectClock.BusinessLogic.csproj",
+  "projectFilePath": "E:\\projects\\jcszr12-Druzyna_CSHARP\\Solution1\\ProjectClock.BussinesLogic\\ProjectClock.BusinessLogic.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\tomas\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512"
   ],

@@ -79,11 +79,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\00_InfoShare Academy\\000_Project\\Solution1\\ProjectClock.UI\\ProjectClock.UI.csproj",
+      "projectUniqueName": "E:\\projects\\jcszr12-Druzyna_CSHARP\\Solution1\\ProjectClock.UI\\ProjectClock.UI.csproj",
       "projectName": "ProjectClock.UI",
-      "projectPath": "D:\\00_InfoShare Academy\\000_Project\\Solution1\\ProjectClock.UI\\ProjectClock.UI.csproj",
+      "projectPath": "E:\\projects\\jcszr12-Druzyna_CSHARP\\Solution1\\ProjectClock.UI\\ProjectClock.UI.csproj",
       "packagesPath": "C:\\Users\\tomas\\.nuget\\packages\\",
-      "outputPath": "D:\\00_InfoShare Academy\\000_Project\\Solution1\\ProjectClock.UI\\obj\\",
+      "outputPath": "E:\\projects\\jcszr12-Druzyna_CSHARP\\Solution1\\ProjectClock.UI\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "D:\\VS.net1\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -105,8 +105,8 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "D:\\00_InfoShare Academy\\000_Project\\Solution1\\ProjectClock.BussinesLogic\\ProjectClock.BusinessLogic.csproj": {
-              "projectPath": "D:\\00_InfoShare Academy\\000_Project\\Solution1\\ProjectClock.BussinesLogic\\ProjectClock.BusinessLogic.csproj"
+            "E:\\projects\\jcszr12-Druzyna_CSHARP\\Solution1\\ProjectClock.BussinesLogic\\ProjectClock.BusinessLogic.csproj": {
+              "projectPath": "E:\\projects\\jcszr12-Druzyna_CSHARP\\Solution1\\ProjectClock.BussinesLogic\\ProjectClock.BusinessLogic.csproj"
             }
           }
         }

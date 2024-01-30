@@ -8,6 +8,10 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = ProjectClock.UI
+<<<<<<< HEAD
 build_property.ProjectDir = D:\00_InfoShare Academy\000_Project\Solution1\ProjectClock.UI\
+=======
+build_property.ProjectDir = E:\projects\jcszr12-Druzyna_CSHARP\Solution1\ProjectClock.UI\
+>>>>>>> 0deb1e416da06151780cb74152240a58ffa54bce
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
