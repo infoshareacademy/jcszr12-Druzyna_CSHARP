@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "stY1D0YXknkyCpk0rn2/i/fY5DzsTkiurkP7s4bbadDCrxemHJa/6WxE0kQC3Z+BhcGWjB9RWMVAypQBnsAbNw==",
+  "dgSpecHash": "KkDTG+WUqJAV17CUOiaTqakDebHJMpECpUOlf2jdfvW9D7PC/LXCwxYf/zmnI8ChfKEonazYvfKzcJair1lZug==",
   "success": true,
   "projectFilePath": "D:\\00_InfoShare Academy\\000_Project\\Solution1\\ProjectClock.MVC\\ProjectClock.MVC.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\tomas\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512"
+  ],
   "logs": []
 }
