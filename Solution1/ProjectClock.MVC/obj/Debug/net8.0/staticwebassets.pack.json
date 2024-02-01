@@ -13,6 +13,26 @@
       "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
+      "Id": "D:\\00_InfoShare Academy\\000_Project\\Solution1\\ProjectClock.MVC\\wwwroot\\jpg\\1.jpg",
+      "PackagePath": "staticwebassets\\jpg\\1.jpg"
+    },
+    {
+      "Id": "D:\\00_InfoShare Academy\\000_Project\\Solution1\\ProjectClock.MVC\\wwwroot\\jpg\\2.jpg",
+      "PackagePath": "staticwebassets\\jpg\\2.jpg"
+    },
+    {
+      "Id": "D:\\00_InfoShare Academy\\000_Project\\Solution1\\ProjectClock.MVC\\wwwroot\\jpg\\3.jpg",
+      "PackagePath": "staticwebassets\\jpg\\3.jpg"
+    },
+    {
+      "Id": "D:\\00_InfoShare Academy\\000_Project\\Solution1\\ProjectClock.MVC\\wwwroot\\jpg\\4.jpg",
+      "PackagePath": "staticwebassets\\jpg\\4.jpg"
+    },
+    {
+      "Id": "D:\\00_InfoShare Academy\\000_Project\\Solution1\\ProjectClock.MVC\\wwwroot\\jpg\\5.jpg",
+      "PackagePath": "staticwebassets\\jpg\\5.jpg"
+    },
+    {
       "Id": "D:\\00_InfoShare Academy\\000_Project\\Solution1\\ProjectClock.MVC\\wwwroot\\js\\site.js",
       "PackagePath": "staticwebassets\\js\\site.js"
     },
