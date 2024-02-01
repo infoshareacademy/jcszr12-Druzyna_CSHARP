@@ -3,8 +3,8 @@
 @{
     ViewData["Title"] = "Our hard working team";
 }
-<h1>@ViewData["Title"]</h1>
-<div class="container p-5">
+<h1 class="text-black">@ViewData["Title"]</h1>
+<div class="container p-1">
     <div class="row justify-content-center">
 
         @foreach (var user in @Model)
@@ -15,8 +15,8 @@
                 <div class="card border-dark h-100 ">
                     <img class="card-img-top" src="~/jpg/@fileName" alt="our worker">
                     <div class="card-body">
-                        <h5 class="card-title text-light-emphasis">@user.Name @user.Surname</h5>
-                        <p class="card-text text-light-emphasis">@user.Name is hard working @user.UserPosition.ToString().ToLower()</p>
+                        <h5 class="card-title ">@user.Name @user.Surname</h5>
+                        <p class="card-text ">@user.Name is hard working @user.UserPosition.ToString().ToLower()</p>
                     </div>
                 </div>
             </div>
