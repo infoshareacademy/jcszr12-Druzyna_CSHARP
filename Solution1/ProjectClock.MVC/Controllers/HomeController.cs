@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using ProjectClock.MVC.Models;
 using System.Diagnostics;
+using ProjectClock.BusinessLogic.Services.UserServices;
+
 
 namespace ProjectClock.MVC.Controllers
 {
@@ -21,6 +23,12 @@ namespace ProjectClock.MVC.Controllers
         public IActionResult Privacy()
         {
             return View();
+        }
+        public IActionResult Users()
+        {
+            
+            var users = General.GetUserList();
+            return View(users);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

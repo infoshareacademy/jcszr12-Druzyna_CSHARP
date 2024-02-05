@@ -4,6 +4,72 @@
     "D:\\00_InfoShare Academy\\000_Project\\Solution1\\ProjectClock.MVC\\ProjectClock.MVC.csproj": {}
   },
   "projects": {
+    "D:\\00_InfoShare Academy\\000_Project\\Solution1\\ProjectClock.BussinesLogic\\ProjectClock.BusinessLogic.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\00_InfoShare Academy\\000_Project\\Solution1\\ProjectClock.BussinesLogic\\ProjectClock.BusinessLogic.csproj",
+        "projectName": "ProjectClock.BusinessLogic",
+        "projectPath": "D:\\00_InfoShare Academy\\000_Project\\Solution1\\ProjectClock.BussinesLogic\\ProjectClock.BusinessLogic.csproj",
+        "packagesPath": "C:\\Users\\tomas\\.nuget\\packages\\",
+        "outputPath": "D:\\00_InfoShare Academy\\000_Project\\Solution1\\ProjectClock.BussinesLogic\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "D:\\VS.net1\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\tomas\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.3, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
     "D:\\00_InfoShare Academy\\000_Project\\Solution1\\ProjectClock.MVC\\ProjectClock.MVC.csproj": {
       "version": "1.0.0",
       "restore": {
@@ -32,7 +98,11 @@
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
-            "projectReferences": {}
+            "projectReferences": {
+              "D:\\00_InfoShare Academy\\000_Project\\Solution1\\ProjectClock.BussinesLogic\\ProjectClock.BusinessLogic.csproj": {
+                "projectPath": "D:\\00_InfoShare Academy\\000_Project\\Solution1\\ProjectClock.BussinesLogic\\ProjectClock.BusinessLogic.csproj"
+              }
+            }
           }
         },
         "warningProperties": {

@@ -1,4 +1,6 @@
+
 namespace ProjectClock.MVC.Models
+
 {
     public class ErrorViewModel
     {
