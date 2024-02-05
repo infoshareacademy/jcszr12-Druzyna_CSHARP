@@ -1,8 +1,25 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿@model List<ProjectClock.BusinessLogic.Models.Project>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<h1 class="text-center p-2">Start track your project</h1>
+
+<br>
+<div class="row justify-content-center">
+    <div class="col-md-4">
+        <form action="">
+            <div class="form-group mb-3">
+                <label for="Project" class="control-label">Project</label>
+                <select name="Project" class="form-select form-select-lg">
+                    
+                    
+                        
+                    
+                   
+                </select>
+            </div>
+            <div class="form-group mb-3">
+                <input value="Start" type="submit" class="btn btn-primary">
+            </div>
+        </form>
+    </div>
 </div>
+
