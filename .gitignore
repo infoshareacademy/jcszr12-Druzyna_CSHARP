@@ -9,3 +9,88 @@
 /Solution1/.vs
 /Solution1/ProjectClock.BussinesLogic/bin/Debug/net8.0
 /Solution1/ProjectClock.UI/bin/Debug/net8.0
+
+# Katalogi
+/node_modules
+/build
+/dist
+/.vscode
+.idea
+/.idea
+/.vs
+/.next
+
+# Pliki
+*.log
+*.env
+*.env.local
+.env.local.js
+.env.*.local
+.cache/
+.nuxt/
+.DS_Store
+
+# Systemowe pliki
+Thumbs.db
+ehthumbs.db
+
+# Pliki z backupem
+*~
+*.sw[mnpcod]
+
+# Pliki macOS
+*.DS_Store
+.AppleDouble
+.LSOverride
+
+# Pliki Windows
+$RECYCLE.BIN/
+Thumbs.db
+ehthumbs.db
+
+# Pliki Linux
+*.swp
+
+# Pliki Visual Studio Code
+.vscode/
+.history
+
+# Katalogi IntelliJ IDEA
+.idea/
+
+# Pliki projektu Eclipse
+.project
+
+# Katalogi projektu Eclipse
+.metadata/
+
+# Katalogi Adobe
+*.pdf
+*.ai
+*.eps
+*.psd
+*.dmg
+
+# Pliki i katalogi projektu MVC
+/bin/
+/obj/
+*.dll
+*.exe
+*.pdb
+*.user
+*.aps
+*.pch
+*.vspscc
+*_i.c
+*_p.c
+*.ncb
+*.suo
+*.tlb
+*.tlh
+*.bak
+*.cache
+*.ilk
+*.log
+*.lib
+*.sbr
+*.scc
