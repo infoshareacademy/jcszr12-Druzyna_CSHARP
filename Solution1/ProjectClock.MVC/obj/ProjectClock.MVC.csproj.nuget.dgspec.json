@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "D:\\00_InfoShare Academy\\000_Project\\Solution1\\ProjectClock.MVC\\ProjectClock.MVC.csproj": {}
+    "C:\\Users\\grzeg\\OneDrive\\Pulpit\\jcszr12-Druzyna_CSHARP\\Solution1\\ProjectClock.MVC\\ProjectClock.MVC.csproj": {}
   },
   "projects": {
-    "D:\\00_InfoShare Academy\\000_Project\\Solution1\\ProjectClock.BussinesLogic\\ProjectClock.BusinessLogic.csproj": {
+    "C:\\Users\\grzeg\\OneDrive\\Pulpit\\jcszr12-Druzyna_CSHARP\\Solution1\\ProjectClock.BussinesLogic\\ProjectClock.BusinessLogic.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\00_InfoShare Academy\\000_Project\\Solution1\\ProjectClock.BussinesLogic\\ProjectClock.BusinessLogic.csproj",
+        "projectUniqueName": "C:\\Users\\grzeg\\OneDrive\\Pulpit\\jcszr12-Druzyna_CSHARP\\Solution1\\ProjectClock.BussinesLogic\\ProjectClock.BusinessLogic.csproj",
         "projectName": "ProjectClock.BusinessLogic",
-        "projectPath": "D:\\00_InfoShare Academy\\000_Project\\Solution1\\ProjectClock.BussinesLogic\\ProjectClock.BusinessLogic.csproj",
-        "packagesPath": "C:\\Users\\tomas\\.nuget\\packages\\",
-        "outputPath": "D:\\00_InfoShare Academy\\000_Project\\Solution1\\ProjectClock.BussinesLogic\\obj\\",
+        "projectPath": "C:\\Users\\grzeg\\OneDrive\\Pulpit\\jcszr12-Druzyna_CSHARP\\Solution1\\ProjectClock.BussinesLogic\\ProjectClock.BusinessLogic.csproj",
+        "packagesPath": "C:\\Users\\grzeg\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\grzeg\\OneDrive\\Pulpit\\jcszr12-Druzyna_CSHARP\\Solution1\\ProjectClock.BussinesLogic\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "D:\\VS.net1\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\tomas\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\grzeg\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -66,24 +66,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\00_InfoShare Academy\\000_Project\\Solution1\\ProjectClock.MVC\\ProjectClock.MVC.csproj": {
+    "C:\\Users\\grzeg\\OneDrive\\Pulpit\\jcszr12-Druzyna_CSHARP\\Solution1\\ProjectClock.MVC\\ProjectClock.MVC.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\00_InfoShare Academy\\000_Project\\Solution1\\ProjectClock.MVC\\ProjectClock.MVC.csproj",
+        "projectUniqueName": "C:\\Users\\grzeg\\OneDrive\\Pulpit\\jcszr12-Druzyna_CSHARP\\Solution1\\ProjectClock.MVC\\ProjectClock.MVC.csproj",
         "projectName": "ProjectClock.MVC",
-        "projectPath": "D:\\00_InfoShare Academy\\000_Project\\Solution1\\ProjectClock.MVC\\ProjectClock.MVC.csproj",
-        "packagesPath": "C:\\Users\\tomas\\.nuget\\packages\\",
-        "outputPath": "D:\\00_InfoShare Academy\\000_Project\\Solution1\\ProjectClock.MVC\\obj\\",
+        "projectPath": "C:\\Users\\grzeg\\OneDrive\\Pulpit\\jcszr12-Druzyna_CSHARP\\Solution1\\ProjectClock.MVC\\ProjectClock.MVC.csproj",
+        "packagesPath": "C:\\Users\\grzeg\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\grzeg\\OneDrive\\Pulpit\\jcszr12-Druzyna_CSHARP\\Solution1\\ProjectClock.MVC\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "D:\\VS.net1\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\tomas\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\grzeg\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -99,8 +99,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\00_InfoShare Academy\\000_Project\\Solution1\\ProjectClock.BussinesLogic\\ProjectClock.BusinessLogic.csproj": {
-                "projectPath": "D:\\00_InfoShare Academy\\000_Project\\Solution1\\ProjectClock.BussinesLogic\\ProjectClock.BusinessLogic.csproj"
+              "C:\\Users\\grzeg\\OneDrive\\Pulpit\\jcszr12-Druzyna_CSHARP\\Solution1\\ProjectClock.BussinesLogic\\ProjectClock.BusinessLogic.csproj": {
+                "projectPath": "C:\\Users\\grzeg\\OneDrive\\Pulpit\\jcszr12-Druzyna_CSHARP\\Solution1\\ProjectClock.BussinesLogic\\ProjectClock.BusinessLogic.csproj"
               }
             }
           }
@@ -133,7 +133,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

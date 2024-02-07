@@ -34,3 +34,39 @@ D:\00_InfoShare Academy\000_Project\Solution1\ProjectClock.MVC\obj\Debug\net8.0\
 D:\00_InfoShare Academy\000_Project\Solution1\ProjectClock.MVC\obj\Debug\net8.0\ProjectClock.MVC.pdb
 D:\00_InfoShare Academy\000_Project\Solution1\ProjectClock.MVC\obj\Debug\net8.0\ProjectClock.MVC.genruntimeconfig.cache
 D:\00_InfoShare Academy\000_Project\Solution1\ProjectClock.MVC\obj\Debug\net8.0\ref\ProjectClock.MVC.dll
+C:\Users\grzeg\OneDrive\Pulpit\jcszr12-Druzyna_CSHARP\Solution1\ProjectClock.MVC\bin\Debug\net8.0\appsettings.Development.json
+C:\Users\grzeg\OneDrive\Pulpit\jcszr12-Druzyna_CSHARP\Solution1\ProjectClock.MVC\bin\Debug\net8.0\appsettings.json
+C:\Users\grzeg\OneDrive\Pulpit\jcszr12-Druzyna_CSHARP\Solution1\ProjectClock.MVC\bin\Debug\net8.0\ProjectClock.MVC.staticwebassets.runtime.json
+C:\Users\grzeg\OneDrive\Pulpit\jcszr12-Druzyna_CSHARP\Solution1\ProjectClock.MVC\bin\Debug\net8.0\ProjectClock.MVC.exe
+C:\Users\grzeg\OneDrive\Pulpit\jcszr12-Druzyna_CSHARP\Solution1\ProjectClock.MVC\bin\Debug\net8.0\ProjectClock.MVC.deps.json
+C:\Users\grzeg\OneDrive\Pulpit\jcszr12-Druzyna_CSHARP\Solution1\ProjectClock.MVC\bin\Debug\net8.0\ProjectClock.MVC.runtimeconfig.json
+C:\Users\grzeg\OneDrive\Pulpit\jcszr12-Druzyna_CSHARP\Solution1\ProjectClock.MVC\bin\Debug\net8.0\ProjectClock.MVC.dll
+C:\Users\grzeg\OneDrive\Pulpit\jcszr12-Druzyna_CSHARP\Solution1\ProjectClock.MVC\bin\Debug\net8.0\ProjectClock.MVC.pdb
+C:\Users\grzeg\OneDrive\Pulpit\jcszr12-Druzyna_CSHARP\Solution1\ProjectClock.MVC\bin\Debug\net8.0\Newtonsoft.Json.dll
+C:\Users\grzeg\OneDrive\Pulpit\jcszr12-Druzyna_CSHARP\Solution1\ProjectClock.MVC\bin\Debug\net8.0\ProjectClock.BusinessLogic.dll
+C:\Users\grzeg\OneDrive\Pulpit\jcszr12-Druzyna_CSHARP\Solution1\ProjectClock.MVC\bin\Debug\net8.0\ProjectClock.BusinessLogic.pdb
+C:\Users\grzeg\OneDrive\Pulpit\jcszr12-Druzyna_CSHARP\Solution1\ProjectClock.MVC\obj\Debug\net8.0\ProjectClock.MVC.csproj.AssemblyReference.cache
+C:\Users\grzeg\OneDrive\Pulpit\jcszr12-Druzyna_CSHARP\Solution1\ProjectClock.MVC\obj\Debug\net8.0\ProjectClock.MVC.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\grzeg\OneDrive\Pulpit\jcszr12-Druzyna_CSHARP\Solution1\ProjectClock.MVC\obj\Debug\net8.0\ProjectClock.MVC.AssemblyInfoInputs.cache
+C:\Users\grzeg\OneDrive\Pulpit\jcszr12-Druzyna_CSHARP\Solution1\ProjectClock.MVC\obj\Debug\net8.0\ProjectClock.MVC.AssemblyInfo.cs
+C:\Users\grzeg\OneDrive\Pulpit\jcszr12-Druzyna_CSHARP\Solution1\ProjectClock.MVC\obj\Debug\net8.0\ProjectClock.MVC.csproj.CoreCompileInputs.cache
+C:\Users\grzeg\OneDrive\Pulpit\jcszr12-Druzyna_CSHARP\Solution1\ProjectClock.MVC\obj\Debug\net8.0\ProjectClock.MVC.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\grzeg\OneDrive\Pulpit\jcszr12-Druzyna_CSHARP\Solution1\ProjectClock.MVC\obj\Debug\net8.0\ProjectClock.MVC.RazorAssemblyInfo.cache
+C:\Users\grzeg\OneDrive\Pulpit\jcszr12-Druzyna_CSHARP\Solution1\ProjectClock.MVC\obj\Debug\net8.0\ProjectClock.MVC.RazorAssemblyInfo.cs
+C:\Users\grzeg\OneDrive\Pulpit\jcszr12-Druzyna_CSHARP\Solution1\ProjectClock.MVC\obj\Debug\net8.0\ProjectClock.MVC.sourcelink.json
+C:\Users\grzeg\OneDrive\Pulpit\jcszr12-Druzyna_CSHARP\Solution1\ProjectClock.MVC\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\grzeg\OneDrive\Pulpit\jcszr12-Druzyna_CSHARP\Solution1\ProjectClock.MVC\obj\Debug\net8.0\staticwebassets.development.json
+C:\Users\grzeg\OneDrive\Pulpit\jcszr12-Druzyna_CSHARP\Solution1\ProjectClock.MVC\obj\Debug\net8.0\staticwebassets\msbuild.ProjectClock.MVC.Microsoft.AspNetCore.StaticWebAssets.props
+C:\Users\grzeg\OneDrive\Pulpit\jcszr12-Druzyna_CSHARP\Solution1\ProjectClock.MVC\obj\Debug\net8.0\staticwebassets\msbuild.build.ProjectClock.MVC.props
+C:\Users\grzeg\OneDrive\Pulpit\jcszr12-Druzyna_CSHARP\Solution1\ProjectClock.MVC\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.ProjectClock.MVC.props
+C:\Users\grzeg\OneDrive\Pulpit\jcszr12-Druzyna_CSHARP\Solution1\ProjectClock.MVC\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.ProjectClock.MVC.props
+C:\Users\grzeg\OneDrive\Pulpit\jcszr12-Druzyna_CSHARP\Solution1\ProjectClock.MVC\obj\Debug\net8.0\staticwebassets.pack.json
+C:\Users\grzeg\OneDrive\Pulpit\jcszr12-Druzyna_CSHARP\Solution1\ProjectClock.MVC\obj\Debug\net8.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
+C:\Users\grzeg\OneDrive\Pulpit\jcszr12-Druzyna_CSHARP\Solution1\ProjectClock.MVC\obj\Debug\net8.0\scopedcss\bundle\ProjectClock.MVC.styles.css
+C:\Users\grzeg\OneDrive\Pulpit\jcszr12-Druzyna_CSHARP\Solution1\ProjectClock.MVC\obj\Debug\net8.0\scopedcss\projectbundle\ProjectClock.MVC.bundle.scp.css
+C:\Users\grzeg\OneDrive\Pulpit\jcszr12-Druzyna_CSHARP\Solution1\ProjectClock.MVC\obj\Debug\net8.0\ProjectClock.MVC.csproj.CopyComplete
+C:\Users\grzeg\OneDrive\Pulpit\jcszr12-Druzyna_CSHARP\Solution1\ProjectClock.MVC\obj\Debug\net8.0\ProjectClock.MVC.dll
+C:\Users\grzeg\OneDrive\Pulpit\jcszr12-Druzyna_CSHARP\Solution1\ProjectClock.MVC\obj\Debug\net8.0\refint\ProjectClock.MVC.dll
+C:\Users\grzeg\OneDrive\Pulpit\jcszr12-Druzyna_CSHARP\Solution1\ProjectClock.MVC\obj\Debug\net8.0\ProjectClock.MVC.pdb
+C:\Users\grzeg\OneDrive\Pulpit\jcszr12-Druzyna_CSHARP\Solution1\ProjectClock.MVC\obj\Debug\net8.0\ProjectClock.MVC.genruntimeconfig.cache
+C:\Users\grzeg\OneDrive\Pulpit\jcszr12-Druzyna_CSHARP\Solution1\ProjectClock.MVC\obj\Debug\net8.0\ref\ProjectClock.MVC.dll

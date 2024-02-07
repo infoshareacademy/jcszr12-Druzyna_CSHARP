@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ProjectClock.MVC")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c40dfc2dafdef206ed07046f7783c04ad267e7c2")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5fdc3f78a1ac6346f541abec800678b4c58ad2c0")]
 [assembly: System.Reflection.AssemblyProductAttribute("ProjectClock.MVC")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ProjectClock.MVC")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
