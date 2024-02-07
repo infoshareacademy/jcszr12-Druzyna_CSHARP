@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using ProjectClock.Database.Extensions;
+
 namespace ProjectClock.MVC
 {
     public class Program
@@ -8,6 +11,11 @@ namespace ProjectClock.MVC
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            builder.Services.AddInfrastructure(builder.Configuration);
+           
+            builder.Services.AddDbContext<ProjectClock.Database.ProjectClockDbContext>(
+                options=>options.UseSqlServer(builder.Configuration.GetConnectionString("ProjectClock")));
 
             var app = builder.Build();
 

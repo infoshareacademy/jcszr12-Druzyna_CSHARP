@@ -16,7 +16,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ProjectClock.BussinesLogic\ProjectClock.BusinessLogic.csproj" />
-    <ProjectReference Include="..\ProjectClock.MVC\ProjectClock.MVC.csproj" />
   </ItemGroup>
 
 </Project>

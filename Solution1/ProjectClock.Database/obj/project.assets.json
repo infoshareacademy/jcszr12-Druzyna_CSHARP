@@ -1503,22 +1503,6 @@
         "runtime": {
           "bin/placeholder/ProjectClock.BusinessLogic.dll": {}
         }
-      },
-      "ProjectClock.MVC/1.0.0": {
-        "type": "project",
-        "framework": ".NETCoreApp,Version=v8.0",
-        "dependencies": {
-          "ProjectClock.BusinessLogic": "1.0.0"
-        },
-        "compile": {
-          "bin/placeholder/ProjectClock.MVC.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/ProjectClock.MVC.dll": {}
-        },
-        "frameworkReferences": [
-          "Microsoft.AspNetCore.App"
-        ]
       }
     }
   },
@@ -4083,19 +4067,13 @@
       "type": "project",
       "path": "../ProjectClock.BussinesLogic/ProjectClock.BusinessLogic.csproj",
       "msbuildProject": "../ProjectClock.BussinesLogic/ProjectClock.BusinessLogic.csproj"
-    },
-    "ProjectClock.MVC/1.0.0": {
-      "type": "project",
-      "path": "../ProjectClock.MVC/ProjectClock.MVC.csproj",
-      "msbuildProject": "../ProjectClock.MVC/ProjectClock.MVC.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net8.0": [
       "Microsoft.EntityFrameworkCore.SqlServer >= 8.0.1",
       "Microsoft.EntityFrameworkCore.Tools >= 8.0.1",
-      "ProjectClock.BusinessLogic >= 1.0.0",
-      "ProjectClock.MVC >= 1.0.0"
+      "ProjectClock.BusinessLogic >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -4133,9 +4111,6 @@
           "projectReferences": {
             "C:\\Users\\grzeg\\OneDrive\\Pulpit\\jcszr12-Druzyna_CSHARP\\Solution1\\ProjectClock.BussinesLogic\\ProjectClock.BusinessLogic.csproj": {
               "projectPath": "C:\\Users\\grzeg\\OneDrive\\Pulpit\\jcszr12-Druzyna_CSHARP\\Solution1\\ProjectClock.BussinesLogic\\ProjectClock.BusinessLogic.csproj"
-            },
-            "C:\\Users\\grzeg\\OneDrive\\Pulpit\\jcszr12-Druzyna_CSHARP\\Solution1\\ProjectClock.MVC\\ProjectClock.MVC.csproj": {
-              "projectPath": "C:\\Users\\grzeg\\OneDrive\\Pulpit\\jcszr12-Druzyna_CSHARP\\Solution1\\ProjectClock.MVC\\ProjectClock.MVC.csproj"
             }
           }
         }
