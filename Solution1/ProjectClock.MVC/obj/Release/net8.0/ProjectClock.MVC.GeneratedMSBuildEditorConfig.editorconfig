@@ -18,16 +18,16 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = D:\00_InfoShare Academy\000_Project\Solution1\ProjectClock.MVC
 build_property._RazorSourceGeneratorDebug = 
 
-[D:/00_InfoShare Academy/000_Project/Solution1/ProjectClock.MVC/Views/Home/CreateProject.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxDcmVhdGVQcm9qZWN0LmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
 [D:/00_InfoShare Academy/000_Project/Solution1/ProjectClock.MVC/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/00_InfoShare Academy/000_Project/Solution1/ProjectClock.MVC/Views/Home/Users.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxVc2Vycy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/00_InfoShare Academy/000_Project/Solution1/ProjectClock.MVC/Views/Project/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvamVjdFxDcmVhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/00_InfoShare Academy/000_Project/Solution1/ProjectClock.MVC/Views/Shared/Error.cshtml]

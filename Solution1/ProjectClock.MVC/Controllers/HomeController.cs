@@ -24,10 +24,7 @@ namespace ProjectClock.MVC.Controllers
             return View(projects);
         }
 
-        public IActionResult CreateProject()
-        {
-            return View();
-        }
+       
         public IActionResult Users()
         {
             
