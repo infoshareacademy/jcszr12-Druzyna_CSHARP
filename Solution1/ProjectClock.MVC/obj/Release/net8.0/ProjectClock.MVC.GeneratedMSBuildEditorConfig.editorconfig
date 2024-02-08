@@ -26,12 +26,20 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxVc2Vycy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/00_InfoShare Academy/000_Project/Solution1/ProjectClock.MVC/Views/Organisation/Manage.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JnYW5pc2F0aW9uXE1hbmFnZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/00_InfoShare Academy/000_Project/Solution1/ProjectClock.MVC/Views/Project/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvamVjdFxDcmVhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/00_InfoShare Academy/000_Project/Solution1/ProjectClock.MVC/Views/Project/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvamVjdFxEZWxldGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/00_InfoShare Academy/000_Project/Solution1/ProjectClock.MVC/Views/Raport/Generate.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmFwb3J0XEdlbmVyYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/00_InfoShare Academy/000_Project/Solution1/ProjectClock.MVC/Views/Shared/Error.cshtml]

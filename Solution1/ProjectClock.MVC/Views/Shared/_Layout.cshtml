@@ -1,7 +1,7 @@
 ﻿@{
     var list = ProjectClock.BusinessLogic.Services.WorkingTimeRecorder.WorkingTimeRecorder.AllProjectsOpenedByUser(5);
     var isWorking = false;
-    var isManager = true;
+    var isOrganisationOwner = true;
 }
 
 <!DOCTYPE html>
@@ -63,13 +63,20 @@
                                     <li class="nav-item ">
                                         <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                                     </li>
-                                    @if (isManager)
+                                    <li class="nav-item ">
+                                        <a class="nav-link text-white" asp-area="" asp-controller="Organization" asp-action="Manage">Organization</a>
+                                    </li>
+
+                                    @if (isOrganisationOwner)
                                     {
                                         <li class="nav-item">
                                             <a class="nav-link text-white" asp-area="" asp-controller="Project" asp-action="Create">Create a new project</a>
                                         </li>
                                         <li class="nav-item">
                                             <a class="nav-link text-white" asp-area="" asp-controller="Project" asp-action="Delete">Delete a project</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link text-white" asp-area="" asp-controller="Raport" asp-action="Generate">Generate a raport</a>
                                         </li>
                                     }                                   
                                     <li class="nav-item">
