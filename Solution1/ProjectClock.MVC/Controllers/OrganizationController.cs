@@ -4,7 +4,7 @@ namespace ProjectClock.MVC.Controllers
 {
     public class OrganizationController : Controller
     {
-        public IActionResult Manage()
+        public IActionResult Index()
         {
             return View();
         }

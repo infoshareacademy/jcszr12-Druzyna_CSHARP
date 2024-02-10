@@ -64,19 +64,16 @@
                                         <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                                     </li>
                                     <li class="nav-item ">
-                                        <a class="nav-link text-white" asp-area="" asp-controller="Organization" asp-action="Manage">Organization</a>
+                                        <a class="nav-link text-white" asp-area="" asp-controller="Organization" asp-action="Index">Organizations</a>
                                     </li>
 
                                     @if (isOrganisationOwner)
                                     {
                                         <li class="nav-item">
-                                            <a class="nav-link text-white" asp-area="" asp-controller="Project" asp-action="Create">Create a new project</a>
-                                        </li>
+                                            <a class="nav-link text-white" asp-area="" asp-controller="Project" asp-action="Index">Projects</a>
+                                        </li>                                       
                                         <li class="nav-item">
-                                            <a class="nav-link text-white" asp-area="" asp-controller="Project" asp-action="Delete">Delete a project</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link text-white" asp-area="" asp-controller="Raport" asp-action="Generate">Generate a raport</a>
+                                            <a class="nav-link text-white" asp-area="" asp-controller="Raport" asp-action="Generate">Raports</a>
                                         </li>
                                     }                                   
                                     <li class="nav-item">

@@ -26,16 +26,12 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxVc2Vycy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/00_InfoShare Academy/000_Project/Solution1/ProjectClock.MVC/Views/Organization/Manage.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JnYW5pemF0aW9uXE1hbmFnZS5jc2h0bWw=
+[D:/00_InfoShare Academy/000_Project/Solution1/ProjectClock.MVC/Views/Organization/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JnYW5pemF0aW9uXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/00_InfoShare Academy/000_Project/Solution1/ProjectClock.MVC/Views/Project/Create.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvamVjdFxDcmVhdGUuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[D:/00_InfoShare Academy/000_Project/Solution1/ProjectClock.MVC/Views/Project/Delete.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvamVjdFxEZWxldGUuY3NodG1s
+[D:/00_InfoShare Academy/000_Project/Solution1/ProjectClock.MVC/Views/Project/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvamVjdFxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/00_InfoShare Academy/000_Project/Solution1/ProjectClock.MVC/Views/Raport/Generate.cshtml]

@@ -7,21 +7,17 @@ namespace ProjectClock.MVC.Controllers
 {
     public class ProjectController : Controller
     {
-        public IActionResult Create()
-        {
-            return View();
-        }
-        [HttpPost]
-        public async Task<IActionResult> Create(string name)
-        {
-            ProjectCreator.CreateProject(name);
-            return RedirectToAction(nameof(Create));
-        }
-        public IActionResult Delete()
+        public IActionResult Index()
         {
             var list = ProjectGetter.GetProjectList();
             return View(list);
-        }
+        }       
+        [HttpPost]
+        public async Task<IActionResult> Index(string name)
+        {
+            ProjectCreator.CreateProject(name);
+            return RedirectToAction(nameof(Index));
+        }        
         [HttpPost]
         //TO DO refactor remove method we need insert project name not id
         public async Task<IActionResult> Delete(string name)
