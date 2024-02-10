@@ -24,8 +24,8 @@
                     <div class="card m-1 p-1 col-xxl-2" style="height: 20%">
                         <h5 class="text btn-outline-secondary m-1">@project.Name </h5>
                         <div class="justify-content-center p-1 m-1">
-                            <a href="#" class="btn btn-outline-secondary text-center m-1">Edit</a>
-                            <a href="#" class="btn btn-outline-secondary text-center m-1">Remove</a>
+                            <a asp-controller="Project" asp-action="Delete" class="btn btn-outline-secondary text-center m-1">Edit</a>
+                            <a asp-controller="Project" asp-action="Delete" asp-route-name="@project.Name" class="btn btn-outline-secondary text-center m-1">Remove</a>
                         </div>                        
                     </div>
                 }

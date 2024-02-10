@@ -17,9 +17,10 @@ namespace ProjectClock.MVC.Controllers
         {
             ProjectCreator.CreateProject(name);
             return RedirectToAction(nameof(Index));
-        }        
-        [HttpPost]
+        }
+
         //TO DO refactor remove method we need insert project name not id
+        [Route("Project/{name}")]
         public async Task<IActionResult> Delete(string name)
         {
             var list = ProjectGetter.GetProjectList();
@@ -32,7 +33,7 @@ namespace ProjectClock.MVC.Controllers
                 }
             }
             ProjectRemover.RemoveProject(id);
-            return RedirectToAction(nameof(Delete));
+            return RedirectToAction(nameof(Index));
         }
     }
 }
