@@ -4,7 +4,7 @@ namespace ProjectClock.MVC.Controllers
 {
     public class RaportController : Controller
     {
-        public IActionResult Generate()
+        public IActionResult Index()
         {
             return View();
         }
