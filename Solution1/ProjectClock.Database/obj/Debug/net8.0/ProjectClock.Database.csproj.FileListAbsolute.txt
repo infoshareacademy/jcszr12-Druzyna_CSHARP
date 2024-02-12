@@ -2,15 +2,12 @@ C:\Users\grzeg\OneDrive\Pulpit\jcszr12-Druzyna_CSHARP\Solution1\ProjectClock.Dat
 C:\Users\grzeg\OneDrive\Pulpit\jcszr12-Druzyna_CSHARP\Solution1\ProjectClock.Database\bin\Debug\net8.0\ProjectClock.Database.runtimeconfig.json
 C:\Users\grzeg\OneDrive\Pulpit\jcszr12-Druzyna_CSHARP\Solution1\ProjectClock.Database\bin\Debug\net8.0\ProjectClock.Database.dll
 C:\Users\grzeg\OneDrive\Pulpit\jcszr12-Druzyna_CSHARP\Solution1\ProjectClock.Database\bin\Debug\net8.0\ProjectClock.Database.pdb
-C:\Users\grzeg\OneDrive\Pulpit\jcszr12-Druzyna_CSHARP\Solution1\ProjectClock.Database\bin\Debug\net8.0\ProjectClock.BusinessLogic.dll
-C:\Users\grzeg\OneDrive\Pulpit\jcszr12-Druzyna_CSHARP\Solution1\ProjectClock.Database\bin\Debug\net8.0\ProjectClock.BusinessLogic.pdb
 C:\Users\grzeg\OneDrive\Pulpit\jcszr12-Druzyna_CSHARP\Solution1\ProjectClock.Database\obj\Debug\net8.0\ProjectClock.Database.csproj.AssemblyReference.cache
 C:\Users\grzeg\OneDrive\Pulpit\jcszr12-Druzyna_CSHARP\Solution1\ProjectClock.Database\obj\Debug\net8.0\ProjectClock.Database.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\grzeg\OneDrive\Pulpit\jcszr12-Druzyna_CSHARP\Solution1\ProjectClock.Database\obj\Debug\net8.0\ProjectClock.Database.AssemblyInfoInputs.cache
 C:\Users\grzeg\OneDrive\Pulpit\jcszr12-Druzyna_CSHARP\Solution1\ProjectClock.Database\obj\Debug\net8.0\ProjectClock.Database.AssemblyInfo.cs
 C:\Users\grzeg\OneDrive\Pulpit\jcszr12-Druzyna_CSHARP\Solution1\ProjectClock.Database\obj\Debug\net8.0\ProjectClock.Database.csproj.CoreCompileInputs.cache
 C:\Users\grzeg\OneDrive\Pulpit\jcszr12-Druzyna_CSHARP\Solution1\ProjectClock.Database\obj\Debug\net8.0\ProjectClock.Database.sourcelink.json
-C:\Users\grzeg\OneDrive\Pulpit\jcszr12-Druzyna_CSHARP\Solution1\ProjectClock.Database\obj\Debug\net8.0\ProjectClock.Database.csproj.CopyComplete
 C:\Users\grzeg\OneDrive\Pulpit\jcszr12-Druzyna_CSHARP\Solution1\ProjectClock.Database\obj\Debug\net8.0\ProjectClock.Database.dll
 C:\Users\grzeg\OneDrive\Pulpit\jcszr12-Druzyna_CSHARP\Solution1\ProjectClock.Database\obj\Debug\net8.0\refint\ProjectClock.Database.dll
 C:\Users\grzeg\OneDrive\Pulpit\jcszr12-Druzyna_CSHARP\Solution1\ProjectClock.Database\obj\Debug\net8.0\ProjectClock.Database.pdb

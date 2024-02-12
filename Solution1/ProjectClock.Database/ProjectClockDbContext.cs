@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
-using ProjectClock.BusinessLogic.Models;
-using ProjectClock.BusinessLogic.Models.DataTimeRecorder;
+using ProjectClock.Database.Entities;
 
 namespace ProjectClock.Database
 {
@@ -12,17 +11,9 @@ namespace ProjectClock.Database
         {
             
         }
-
-        private readonly string _connectionString = @"Data Source=DESKTOP-0D8TD9S;Database=ProjectClockDb;Integrated Security=True;TrustServerCertificate=True";
+        
         DbSet<User> Users { get; set; }
-        DbSet<Project> Projects { get; set; }
-        DbSet<StartWork> StartWorks { get; set; }
-        DbSet<StopWork> StopWorks { get; set; }
-
-
-      
-
-
+        DbSet<Project> Projects { get; set; }      
 
     }
 }

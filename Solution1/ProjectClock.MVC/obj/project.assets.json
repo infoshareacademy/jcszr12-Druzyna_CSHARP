@@ -1495,7 +1495,9 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v8.0",
         "dependencies": {
-          "Newtonsoft.Json": "13.0.3"
+          "Microsoft.EntityFrameworkCore.SqlServer": "8.0.1",
+          "Newtonsoft.Json": "13.0.3",
+          "ProjectClock.Database": "1.0.0"
         },
         "compile": {
           "bin/placeholder/ProjectClock.BusinessLogic.dll": {}
@@ -1508,8 +1510,7 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v8.0",
         "dependencies": {
-          "Microsoft.EntityFrameworkCore.SqlServer": "8.0.1",
-          "ProjectClock.BusinessLogic": "1.0.0"
+          "Microsoft.EntityFrameworkCore.SqlServer": "8.0.1"
         },
         "compile": {
           "bin/placeholder/ProjectClock.Database.dll": {}
