@@ -9,23 +9,18 @@ using System.Threading.Tasks;
 
 namespace ProjectClock.BusinessLogic.SqlServices.SqlProjectServices
 {
-    public class SqlProjectGetter: ISqlProjectGetter
+    public class SqlProjectGeneral: ISqlProjectGeneral
     {
         private readonly ProjectClockDbContext _projectClockDbContext;
 
-        public SqlProjectGetter(ProjectClockDbContext projectClockDbContext)
+        public SqlProjectGeneral(ProjectClockDbContext projectClockDbContext)
         {
             _projectClockDbContext = projectClockDbContext;
         }
 
-        public Project? GetProject(int id)
+        public bool Exist(int id)
         {
-           return _projectClockDbContext.Projects.FirstOrDefault(p=>p.Id == id);
-        }
-
-        public List<Project> GetProjectList()
-        {
-            return _projectClockDbContext.Projects.ToList();
+            return _projectClockDbContext.Projects.Any(p => p.Id == id);
         }
     }
 }

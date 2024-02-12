@@ -16,4 +16,9 @@ namespace ProjectClock.BusinessLogic.SqlServices.SqlProjectServices.SqlProjectIn
         List<Project> GetProjectList();
         Project GetProject(int id);
     }
+
+    public interface ISqlProjectGeneral()
+    {
+        bool Exist(int id);
+    }
 }
