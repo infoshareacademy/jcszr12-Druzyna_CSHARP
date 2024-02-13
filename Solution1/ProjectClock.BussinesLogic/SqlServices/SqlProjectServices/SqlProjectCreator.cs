@@ -39,7 +39,7 @@ namespace ProjectClock.BusinessLogic.SqlServices.SqlProjectServices
                 };
 
                 _projectClockDbContext.Projects.Add(project);
-                _projectClockDbContext.SaveChangesAsync();
+                _projectClockDbContext.SaveChanges();
 
                 return true; 
             }
