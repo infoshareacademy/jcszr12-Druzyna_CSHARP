@@ -31,4 +31,9 @@ namespace ProjectClock.BusinessLogic.SqlServices.SqlProjectServices.SqlProjectIn
     {
         bool Remove(int id);
     }
+
+    public interface ISqlProjectEditor
+    {
+        bool Modify(int oldId, int newId, string newName);
+    }
 }
