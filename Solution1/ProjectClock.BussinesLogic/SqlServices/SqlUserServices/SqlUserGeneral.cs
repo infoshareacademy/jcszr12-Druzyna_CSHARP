@@ -59,7 +59,6 @@ namespace ProjectClock.BusinessLogic.SqlServices.SqlUserServices
             user.UserPosition = position;
             _projectClockDbContext.SaveChanges();
             return true;
-
         }
 
     }
