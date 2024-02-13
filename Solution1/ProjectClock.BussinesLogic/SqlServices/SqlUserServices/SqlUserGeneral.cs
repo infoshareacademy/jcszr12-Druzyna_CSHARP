@@ -12,10 +12,12 @@ namespace ProjectClock.BusinessLogic.SqlServices.SqlUserServices
     public class SqlUserGeneral
     {
         private readonly ProjectClockDbContext _projectClockDbContext;
+        private readonly SqlUserGetter _sqlUserGetter;
 
-        public SqlUserGeneral(ProjectClockDbContext projectClockDbContext)
+        public SqlUserGeneral(ProjectClockDbContext projectClockDbContext, SqlUserGetter sqlUserGetter)
         {
             _projectClockDbContext = projectClockDbContext;
+            _sqlUserGetter = sqlUserGetter;
         }
 
         public bool UserExist(int id, out User user)
@@ -45,9 +47,19 @@ namespace ProjectClock.BusinessLogic.SqlServices.SqlUserServices
 
         }
 
-        public void SetUserPosition (int id, Position position)
+        public bool SetUserPosition (int id, Position position)
         {
-           
+            User user = _sqlUserGetter.Get(id);
+
+            if (user is null)
+            {
+                return false;
+            }           
+
+            user.UserPosition = position;
+            _projectClockDbContext.SaveChanges();
+            return true;
+
         }
 
     }
