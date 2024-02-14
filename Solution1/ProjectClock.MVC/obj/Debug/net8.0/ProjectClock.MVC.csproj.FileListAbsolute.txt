@@ -170,9 +170,9 @@ C:\Users\grzeg\OneDrive\Pulpit\jcszr12-Druzyna_CSHARP\Solution1\ProjectClock.MVC
 C:\Users\grzeg\OneDrive\Pulpit\jcszr12-Druzyna_CSHARP\Solution1\ProjectClock.MVC\obj\Debug\net8.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
 C:\Users\grzeg\OneDrive\Pulpit\jcszr12-Druzyna_CSHARP\Solution1\ProjectClock.MVC\obj\Debug\net8.0\scopedcss\bundle\ProjectClock.MVC.styles.css
 C:\Users\grzeg\OneDrive\Pulpit\jcszr12-Druzyna_CSHARP\Solution1\ProjectClock.MVC\obj\Debug\net8.0\scopedcss\projectbundle\ProjectClock.MVC.bundle.scp.css
-C:\Users\grzeg\OneDrive\Pulpit\jcszr12-Druzyna_CSHARP\Solution1\ProjectClock.MVC\obj\Debug\net8.0\ProjectClock.MVC.csproj.CopyComplete
 C:\Users\grzeg\OneDrive\Pulpit\jcszr12-Druzyna_CSHARP\Solution1\ProjectClock.MVC\obj\Debug\net8.0\ProjectClock.MVC.dll
 C:\Users\grzeg\OneDrive\Pulpit\jcszr12-Druzyna_CSHARP\Solution1\ProjectClock.MVC\obj\Debug\net8.0\refint\ProjectClock.MVC.dll
 C:\Users\grzeg\OneDrive\Pulpit\jcszr12-Druzyna_CSHARP\Solution1\ProjectClock.MVC\obj\Debug\net8.0\ProjectClock.MVC.pdb
 C:\Users\grzeg\OneDrive\Pulpit\jcszr12-Druzyna_CSHARP\Solution1\ProjectClock.MVC\obj\Debug\net8.0\ProjectClock.MVC.genruntimeconfig.cache
 C:\Users\grzeg\OneDrive\Pulpit\jcszr12-Druzyna_CSHARP\Solution1\ProjectClock.MVC\obj\Debug\net8.0\ref\ProjectClock.MVC.dll
+C:\Users\grzeg\OneDrive\Pulpit\jcszr12-Druzyna_CSHARP\Solution1\ProjectClock.MVC\obj\Debug\net8.0\ProjectC.727C51E6.Up2Date

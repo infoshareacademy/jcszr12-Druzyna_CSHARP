@@ -16,8 +16,7 @@ namespace ProjectClock.Database.Entities
         public string Name { get; set; }
         [Required]
         public string Surname { get; set; }
-        public Position UserPosition { get; set; }       
-
+        public Position UserPosition { get; set; }     
 
         public User(string name, string surname)
         {

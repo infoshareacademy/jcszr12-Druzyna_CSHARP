@@ -1,4 +1,5 @@
 ﻿using Microsoft.Identity.Client;
+using ProjectClock.BusinessLogic.SqlServices.SqlUserServices.SqlUserInterfaces;
 using ProjectClock.Database;
 using ProjectClock.Database.Entities;
 using System;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace ProjectClock.BusinessLogic.SqlServices.SqlUserServices
 {
-    internal class SqlUserCreator
+    public class SqlUserCreator: ISqlUserCreator
     {
         private readonly ProjectClockDbContext _projectClockDbContext;
         private readonly SqlUserGeneral _sqlUserGeneral;

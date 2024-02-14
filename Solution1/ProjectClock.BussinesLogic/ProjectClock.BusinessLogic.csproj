@@ -12,7 +12,8 @@
 
   <ItemGroup>
     <Folder Include="Data\WorkingTimeRecorder\" />
-    <Folder Include="SqlServices\SqlWorkingTimeServices\" />
+    <Folder Include="SqlServices\SqlOrganizationServices\" />
+    <Folder Include="SqlServices\SqlWorkingTimeServices\ISqlWorkingTimeInterfaces\" />
   </ItemGroup>
 
 	<ItemGroup>

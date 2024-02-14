@@ -10,5 +10,6 @@ namespace ProjectClock.Database.Entities
     {
         Manager,
         User,
+        Owner
     }
 }

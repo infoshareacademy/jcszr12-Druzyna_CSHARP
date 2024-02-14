@@ -1,4 +1,5 @@
-﻿using ProjectClock.Database;
+﻿using ProjectClock.BusinessLogic.SqlServices.SqlUserServices.SqlUserInterfaces;
+using ProjectClock.Database;
 using ProjectClock.Database.Entities;
 using System;
 using System.Collections.Generic;
@@ -9,15 +10,14 @@ using System.Threading.Tasks;
 
 namespace ProjectClock.BusinessLogic.SqlServices.SqlUserServices
 {
-    public class SqlUserGeneral
+    public class SqlUserGeneral :ISqlUserGeneral
     {
-        private readonly ProjectClockDbContext _projectClockDbContext;
-        private readonly SqlUserGetter _sqlUserGetter;
+        private readonly ProjectClockDbContext _projectClockDbContext;        
 
-        public SqlUserGeneral(ProjectClockDbContext projectClockDbContext, SqlUserGetter sqlUserGetter)
+        public SqlUserGeneral(ProjectClockDbContext projectClockDbContext)
         {
             _projectClockDbContext = projectClockDbContext;
-            _sqlUserGetter = sqlUserGetter;
+            
         }
 
         public bool UserExist(int id, out User user)
@@ -49,7 +49,7 @@ namespace ProjectClock.BusinessLogic.SqlServices.SqlUserServices
 
         public bool SetUserPosition (int id, Position position)
         {
-            User user = _sqlUserGetter.Get(id);
+            User user = _projectClockDbContext.Users.FirstOrDefault(u=>u.Id == id);
 
             if (user is null)
             {
