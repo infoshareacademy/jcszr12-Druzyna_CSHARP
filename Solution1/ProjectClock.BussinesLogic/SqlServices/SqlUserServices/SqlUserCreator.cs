@@ -25,10 +25,10 @@ namespace ProjectClock.BusinessLogic.SqlServices.SqlUserServices
         {
             try
             {
-                User user = new User(surName, userName);
+                User user = new User(userName, surName);
                 _projectClockDbContext.Users.Add(user);
                 _projectClockDbContext.SaveChanges();
-                _sqlUserGeneral.SetId(user);
+                //_sqlUserGeneral.SetId(user);
                 return true;
             }
             catch (Exception)

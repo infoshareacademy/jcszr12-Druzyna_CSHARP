@@ -63,6 +63,24 @@ namespace ProjectClock.Database.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("ProjectClock.Database.Entities.UserProject", b =>
+                {
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProjectId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserId", "ProjectId");
+
+                    b.HasIndex("ProjectId");
+
+                    b.ToTable("UserProject");
+                });
+
             modelBuilder.Entity("ProjectClock.Database.Entities.WorkingTime", b =>
                 {
                     b.Property<int>("Id")
@@ -74,21 +92,29 @@ namespace ProjectClock.Database.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("EndTime")
+                    b.Property<DateTime?>("EndWork")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("ProjectId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("StartTime")
+                    b.Property<string>("ProjectName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("StartWork")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Time")
+                    b.Property<string>("TotalWorkTime")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -99,7 +125,7 @@ namespace ProjectClock.Database.Migrations
                     b.ToTable("WorkingTime");
                 });
 
-            modelBuilder.Entity("ProjectClock.Database.Entities.WorkingTime", b =>
+            modelBuilder.Entity("ProjectClock.Database.Entities.UserProject", b =>
                 {
                     b.HasOne("ProjectClock.Database.Entities.Project", "Project")
                         .WithMany()
@@ -116,6 +142,35 @@ namespace ProjectClock.Database.Migrations
                     b.Navigation("Project");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("ProjectClock.Database.Entities.WorkingTime", b =>
+                {
+                    b.HasOne("ProjectClock.Database.Entities.Project", "Project")
+                        .WithMany("WorkingTimes")
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ProjectClock.Database.Entities.User", "User")
+                        .WithMany("WorkingTime")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Project");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("ProjectClock.Database.Entities.Project", b =>
+                {
+                    b.Navigation("WorkingTimes");
+                });
+
+            modelBuilder.Entity("ProjectClock.Database.Entities.User", b =>
+                {
+                    b.Navigation("WorkingTime");
                 });
 #pragma warning restore 612, 618
         }

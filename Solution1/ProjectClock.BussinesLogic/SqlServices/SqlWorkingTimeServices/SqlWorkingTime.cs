@@ -9,39 +9,125 @@ using System.Threading.Tasks;
 
 namespace ProjectClock.BusinessLogic.SqlServices.SqlWorkingTimeServices
 {
-    public class SqlWorkingTime     
+    public class SqlWorkingTime
     {
+        public WorkingTime WorkingTime { get; set; }
         private readonly ProjectClockDbContext _projectClockDbContext;
 
         public SqlWorkingTime(ProjectClockDbContext projectClockDbContext)
         {
             _projectClockDbContext = projectClockDbContext;
         }
-        public WorkingTime WorkingTime { get; set; }       
-
-        public void StartWork()
-        {
-            DateTime dateTime = DateTime.Now;
-            WorkingTime.StartTime = dateTime;
-        }
-
-        public void StopWork() 
-        { 
-            DateTime dateTime = DateTime.Now;
-            WorkingTime.EndTime = dateTime;
-        }
 
         public bool PushToSql(WorkingTime workingTime)
         {
             try
             {
+                workingTime.ProjectName = workingTime.Project.Name;
+                workingTime.UserName = workingTime.User.Name;
+
                 _projectClockDbContext.WorkingTime.Add(workingTime);
                 _projectClockDbContext.SaveChanges();
+
                 return true;
             }
             catch (Exception)
             {
-                return false;              
+                return false;
+            }
+        }
+
+
+
+        public bool StartWork(WorkingTime workingTime)
+        {
+            var project = _projectClockDbContext.WorkingTime.FirstOrDefault(w => w == workingTime);
+
+            if (project != null)
+            {
+                try
+                {
+                    project.StartTime();
+                    _projectClockDbContext.SaveChanges(true);
+                    return true;
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public bool StartWork(int id)
+        {
+            var project = _projectClockDbContext.WorkingTime.FirstOrDefault(w => w.Id == id);
+
+            if (project != null)
+            {
+                try
+                {
+                    project.StartTime();
+                    _projectClockDbContext.SaveChanges(true);
+                    return true;
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public bool StopWork(WorkingTime workingTime)
+        {
+            var project = _projectClockDbContext.WorkingTime.FirstOrDefault(w => w == workingTime);
+
+            if (project != null)
+            {
+                try
+                {
+                    project.StopTime();
+                    _projectClockDbContext.SaveChanges(true);
+                    return true;
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public bool StopWork(int id)
+        {
+            var project = _projectClockDbContext.WorkingTime.FirstOrDefault(w => w.Id == id);
+
+            if (project != null)
+            {
+                try
+                {
+                    project.StopTime();
+                    _projectClockDbContext.SaveChanges(true);
+                    return true;
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
             }
         }
 

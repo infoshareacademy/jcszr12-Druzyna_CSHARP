@@ -12,45 +12,47 @@ namespace ProjectClock.Database.Entities
         public int Id { get; set; }
         public Project Project { get; set; } = default!;
         public User User { get; set; } = default!;
-        public DateTime _startTime;
-        private DateTime _endTime;
-        private TimeSpan _time;
+        public string ProjectName { get; set; }
+        public string UserName { get; set; } 
+        public DateTime? StartWork { get; set; }
+        public TimeSpan TotalWorkTime { get; private set; }
         public string? Description { get; set; }
-
-        public DateTime EndTime
+        public DateTime? EndWork { get; set; }        
+            
+        public void StartTime()
         {
-            get { return _endTime; }
-            private set
+            StartWork = DateTime.Now;
+        }
+        public void StopTime()
+        {
+            DateTime currentTime = DateTime.Now;
+
+            if (currentTime < StartWork)
             {
-                if (value < _startTime)
-                {
-                    throw new ArgumentException("EndTime cannot be earlier than StartTime.");
-                }
-                else if (_startTime == DateTime.MinValue)
-                {
-                    throw new ArgumentException("StartTime must be set before setting EndTime.");
-                }
-                else
-                {
-                    _endTime = value;
-                    _time = _endTime - _startTime;
-                }
+                throw new InvalidOperationException("EndWork cannot be earlier than StartWork.");
+            }
+            else if (StartWork is null)
+            {
+                throw new InvalidOperationException("StartWork is not set.");
+            }
+            else
+            {
+                EndWork = currentTime;
+                CalculateTotalWorkTime();
+            }          
+        }
+        private void CalculateTotalWorkTime()
+        {
+            if (StartWork.HasValue && EndWork.HasValue)
+            {
+                TotalWorkTime = EndWork.Value - StartWork.Value;
+            }
+            else
+            {
+                TotalWorkTime = TimeSpan.Zero;
             }
         }
 
-        public WorkingTime()
-        {
-
-        }
-        public void StartTime()
-        {
-            _startTime = DateTime.Now;
-        }
-
-        public void StopTime() 
-        { 
-            _endTime = DateTime.Now;            
-        }
 
     }
 }

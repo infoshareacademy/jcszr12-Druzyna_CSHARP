@@ -21,33 +21,18 @@ namespace ProjectClock.BusinessLogic.SqlServices.SqlProjectServices
 
         public bool Create(string name)
         {
-            try
-            {
-                List<int> ids = _projectClockDbContext.Projects.Select(p => p.Id).ToList();
-
-                int firstFreeId = 1;
-
-                while (ids.Contains(firstFreeId))
-                {
-                    firstFreeId++;
-                }
-
+            
+            
                 Project project = new Project()
                 {
-                    Id = firstFreeId,
-                    Name = name,
+                    Name = name
                 };
 
                 _projectClockDbContext.Projects.Add(project);
                 _projectClockDbContext.SaveChanges();
 
-                return true; 
-            }
-            catch (Exception)
-            {                
-                return false;
-            }
-
+                return true;
+          
         }
     }
 }
