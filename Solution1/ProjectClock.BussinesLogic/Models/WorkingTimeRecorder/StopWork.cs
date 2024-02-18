@@ -8,6 +8,7 @@ namespace ProjectClock.BusinessLogic.Models.DataTimeRecorder
 {
     public class StopWork
     {
+        public int Id { get; set; }
         public DateTime TimeStart { get; set; }
         public DateTime TimeStop { get; set; }
         public TimeSpan WorkTime { get; set; }

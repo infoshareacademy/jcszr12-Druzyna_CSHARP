@@ -8,6 +8,7 @@ namespace ProjectClock.BusinessLogic.Models
 {
     public class StartWork
     {
+        public int Id { get; set; }
         public DateTime TimeStart { get; set; }       
         public int ProjectID { get; set; }
         public int UserID {  get; set; }

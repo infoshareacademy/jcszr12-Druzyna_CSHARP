@@ -2,6 +2,9 @@ using Microsoft.AspNetCore.Mvc;
 using ProjectClock.MVC.Models;
 using System.Diagnostics;
 using ProjectClock.BusinessLogic.Services.UserServices;
+using ProjectClock.BusinessLogic.Services.ProjectServices;
+using ProjectClock.BusinessLogic.Models;
+using System.Xml.Linq;
 
 
 namespace ProjectClock.MVC.Controllers
@@ -17,17 +20,15 @@ namespace ProjectClock.MVC.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            var projects = ProjectGetter.GetProjectList();
+            return View(projects);
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
+       
         public IActionResult Users()
         {
             
-            var users = General.GetUserList();
+            var users = BusinessLogic.Services.UserServices.General.GetUserList();
             return View(users);
         }
 
@@ -35,6 +36,6 @@ namespace ProjectClock.MVC.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+        }        
     }
 }
