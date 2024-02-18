@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ProjectClock.BussinesLogic\ProjectClock.BusinessLogic.csproj" />
+    <ProjectReference Include="..\ProjectClock.Database\ProjectClock.Database.csproj" />
   </ItemGroup>
 
 </Project>
