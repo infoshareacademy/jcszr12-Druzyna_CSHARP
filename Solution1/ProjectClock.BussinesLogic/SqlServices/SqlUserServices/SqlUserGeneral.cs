@@ -34,6 +34,20 @@ namespace ProjectClock.BusinessLogic.SqlServices.SqlUserServices
             }
         }
 
+        public bool UserExist(string email)
+        {
+            bool exist = _projectClockDbContext.Users.Any(u => u.Email == email);
+
+            if (exist)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         public bool IdExist(int id)
         {
             return _projectClockDbContext.Users.Any(u => u.Id == id);

@@ -21,18 +21,15 @@ namespace ProjectClock.BusinessLogic.SqlServices.SqlProjectServices
 
         public bool Create(string name)
         {
-            
-            
-                Project project = new Project()
-                {
-                    Name = name
-                };
+            Project project = new Project()
+            {
+                Name = name
+            };
 
-                _projectClockDbContext.Projects.Add(project);
-                _projectClockDbContext.SaveChanges();
+            _projectClockDbContext.Projects.Add(project);
+            _projectClockDbContext.SaveChanges();
 
-                return true;
-          
+            return true;
         }
     }
 }

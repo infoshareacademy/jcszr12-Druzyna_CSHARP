@@ -26,7 +26,9 @@ namespace ProjectClock.BusinessLogic.SqlServices.SqlWorkingTimeServices
                 workingTime.ProjectName = workingTime.Project.Name;
                 workingTime.UserName = workingTime.User.Name;
 
-                _projectClockDbContext.WorkingTime.Add(workingTime);
+                //zaimplementować linijki dodające do Usera dany projekt :)
+
+                _projectClockDbContext.WorkingTimes.Add(workingTime);
                 _projectClockDbContext.SaveChanges();
 
                 return true;
@@ -38,10 +40,9 @@ namespace ProjectClock.BusinessLogic.SqlServices.SqlWorkingTimeServices
         }
 
 
-
         public bool StartWork(WorkingTime workingTime)
         {
-            var project = _projectClockDbContext.WorkingTime.FirstOrDefault(w => w == workingTime);
+            var project = _projectClockDbContext.WorkingTimes.FirstOrDefault(w => w == workingTime);
 
             if (project != null)
             {
@@ -64,7 +65,7 @@ namespace ProjectClock.BusinessLogic.SqlServices.SqlWorkingTimeServices
 
         public bool StartWork(int id)
         {
-            var project = _projectClockDbContext.WorkingTime.FirstOrDefault(w => w.Id == id);
+            var project = _projectClockDbContext.WorkingTimes.FirstOrDefault(w => w.Id == id);
 
             if (project != null)
             {
@@ -87,7 +88,7 @@ namespace ProjectClock.BusinessLogic.SqlServices.SqlWorkingTimeServices
 
         public bool StopWork(WorkingTime workingTime)
         {
-            var project = _projectClockDbContext.WorkingTime.FirstOrDefault(w => w == workingTime);
+            var project = _projectClockDbContext.WorkingTimes.FirstOrDefault(w => w == workingTime);
 
             if (project != null)
             {
@@ -110,7 +111,7 @@ namespace ProjectClock.BusinessLogic.SqlServices.SqlWorkingTimeServices
 
         public bool StopWork(int id)
         {
-            var project = _projectClockDbContext.WorkingTime.FirstOrDefault(w => w.Id == id);
+            var project = _projectClockDbContext.WorkingTimes.FirstOrDefault(w => w.Id == id);
 
             if (project != null)
             {
@@ -129,8 +130,6 @@ namespace ProjectClock.BusinessLogic.SqlServices.SqlWorkingTimeServices
             {
                 return false;
             }
-        }
-
-
+        }  
     }
 }

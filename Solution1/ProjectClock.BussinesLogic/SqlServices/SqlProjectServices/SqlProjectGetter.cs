@@ -3,6 +3,7 @@ using ProjectClock.Database;
 using ProjectClock.Database.Entities;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -33,6 +34,19 @@ namespace ProjectClock.BusinessLogic.SqlServices.SqlProjectServices
         public List<Project> GetProjectList()
         {
             return _projectClockDbContext.Projects.ToList();
+        }
+
+        public List<Project> GetProjectsByUser(int userId)
+        {
+            if (_sqlProjectGeneral.Exist(userId))
+            {
+               var projects = _projectClockDbContext.WorkingTimes.Where(p => p.User.Id == userId).Select(p=>p.Project).ToList();
+                return projects;
+            }
+            else
+            {
+                return new List<Project>();
+            }
         }
     }
 }
