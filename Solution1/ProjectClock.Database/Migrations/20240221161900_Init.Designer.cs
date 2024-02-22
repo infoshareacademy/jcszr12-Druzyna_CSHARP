@@ -12,7 +12,7 @@ using ProjectClock.Database;
 namespace ProjectClock.Database.Migrations
 {
     [DbContext(typeof(ProjectClockDbContext))]
-    [Migration("20240221092855_Init")]
+    [Migration("20240221161900_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -160,7 +160,7 @@ namespace ProjectClock.Database.Migrations
                         .IsRequired();
 
                     b.HasOne("ProjectClock.Database.Entities.User", "User")
-                        .WithMany("WorkingTime")
+                        .WithMany("WorkingTimes")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -177,7 +177,7 @@ namespace ProjectClock.Database.Migrations
 
             modelBuilder.Entity("ProjectClock.Database.Entities.User", b =>
                 {
-                    b.Navigation("WorkingTime");
+                    b.Navigation("WorkingTimes");
                 });
 #pragma warning restore 612, 618
         }
