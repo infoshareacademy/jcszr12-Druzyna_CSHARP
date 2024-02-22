@@ -22,12 +22,20 @@ build_property._RazorSourceGeneratorDebug =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/grzeg/OneDrive/Pulpit/jcszr12-Druzyna_CSHARP/Solution1/ProjectClock.MVC/Views/Home/Privacy.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
 [C:/Users/grzeg/OneDrive/Pulpit/jcszr12-Druzyna_CSHARP/Solution1/ProjectClock.MVC/Views/Home/Users.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxVc2Vycy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/grzeg/OneDrive/Pulpit/jcszr12-Druzyna_CSHARP/Solution1/ProjectClock.MVC/Views/Organization/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JnYW5pemF0aW9uXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/grzeg/OneDrive/Pulpit/jcszr12-Druzyna_CSHARP/Solution1/ProjectClock.MVC/Views/Project/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvamVjdFxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/grzeg/OneDrive/Pulpit/jcszr12-Druzyna_CSHARP/Solution1/ProjectClock.MVC/Views/Raport/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmFwb3J0XEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/grzeg/OneDrive/Pulpit/jcszr12-Druzyna_CSHARP/Solution1/ProjectClock.MVC/Views/Shared/Error.cshtml]
