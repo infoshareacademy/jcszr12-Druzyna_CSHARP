@@ -32,6 +32,18 @@ namespace ProjectClock.BusinessLogic.SqlServices.SqlUserServices
             }            
         }
 
+        public User Get(string email)
+        {
+            if (_projectClockDbContext.Users.All(x => x.Email == email))
+            {
+                return _projectClockDbContext.Users.FirstOrDefault(x => x.Email == email);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         public List<User> GetUsers() 
         {
             var users = _projectClockDbContext.Users.ToList();

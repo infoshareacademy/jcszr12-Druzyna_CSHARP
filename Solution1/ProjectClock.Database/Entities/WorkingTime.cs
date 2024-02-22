@@ -10,15 +10,17 @@ namespace ProjectClock.Database.Entities
     public class WorkingTime
     {
         public int Id { get; set; }
-        public Project Project { get; set; } = default!;
-        public User User { get; set; } = default!;
+        public Project Project { get; set; }
+        public int ProjectId { get; set; }
+        public User User { get; set; }
+        public int UserId { get; set; }
         public string ProjectName { get; set; }
-        public string UserName { get; set; } 
+        public string UserName { get; set; }
         public DateTime? StartWork { get; set; }
         public TimeSpan TotalWorkTime { get; private set; }
         public string? Description { get; set; }
-        public DateTime? EndWork { get; set; }        
-            
+        public DateTime? EndWork { get; set; }
+
         public void StartTime()
         {
             StartWork = DateTime.Now;
@@ -39,7 +41,7 @@ namespace ProjectClock.Database.Entities
             {
                 EndWork = currentTime;
                 CalculateTotalWorkTime();
-            }          
+            }
         }
         private void CalculateTotalWorkTime()
         {

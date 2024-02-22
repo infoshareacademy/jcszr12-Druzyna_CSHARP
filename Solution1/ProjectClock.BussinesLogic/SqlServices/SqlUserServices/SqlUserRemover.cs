@@ -42,7 +42,7 @@ namespace ProjectClock.BusinessLogic.SqlServices.SqlUserServices
             }
         }
 
-        public bool RemoveAll(string id) 
+        public bool RemoveAll() 
         {
             var users = _projectClockDbContext.Users.ToList();
 

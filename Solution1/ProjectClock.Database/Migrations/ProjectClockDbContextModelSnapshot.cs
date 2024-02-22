@@ -47,6 +47,10 @@ namespace ProjectClock.Database.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -122,7 +126,7 @@ namespace ProjectClock.Database.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("WorkingTime");
+                    b.ToTable("WorkingTimes");
                 });
 
             modelBuilder.Entity("ProjectClock.Database.Entities.UserProject", b =>
@@ -153,7 +157,7 @@ namespace ProjectClock.Database.Migrations
                         .IsRequired();
 
                     b.HasOne("ProjectClock.Database.Entities.User", "User")
-                        .WithMany("WorkingTime")
+                        .WithMany("WorkingTimes")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -170,7 +174,7 @@ namespace ProjectClock.Database.Migrations
 
             modelBuilder.Entity("ProjectClock.Database.Entities.User", b =>
                 {
-                    b.Navigation("WorkingTime");
+                    b.Navigation("WorkingTimes");
                 });
 #pragma warning restore 612, 618
         }

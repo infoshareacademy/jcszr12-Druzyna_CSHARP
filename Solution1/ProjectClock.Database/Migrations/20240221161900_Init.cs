@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ProjectClock.Database.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -32,6 +32,7 @@ namespace ProjectClock.Database.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Surname = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserPosition = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -65,7 +66,7 @@ namespace ProjectClock.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "WorkingTime",
+                name: "WorkingTimes",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -81,15 +82,15 @@ namespace ProjectClock.Database.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_WorkingTime", x => x.Id);
+                    table.PrimaryKey("PK_WorkingTimes", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_WorkingTime_Projects_ProjectId",
+                        name: "FK_WorkingTimes_Projects_ProjectId",
                         column: x => x.ProjectId,
                         principalTable: "Projects",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_WorkingTime_Users_UserId",
+                        name: "FK_WorkingTimes_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
@@ -102,13 +103,13 @@ namespace ProjectClock.Database.Migrations
                 column: "ProjectId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_WorkingTime_ProjectId",
-                table: "WorkingTime",
+                name: "IX_WorkingTimes_ProjectId",
+                table: "WorkingTimes",
                 column: "ProjectId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_WorkingTime_UserId",
-                table: "WorkingTime",
+                name: "IX_WorkingTimes_UserId",
+                table: "WorkingTimes",
                 column: "UserId");
         }
 
@@ -119,7 +120,7 @@ namespace ProjectClock.Database.Migrations
                 name: "UserProject");
 
             migrationBuilder.DropTable(
-                name: "WorkingTime");
+                name: "WorkingTimes");
 
             migrationBuilder.DropTable(
                 name: "Projects");

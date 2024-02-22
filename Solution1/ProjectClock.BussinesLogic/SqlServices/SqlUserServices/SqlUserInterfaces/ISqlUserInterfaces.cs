@@ -28,13 +28,14 @@ namespace ProjectClock.BusinessLogic.SqlServices.SqlUserServices.SqlUserInterfac
     public interface ISqlUserRemover
     {
         bool Remove(int id);
-        bool RemoveAll(string id);
+        bool RemoveAll();
 
     }
 
     public interface ISqlUserCreator
     {
-        bool Create(string userName, string surName);
+        bool Create(string userName, string surName, string email);
+        bool Create(User user);
     }
 
 

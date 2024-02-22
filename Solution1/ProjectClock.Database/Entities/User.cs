@@ -16,17 +16,20 @@ namespace ProjectClock.Database.Entities
         public string Name { get; set; }
         [Required]
         public string Surname { get; set; }
-        public Position UserPosition { get; set; }  
+        [Required]
+        public string Email { get; set; }
+        public Position UserPosition { get; set; }
         public List<Project> Projects { get; set; } = new List<Project>();
-        public List<WorkingTime> WorkingTime { get; set; } = new List<WorkingTime>();
+        public List<WorkingTime> WorkingTimes { get; set; } = new List<WorkingTime>();
 
-       
-        public User(string name, string surname)
+
+        public User(string name, string surname, string email)
         {
             Name = name;
-            Surname = surname;          
+            Surname = surname;
+            Email = email;
         }
-        
+
     }
 
 }

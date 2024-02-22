@@ -12,8 +12,8 @@ using ProjectClock.Database;
 namespace ProjectClock.Database.Migrations
 {
     [DbContext(typeof(ProjectClockDbContext))]
-    [Migration("20240215185057_init")]
-    partial class init
+    [Migration("20240221161900_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -49,6 +49,10 @@ namespace ProjectClock.Database.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -125,7 +129,7 @@ namespace ProjectClock.Database.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("WorkingTime");
+                    b.ToTable("WorkingTimes");
                 });
 
             modelBuilder.Entity("ProjectClock.Database.Entities.UserProject", b =>
@@ -156,7 +160,7 @@ namespace ProjectClock.Database.Migrations
                         .IsRequired();
 
                     b.HasOne("ProjectClock.Database.Entities.User", "User")
-                        .WithMany("WorkingTime")
+                        .WithMany("WorkingTimes")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -173,7 +177,7 @@ namespace ProjectClock.Database.Migrations
 
             modelBuilder.Entity("ProjectClock.Database.Entities.User", b =>
                 {
-                    b.Navigation("WorkingTime");
+                    b.Navigation("WorkingTimes");
                 });
 #pragma warning restore 612, 618
         }
