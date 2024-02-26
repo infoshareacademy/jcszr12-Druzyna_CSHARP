@@ -3,15 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34316.72
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectClock.UI", "ProjectClock.UI\ProjectClock.UI.csproj", "{73033BC6-DDC9-4FB7-895B-5F86C427A552}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectClock.BusinessLogic", "ProjectClock.BussinesLogic\ProjectClock.BusinessLogic.csproj", "{FB1A429F-3BCD-4391-898D-D452ECBC8D75}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectClock.MVC", "ProjectClock.MVC\ProjectClock.MVC.csproj", "{28D55E31-9F90-423C-92F1-1CD2DDB7C187}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Database", "Database", "{556DD7C9-81AE-4750-9C87-3B615221BA4A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectClock.Database", "ProjectClock.Database\ProjectClock.Database.csproj", "{A2018E7D-DFAD-4E83-A18C-C91AB1F33A9C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectClock.Database", "ProjectClock.Database\ProjectClock.Database.csproj", "{A2018E7D-DFAD-4E83-A18C-C91AB1F33A9C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,10 +17,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{73033BC6-DDC9-4FB7-895B-5F86C427A552}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{73033BC6-DDC9-4FB7-895B-5F86C427A552}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{73033BC6-DDC9-4FB7-895B-5F86C427A552}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{73033BC6-DDC9-4FB7-895B-5F86C427A552}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FB1A429F-3BCD-4391-898D-D452ECBC8D75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FB1A429F-3BCD-4391-898D-D452ECBC8D75}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FB1A429F-3BCD-4391-898D-D452ECBC8D75}.Release|Any CPU.ActiveCfg = Release|Any CPU
