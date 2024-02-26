@@ -16,45 +16,10 @@ namespace ProjectClock.Database.Entities
         public int UserId { get; set; }
         public string ProjectName { get; set; }
         public string UserName { get; set; }
-        public DateTime? StartWork { get; set; }
+        public DateTime? StartTime { get; set; }
+        public DateTime? EndTime { get; set; }
         public TimeSpan TotalWorkTime { get; private set; }
         public string? Description { get; set; }
-        public DateTime? EndWork { get; set; }
-
-        public void StartTime()
-        {
-            StartWork = DateTime.Now;
-        }
-        public void StopTime()
-        {
-            DateTime currentTime = DateTime.Now;
-
-            if (currentTime < StartWork)
-            {
-                throw new InvalidOperationException("EndWork cannot be earlier than StartWork.");
-            }
-            else if (StartWork is null)
-            {
-                throw new InvalidOperationException("StartWork is not set.");
-            }
-            else
-            {
-                EndWork = currentTime;
-                CalculateTotalWorkTime();
-            }
-        }
-        private void CalculateTotalWorkTime()
-        {
-            if (StartWork.HasValue && EndWork.HasValue)
-            {
-                TotalWorkTime = EndWork.Value - StartWork.Value;
-            }
-            else
-            {
-                TotalWorkTime = TimeSpan.Zero;
-            }
-        }
-
 
     }
 }

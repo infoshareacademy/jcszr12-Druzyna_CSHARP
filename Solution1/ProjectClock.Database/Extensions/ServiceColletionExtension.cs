@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace ProjectClock.Database.Extensions
 {
-    public static class ServisColletionExtension
+    public static class ServiceColletionExtension
     {
         public static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration )
         {
