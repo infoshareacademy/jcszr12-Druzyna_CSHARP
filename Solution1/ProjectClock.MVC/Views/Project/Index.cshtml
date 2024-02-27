@@ -1,4 +1,4 @@
-﻿@model List<ProjectClock.BusinessLogic.Models.Project>
+﻿@model List<ProjectClock.Database.Entities.Project>
 
 <h1 class="text-center p-2">Projects:</h1>
 <div class="container p-1">
@@ -7,8 +7,8 @@
             <div class="col-md-4 ">
                 <form action="Project\Index" method="post">
                     <div class="form-group mb-3">
-                        <label for="name" class="control-label">Name</label>
-                        <input id="name" name="name" type="text" class="form-control">
+                        <label for="Name" class="control-label">Name</label>
+                        <input id="Name" name="Name" type="text" class="form-control">
                     </div>
                     <div class="form-group mb-3">
                         <input value="Create" type="submit" class="btn btn-primary">

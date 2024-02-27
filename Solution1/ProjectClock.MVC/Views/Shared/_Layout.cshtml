@@ -1,5 +1,5 @@
 ﻿@{
-    var list = ProjectClock.BusinessLogic.Services.WorkingTimeRecorder.WorkingTimeRecorder.AllProjectsOpenedByUser(5);
+   
     var isWorking = false;
     var isOrganisationOwner = true;
 }
@@ -10,7 +10,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - ProjectClock</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/ProjectClock.MVC.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
@@ -30,10 +30,11 @@
                                     <div class="row mb-3">
                                         <label for="name" class="control-label">Project</label>
                                         <select name="name" class="form-select form-select-lg">
-                                            @foreach (var project in list)
+                                            <option value="x">x</option>
+                                           @*  @foreach (var project in list)
                                             {
                                                 <option value="@project.ProjectID">@project.ProjectID</option>
-                                            }
+                                            } *@
                                         </select>
                                     </div>
                                     <div class=" row mb-3">
