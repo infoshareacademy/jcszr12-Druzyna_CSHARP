@@ -40,7 +40,7 @@ namespace ProjectClock.MVC.Controllers
                     id = project.Id;
                 }
             }
-            _serviceProject.Delete(id);
+            await _serviceProject.Delete(id);
             return RedirectToAction(nameof(Index));
         }
     }
