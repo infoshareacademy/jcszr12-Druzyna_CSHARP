@@ -19,11 +19,11 @@ namespace ProjectClock.BusinessLogic.Services
                 if (await UserExist(user.Email))
                 {
                     throw new Exception($"This user already exist");
-                    return false;
+                    
                 }
                 else
                 {
-                    await _projectClockDbContext.Users.AddAsync(user);
+                    _projectClockDbContext.Users.Add(user);
                     await _projectClockDbContext.SaveChangesAsync();
                     return true;
                 }

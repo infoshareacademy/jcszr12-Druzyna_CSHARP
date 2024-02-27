@@ -35,7 +35,7 @@ namespace ProjectClock.BusinessLogic.Services
                 }
                 else
                 {
-                    await _projectClockDbContext.Projects.AddAsync(project);
+                    _projectClockDbContext.Projects.Add(project);
                     await _projectClockDbContext.SaveChangesAsync();
                     return true;
 
