@@ -15,9 +15,9 @@ namespace ProjectClock.MVC.Controllers
             _serviceProject = serviceProject;
             
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var list = _serviceProject.GetAll();
+            var list = await _serviceProject.GetAll();
             return View(list);
         }
         [HttpPost]
@@ -31,7 +31,7 @@ namespace ProjectClock.MVC.Controllers
         [Route("Project/{name}")]
         public async Task<IActionResult> Delete(string name)
         {
-            var list = _serviceProject.GetAll();
+            var list = await _serviceProject.GetAll();
             int id = 0;
             foreach (var project in list)
             {
@@ -40,7 +40,7 @@ namespace ProjectClock.MVC.Controllers
                     id = project.Id;
                 }
             }
-            _serviceProject.Delete(id);
+            await _serviceProject.Delete(id);
             return RedirectToAction(nameof(Index));
         }
     }

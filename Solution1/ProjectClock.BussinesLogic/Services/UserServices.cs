@@ -1,4 +1,5 @@
-﻿using ProjectClock.Database;
+﻿using Microsoft.EntityFrameworkCore;
+using ProjectClock.Database;
 using ProjectClock.Database.Entities;
 
 namespace ProjectClock.BusinessLogic.Services
@@ -11,19 +12,19 @@ namespace ProjectClock.BusinessLogic.Services
             _projectClockDbContext = projectClockDbContext;
         }
 
-        public bool Create(User user)
+        public async Task<bool> Create(User user)
         {
             try
             {
-                if (UserExist(user.Id))
+                if (await UserExist(user.Email))
                 {
                     throw new Exception($"This user already exist");
-                    return false;
+                    
                 }
                 else
                 {
                     _projectClockDbContext.Users.Add(user);
-                    _projectClockDbContext.SaveChanges();
+                    await _projectClockDbContext.SaveChangesAsync();
                     return true;
                 }
 
@@ -34,41 +35,44 @@ namespace ProjectClock.BusinessLogic.Services
             }
         }
 
-        public User? GetById(int id)
+        public async Task<User?> GetById(int id)
         {
-            return _projectClockDbContext.Users.FirstOrDefault(u => u.Id == id);
+            return await _projectClockDbContext.Users.FirstOrDefaultAsync(u => u.Id == id);
         }
 
-        public List<User> GetAll()
+        public async Task<List<User>> GetAll()
         {
-            return _projectClockDbContext.Users.ToList();
+            return await _projectClockDbContext.Users.ToListAsync();
         }
 
-        public void Update(User model)
+        public async Task Update(User model)
         {
-            var user = GetById(model.Id);
+            var user = await GetById(model.Id);
 
             user.Name = model.Name;
             user.Email = model.Email;
             user.UserPosition = model.UserPosition;
             user.Surname = model.Surname;
 
+            await _projectClockDbContext.SaveChangesAsync();
         }
 
-        public bool Delete(int id)
+        public async Task<bool> Delete(int id)
         {
             try
             {
-                if (!UserExist(id))
+                var user = await GetById(id);
+
+                if (user is null)
                 {
                     throw new Exception($"This user doesn't exist");
                     return false;
                 }
                 else
                 {
-                    var user = GetById(id);
+                    
                     _projectClockDbContext.Users.Remove(user);
-                    _projectClockDbContext.SaveChanges();
+                    await _projectClockDbContext.SaveChangesAsync();
                     return true;
                 }
 
@@ -80,20 +84,20 @@ namespace ProjectClock.BusinessLogic.Services
 
         }
 
-        public bool UserExist(int id)
+        public async Task<bool> UserExist(string email)
         {
-            return _projectClockDbContext.Users.Any(u => u.Id == id);
+            return await _projectClockDbContext.Users.AsNoTracking().AnyAsync(u => u.Email == email);
         }
     }
 
     public interface IUserServices
     {
-        bool Create(User user);
-        User? GetById(int id);
-        List<User> GetAll();
-        void Update(User model);
-        bool Delete(int id);
-        bool UserExist(int id);
+        Task<bool> Create(User user);
+        Task<User> GetById(int id);
+        Task<List<User>> GetAll();
+        Task Update(User model);
+        Task<bool> Delete(int id);
+        Task<bool> UserExist(string email);
 
     }
 }

@@ -17,17 +17,17 @@ namespace ProjectClock.MVC.Controllers
             _serviceUser = serviceUser;
         }
 
-        public IActionResult Index()
+        public async Task <IActionResult> Index()
         {
-            var projects = _serviceProject.GetAll();
+            var projects = await _serviceProject.GetAll();
             return View(projects);
         }
 
 
-        public IActionResult Users()
+        public async Task <IActionResult> Users()
         {
 
-            var users = _serviceUser.GetAll();
+            var users = await _serviceUser.GetAll();
             return View(users);
         }
 

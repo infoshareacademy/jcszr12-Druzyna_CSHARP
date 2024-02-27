@@ -8,8 +8,8 @@ namespace ProjectClock.Database.Entities
 {
     public enum Position
     {
-        Manager,
         User,
-        Owner
+        Owner,
+        Manager
     }
 }

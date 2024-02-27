@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.EntityFrameworkCore;
 using ProjectClock.Database;
 using ProjectClock.Database.Entities;
 
@@ -10,12 +6,12 @@ namespace ProjectClock.BusinessLogic.Services
 {
     public interface IProjectServices
     {
-        Task Create(Project project);
-        Project? GetById(int id);
-        List<Project> GetAll();
-        void Update(Project model);
-        bool Delete(int id);
-        bool ProjectExist(int id);
+        Task<bool> Create(Project project);
+        Task<Project> GetById(int id);
+        Task<List<Project>> GetAll();
+        Task Update(Project model);
+        Task<bool> Delete(int id);
+        Task<bool> ProjectExist(string name);
     }
 
     public class ProjectServices : IProjectServices
@@ -27,60 +23,64 @@ namespace ProjectClock.BusinessLogic.Services
             _projectClockDbContext = projectClockDbContext;
         }
 
-        public async Task Create(Project project)
+        public async Task<bool> Create(Project project)
         {
             try
             {
-                if (ProjectExist(project.Id))
+                if (await ProjectExist(project.Name))
                 {
                     throw new Exception($"This project already exist");
-                    
+                    return false;
+
                 }
                 else
                 {
-                    await _projectClockDbContext.Projects.AddAsync(project);
+                    _projectClockDbContext.Projects.Add(project);
                     await _projectClockDbContext.SaveChangesAsync();
-                    
+                    return true;
+
                 }
 
             }
             catch (Exception)
             {
-                
+                return false;
             }
         }
 
-        public Project? GetById(int id)
+        public async Task<Project?> GetById(int id)
         {
-            return _projectClockDbContext.Projects.FirstOrDefault(u => u.Id == id);
+            return await _projectClockDbContext.Projects.FirstOrDefaultAsync(p => p.Id == id);
         }
 
-        public List<Project> GetAll()
+        public async Task<List<Project>> GetAll()
         {
-            return _projectClockDbContext.Projects.ToList();
+            return await _projectClockDbContext.Projects.ToListAsync();
         }
 
-        public void Update(Project model)
+        public async Task Update(Project model)
         {
-            var project = GetById(model.Id);
+            var project = await GetById(model.Id);
             project.Name = model.Name;
+
             _projectClockDbContext.Projects.Update(project);
-            _projectClockDbContext.SaveChanges();
+            await _projectClockDbContext.SaveChangesAsync();
         }
 
-        public bool Delete(int id)
+        public async Task<bool> Delete(int id)
         {
             try
             {
-                if (!ProjectExist(id))
+                var project = await GetById(id);
+
+                if (project is null)
                 {
-                    throw new Exception($"Project with {id} doesn't exist");                   
+                    throw new Exception($"Project with {id} doesn't exist");
                 }
                 else
                 {
-                    var project = GetById(id);
                     _projectClockDbContext.Projects.Remove(project);
-                    _projectClockDbContext.SaveChanges();
+                    await _projectClockDbContext.SaveChangesAsync();
                     return true;
                 }
 
@@ -92,9 +92,9 @@ namespace ProjectClock.BusinessLogic.Services
 
         }
 
-        public bool ProjectExist(int id)
+        public async Task<bool> ProjectExist(string name)
         {
-            return _projectClockDbContext.Users.Any(u => u.Id == id);
+            return await _projectClockDbContext.Projects.AsNoTracking().AnyAsync(p => p.Name == name);
         }
     }
 
