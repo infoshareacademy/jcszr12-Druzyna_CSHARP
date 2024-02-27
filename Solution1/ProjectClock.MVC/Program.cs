@@ -19,7 +19,7 @@ namespace ProjectClock.MVC
             builder.Services.AddDbContext<ProjectClock.Database.ProjectClockDbContext>(options =>
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("ProjectClock"));
-                options.EnableThreadSafetyChecks();
+                //options.EnableThreadSafetyChecks();
             });
 
 

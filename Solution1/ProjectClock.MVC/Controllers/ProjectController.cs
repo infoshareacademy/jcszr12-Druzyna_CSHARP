@@ -15,9 +15,9 @@ namespace ProjectClock.MVC.Controllers
             _serviceProject = serviceProject;
             
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var list = _serviceProject.GetAll();
+            var list = await _serviceProject.GetAll();
             return View(list);
         }
         [HttpPost]
