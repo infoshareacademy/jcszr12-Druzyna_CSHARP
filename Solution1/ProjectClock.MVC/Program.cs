@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using ProjectClock.Database.Extensions;
+using System.Configuration;
 
 namespace ProjectClock.MVC
 {
@@ -14,9 +15,14 @@ namespace ProjectClock.MVC
 
             builder.Services.AddInfrastructure(builder.Configuration);
             builder.Services.AddServices(builder.Configuration);
-           
-            builder.Services.AddDbContext<ProjectClock.Database.ProjectClockDbContext>(
-                options=>options.UseSqlServer(builder.Configuration.GetConnectionString("ProjectClock")));
+
+            builder.Services.AddDbContext<ProjectClock.Database.ProjectClockDbContext>(options =>
+            {
+                options.UseSqlServer(builder.Configuration.GetConnectionString("ProjectClock"));
+                options.EnableThreadSafetyChecks();
+            });
+
+
 
             var app = builder.Build();
 

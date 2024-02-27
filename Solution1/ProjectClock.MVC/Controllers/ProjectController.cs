@@ -31,7 +31,7 @@ namespace ProjectClock.MVC.Controllers
         [Route("Project/{name}")]
         public async Task<IActionResult> Delete(string name)
         {
-            var list = _serviceProject.GetAll();
+            var list = await _serviceProject.GetAll();
             int id = 0;
             foreach (var project in list)
             {
