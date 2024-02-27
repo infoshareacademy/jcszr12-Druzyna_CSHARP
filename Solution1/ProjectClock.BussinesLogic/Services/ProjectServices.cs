@@ -11,7 +11,7 @@ namespace ProjectClock.BusinessLogic.Services
         Task<List<Project>> GetAll();
         Task Update(Project model);
         Task<bool> Delete(int id);
-        bool ProjectExist(string name);
+        Task<bool> ProjectExist(string name);
     }
 
     public class ProjectServices : IProjectServices
@@ -27,7 +27,7 @@ namespace ProjectClock.BusinessLogic.Services
         {
             try
             {
-                if (ProjectExist(project.Name))
+                if (await ProjectExist(project.Name))
                 {
                     throw new Exception($"This project already exist");
                     return false;
@@ -92,9 +92,9 @@ namespace ProjectClock.BusinessLogic.Services
 
         }
 
-        public bool ProjectExist(string name)
+        public async Task<bool> ProjectExist(string name)
         {
-            return _projectClockDbContext.Projects.AsNoTracking().Any(p => p.Name == name);
+            return await _projectClockDbContext.Projects.AsNoTracking().AnyAsync(p => p.Name == name);
         }
     }
 

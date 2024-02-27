@@ -16,7 +16,7 @@ namespace ProjectClock.BusinessLogic.Services
         {
             try
             {
-                if (UserExist(user.Email))
+                if (await UserExist(user.Email))
                 {
                     throw new Exception($"This user already exist");
                     return false;
@@ -84,9 +84,9 @@ namespace ProjectClock.BusinessLogic.Services
 
         }
 
-        public bool UserExist(string email)
+        public async Task<bool> UserExist(string email)
         {
-            return _projectClockDbContext.Users.AsNoTracking().Any(u => u.Email == email);
+            return await _projectClockDbContext.Users.AsNoTracking().AnyAsync(u => u.Email == email);
         }
     }
 
@@ -97,7 +97,7 @@ namespace ProjectClock.BusinessLogic.Services
         Task<List<User>> GetAll();
         Task Update(User model);
         Task<bool> Delete(int id);
-        bool UserExist(string email);
+        Task<bool> UserExist(string email);
 
     }
 }
