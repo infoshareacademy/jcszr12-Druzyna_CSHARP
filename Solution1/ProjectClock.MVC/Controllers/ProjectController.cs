@@ -20,8 +20,13 @@ namespace ProjectClock.MVC.Controllers
             var list = _serviceProject.GetAll();
             return View(list);
         }
+        public IActionResult Create()
+        {
+            
+            return View();
+        }
         [HttpPost]
-        public async Task<IActionResult> Index([Bind("Name")]Project project)
+        public async Task<IActionResult> Create(Project project)
         {
             await _serviceProject.Create(project);
             return RedirectToAction(nameof(Index));
