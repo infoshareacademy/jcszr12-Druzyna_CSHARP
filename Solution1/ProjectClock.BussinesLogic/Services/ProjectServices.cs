@@ -10,7 +10,7 @@ namespace ProjectClock.BusinessLogic.Services
 {
     public interface IProjectServices
     {
-        bool Create(Project project);
+        Task Create(Project project);
         Project? GetById(int id);
         List<Project> GetAll();
         void Update(Project model);
@@ -27,26 +27,26 @@ namespace ProjectClock.BusinessLogic.Services
             _projectClockDbContext = projectClockDbContext;
         }
 
-        public bool Create(Project project)
+        public async Task Create(Project project)
         {
             try
             {
                 if (ProjectExist(project.Id))
                 {
                     throw new Exception($"This project already exist");
-                    return false;
+                    
                 }
                 else
                 {
-                    _projectClockDbContext.Projects.Add(project);
-                    _projectClockDbContext.SaveChanges();
-                    return true;
+                    await _projectClockDbContext.Projects.AddAsync(project);
+                    await _projectClockDbContext.SaveChangesAsync();
+                    
                 }
 
             }
             catch (Exception)
             {
-                return false;
+                
             }
         }
 
@@ -64,6 +64,8 @@ namespace ProjectClock.BusinessLogic.Services
         {
             var project = GetById(model.Id);
             project.Name = model.Name;
+            _projectClockDbContext.Projects.Update(project);
+            _projectClockDbContext.SaveChanges();
         }
 
         public bool Delete(int id)
@@ -72,8 +74,7 @@ namespace ProjectClock.BusinessLogic.Services
             {
                 if (!ProjectExist(id))
                 {
-                    throw new Exception($"Project with {id} doesn't exist");
-                    return false;
+                    throw new Exception($"Project with {id} doesn't exist");                   
                 }
                 else
                 {
