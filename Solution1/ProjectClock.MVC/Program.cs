@@ -13,6 +13,7 @@ namespace ProjectClock.MVC
             builder.Services.AddControllersWithViews();
 
             builder.Services.AddInfrastructure(builder.Configuration);
+            builder.Services.AddServices(builder.Configuration);
            
             builder.Services.AddDbContext<ProjectClock.Database.ProjectClockDbContext>(
                 options=>options.UseSqlServer(builder.Configuration.GetConnectionString("ProjectClock")));

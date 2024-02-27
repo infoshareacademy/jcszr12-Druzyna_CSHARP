@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectClock.BusinessLogic"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectClock.MVC", "ProjectClock.MVC\ProjectClock.MVC.csproj", "{28D55E31-9F90-423C-92F1-1CD2DDB7C187}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Database", "Database", "{556DD7C9-81AE-4750-9C87-3B615221BA4A}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectClock.Database", "ProjectClock.Database\ProjectClock.Database.csproj", "{A2018E7D-DFAD-4E83-A18C-C91AB1F33A9C}"
 EndProject
 Global
@@ -32,9 +30,6 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{A2018E7D-DFAD-4E83-A18C-C91AB1F33A9C} = {556DD7C9-81AE-4750-9C87-3B615221BA4A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {220A7C66-578E-468D-A0ED-ECE501739694}

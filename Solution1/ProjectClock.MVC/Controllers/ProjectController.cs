@@ -1,21 +1,29 @@
-﻿
-using Microsoft.AspNetCore.Mvc;
-using ProjectClock.BusinessLogic.Services.ProjectServices;
-using System.Numerics;
+﻿using Microsoft.AspNetCore.Mvc;
+using ProjectClock.BusinessLogic.Services;
+using ProjectClock.Database.Entities;
 
 namespace ProjectClock.MVC.Controllers
 {
     public class ProjectController : Controller
     {
+        
+        private readonly IProjectServices _serviceProject;
+        
+
+        public ProjectController(IProjectServices serviceProject)
+        {           
+            _serviceProject = serviceProject;
+            
+        }
         public IActionResult Index()
         {
-            var list = ProjectGetter.GetProjectList();
+            var list = _serviceProject.GetAll();
             return View(list);
-        }       
+        }
         [HttpPost]
-        public async Task<IActionResult> Index(string name)
+        public async Task<IActionResult> Index([Bind("Name")]Project project)
         {
-            ProjectCreator.CreateProject(name);
+            await _serviceProject.Create(project);
             return RedirectToAction(nameof(Index));
         }
 
@@ -23,16 +31,16 @@ namespace ProjectClock.MVC.Controllers
         [Route("Project/{name}")]
         public async Task<IActionResult> Delete(string name)
         {
-            var list = ProjectGetter.GetProjectList();
+            var list = _serviceProject.GetAll();
             int id = 0;
-            foreach(var project in list)
+            foreach (var project in list)
             {
-                if(project.Name == name)
+                if (project.Name == name)
                 {
                     id = project.Id;
                 }
             }
-            ProjectRemover.RemoveProject(id);
+            _serviceProject.Delete(id);
             return RedirectToAction(nameof(Index));
         }
     }
