@@ -21,7 +21,7 @@ namespace ProjectClock.MVC.Controllers
             return View(list);
         }
         [HttpPost]
-        public async Task<IActionResult> Index([Bind("Name")]Project project)
+        public async Task<IActionResult> Index([Bind("Name")] Project project)
         {
             await _serviceProject.Create(project);
             return RedirectToAction(nameof(Index));
