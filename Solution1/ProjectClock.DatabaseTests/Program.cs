@@ -22,7 +22,7 @@ namespace ProjectClock.DatabaseTests
 
                 User user = new User("Scottie", "Pippen", "scottie@gmail.com");
                 User user2 = new User("Michael", "Jordan", "jordan@gmail.com");
-                User user3 = new User("Luc", "Lonlgey", "longley@gmail.com");
+                User user3 = new User("Luc", "Longley", "longley@gmail.com");
                 Project project = new Project() { Name = "NBA.com" };
                 Project project2 = new Project() { Name = "ShittyLand" };
                 Project project3 = new Project() { Name = "PorkStattion" };

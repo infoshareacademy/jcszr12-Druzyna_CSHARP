@@ -1,12 +1,13 @@
 using Microsoft.EntityFrameworkCore;
 using ProjectClock.Database.Extensions;
 using System.Configuration;
+using ProjectClock.Database.Seeders;
 
 namespace ProjectClock.MVC
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -19,12 +20,16 @@ namespace ProjectClock.MVC
             builder.Services.AddDbContext<ProjectClock.Database.ProjectClockDbContext>(options =>
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("ProjectClock"));
-                //options.EnableThreadSafetyChecks();
+                
             });
 
 
 
             var app = builder.Build();
+
+            var scope = app.Services.CreateScope();
+            var seeder = scope.ServiceProvider.GetRequiredService<ProjectClockSeeder>();
+            await seeder.Seed();
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
