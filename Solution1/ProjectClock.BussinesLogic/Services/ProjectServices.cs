@@ -48,6 +48,32 @@ namespace ProjectClock.BusinessLogic.Services
             }
         }
 
+        public async Task<bool> Create(string name)
+        {
+            try
+            {
+                if (await ProjectExist(name))
+                {
+                    throw new Exception($"This project already exist");
+                    return false;
+
+                }
+                else
+                {
+                    Project project = new Project() { Name = name };
+                    _projectClockDbContext.Projects.Add(project);
+                    await _projectClockDbContext.SaveChangesAsync();
+                    return true;
+
+                }
+
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
         public async Task<Project?> GetById(int id)
         {
             return await _projectClockDbContext.Projects.FirstOrDefaultAsync(p => p.Id == id);
