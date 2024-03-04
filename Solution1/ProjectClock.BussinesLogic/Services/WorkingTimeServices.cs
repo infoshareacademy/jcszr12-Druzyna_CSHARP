@@ -121,6 +121,37 @@ namespace ProjectClock.BusinessLogic.Services
             return _projectClockDbContext.WorkingTimes.AsNoTracking().Any(wt => wt.Id == id);
         }
 
+        public async Task<bool> StopWork (WorkingTime workingTime)
+        {
+            try
+            {
+                int id = workingTime.Id;
+
+                if (!WorkingTimeExist(id))
+                {
+                    throw new Exception($"This record of WorkingTime doesn't exist");
+                    return false;
+                }
+                else if (workingTime.StartTime is not null)
+                {
+                    throw new Exception($"This record of WorkingTime hasn't started");
+                    return false;
+                }
+                else
+                {
+                    workingTime.EndTime = DateTime.UtcNow;
+                    workingTime.TotalWorkTime = workingTime.EndTime - workingTime.StartTime;
+                    await _projectClockDbContext.SaveChangesAsync();
+                    return true;
+                }
+
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
 
     }
 

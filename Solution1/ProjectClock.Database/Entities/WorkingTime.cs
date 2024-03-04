@@ -18,7 +18,7 @@ namespace ProjectClock.Database.Entities
         public string UserName { get; set; }
         public DateTime? StartTime { get; set; } = DateTime.UtcNow;
         public DateTime? EndTime { get; set; }
-        public TimeSpan TotalWorkTime { get; private set; }
+        public TimeSpan? TotalWorkTime { get; set; }
         public string? Description { get; set; }
 
     }

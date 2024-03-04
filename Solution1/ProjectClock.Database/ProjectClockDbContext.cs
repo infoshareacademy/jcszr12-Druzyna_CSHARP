@@ -17,7 +17,7 @@ namespace ProjectClock.Database
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<WorkingTime>()
+           modelBuilder.Entity<WorkingTime>()
                 .Property(wt => wt.TotalWorkTime)
                 .HasConversion(
                     v => v.ToString(), // Konwersja TimeSpan na string
