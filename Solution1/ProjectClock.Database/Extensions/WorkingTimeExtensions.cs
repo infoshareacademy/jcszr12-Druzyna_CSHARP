@@ -20,7 +20,7 @@ namespace ProjectClock.Database.Extensions
 
             try
             {
-                if (workingTime.StartTime is not null && workingTime.StartTime > endTime)
+                if (workingTime.StartTime > endTime)
                 {
                     throw new Exception($"End time of record cannot be sooner then start time");
                     return false;

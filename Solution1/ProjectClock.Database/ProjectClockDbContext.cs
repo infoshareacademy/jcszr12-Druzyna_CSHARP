@@ -11,6 +11,7 @@ namespace ProjectClock.Database
         {
 
         }
+        public DbSet<Account> Accounts { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Project> Projects { get; set; }
         public DbSet<WorkingTime> WorkingTimes { get; set; }
