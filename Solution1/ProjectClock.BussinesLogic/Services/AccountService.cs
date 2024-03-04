@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Cryptography.KeyDerivation;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.EntityFrameworkCore;
 using ProjectClock.BusinessLogic.Dtos.AccountDtos;
 using ProjectClock.Database;
@@ -8,20 +10,7 @@ using System.Security.Cryptography;
 
 namespace ProjectClock.BusinessLogic.Services
 {
-    public interface IAccountService
-    {
-        Task<RegisterResultDto> RegisterAccount(RegisterDto dto);
 
-        Task<LoginResultDto> LoginAccount(LoginDto dto);
-
-        Task<string> GetAccountEmail(Guid Id);
-
-        Task<EditEmailResultDto> EditAccountEmail(EditEmailDto dto);
-
-        Task<EditPasswordResultDto> EditAccountPassword(EditPasswordDto dto);
-
-        Task<bool> DeleteAccount(DeleteAccountDto dto);
-    }
 
     public class AccountService : IAccountService
     {
@@ -98,7 +87,8 @@ namespace ProjectClock.BusinessLogic.Services
             }
 
             resultDto.LoginWasSuccessful = true;
-            resultDto.Id = user.Id;           
+            resultDto.Id = user.Id;
+            resultDto.ClaimsIdentity = GetClaimsIdentity(user.Id, user.name);
             resultDto.AuthProp = GetAuthProp(dto.RememberMe);
 
             return resultDto;
@@ -220,8 +210,6 @@ namespace ProjectClock.BusinessLogic.Services
             return Convert.ToBase64String(hash);
         }
 
-        
-
         private static AuthenticationProperties GetAuthProp(bool rememberMe)
         {
             var authProperties = new AuthenticationProperties
@@ -231,6 +219,17 @@ namespace ProjectClock.BusinessLogic.Services
             };
 
             return authProperties;
+        }
+        private static ClaimsIdentity GetClaimsIdentity(int userId, string name)
+        {
+            var claims = new List<Claim>
+        {
+            new(ClaimTypes.Role, "User"),
+            new(ClaimTypes.Name, name),
+            new("UserId", userId.ToString())
+        };
+
+            return new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
         }
     }
 }

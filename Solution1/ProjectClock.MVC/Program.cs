@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using ProjectClock.Database.Extensions;
 using System.Configuration;
 using ProjectClock.Database.Seeders;
+using ProjectClock.BusinessLogic.Services;
 
 namespace ProjectClock.MVC
 {
@@ -23,6 +24,7 @@ namespace ProjectClock.MVC
                 
             });
 
+            builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 
             var app = builder.Build();
