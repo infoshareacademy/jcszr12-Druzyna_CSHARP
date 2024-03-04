@@ -1,8 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using ProjectClock.BusinessLogic.Dtos.Validators;
 using ProjectClock.BusinessLogic.Services;
-using FluentValidation;
 
 
 
@@ -16,6 +17,15 @@ namespace ProjectClock.Database.Extensions
             services.AddScoped<IProjectServices, ProjectServices>();
             services.AddScoped<IUserServices, UserServices>();
             services.AddScoped<IAccountService, AccountService>();
+
+            services.AddValidatorsFromAssemblyContaining<LoginDtoValidator>()
+                .AddFluentValidationAutoValidation()
+                .AddFluentValidationClientsideAdapters();
+
+            services.AddValidatorsFromAssemblyContaining<RegisterDtoValidator>()
+                .AddFluentValidationAutoValidation()
+                .AddFluentValidationClientsideAdapters();
+
         }
     }
 }

@@ -60,15 +60,14 @@ namespace ProjectClock.MVC.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Register(RegisterDto dto)
         {
-            //if (!ModelState.IsValid)
-            //{
-            //    return View(dto);
-            //}
+            if (!ModelState.IsValid)
+            {
+                return View(dto);
+            }
 
-            
+
             var resultDto = await _accountService.RegisterAccount(dto);
             
-
             if (resultDto.RegistrationFailed)
             {
                 return View(dto);
@@ -82,7 +81,7 @@ namespace ProjectClock.MVC.Controllers
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
-            return RedirectToAction("account", "Login");
+            return RedirectToAction("Login", "Account");
         }
 
         [Authorize(Roles = "User")]
