@@ -3,6 +3,7 @@ using ProjectClock.Database.Extensions;
 using System.Configuration;
 using ProjectClock.Database.Seeders;
 using ProjectClock.BusinessLogic.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace ProjectClock.MVC
 {
@@ -23,6 +24,15 @@ namespace ProjectClock.MVC
                 options.UseSqlServer(builder.Configuration.GetConnectionString("ProjectClock"));
                 
             });
+
+            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.ExpireTimeSpan = TimeSpan.FromDays(1);
+        options.SlidingExpiration = true;
+        options.LoginPath = "/Account/Login";
+
+    });
 
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
@@ -46,7 +56,7 @@ namespace ProjectClock.MVC
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Account}/{action=Login}/{id?}");
 
             app.Run();
         }

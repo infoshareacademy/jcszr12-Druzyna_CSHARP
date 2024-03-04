@@ -1,0 +1,57 @@
+﻿@using ProjectClock.BusinessLogic.Dtos.AccountDtos
+@model RegisterDto
+@{
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+    ViewData["Title"] = "Register";
+}
+
+<div class="container-fluid form-body m-0 py-5">
+    <div class="container border-primary rounded-4 pt-2 text-white bg-opacity-25 bg-white col-lg-4">
+        <h1 class="text-center pt-5">@ViewData["Title"]</h1>
+        <div class="row justify-content-center">
+            <div class=" col-8 my-2">
+                <form id="registerForm" method="post">
+                    
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-floating my-2">
+                        <input asp-for="@Model.FirstName" class="form-control" autocomplete="firstName" aria-required="true" />
+                        <label asp-for="@Model.FirstName" class="form-label"></label>
+                        <span asp-validation-for="@Model.FirstName" class="invalid-feedback text-danger"></span>
+                    </div>
+                    <div class="form-floating my-2">
+                        <input asp-for="@Model.LastName" class="form-control" autocomplete="LastName" aria-required="true" />
+                        <label asp-for="@Model.LastName" class="form-label"></label>
+                        <span asp-validation-for="@Model.LastName" class="invalid-feedback text-danger"></span>
+                    </div>
+                    <div class="form-floating my-2">
+                        <input asp-for="@Model.Email" class="form-control" autocomplete="email" aria-required="true" />
+                        <label asp-for="@Model.Email" class="form-label"></label>
+                        <span asp-validation-for="@Model.Email" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating my-2">
+                        <input asp-for="@Model.Password" class="form-control" aria-required="true" />
+                        <label asp-for="@Model.Password" class="form-label"></label>
+                        <span asp-validation-for="@Model.Password" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating my-2">
+                        <input asp-for="@Model.ConfirmPassword" class="form-control" aria-required="true" />
+                        <label asp-for="@Model.ConfirmPassword" class="form-label"></label>
+                        <span asp-validation-for="@Model.ConfirmPassword" class="invalid-feedback text-danger"></span>
+                    </div>
+                    <button id="registerSubmit" type="submit" class=" w-50 btn btn-lg btn-outline-primary rounded-5">Register</button>
+                    <div class="mt-4 text-center">
+                        <p class="text-dark">
+                            Already have an account? <a asp-action="Login">Sign in</a>
+                        </p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

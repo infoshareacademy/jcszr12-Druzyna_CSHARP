@@ -17,13 +17,5 @@ namespace ProjectClock.Database.Extensions
             services.AddScoped<IUserServices, UserServices>();
             services.AddScoped<IAccountService, AccountService>();
         }
-        public static void AddApplication(this IServiceCollection services)
-        {
-
-            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-            services.AddValidatorsFromAssemblyContaining<CreateStandardCardCommandValidator>()
-                .AddFluentValidationAutoValidation()
-                .AddFluentValidationClientsideAdapters();
-        }
     }
 }

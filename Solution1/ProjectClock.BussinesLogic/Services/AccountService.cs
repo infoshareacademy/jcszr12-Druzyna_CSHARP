@@ -87,7 +87,7 @@ namespace ProjectClock.BusinessLogic.Services
             }
 
             resultDto.LoginWasSuccessful = true;
-            resultDto.Id = user.Id;
+            resultDto.UserId = user.Id;
             resultDto.ClaimsIdentity = GetClaimsIdentity(user.Id, user.name);
             resultDto.AuthProp = GetAuthProp(dto.RememberMe);
 
@@ -134,7 +134,7 @@ namespace ProjectClock.BusinessLogic.Services
 
         public async Task<EditPasswordResultDto> EditAccountPassword(EditPasswordDto dto)
         {
-            var user = await _dbContext.Accounts.FirstAsync(u => u.Id == dto.Id);
+            var user = await _dbContext.Accounts.FirstAsync(u => u.Id == dto.UserId);
 
             var resultDto = new EditPasswordResultDto();
 

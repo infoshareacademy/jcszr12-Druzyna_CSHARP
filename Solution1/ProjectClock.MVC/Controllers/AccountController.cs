@@ -14,12 +14,10 @@ namespace ProjectClock.MVC.Controllers
     public class AccountController : Controller
     {
         private readonly IAccountService _accountService;
-        private readonly IMapper _mapper;
 
         public AccountController(IAccountService accountService, IMapper mapper)
         {
             _accountService = accountService;
-            _mapper = mapper;
         }
 
         [AllowAnonymous]
@@ -49,7 +47,7 @@ namespace ProjectClock.MVC.Controllers
                 new ClaimsPrincipal(resultDto.ClaimsIdentity),
                 resultDto.AuthProp);
 
-            return RedirectToAction("index", "Project");
+            return RedirectToAction("index", "Home");
         }
 
         [AllowAnonymous]
@@ -62,14 +60,14 @@ namespace ProjectClock.MVC.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Register(RegisterDto dto)
         {
-            if (!ModelState.IsValid)
-            {
-                return View(dto);
-            }
+            //if (!ModelState.IsValid)
+            //{
+            //    return View(dto);
+            //}
 
             
             var resultDto = await _accountService.RegisterAccount(dto);
-            _mapper.Map(resultDto, dto);
+            
 
             if (resultDto.RegistrationFailed)
             {
@@ -84,7 +82,7 @@ namespace ProjectClock.MVC.Controllers
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
-            return RedirectToAction("index", "Home");
+            return RedirectToAction("account", "Login");
         }
 
         [Authorize(Roles = "User")]
@@ -122,7 +120,7 @@ namespace ProjectClock.MVC.Controllers
                 return View(resultDto);
             }
 
-            return RedirectToAction("Details", "User");
+            return RedirectToAction("Index", "Home");
         }
 
         [Authorize(Roles = "User")]
@@ -135,7 +133,7 @@ namespace ProjectClock.MVC.Controllers
 
             var dto = new EditPasswordDto
             {
-                Id = userId
+                UserId = userId
             };
 
             return View(dto);
@@ -157,7 +155,7 @@ namespace ProjectClock.MVC.Controllers
                 return View(resultDto);
             }
 
-            return RedirectToAction("Details", "User");
+            return RedirectToAction("Index", "Home");
         }
 
         [Authorize(Roles = "User")]
@@ -168,24 +166,23 @@ namespace ProjectClock.MVC.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            var model = new DeleteAccountModel()
+            var dto = new DeleteAccountDto()
             {
-                UserId = userId
+                Id = userId
             };
 
-            return View(model);
+            return View(dto);
         }
 
         [HttpPost]
         [Authorize(Roles = "User")]
-        public async Task<IActionResult> Delete(DeleteAccountModel model)
+        public async Task<IActionResult> Delete(DeleteAccountDto dto)
         {
             if (!ModelState.IsValid)
             {
-                return View(model);
+                return View(dto);
             }
 
-            var dto = _mapper.Map<DeleteAccountModel, DeleteAccountDto>(model);
             var deletionSuccessful = await _accountService.DeleteAccount(dto);
 
             if (deletionSuccessful)
@@ -193,8 +190,8 @@ namespace ProjectClock.MVC.Controllers
                 return RedirectToAction("Logout");
             }
 
-            model.DeleteAccountFailed = true;
-            return View(model);
+            dto.DeleteAccountFailed = true;
+            return View(dto);
         }
     }
 }
