@@ -55,7 +55,7 @@ namespace ProjectClock.Database.Migrations
                     b.ToTable("Accounts");
                 });
 
-            modelBuilder.Entity("ProjectClock.Database.Entities.Project", b =>
+            modelBuilder.Entity("ProjectClock.Database.Entities.Organization", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -68,6 +68,46 @@ namespace ProjectClock.Database.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.ToTable("Organizations");
+                });
+
+            modelBuilder.Entity("ProjectClock.Database.Entities.OrganizationUser", b =>
+                {
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OrganizationId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsOwner")
+                        .HasColumnType("bit");
+
+                    b.HasKey("UserId", "OrganizationId");
+
+                    b.HasIndex("OrganizationId");
+
+                    b.ToTable("OrganizationUser");
+                });
+
+            modelBuilder.Entity("ProjectClock.Database.Entities.Project", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("OrganizationId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrganizationId");
 
                     b.ToTable("Projects");
                 });
@@ -102,18 +142,23 @@ namespace ProjectClock.Database.Migrations
 
             modelBuilder.Entity("ProjectClock.Database.Entities.UserProject", b =>
                 {
-                    b.Property<int>("UserId")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("ProjectId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Id")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.HasKey("UserId", "ProjectId");
+                    b.HasKey("Id");
 
                     b.HasIndex("ProjectId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("UserProject");
                 });
@@ -135,23 +180,14 @@ namespace ProjectClock.Database.Migrations
                     b.Property<int>("ProjectId")
                         .HasColumnType("int");
 
-                    b.Property<string>("ProjectName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime?>("StartTime")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("TotalWorkTime")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
-
-                    b.Property<string>("UserName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -162,16 +198,46 @@ namespace ProjectClock.Database.Migrations
                     b.ToTable("WorkingTimes");
                 });
 
+            modelBuilder.Entity("ProjectClock.Database.Entities.OrganizationUser", b =>
+                {
+                    b.HasOne("ProjectClock.Database.Entities.Organization", "Organization")
+                        .WithMany("OrganizationUsers")
+                        .HasForeignKey("OrganizationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ProjectClock.Database.Entities.User", "User")
+                        .WithMany("OrganizationUsers")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Organization");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("ProjectClock.Database.Entities.Project", b =>
+                {
+                    b.HasOne("ProjectClock.Database.Entities.Organization", "Organization")
+                        .WithMany("Projects")
+                        .HasForeignKey("OrganizationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Organization");
+                });
+
             modelBuilder.Entity("ProjectClock.Database.Entities.UserProject", b =>
                 {
                     b.HasOne("ProjectClock.Database.Entities.Project", "Project")
-                        .WithMany()
+                        .WithMany("UserProjects")
                         .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("ProjectClock.Database.Entities.User", "User")
-                        .WithMany()
+                        .WithMany("UserProjects")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -200,13 +266,26 @@ namespace ProjectClock.Database.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("ProjectClock.Database.Entities.Organization", b =>
+                {
+                    b.Navigation("OrganizationUsers");
+
+                    b.Navigation("Projects");
+                });
+
             modelBuilder.Entity("ProjectClock.Database.Entities.Project", b =>
                 {
+                    b.Navigation("UserProjects");
+
                     b.Navigation("WorkingTimes");
                 });
 
             modelBuilder.Entity("ProjectClock.Database.Entities.User", b =>
                 {
+                    b.Navigation("OrganizationUsers");
+
+                    b.Navigation("UserProjects");
+
                     b.Navigation("WorkingTimes");
                 });
 #pragma warning restore 612, 618

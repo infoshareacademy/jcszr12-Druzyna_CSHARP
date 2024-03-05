@@ -44,13 +44,15 @@ namespace ProjectClock.BusinessLogic.Services
                     }
 
 
-                    string projectName = workingTime.ProjectName;
+                    string projectName = workingTime.Project.Name;
                     var existingProject = await _projectClockDbContext.Projects.FirstOrDefaultAsync(p=>p.Name == projectName);
 
                     if (existingProject != null)
                     {
                         workingTime.Project = existingProject;
                     }
+
+
 
                     await _projectClockDbContext.WorkingTimes.AddAsync(workingTime);
                     await _projectClockDbContext.SaveChangesAsync();

@@ -12,9 +12,10 @@ namespace ProjectClock.Database.Entities
         [Required]
         public string Email { get; set; }
         public Position UserPosition { get; set; }
-        public List<Project> Projects { get; set; } = new List<Project>();
+        public List<UserProject> UserProjects { get; set; } = new List<UserProject>();
         public List<WorkingTime> WorkingTimes { get; set; } = new List<WorkingTime>();
-
+        
+        public List<OrganizationUser> OrganizationUsers { get; set; }
 
         public User(string name, string surname, string email)
         {
