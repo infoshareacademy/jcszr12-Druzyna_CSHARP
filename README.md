@@ -17,7 +17,3 @@ Project clock is a concise program designed to facilitate the tracking of time d
 ![ProjectClockFirstDiagram](ProjectClockFirstDiagram.jpg)
 
 
-## Time Entry - data flow:
-
-![Time Entry - data flow](Working%20time%20recorder/Working%20time%20recorder%20-%20Start%20flow.jpg)
-
