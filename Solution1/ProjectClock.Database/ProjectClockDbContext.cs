@@ -16,6 +16,8 @@ namespace ProjectClock.Database
         public DbSet<Project> Projects { get; set; }
         public DbSet<WorkingTime> WorkingTimes { get; set; }
 
+        public DbSet<Organization> Organizations { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
            modelBuilder.Entity<WorkingTime>()
@@ -27,22 +29,6 @@ namespace ProjectClock.Database
 
             modelBuilder.Entity<User>(eb =>
             {
-                eb.HasMany(u => u.Projects)
-                .WithMany(u => u.Users)
-                .UsingEntity<UserProject>(
-                    u => u.HasOne(up => up.Project)
-                    .WithMany()
-                   .HasForeignKey(up => up.ProjectId),
-
-                   u => u.HasOne(up => up.User)
-                   .WithMany()
-                   .HasForeignKey(up => up.UserId),
-
-                   up =>
-                    {
-                        up.HasKey(x => new { x.UserId, x.ProjectId });
-                    });
-
                 eb.HasMany(u => u.WorkingTimes)
                 .WithOne(u => u.User)
                 .HasForeignKey(u => u.UserId);
@@ -57,8 +43,9 @@ namespace ProjectClock.Database
                 .HasForeignKey(u => u.ProjectId);
 
             });
-         
 
+            modelBuilder.Entity<OrganizationUser>().HasKey(x => new { x.UserId, x.OrganizationId });
+           
         }
     }
 }

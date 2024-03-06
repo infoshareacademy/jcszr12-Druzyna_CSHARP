@@ -18,15 +18,20 @@ namespace ProjectClock.DatabaseTests
                 UserServices userServices = new UserServices(dbContext);
                 ProjectServices projectServices = new ProjectServices(dbContext);
                 WorkingTimeServices workingTimeServices = new WorkingTimeServices(dbContext);
-
-
+               
+                Organization org = new Organization() { Name = "BigOrganiaztion" };
+                Project project = new Project() { Name = "NBA.com", Organization = org };
                 User user = new User("Scottie", "Pippen", "scottie@gmail.com");
+                user.UserProjects.Add(new UserProject() {Project = project});
                 User user2 = new User("Michael", "Jordan", "jordan@gmail.com");
                 User user3 = new User("Luc", "Longley", "longley@gmail.com");
-                Project project = new Project() { Name = "NBA.com" };
-                Project project2 = new Project() { Name = "ShittyLand" };
-                Project project3 = new Project() { Name = "PorkStattion" };
-                WorkingTime wt = new WorkingTime() { User = user, Project = project, ProjectName = project.Name, UserName = user.Name };
+                
+                Project project2 = new Project() { Name = "ShittyLand", Organization = org };
+                Project project3 = new Project() { Name = "PorkStattion", Organization = org };
+              
+                WorkingTime wt = new WorkingTime() { User = user, Project = project};
+                WorkingTime wt2 = new WorkingTime() { User = user2, Project = project2};
+
 
                 await userServices.Create(user);
                 await userServices.Create(user2);
@@ -36,7 +41,9 @@ namespace ProjectClock.DatabaseTests
                 await projectServices.Create(project3);
                 await workingTimeServices.Create(wt);
 
-
+                User user4 = new User("John", "Hancock", "hancock@gmail.com");
+                Project project4 = new Project() { Name = "SRC Keybord" };
+                await workingTimeServices.Create(wt2);
                 Console.WriteLine("End");
             }
 

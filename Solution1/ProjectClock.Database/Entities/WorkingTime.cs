@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.Tracing;
 using System.Linq;
 using System.Text;
@@ -14,8 +15,6 @@ namespace ProjectClock.Database.Entities
         public int ProjectId { get; set; }
         public User User { get; set; }
         public int UserId { get; set; }
-        public string ProjectName { get; set; }
-        public string UserName { get; set; }
         public DateTime? StartTime { get; set; } = DateTime.UtcNow;
         public DateTime? EndTime { get; set; }
         public TimeSpan? TotalWorkTime { get; set; }

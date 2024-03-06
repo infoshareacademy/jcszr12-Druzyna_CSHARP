@@ -36,6 +36,9 @@ namespace ProjectClock.MVC
 
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
+            builder.Services.AddTransient<IProjectServices, ProjectServices>();
+            builder.Services.AddTransient<IUserServices, UserServices>();
+            builder.Services.AddTransient<IWorkingTimeServices, WorkingTimeServices>();
 
             var app = builder.Build();
 

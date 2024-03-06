@@ -44,13 +44,15 @@ namespace ProjectClock.BusinessLogic.Services
                     }
 
 
-                    string projectName = workingTime.ProjectName;
+                    string projectName = workingTime.Project.Name;
                     var existingProject = await _projectClockDbContext.Projects.FirstOrDefaultAsync(p=>p.Name == projectName);
 
                     if (existingProject != null)
                     {
                         workingTime.Project = existingProject;
                     }
+
+
 
                     await _projectClockDbContext.WorkingTimes.AddAsync(workingTime);
                     await _projectClockDbContext.SaveChangesAsync();
@@ -152,6 +154,13 @@ namespace ProjectClock.BusinessLogic.Services
             }
         }
 
+        public async Task<int> GetId(WorkingTime workingTime)
+        {
+            var wt = _projectClockDbContext.WorkingTimes.FirstOrDefaultAsync(wt =>
+                wt.Project.Name == workingTime.Project.Name && wt.User.Email == workingTime.User.Email);
+
+            return wt.Id;
+        }
 
     }
 
