@@ -12,7 +12,7 @@ using ProjectClock.Database;
 namespace ProjectClock.Database.Migrations
 {
     [DbContext(typeof(ProjectClockDbContext))]
-    [Migration("20240305185837_init")]
+    [Migration("20240306144137_init")]
     partial class init
     {
         /// <inheritdoc />
