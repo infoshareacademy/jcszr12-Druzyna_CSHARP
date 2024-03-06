@@ -154,6 +154,13 @@ namespace ProjectClock.BusinessLogic.Services
             }
         }
 
+        public async Task<int> GetId(WorkingTime workingTime)
+        {
+            var wt = _projectClockDbContext.WorkingTimes.FirstOrDefaultAsync(wt =>
+                wt.Project.Name == workingTime.Project.Name && wt.User.Email == workingTime.User.Email);
+
+            return wt.Id;
+        }
 
     }
 
