@@ -15,3 +15,10 @@
 
     <li>Your invitations</li>
 </ul>
+
+@{
+    foreach (var organization in Model )
+    {
+        <p> Id: @organization.Id Name: @organization.Name</p>
+    }
+}

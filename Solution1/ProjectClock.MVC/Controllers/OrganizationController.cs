@@ -7,9 +7,9 @@ namespace ProjectClock.MVC.Controllers
 {
     public class OrganizationController : Controller
     {
-        private OrganizationServices _organizationServices;
+        private IOrganizationServices _organizationServices;
 
-        public OrganizationController(OrganizationServices organizationServices)
+        public OrganizationController(IOrganizationServices organizationServices)
         {
             _organizationServices = organizationServices;
         }
@@ -21,7 +21,7 @@ namespace ProjectClock.MVC.Controllers
             return View(list);
         }
 
-      
+        
         // GET: OrganizationController/Details/5
         public ActionResult Details(int id)
         {
