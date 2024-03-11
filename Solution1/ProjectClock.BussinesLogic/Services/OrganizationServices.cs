@@ -9,7 +9,17 @@ using ProjectClock.Database.Entities;
 
 namespace ProjectClock.BusinessLogic.Services
 {
-    public class OrganizationServices
+    public interface IOrganizationServices
+    {
+        Task<bool> Create(Organization organization);
+        Task<Organization> GetById(int id);
+        Task<List<Organization>> GetAll();
+        Task Update(Organization model);
+        Task<bool> Delete(int id);
+        Task<bool> OrganizationExist(string name);
+    }
+
+    public class OrganizationServices : IOrganizationServices
     {
         private ProjectClockDbContext _projectClockDbContext;
 
@@ -89,7 +99,7 @@ namespace ProjectClock.BusinessLogic.Services
 
         }
 
-        private async Task<bool> OrganizationExist(string name)
+        public async Task<bool> OrganizationExist(string name)
         {
             return await _projectClockDbContext.Projects.AsNoTracking().AnyAsync(u => u.Name == name);
         }

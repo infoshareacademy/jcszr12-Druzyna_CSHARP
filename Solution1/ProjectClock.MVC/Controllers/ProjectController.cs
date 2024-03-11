@@ -22,7 +22,6 @@ namespace ProjectClock.MVC.Controllers
         }
         public IActionResult Create()
         {
-            
             return View();
         }
         [HttpPost]
