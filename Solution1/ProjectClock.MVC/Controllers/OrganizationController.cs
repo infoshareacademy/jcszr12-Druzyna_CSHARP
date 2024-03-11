@@ -15,12 +15,13 @@ namespace ProjectClock.MVC.Controllers
         }
 
         // GET: OrganizationController
-        public ActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var list = _organizationServices.GetAll();
+            var list = await _organizationServices.GetAll();
             return View(list);
         }
 
+      
         // GET: OrganizationController/Details/5
         public ActionResult Details(int id)
         {
