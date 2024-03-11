@@ -18,6 +18,10 @@ namespace ProjectClock.Database.Seeders
 
         public async Task Seed()
         {
+            Organization org = new Organization() { Name = "IBM" };
+            Organization org2 = new Organization() { Name = "Coca-Cola" };
+
+
             if (await _dbContext.Database.CanConnectAsync())
             {
 
@@ -34,14 +38,16 @@ namespace ProjectClock.Database.Seeders
 
                 if (!_dbContext.Projects.Any())
                 {
-                    Project project = new Project() { Name = "NBA.com" };
-                    Project project2 = new Project() { Name = "ShittyLand" };
-                    Project project3 = new Project() { Name = "PorkStattion" };
+                    Project project = new Project() { Name = "NBA.com", Organization = org };
+                    Project project2 = new Project() { Name = "ShittyLand", Organization = org };
+                    Project project3 = new Project() { Name = "PorkStattion", Organization = org2 };
                     List<Project> projects = new List<Project>() { project, project2, project3};
 
                     _dbContext.Projects.AddRangeAsync(projects);
                     await _dbContext.SaveChangesAsync();
                 }
+
+
 
             }
         }
