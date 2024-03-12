@@ -2,8 +2,12 @@
 
 <style>
     .transparent-border {
-        border: 2px solid rgba(255, 255, 255, 0.4);
+        border: 2px solid rgba(0, 74, 122, 0.4);
         padding: 10px; 
+    }
+
+    .column-spacing {
+        margin-right: 4px; /* Możesz dostosować wielkość odstępu według potrzeb */
     }
 </style>
 
@@ -11,56 +15,51 @@
 
 <div class="container-lg">
     <div class="row">
-        <div class="col-md-3 transparent-border">
+        <div class="col-md-3 transparent-border mx-auto">
             @using (Html.BeginForm("Create", "Organization", FormMethod.Post))
             {
-                <div class="mb-3">
+                <div class="mb-2"> 
                     <label for="organizationName" class="form-label">Create new organization</label>
-                    <input type="text" name="Name" class="form-control" id="Name" aria-describedby="organizationHelp">
-                    <div id="organizationHelp" class="form-text">Put organization name here</div>
+                    <input type="text" name="Name" class="form-control form-control-sm" id="Name" placeholder="Type name here">
                 </div>
-                <button type="submit" class="btn btn-primary">Create</button>
+                <button type="submit" class="btn btn-primary btn-sm">Create</button> 
+
             }
         </div>
     </div>
     <br />
+   
+        <div class="row">
+            <div class="col-md-3 col-3 mb-3 transparent-border">
+                Choose your organization
+                <select class="form-select form-select-sm" aria-label="Small select example">
+                    @{
+                        foreach (var organization in Model)
+                        {
+                            <option value="@organization">@organization.Name</option>
+                        }
+                    } 
+                </select>
+            </div>
 
-    <div class="row">
+            <div class="col-md-3 col-3 mb-3 transparent-border">
+                Invite to organization
+            </div>
 
-        <div class="col-md-3 transparent-border">
-            Choose your organization
+            <div class="col-md-3 col-3 mb-3 transparent-border">
+                Hired people
+            </div>
+
+            <div class="col-md-3 col-3 mb-3 transparent-border">
+                Manage users
+            </div>
         </div>
-
-        <div class="col-md-3 transparent-border">
-            Invite to organization
-        </div>
-
-        <div class="col-md-3 transparent-border">
-            Hired people
-        </div>
-
-        <div class="col-md-3 transparent-border">
-            Manage users
-        </div>
-
-    </div>
-    
     <br/>
     
     <div class="row">
-
-        <div class="col-md-3 transparent-border">
+        <div class="col-md-3 col-3 mb-3 transparent-border">
             Your invitations
         </div>
 
     </div>
 </div>
-
-<br/>
-
-@{
-    foreach (var organization in Model)
-    {
-        <p> Id: @organization.Id Name: @organization.Name</p>
-    }
-}

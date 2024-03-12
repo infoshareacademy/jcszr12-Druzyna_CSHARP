@@ -40,7 +40,7 @@ namespace ProjectClock.BusinessLogic.Services
                 }
                 else
                 {
-                    _projectClockDbContext.Organizations.Add(organization);
+                    await _projectClockDbContext.Organizations.AddAsync(organization);
                     await _projectClockDbContext.SaveChangesAsync();
                     return true;
 
@@ -93,7 +93,7 @@ namespace ProjectClock.BusinessLogic.Services
 
             }
             catch (Exception)
-            {
+            { 
                 return false;
             }
 
