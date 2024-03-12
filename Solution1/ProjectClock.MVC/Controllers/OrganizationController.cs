@@ -42,10 +42,11 @@ namespace ProjectClock.MVC.Controllers
         {
             try
             {
-                if (!ModelState.IsValid)
-                {
-                    return View(model);
-                }
+                //if (!ModelState.IsValid)
+                //{
+                //    return View(model);
+                //}
+
                 _organizationServices.Create(model);
 
                 return RedirectToAction(nameof(Index));

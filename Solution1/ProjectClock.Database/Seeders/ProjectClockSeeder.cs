@@ -32,7 +32,7 @@ namespace ProjectClock.Database.Seeders
                     User user3 = new User("Luc", "Longley", "longley@gmail.com");
                     List<User> users = new List<User>() { user, user2, user3 };
 
-                    _dbContext.Users.AddRangeAsync(users);
+                    await _dbContext.Users.AddRangeAsync(users);
                     await _dbContext.SaveChangesAsync();
                 }
 
@@ -43,7 +43,7 @@ namespace ProjectClock.Database.Seeders
                     Project project3 = new Project() { Name = "PorkStattion", Organization = org2 };
                     List<Project> projects = new List<Project>() { project, project2, project3};
 
-                    _dbContext.Projects.AddRangeAsync(projects);
+                    await _dbContext.Projects.AddRangeAsync(projects);
                     await _dbContext.SaveChangesAsync();
                 }
 

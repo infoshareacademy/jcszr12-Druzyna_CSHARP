@@ -101,7 +101,7 @@ namespace ProjectClock.BusinessLogic.Services
 
         public async Task<bool> OrganizationExist(string name)
         {
-            return await _projectClockDbContext.Projects.AsNoTracking().AnyAsync(u => u.Name == name);
+            return await _projectClockDbContext.Organizations.AsNoTracking().AnyAsync(u => u.Name == name);
         }
     }
 }

@@ -17,7 +17,7 @@ namespace ProjectClock.Database.Extensions
             services.AddScoped<IUserServices, UserServices>();
             services.AddScoped<IAccountService, AccountService>();
             services.AddTransient<IWorkingTimeServices, WorkingTimeServices>();
-            services.AddTransient<IOrganizationServices, OrganizationServices>();
+            services.AddScoped<IOrganizationServices, OrganizationServices>();
         }
     }
 }
