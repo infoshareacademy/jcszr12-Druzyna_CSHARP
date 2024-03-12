@@ -47,7 +47,7 @@ namespace ProjectClock.MVC.Controllers
                 //    return View(model);
                 //}
 
-                _organizationServices.Create(model);
+                await _organizationServices.Create(model);
 
                 return RedirectToAction(nameof(Index));
             }
