@@ -23,7 +23,7 @@
                             <span asp-validation-for="@Model.Email" class="text-danger"></span>
                         </div>
                         <div class="form-floating my-2 text-start">
-                            <input asp-for="@Model.Password" class="form-control" autocomplete="current-password" aria-required="true" />
+                            <input type="password" asp-for="@Model.Password" class="form-control" autocomplete="current-password" aria-required="true" />
                             <label asp-for="@Model.Password" class="form-label"></label>
                             <span asp-validation-for="@Model.Password" class="text-danger"></span>
                         </div>

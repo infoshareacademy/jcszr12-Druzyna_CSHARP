@@ -1,0 +1,27 @@
+﻿@using ProjectClock.BusinessLogic.Dtos.AccountDtos
+
+@model EditEmailDto
+
+<h1 class="text-center p-2">Change a email</h1>
+
+<br>
+<div class="row justify-content-center">
+    <div class="col-md-4">
+        <form action="EditEmail">
+            <div class="form-floating my-2">
+                <input asp-for="@Model.CurrentEmail" class="form-control" autocomplete="email" aria-required="true" />
+                <label asp-for="@Model.CurrentEmail" class="form-label"></label>
+                <span asp-validation-for="@Model.CurrentEmail" class="text-danger"></span>
+            </div>
+            <div class="form-floating my-2">
+                <input asp-for="@Model.NewEmail" class="form-control" autocomplete="email" aria-required="true" />
+                <label asp-for="@Model.NewEmail" class="form-label"></label>
+                <span asp-validation-for="@Model.NewEmail" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <input value="Change" type="submit" class="btn btn-primary">
+            </div>
+        </form>
+    </div>
+</div>
+
