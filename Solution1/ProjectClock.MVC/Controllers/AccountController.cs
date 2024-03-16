@@ -89,20 +89,7 @@ namespace ProjectClock.MVC.Controllers
         [Authorize(Roles = "User")]
         public async Task<IActionResult> EditEmail()
         {
-            if (!HttpContext.User.Claims.TryGetAuthenticatedUserId(out var userId))
-            {
-                return RedirectToAction("Index", "Home");
-            }
-
-            var accountEmail = await _accountService.GetAccountEmail(userId);
-
-            var dto = new EditEmailDto
-            {
-                Id = userId,
-                CurrentEmail = accountEmail
-            };
-
-            return View(dto);
+            return View();
         }
 
         [HttpPost]
@@ -113,12 +100,19 @@ namespace ProjectClock.MVC.Controllers
             {
                 return View(dto);
             }
+            if (!HttpContext.User.Claims.TryGetAuthenticatedUserId(out var userId))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            dto.Id = userId;
 
             var resultDto = await _accountService.EditAccountEmail(dto);
 
             if (resultDto.EditEmailFailed)
             {
-                return View(resultDto);
+                dto.Result = resultDto;
+                return View(dto);
             }
 
             return RedirectToAction("Index", "Home");
@@ -127,17 +121,7 @@ namespace ProjectClock.MVC.Controllers
         [Authorize(Roles = "User")]
         public ActionResult EditPassword()
         {
-            if (!HttpContext.User.Claims.TryGetAuthenticatedUserId(out var userId))
-            {
-                return RedirectToAction("Index", "Home");
-            }
-
-            var dto = new EditPasswordDto
-            {
-                UserId = userId
-            };
-
-            return View(dto);
+            return View();
         }
 
         [HttpPost]
@@ -148,12 +132,19 @@ namespace ProjectClock.MVC.Controllers
             {
                 return View(dto);
             }
-          
+            if (!HttpContext.User.Claims.TryGetAuthenticatedUserId(out var userId))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            dto.UserId = userId;
+
             var resultDto = await _accountService.EditAccountPassword(dto);
 
             if (resultDto.EditPasswordFailed)
             {
-                return View(resultDto);
+                dto.Result = resultDto;
+                return View(dto);
             }
 
             return RedirectToAction("Index", "Home");
@@ -161,18 +152,8 @@ namespace ProjectClock.MVC.Controllers
 
         [Authorize(Roles = "User")]
         public IActionResult Delete()
-        {
-            if (!HttpContext.User.Claims.TryGetAuthenticatedUserId(out var userId))
-            {
-                return RedirectToAction("Index", "Home");
-            }
-
-            var dto = new DeleteAccountDto()
-            {
-                Id = userId
-            };
-
-            return View(dto);
+        {      
+            return View();
         }
 
         [HttpPost]
@@ -183,6 +164,13 @@ namespace ProjectClock.MVC.Controllers
             {
                 return View(dto);
             }
+            if (!HttpContext.User.Claims.TryGetAuthenticatedUserId(out var userId))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            dto.Id = userId;
+
 
             var deletionSuccessful = await _accountService.DeleteAccount(dto);
 
