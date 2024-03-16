@@ -39,6 +39,7 @@ namespace ProjectClock.MVC.Controllers
 
             if (!resultDto.LoginWasSuccessful)
             {
+                dto.LoginWasSuccessful = false;
                 return View(dto);
             }
 
@@ -56,6 +57,34 @@ namespace ProjectClock.MVC.Controllers
             return View();
         }
 
+        [Authorize(Roles = "User")]
+        public async Task<IActionResult> ChangeEmail()
+        {
+            if (!HttpContext.User.Claims.TryGetAuthenticatedUserId(out var userId))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            return View();
+        }
+        [Authorize(Roles = "User")]
+        public async Task<IActionResult> ChangePassword()
+        {
+            if (!HttpContext.User.Claims.TryGetAuthenticatedUserId(out var userId))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            return View();
+        }
+        [Authorize(Roles = "User")]
+        public async Task<IActionResult> DeleteAccount()
+        {
+            if (!HttpContext.User.Claims.TryGetAuthenticatedUserId(out var userId))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            return View();
+        }
+
         [HttpPost]
         [AllowAnonymous]
         public async Task<IActionResult> Register(RegisterDto dto)
@@ -67,10 +96,10 @@ namespace ProjectClock.MVC.Controllers
 
 
             var resultDto = await _accountService.RegisterAccount(dto);
-            
+            dto.Results = resultDto;
 
             if (resultDto.RegistrationFailed)
-            {
+            {             
                 return View(dto);
             }
 

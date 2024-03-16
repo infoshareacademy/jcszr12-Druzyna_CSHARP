@@ -14,10 +14,12 @@ namespace ProjectClock.BusinessLogic.Dtos.Validators
         {
             RuleFor(c => c.FirstName)
                 .NotEmpty()
+                .WithMessage("Insert name")
                 .MinimumLength(2);
 
             RuleFor(c => c.LastName)
                 .NotEmpty()
+                .WithMessage("Insert surname")
                 .MinimumLength(2);
 
             RuleFor(c => c.Email)

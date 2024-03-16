@@ -2,7 +2,6 @@
 using FluentValidation.AspNetCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using ProjectClock.BusinessLogic.Dtos.AccountsValidatorsDto;
 using ProjectClock.BusinessLogic.Dtos.Validators;
 using ProjectClock.BusinessLogic.Services;
 using ProjectClock.BusinessLogic.Dtos.Validators;

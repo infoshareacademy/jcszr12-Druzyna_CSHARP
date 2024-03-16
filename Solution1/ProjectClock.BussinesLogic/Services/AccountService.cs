@@ -61,7 +61,7 @@ namespace ProjectClock.BusinessLogic.Services
                 LastName = dto.LastName,
                 Email = dto.Email,
                 PasswordSalt = salt,
-                PasswordHash = passwordHash
+                PasswordHash = passwordHash,
             };
 
             await _dbContext.Accounts.AddAsync(newAccount);
@@ -230,6 +230,15 @@ namespace ProjectClock.BusinessLogic.Services
         };
 
             return new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+        }
+
+        public async Task<AccountDto> GetAccountDetails(int Id)
+        {
+            var account = await _dbContext.Accounts
+                .Where(u => u.Id == Id)
+                .Select(u => new AccountDto { FirstName = u.FirstName, LastName = u.LastName, Email = u.Email })
+                .FirstOrDefaultAsync();
+            return account;    
         }
     }
 }
