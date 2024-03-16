@@ -68,6 +68,7 @@ namespace ProjectClock.MVC.Controllers
 
             var resultDto = await _accountService.RegisterAccount(dto);
             
+
             if (resultDto.RegistrationFailed)
             {
                 return View(dto);
