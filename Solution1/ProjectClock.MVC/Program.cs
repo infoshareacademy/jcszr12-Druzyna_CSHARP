@@ -4,6 +4,7 @@ using System.Configuration;
 using ProjectClock.Database.Seeders;
 using ProjectClock.BusinessLogic.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using ProjectClock.BusinessLogic.Dtos.Validators;
 
 namespace ProjectClock.MVC
 {
@@ -18,6 +19,8 @@ namespace ProjectClock.MVC
 
             builder.Services.AddInfrastructure(builder.Configuration);
             builder.Services.AddServices(builder.Configuration);
+
+            
 
             builder.Services.AddDbContext<ProjectClock.Database.ProjectClockDbContext>(options =>
             {

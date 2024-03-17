@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ProjectClock.BusinessLogic.Services;
 using ProjectClock.Database.Entities;
 
@@ -15,16 +16,22 @@ namespace ProjectClock.MVC.Controllers
             _serviceProject = serviceProject;
             
         }
+
+        [Authorize(Roles = "User")]
         public async Task<IActionResult> Index()
         {
             var list = await _serviceProject.GetAll();
             return View(list);
         }
+
+        [Authorize(Roles = "User")]
         public IActionResult Create()
         {
             
             return View();
         }
+
+        [Authorize(Roles = "User")]
         [HttpPost]
         public async Task<IActionResult> Create(Project project)
         {
@@ -32,7 +39,7 @@ namespace ProjectClock.MVC.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        //TO DO refactor remove method we need insert project name not id
+        [Authorize(Roles = "User")]
         [Route("Project/{name}")]
         public async Task<IActionResult> Delete(string name)
         {
