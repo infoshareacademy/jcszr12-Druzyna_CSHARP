@@ -1,18 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using ProjectClock.BusinessLogic.Dtos.WorkingTime.WorkingTimeDtos;
 using ProjectClock.Database;
 using ProjectClock.Database.Entities;
 
 namespace ProjectClock.BusinessLogic.Services
 {
-    public interface IWorkingTimeServices
-    {
-        Task<bool> Create(WorkingTime workingTime);
-        Task<WorkingTime>? GetById(int id);
-        Task<List<WorkingTime>> GetAll();
-        Task Update(WorkingTime model);
-        Task<bool> Delete(int id);
-        bool WorkingTimeExist(WorkingTime workingTime);
-    }
 
     public class WorkingTimeServices : IWorkingTimeServices
     {
@@ -23,47 +15,25 @@ namespace ProjectClock.BusinessLogic.Services
             _projectClockDbContext = projectClockDbContext;
         }
 
-        public async Task<bool> Create(WorkingTime workingTime)
+        public async Task<bool> Create(StartWorkingTimeDto dto)
         {
-            try
-            {
-                
-                if (WorkingTimeExist(workingTime))
-                {
-                    throw new Exception($"There is record with the same User and Project");
-                    return false;
-                }
-                else
-                {
-                    string userEmail = workingTime.User.Email;
-                    var existingUser = await _projectClockDbContext.Users.FirstOrDefaultAsync(u => u.Email == userEmail);
-                    
-                    if (existingUser != null)
-                    {
-                        workingTime.User = existingUser;
-                    }
-
-
-                    string projectName = workingTime.Project.Name;
-                    var existingProject = await _projectClockDbContext.Projects.FirstOrDefaultAsync(p=>p.Name == projectName);
-
-                    if (existingProject != null)
-                    {
-                        workingTime.Project = existingProject;
-                    }
-
-
-
-                    await _projectClockDbContext.WorkingTimes.AddAsync(workingTime);
-                    await _projectClockDbContext.SaveChangesAsync();
-
-                    return true;
-                }
-            }
-            catch (Exception)
+            if (WorkingTimeExist(dto))
             {
                 return false;
             }
+            var project = await _projectClockDbContext.Projects.FirstOrDefaultAsync(p => p.Name == dto.ProjectName);
+            var user = await _projectClockDbContext.Users.FirstOrDefaultAsync(u => u.Id == dto.UserId);
+
+            var workingTime = new WorkingTime()
+            {
+                Project = project,
+                User = user,
+                StartTime = DateTime.UtcNow,
+            };
+                await _projectClockDbContext.WorkingTimes.AddAsync(workingTime);
+                await _projectClockDbContext.SaveChangesAsync();
+
+                return true;
         }
 
         public async Task<WorkingTime?> GetById(int id)
@@ -76,13 +46,11 @@ namespace ProjectClock.BusinessLogic.Services
             return await _projectClockDbContext.WorkingTimes.ToListAsync();
         }
 
-        public async Task Update(WorkingTime model)
+        public async Task Update(UpdateWorkingTimeDto dto)
         {
-            var workingTime = await GetById(model.Id);
+            var workingTime = await _projectClockDbContext.WorkingTimes.FirstOrDefaultAsync();
 
-            workingTime.StartTime = model.StartTime;
-            workingTime.EndTime = model.EndTime;
-            workingTime.Description = model.Description;
+           
 
             await _projectClockDbContext.SaveChangesAsync();
         }
@@ -112,10 +80,10 @@ namespace ProjectClock.BusinessLogic.Services
 
         }
 
-        public bool WorkingTimeExist(WorkingTime workingTime)
+        public bool WorkingTimeExist(StartWorkingTimeDto dto)
         {
             return _projectClockDbContext.WorkingTimes.AsNoTracking().Any(wt =>
-                wt.Project.Name == workingTime.Project.Name && wt.User.Email == workingTime.User.Email);
+                wt.Project.Name == dto.ProjectName && wt.User.Id == dto.UserId);
         }
 
         public bool WorkingTimeExist(int id)
@@ -123,7 +91,7 @@ namespace ProjectClock.BusinessLogic.Services
             return _projectClockDbContext.WorkingTimes.AsNoTracking().Any(wt => wt.Id == id);
         }
 
-        public async Task<bool> StopWork (WorkingTime workingTime)
+        public async Task<bool> StopWork(WorkingTime workingTime)
         {
             try
             {

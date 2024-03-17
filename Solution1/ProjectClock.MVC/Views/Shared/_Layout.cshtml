@@ -49,7 +49,7 @@
                 </li>
             }
 
-            <li class="list-group-item col-lg bg-white bg-opacity-25 rounded-2 m-1 p-2 box-shadow">
+            <li class="list-group-item col-lg text-bg-info bg-opacity-50 rounded-2 m-1 p-2 box-shadow">
                 <div class="row">
                     <ul class="col-lg-3 nav flex-column box-shadow m-1 p-1 b-0">
                         <li class="list-group-item text-center m-1 p-1"><a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><i class="bi bi-clock fs-1 text-center"></i>   Project Clock</a></li>
@@ -75,7 +75,7 @@
                                         <li class="nav-item btn-nav">
                                             <a class="nav-link text-white" asp-area="" asp-controller="Project" asp-action="Index">Projects</a>
                                         </li>
-                                        <li class="nav-item dropend btn-nav">
+                                        <li class="nav-item dropdown btn-nav">
                                             <a class="@(controller =="Raport" ? "btn-active" : "") nav-link text-white dropdown-toggle" href="#" id="raportDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 Generate Report for
                                             </a>
@@ -93,7 +93,7 @@
                                         </li>
 
                                     }
-                                    <li class="nav-item dropend btn-nav">
+                                    <li class="nav-item dropdown btn-nav">
                                         <a class=" @(controller =="Account" ? "btn-active" : "") nav-link text-white dropdown-toggle " href="#" id="raportDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 User settings
                                             </a>
@@ -138,7 +138,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2024 - ProjectClock.MVC - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2024 - ProjectClock
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
