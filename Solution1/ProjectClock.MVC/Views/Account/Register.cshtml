@@ -11,7 +11,14 @@
         <div class="row justify-content-center">
             <div class=" col-8 my-2">
                 <form id="registerForm" method="post">
-                    
+                    @if (Model is not null && !Model.Results.PasswordsAreEqual)
+                    {
+                        <p class="text-warning text-bg-warning p-1">Password is not equal</p>
+                    }
+                    @if (Model is not null && Model.Results.EmailAlreadyInUse)
+                    {
+                        <p class="text-warning text-bg-warning p-1">Email is taken</p>
+                    }                  
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-floating my-2">
                         <input asp-for="@Model.FirstName" class="form-control" autocomplete="firstName" aria-required="true" />
@@ -29,12 +36,12 @@
                         <span asp-validation-for="@Model.Email" class="text-danger"></span>
                     </div>
                     <div class="form-floating my-2">
-                        <input asp-for="@Model.Password" class="form-control" aria-required="true" />
+                        <input type="password" asp-for="@Model.Password" class="form-control" aria-required="true" />
                         <label asp-for="@Model.Password" class="form-label"></label>
                         <span asp-validation-for="@Model.Password" class="text-danger"></span>
                     </div>
                     <div class="form-floating my-2">
-                        <input asp-for="@Model.ConfirmPassword" class="form-control" aria-required="true" />
+                        <input type="password" asp-for="@Model.ConfirmPassword" class="form-control" aria-required="true" />
                         <label asp-for="@Model.ConfirmPassword" class="form-label"></label>
                         <span asp-validation-for="@Model.ConfirmPassword" class="invalid-feedback text-danger"></span>
                     </div>

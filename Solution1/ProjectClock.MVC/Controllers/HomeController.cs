@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ProjectClock.BusinessLogic.Services;
 using ProjectClock.MVC.Models;
@@ -17,6 +18,7 @@ namespace ProjectClock.MVC.Controllers
             
         }
 
+        [Authorize(Roles = "User")]
         public async Task <IActionResult> Index()
         {
             var projects = await _serviceProject.GetAll();

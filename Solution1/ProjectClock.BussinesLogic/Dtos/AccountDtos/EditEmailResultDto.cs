@@ -11,6 +11,7 @@ namespace ProjectClock.BusinessLogic.Dtos.AccountDtos
         public bool EditEmailFailed { get; set; }
         public bool NewEmailIsCurrentEmail { get; set; }
         public bool NewEmailAlreadyInUse { get; set; }
-        public bool PasswordsAreEqual { get; set; }
+        public bool CurrentEmailIsIncorrect { get; set; }
+        public bool EmailsArentEqual { get; set; }
     }
 }

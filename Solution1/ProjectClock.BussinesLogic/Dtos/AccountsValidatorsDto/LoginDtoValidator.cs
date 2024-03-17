@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ProjectClock.BusinessLogic.Dtos.Validators
 {
-    public class LoginDtoValidator  : AbstractValidator<LoginDto>
+    public class LoginDtoValidator : AbstractValidator<LoginDto>
     {
         public LoginDtoValidator()
         {
