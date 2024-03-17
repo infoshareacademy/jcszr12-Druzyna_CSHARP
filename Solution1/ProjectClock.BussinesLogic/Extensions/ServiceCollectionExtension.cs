@@ -20,6 +20,7 @@ namespace ProjectClock.Database.Extensions
             services.AddScoped<IProjectServices, ProjectServices>();
             services.AddScoped<IUserServices, UserServices>();
             services.AddScoped<IAccountService, AccountService>();
+            services.AddScoped<IOrganizationServices, OrganizationServices>();
 
             services.AddValidatorsFromAssemblyContaining<LoginDtoValidator>()
                 .AddFluentValidationAutoValidation()
