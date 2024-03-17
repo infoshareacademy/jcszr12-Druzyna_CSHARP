@@ -6,6 +6,7 @@ using ProjectClock.BusinessLogic.Dtos.Validators;
 using ProjectClock.BusinessLogic.Services;
 using ProjectClock.BusinessLogic.Dtos.Validators;
 using ProjectClock.BusinessLogic.Dtos.Validators;
+using ProjectClock.BusinessLogic.Dtos.AccountsValidatorsDto;
 
 
 
@@ -25,6 +26,15 @@ namespace ProjectClock.Database.Extensions
                 .AddFluentValidationClientsideAdapters();
 
             services.AddValidatorsFromAssemblyContaining<RegisterDtoValidator>()
+                .AddFluentValidationAutoValidation()
+                .AddFluentValidationClientsideAdapters();
+            services.AddValidatorsFromAssemblyContaining<EditPasswordDtoValidator>()
+                .AddFluentValidationAutoValidation()
+                .AddFluentValidationClientsideAdapters();
+            services.AddValidatorsFromAssemblyContaining<EditEmailDtoValidator>()
+                .AddFluentValidationAutoValidation()
+                .AddFluentValidationClientsideAdapters();
+            services.AddValidatorsFromAssemblyContaining<DeleteAccountDtoValidator>()
                 .AddFluentValidationAutoValidation()
                 .AddFluentValidationClientsideAdapters();
 
