@@ -18,8 +18,10 @@ namespace ProjectClock.DatabaseTests
                 UserServices userServices = new UserServices(dbContext);
                 ProjectServices projectServices = new ProjectServices(dbContext);
                 WorkingTimeServices workingTimeServices = new WorkingTimeServices(dbContext);
+                OrganizationServices organizationService = new OrganizationServices(dbContext);
                
                 Organization org = new Organization() { Name = "BigOrganiaztion" };
+                Organization org2 = new Organization() { Name = "SmallOrganiaztion" };
                 Project project = new Project() { Name = "NBA.com", Organization = org };
                 User user = new User("Scottie", "Pippen", "scottie@gmail.com");
                 user.UserProjects.Add(new UserProject() {Project = project});
@@ -33,17 +35,18 @@ namespace ProjectClock.DatabaseTests
                 WorkingTime wt2 = new WorkingTime() { User = user2, Project = project2};
 
 
-                await userServices.Create(user);
-                await userServices.Create(user2);
-                await userServices.Create(user3);
-                await projectServices.Create(project);
-                await projectServices.Create(project2);
-                await projectServices.Create(project3);
-                await workingTimeServices.Create(wt);
+                //await userServices.Create(user);
+                //await userServices.Create(user2);
+                //await userServices.Create(user3);
+                //await projectServices.Create(project);
+                //await projectServices.Create(project2);
+                //await projectServices.Create(project3);
+                //await workingTimeServices.Create(wt);
+                await organizationService.Create(org2);
 
-                User user4 = new User("John", "Hancock", "hancock@gmail.com");
-                Project project4 = new Project() { Name = "SRC Keybord" };
-                await workingTimeServices.Create(wt2);
+                //User user4 = new User("John", "Hancock", "hancock@gmail.com");
+                //Project project4 = new Project() { Name = "SRC Keybord" };
+                //await workingTimeServices.Create(wt2);
                 Console.WriteLine("End");
             }
 

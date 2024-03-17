@@ -27,7 +27,6 @@ namespace ProjectClock.MVC.Controllers
         [Authorize(Roles = "User")]
         public IActionResult Create()
         {
-            
             return View();
         }
 
