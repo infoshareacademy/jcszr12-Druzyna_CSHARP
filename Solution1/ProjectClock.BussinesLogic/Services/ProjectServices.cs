@@ -81,7 +81,8 @@ namespace ProjectClock.BusinessLogic.Services
 
         public async Task<List<Project>> GetAll()
         {
-            return await _projectClockDbContext.Projects.ToListAsync();
+            var list = await _projectClockDbContext.Projects.ToListAsync();
+            return list;
         }
 
         public async Task Update(Project model)

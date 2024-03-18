@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace ProjectClock.BusinessLogic.Dtos.WorkingTime.WorkingTimeDtos
 {
-    public class StopWorkingTimeDto
+    public class StartStopWorkingTimeDto
     {
-        public int Id { get; set; }
+        public int Id { get; set; } 
+        public int UserId { get; set; }
+        public string ProjectName { get; set; } 
     }
 }

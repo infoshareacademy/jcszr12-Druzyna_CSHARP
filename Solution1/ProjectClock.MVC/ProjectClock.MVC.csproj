@@ -20,6 +20,11 @@
 		</PackageReference>
 		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.1" />
 	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Services\" />
+	  <Folder Include="Views\Project\Components\" />
+	</ItemGroup>
 	<PropertyGroup>
 		<LangVersion>latest</LangVersion>
 	</PropertyGroup>

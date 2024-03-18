@@ -15,7 +15,7 @@ namespace ProjectClock.BusinessLogic.Services
             _projectClockDbContext = projectClockDbContext;
         }
 
-        public async Task<bool> Create(StartWorkingTimeDto dto)
+        public async Task<bool> Create(StartStopWorkingTimeDto dto)
         {
             if (WorkingTimeExist(dto))
             {
@@ -80,7 +80,7 @@ namespace ProjectClock.BusinessLogic.Services
 
         }
 
-        public bool WorkingTimeExist(StartWorkingTimeDto dto)
+        public bool WorkingTimeExist(StartStopWorkingTimeDto dto)
         {
             return _projectClockDbContext.WorkingTimes.AsNoTracking().Any(wt =>
                 wt.Project.Name == dto.ProjectName && wt.User.Id == dto.UserId);
