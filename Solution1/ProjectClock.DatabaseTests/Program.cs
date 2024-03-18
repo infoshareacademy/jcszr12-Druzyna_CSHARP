@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ProjectClock.BusinessLogic.Services;
+using ProjectClock.BusinessLogic.Services.WorkingTimeServices;
 using ProjectClock.Database;
 using ProjectClock.Database.Entities;
 
@@ -17,7 +18,7 @@ namespace ProjectClock.DatabaseTests
             {
                 UserServices userServices = new UserServices(dbContext);
                 ProjectServices projectServices = new ProjectServices(dbContext);
-                WorkingTimeServices workingTimeServices = new WorkingTimeServices(dbContext);
+                
                 OrganizationServices organizationService = new OrganizationServices(dbContext);
                
                 Organization org = new Organization() { Name = "BigOrganiaztion" };

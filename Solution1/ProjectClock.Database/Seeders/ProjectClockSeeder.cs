@@ -9,7 +9,7 @@ namespace ProjectClock.Database.Seeders
 {
     public class ProjectClockSeeder
     {
-        private ProjectClockDbContext _dbContext;
+        private readonly ProjectClockDbContext _dbContext;
 
         public ProjectClockSeeder(ProjectClockDbContext dbContext)
         {
@@ -44,6 +44,28 @@ namespace ProjectClock.Database.Seeders
                     List<Project> projects = new List<Project>() { project, project2, project3};
 
                     await _dbContext.Projects.AddRangeAsync(projects);
+                    await _dbContext.SaveChangesAsync();
+                }
+
+                if (!_dbContext.WorkingTimes.Any())
+                {
+                   WorkingTime workingTime1 = new WorkingTime()
+                   {
+                       Project = new Project() { Name = "NBA1.com", Organization = org },
+                       User = new User("Luc", "Longley", "longley@gmail.com"),
+                   };
+                    WorkingTime workingTime2 = new WorkingTime()
+                    {
+                        Project = new Project() { Name = "NBA1.com", Organization = org },
+                        User = new User("Luc", "Longley", "longley@gmail.com"),
+                        StartTime = DateTime.Now.AddDays(-1),
+                        EndTime = DateTime.Now.AddHours(-1),
+                        Description = "good work"
+                   };
+
+                    List<WorkingTime> workingTimes = new List<WorkingTime>() { workingTime1, workingTime2 };
+
+                    await _dbContext.WorkingTimes.AddRangeAsync(workingTimes);
                     await _dbContext.SaveChangesAsync();
                 }
 

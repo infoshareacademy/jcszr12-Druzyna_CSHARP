@@ -13,23 +13,15 @@ namespace ProjectClock.Database.Entities
         public int Id { get; set; }
         public Project? Project { get; set; }
         public int ProjectId { get; set; }
-        public User User { get; set; }
-        public int UserId { get; set; } 
+        public User? User { get; set; }
+        public int UserId { get; set; }
         public DateTime? StartTime { get; set; } = DateTime.UtcNow;
         public DateTime? EndTime { get; set; }
         public TimeSpan? TotalWorkTime { get; set; }
         public string? Description { get; set; }
 
-        public WorkingTime()
-        {   
-            if (Project != null)
-            {
-                ProjectId = Project.Id;
-            }
-            if (User != null)
-            {
-                UserId = User.Id;
-            }
-        }
+        public bool IsFinished => EndTime != null;
+
+       
     }
 }

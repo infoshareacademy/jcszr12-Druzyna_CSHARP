@@ -1,7 +1,7 @@
 ﻿using ProjectClock.BusinessLogic.Dtos.WorkingTime.WorkingTimeDtos;
 using ProjectClock.Database.Entities;
 
-namespace ProjectClock.BusinessLogic.Services
+namespace ProjectClock.BusinessLogic.Services.WorkingTimeServices
 {
     public interface IWorkingTimeServices
     {
@@ -11,6 +11,7 @@ namespace ProjectClock.BusinessLogic.Services
         Task Update(UpdateWorkingTimeDto dto);
         Task<bool> Delete(int id);
         bool WorkingTimeExist(StartStopWorkingTimeDto dto);
+        Task<IEnumerable<NotFinisedWorkingTimeDto>> GetNotFinisedWorkingTimes();
     }
 
 }

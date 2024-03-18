@@ -17,6 +17,6 @@ namespace ProjectClock.Database.Entities
         public List<WorkingTime> WorkingTimes { get; set; } = new List<WorkingTime>();
         [ForeignKey("Organization")]
         public int OrganizationId { get; set; }
-        public Organization Organization { get; set; }
+        public Organization? Organization { get; set; }
     }
 }

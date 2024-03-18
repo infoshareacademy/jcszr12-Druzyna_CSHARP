@@ -1,0 +1,31 @@
+﻿@using ProjectClock.BusinessLogic.Dtos.WorkingTime.WorkingTimeDtos
+
+@model IEnumerable<NotFinisedWorkingTimeDto>
+
+@if (Model.Any())
+{
+
+    <li class="list-group-item col-lg text-bg-info bg-opacity-50 rounded-2 p-1 m-1 box-shadow">
+        <div class="container">
+            <h2 class="text-center">Projects in progress</h2>
+            <div class="row justify-content-center ">
+                <div class="row-md-4">
+                    <form action="/TimeEntry/Stop" method="update">
+                        <div class="row mb-3">
+                            <label for="name" class="control-label">Project</label>
+                            <select name="name" class="form-select form-select-lg">                          
+                             @foreach (var project in Model)
+                            {
+                            <option value="@project.ProjectName">@project.ProjectName</option>
+                            } 
+                            </select>
+                        </div>
+                        <div class=" row mb-3">
+                            <input value="Stop" type="submit" class="btn btn-primary">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </li>
+}

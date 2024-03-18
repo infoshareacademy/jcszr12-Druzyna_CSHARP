@@ -4,7 +4,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ProjectClock.BusinessLogic.Dtos.AccountsValidatorsDto;
 using ProjectClock.BusinessLogic.Dtos.Validators;
+using ProjectClock.BusinessLogic.Mapping;
 using ProjectClock.BusinessLogic.Services;
+using ProjectClock.BusinessLogic.Services.WorkingTimeServices;
 
 
 
@@ -14,11 +16,14 @@ namespace ProjectClock.Database.Extensions
     {
         public static void AddServices(this IServiceCollection services, IConfiguration configuration)
         {
+            services.AddAutoMapper(typeof(WorkingTimeMappingProfile));
+
 
             services.AddScoped<IProjectServices, ProjectServices>();
             services.AddScoped<IUserServices, UserServices>();
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IOrganizationServices, OrganizationServices>();
+            services.AddScoped<IWorkingTimeServices, WorkingTimeServices>();
 
             services.AddValidatorsFromAssemblyContaining<LoginDtoValidator>()
                 .AddFluentValidationAutoValidation()
