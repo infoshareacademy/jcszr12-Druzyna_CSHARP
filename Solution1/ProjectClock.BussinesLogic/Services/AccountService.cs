@@ -67,7 +67,7 @@ namespace ProjectClock.BusinessLogic.Services
                 Email = dto.Email,
                 PasswordSalt = salt,
                 PasswordHash = passwordHash,
-                AccountProfile = user
+                User = user
             };
 
             await _dbContext.Accounts.AddAsync(newAccount);
@@ -257,6 +257,13 @@ namespace ProjectClock.BusinessLogic.Services
                 .Select(u => new AccountDto { FirstName = u.FirstName, LastName = u.LastName, Email = u.Email })
                 .FirstOrDefaultAsync();
             return account;    
+        }
+
+        public async Task<int> GetUserIdFromAccountId(int Id)
+        {
+            var account = await _dbContext.Accounts.FirstOrDefaultAsync(e => e.Id == Id);
+            var userId = account.UserId;
+            return userId;
         }
     }
 }

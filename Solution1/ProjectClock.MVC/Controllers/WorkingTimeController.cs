@@ -4,10 +4,10 @@ using ProjectClock.BusinessLogic.Services.WorkingTimeServices;
 
 namespace ProjectClock.MVC.Controllers
 {
-    public class TimeEntryController : Controller
+    public class WorkingTimeController : Controller
     {
         private readonly IWorkingTimeServices _workingTimeServices;
-        public TimeEntryController(IWorkingTimeServices workingTimeServices)
+        public WorkingTimeController(IWorkingTimeServices workingTimeServices)
         {
             _workingTimeServices = workingTimeServices;
         }

@@ -12,5 +12,6 @@ namespace ProjectClock.BusinessLogic.Services
         Task<AccountDto> GetAccountDetails(int Id);
         Task<LoginResultDto> LoginAccount(LoginDto dto);
         Task<RegisterResultDto> RegisterAccount(RegisterDto dto);
+        Task<int> GetUserIdFromAccountId(int Id);
     }
 }

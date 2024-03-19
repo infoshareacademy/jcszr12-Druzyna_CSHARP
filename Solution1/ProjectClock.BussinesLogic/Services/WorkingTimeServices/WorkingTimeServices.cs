@@ -17,6 +17,7 @@ public class WorkingTimeServices : IWorkingTimeServices
         _projectClockDbContext = projectClockDbContext;
         _mapper = mapper;
     }
+   
 
     public async Task<bool> Create(StartWorkingTimeDto dto)
     {
@@ -27,12 +28,20 @@ public class WorkingTimeServices : IWorkingTimeServices
         var project = await _projectClockDbContext.Projects.FirstOrDefaultAsync(p => p.Name == dto.ProjectName);
         var user = await _projectClockDbContext.Users.FirstOrDefaultAsync(u => u.Id == dto.UserId);
 
+        //if (!user.OrganizationUsers.Any(e => e.Organization == project.Organization))
+        //{
+        //    return false;
+        //}
+
+        //TO DO uncomment when method from HomeController start working
+
         var workingTime = new WorkingTime()
         {
             Project = project,
             User = user,
             StartTime = DateTime.UtcNow,
         };
+
         await _projectClockDbContext.WorkingTimes.AddAsync(workingTime);
         await _projectClockDbContext.SaveChangesAsync();
 

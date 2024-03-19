@@ -1,15 +1,16 @@
-﻿@model List<ProjectClock.Database.Entities.Project>
+﻿@using ProjectClock.BusinessLogic.Dtos.WorkingTime.WorkingTimeDtos
+@model StartWorkingTimeDto
 
 <h1 class="text-center p-2">Start track your project</h1>
 
 <br>
 <div class="row justify-content-center">
     <div class="col-md-4">
-        <form action="">
+        <form id="home" method="post">
             <div class="form-group mb-3">
-                <label for="Project" class="control-label">Project</label>
-                <select name="Project" class="form-select form-select-lg">
-                    @foreach(var project in @Model)
+                <label for="ProjectName" class="control-label">Project</label>
+                <select name="ProjectName" class="form-select form-select-lg">
+                    @foreach(var project in @Model.Projects)
                     {
                         <option value="@project.Name">@project.Name</option>
                     }                                                           

@@ -12,8 +12,8 @@ using ProjectClock.Database;
 namespace ProjectClock.Database.Migrations
 {
     [DbContext(typeof(ProjectClockDbContext))]
-    [Migration("20240319180458_account")]
-    partial class account
+    [Migration("20240319222354_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,13 +27,7 @@ namespace ProjectClock.Database.Migrations
 
             modelBuilder.Entity("ProjectClock.Database.Entities.Account", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("AccountProfileId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.Property<string>("Email")
@@ -43,6 +37,9 @@ namespace ProjectClock.Database.Migrations
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -56,9 +53,7 @@ namespace ProjectClock.Database.Migrations
                         .IsRequired()
                         .HasColumnType("varbinary(max)");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("AccountProfileId");
+                    b.HasKey("UserId");
 
                     b.ToTable("Accounts");
                 });
@@ -205,13 +200,13 @@ namespace ProjectClock.Database.Migrations
 
             modelBuilder.Entity("ProjectClock.Database.Entities.Account", b =>
                 {
-                    b.HasOne("ProjectClock.Database.Entities.User", "AccountProfile")
+                    b.HasOne("ProjectClock.Database.Entities.User", "User")
                         .WithMany()
-                        .HasForeignKey("AccountProfileId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("AccountProfile");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("ProjectClock.Database.Entities.OrganizationUser", b =>

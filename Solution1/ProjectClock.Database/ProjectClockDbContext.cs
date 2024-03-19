@@ -42,6 +42,10 @@ namespace ProjectClock.Database
                 .HasForeignKey(u => u.ProjectId);
 
             });
+            modelBuilder.Entity<Account>(eb =>
+            {
+                eb.HasKey(u => u.UserId);
+            });
 
             modelBuilder.Entity<OrganizationUser>().HasKey(x => new { x.UserId, x.OrganizationId });
            
