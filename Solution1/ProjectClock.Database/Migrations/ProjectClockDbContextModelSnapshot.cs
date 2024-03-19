@@ -30,6 +30,9 @@ namespace ProjectClock.Database.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("AccountProfileId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -51,6 +54,8 @@ namespace ProjectClock.Database.Migrations
                         .HasColumnType("varbinary(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AccountProfileId");
 
                     b.ToTable("Accounts");
                 });
@@ -132,9 +137,6 @@ namespace ProjectClock.Database.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserPosition")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.ToTable("Users");
@@ -196,6 +198,17 @@ namespace ProjectClock.Database.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("WorkingTimes");
+                });
+
+            modelBuilder.Entity("ProjectClock.Database.Entities.Account", b =>
+                {
+                    b.HasOne("ProjectClock.Database.Entities.User", "AccountProfile")
+                        .WithMany()
+                        .HasForeignKey("AccountProfileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AccountProfile");
                 });
 
             modelBuilder.Entity("ProjectClock.Database.Entities.OrganizationUser", b =>

@@ -5,12 +5,12 @@ namespace ProjectClock.BusinessLogic.Services.WorkingTimeServices
 {
     public interface IWorkingTimeServices
     {
-        Task<bool> Create(StartStopWorkingTimeDto dto);
+        Task<bool> Create(StartWorkingTimeDto dto);
         Task<WorkingTime>? GetById(int id);
         Task<List<WorkingTime>> GetAll();
         Task Update(UpdateWorkingTimeDto dto);
         Task<bool> Delete(int id);
-        bool WorkingTimeExist(StartStopWorkingTimeDto dto);
+        bool WorkingTimeExist(StartWorkingTimeDto dto);
         Task<IEnumerable<NotFinisedWorkingTimeDto>> GetNotFinisedWorkingTimes();
     }
 

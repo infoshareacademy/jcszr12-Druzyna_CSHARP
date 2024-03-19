@@ -20,6 +20,7 @@ namespace ProjectClock.Database.Entities
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
-             
+        public User AccountProfile { get; set; }
+
     }
 }

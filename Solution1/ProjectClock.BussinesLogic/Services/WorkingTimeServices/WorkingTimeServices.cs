@@ -18,7 +18,7 @@ public class WorkingTimeServices : IWorkingTimeServices
         _mapper = mapper;
     }
 
-    public async Task<bool> Create(StartStopWorkingTimeDto dto)
+    public async Task<bool> Create(StartWorkingTimeDto dto)
     {
         if (WorkingTimeExist(dto))
         {
@@ -83,7 +83,7 @@ public class WorkingTimeServices : IWorkingTimeServices
 
     }
 
-    public bool WorkingTimeExist(StartStopWorkingTimeDto dto)
+    public bool WorkingTimeExist(StartWorkingTimeDto dto)
     {
         return _projectClockDbContext.WorkingTimes.AsNoTracking().Any(wt =>
             wt.Project.Name == dto.ProjectName && wt.User.Id == dto.UserId);

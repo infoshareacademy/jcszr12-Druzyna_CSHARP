@@ -27,11 +27,6 @@ namespace ProjectClock.MVC.Controllers
             return View();
         }
 
-        [HttpPatch]
-        public IActionResult Stop(StartStopWorkingTimeDto dto)
-        {
-            
-            return View();
-        }
+       
     }
 }

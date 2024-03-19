@@ -12,8 +12,8 @@ using ProjectClock.Database;
 namespace ProjectClock.Database.Migrations
 {
     [DbContext(typeof(ProjectClockDbContext))]
-    [Migration("20240318230455_add")]
-    partial class add
+    [Migration("20240319180458_account")]
+    partial class account
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -32,6 +32,9 @@ namespace ProjectClock.Database.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AccountProfileId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -54,6 +57,8 @@ namespace ProjectClock.Database.Migrations
                         .HasColumnType("varbinary(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AccountProfileId");
 
                     b.ToTable("Accounts");
                 });
@@ -135,9 +140,6 @@ namespace ProjectClock.Database.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserPosition")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.ToTable("Users");
@@ -199,6 +201,17 @@ namespace ProjectClock.Database.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("WorkingTimes");
+                });
+
+            modelBuilder.Entity("ProjectClock.Database.Entities.Account", b =>
+                {
+                    b.HasOne("ProjectClock.Database.Entities.User", "AccountProfile")
+                        .WithMany()
+                        .HasForeignKey("AccountProfileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AccountProfile");
                 });
 
             modelBuilder.Entity("ProjectClock.Database.Entities.OrganizationUser", b =>

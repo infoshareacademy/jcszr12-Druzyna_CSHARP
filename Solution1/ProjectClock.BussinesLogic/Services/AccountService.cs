@@ -15,10 +15,12 @@ namespace ProjectClock.BusinessLogic.Services
     public class AccountService : IAccountService
     {
         private readonly ProjectClockDbContext _dbContext;
+        private readonly IUserServices _userService;
 
-        public AccountService(ProjectClockDbContext dbContext)
+        public AccountService(ProjectClockDbContext dbContext, IUserServices userServices)
         {
             _dbContext = dbContext;
+            _userService = userServices;
         }
 
         public async Task<RegisterResultDto> RegisterAccount(RegisterDto dto)
@@ -54,6 +56,9 @@ namespace ProjectClock.BusinessLogic.Services
 
             var salt = GeneratePasswordSalt();
             var passwordHash = GetHashedPassword(dto.Password, salt);
+           
+            await _userService.Create(new User(dto.FirstName, dto.LastName, dto.Email));
+            var user = await _dbContext.Users.SingleOrDefaultAsync(u => u.Name == dto.FirstName && u.Email == dto.Email);   
 
             var newAccount = new Account
             {
@@ -62,6 +67,7 @@ namespace ProjectClock.BusinessLogic.Services
                 Email = dto.Email,
                 PasswordSalt = salt,
                 PasswordHash = passwordHash,
+                AccountProfile = user
             };
 
             await _dbContext.Accounts.AddAsync(newAccount);

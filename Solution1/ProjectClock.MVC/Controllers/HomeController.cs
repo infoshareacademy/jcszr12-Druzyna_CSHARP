@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ProjectClock.BusinessLogic.Dtos.WorkingTime.WorkingTimeDtos;
 using ProjectClock.BusinessLogic.Services;
 using ProjectClock.MVC.Models;
 using System.Diagnostics;
@@ -21,8 +22,9 @@ namespace ProjectClock.MVC.Controllers
         [Authorize(Roles = "User")]
         public async Task <IActionResult> Index()
         {
-            var projects = await _serviceProject.GetAll();
-            return View(projects);
+            var dto = new StartWorkingTimeDto();
+            dto.projects = await _serviceProject.GetAll();
+            return View(dto);
         }
 
 

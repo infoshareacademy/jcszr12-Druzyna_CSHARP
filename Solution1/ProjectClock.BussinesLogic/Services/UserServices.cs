@@ -51,7 +51,6 @@ namespace ProjectClock.BusinessLogic.Services
 
             user.Name = model.Name;
             user.Email = model.Email;
-            user.UserPosition = model.UserPosition;
             user.Surname = model.Surname;
 
             await _projectClockDbContext.SaveChangesAsync();
