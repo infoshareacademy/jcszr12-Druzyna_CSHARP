@@ -42,5 +42,23 @@ namespace ProjectClock.MVC.Controllers
 
             return RedirectToAction("Index", "Home");
         }
+
+        public async Task<ActionResult> GetTime()
+        {
+            string data;
+            var dto = await _workingTimeServices.GetNotFinisedWorkingTimes();
+            if(dto != null)
+            {
+                var time = DateTime.Now - dto.Max(e => e.StartTime);
+                data = time.ToString(@"hh\:mm\:ss");
+            }
+            else
+            {
+                data = DateTime.Now.ToString(@"hh\:mm\:ss");
+            }
+            
+
+            return Content(data);
+        }
     }
 }

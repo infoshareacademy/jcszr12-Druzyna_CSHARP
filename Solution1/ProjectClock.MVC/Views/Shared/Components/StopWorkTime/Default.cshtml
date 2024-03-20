@@ -12,13 +12,16 @@
                 <div class="row-md-4">
                     <form action="/WorkingTime/Stop" method="post">
                         <div class="row mb-3">
-                            <label for="Id" class="control-label">Project</label>
-                            <select name="Id" class="form-select form-select-lg">
-                                @foreach (var workingTime in Model)
-                            {
-                                    <option value="@workingTime.WorkingTimeId">@workingTime.ProjectName</option>
-                            } 
-                            </select>
+                            <div class="col-md-8">
+                                <label for="Id" class="control-label">Project</label>
+                                <select name="Id" class="form-select form-select-lg">
+                                    @foreach (var workingTime in Model)
+                                    {
+                                        <option value="@workingTime.WorkingTimeId">@workingTime.ProjectName</option>
+                                    }
+                                </select>
+                            </div>                                                 
+                        <div class="col-md-4 mt-1" id="stopwatch"></div>
                         </div>
                         <div class=" row mb-3">
                             <input value="Stop" type="submit" class="btn btn-primary">
@@ -29,3 +32,19 @@
         </div>
     </li>
 }
+
+
+
+<script>
+    // Funkcja do aktualizacji czasu za pomocą AJAX co sekundę
+    function updateStopwatch() {
+        $.get('@Url.Action("GetTime", "WorkingTime")', function (data) {
+            $('#stopwatch').text(data);
+        });
+    }
+
+    // Uruchomienie funkcji aktualizacji co sekundę
+    $(document).ready(function () {
+        setInterval(updateStopwatch, 1000);
+    });
+</script>

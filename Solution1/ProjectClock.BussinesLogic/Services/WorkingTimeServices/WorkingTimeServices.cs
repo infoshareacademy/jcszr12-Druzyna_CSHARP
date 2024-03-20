@@ -94,7 +94,7 @@ public class WorkingTimeServices : IWorkingTimeServices
 
     public bool WorkingTimeExist(StartStopWorkingTimeDto dto)
     {
-        return _projectClockDbContext.WorkingTimes.AsNoTracking().Any(wt =>
+        return _projectClockDbContext.WorkingTimes.AsNoTracking().Any(wt => !wt.IsFinished &&
             wt.Project.Name == dto.ProjectName && wt.User.Id == dto.UserId);
     }
 

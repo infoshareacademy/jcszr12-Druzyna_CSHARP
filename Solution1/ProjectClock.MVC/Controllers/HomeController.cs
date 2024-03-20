@@ -46,11 +46,11 @@ namespace ProjectClock.MVC.Controllers
 
             dto.UserId = await _accountService.GetUserIdFromAccountId(accountId);
 
-            dto.Projects = await _projectService.GetAll();
+            
 
-            await _workingTimeServices.Create(dto);
+            await _workingTimeServices.Create(dto); 
 
-            return View(dto);
+            return RedirectToAction("Index", "Home");
         }
        
 
