@@ -36,14 +36,12 @@
 
 
 <script>
-    // Funkcja do aktualizacji czasu za pomocą AJAX co sekundę
     function updateStopwatch() {
         $.get('@Url.Action("GetTime", "WorkingTime")', function (data) {
             $('#stopwatch').text(data);
         });
     }
 
-    // Uruchomienie funkcji aktualizacji co sekundę
     $(document).ready(function () {
         setInterval(updateStopwatch, 1000);
     });

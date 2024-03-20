@@ -49,7 +49,7 @@ namespace ProjectClock.MVC.Controllers
             var dto = await _workingTimeServices.GetNotFinisedWorkingTimes();
             if(dto != null)
             {
-                var time = DateTime.Now - dto.Max(e => e.StartTime);
+                var time = DateTime.Now - dto.Min(e => e.StartTime);
                 data = time.ToString(@"hh\:mm\:ss");
             }
             else
