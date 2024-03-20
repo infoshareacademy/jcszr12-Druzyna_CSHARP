@@ -19,7 +19,7 @@ public class WorkingTimeServices : IWorkingTimeServices
     }
    
 
-    public async Task<bool> Create(StartWorkingTimeDto dto)
+    public async Task<bool> Create(StartStopWorkingTimeDto dto)
     {
         if (WorkingTimeExist(dto))
         {
@@ -92,7 +92,7 @@ public class WorkingTimeServices : IWorkingTimeServices
 
     }
 
-    public bool WorkingTimeExist(StartWorkingTimeDto dto)
+    public bool WorkingTimeExist(StartStopWorkingTimeDto dto)
     {
         return _projectClockDbContext.WorkingTimes.AsNoTracking().Any(wt =>
             wt.Project.Name == dto.ProjectName && wt.User.Id == dto.UserId);
@@ -103,20 +103,14 @@ public class WorkingTimeServices : IWorkingTimeServices
         return _projectClockDbContext.WorkingTimes.AsNoTracking().Any(wt => wt.Id == id);
     }
 
-    public async Task<bool> StopWork(WorkingTime workingTime)
+    public async Task<bool> StopWork(StartStopWorkingTimeDto dto)
     {
-        try
-        {
-            int id = workingTime.Id;
 
-            if (!WorkingTimeExist(id))
-            {
-                throw new Exception($"This record of WorkingTime doesn't exist");
-                return false;
-            }
-            else if (workingTime.StartTime is not null)
-            {
-                throw new Exception($"This record of WorkingTime hasn't started");
+        var workingTime = await _projectClockDbContext.WorkingTimes.SingleOrDefaultAsync(e => e.Id == dto.Id);
+
+            
+            if (workingTime.IsFinished)
+            {             
                 return false;
             }
             else
@@ -127,11 +121,8 @@ public class WorkingTimeServices : IWorkingTimeServices
                 return true;
             }
 
-        }
-        catch (Exception)
-        {
-            return false;
-        }
+        
+        
     }
 
     public async Task<int> GetId(WorkingTime workingTime)

@@ -14,6 +14,7 @@ namespace ProjectClock.BusinessLogic.Mapping
         public WorkingTimeMappingProfile()
         {
             CreateMap<WorkingTime, NotFinisedWorkingTimeDto>()
+            .ForMember(dest => dest.WorkingTimeId, opt => opt.MapFrom(src => src.Id))
             .ForMember(dest => dest.ProjectName, opt => opt.MapFrom(src => src.Project.Name))
             .ForMember(dest => dest.StartTime, opt => opt.MapFrom(src => src.StartTime))
             .ForMember(dest => dest.EndTime, opt => opt.MapFrom(src => src.EndTime))

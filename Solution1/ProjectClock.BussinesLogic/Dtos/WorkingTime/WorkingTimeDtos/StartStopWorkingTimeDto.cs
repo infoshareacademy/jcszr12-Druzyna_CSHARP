@@ -2,7 +2,7 @@
 
 namespace ProjectClock.BusinessLogic.Dtos.WorkingTime.WorkingTimeDtos;
 
-public class StartWorkingTimeDto
+public class StartStopWorkingTimeDto
 {
     public int Id { get; set; }
     public int UserId { get; set; }

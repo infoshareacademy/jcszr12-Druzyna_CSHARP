@@ -10,13 +10,13 @@
             <h2 class="text-center">Projects in progress</h2>
             <div class="row justify-content-center ">
                 <div class="row-md-4">
-                    <form action="/TimeEntry/Stop" method="update">
+                    <form action="/WorkingTime/Stop" method="post">
                         <div class="row mb-3">
-                            <label for="name" class="control-label">Project</label>
-                            <select name="name" class="form-select form-select-lg">                          
-                             @foreach (var project in Model)
+                            <label for="Id" class="control-label">Project</label>
+                            <select name="Id" class="form-select form-select-lg">
+                                @foreach (var workingTime in Model)
                             {
-                            <option value="@project.ProjectName">@project.ProjectName</option>
+                                    <option value="@workingTime.WorkingTimeId">@workingTime.ProjectName</option>
                             } 
                             </select>
                         </div>

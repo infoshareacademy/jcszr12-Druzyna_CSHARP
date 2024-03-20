@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ProjectClock.BusinessLogic.Dtos.WorkingTime.WorkingTimeDtos;
 using ProjectClock.BusinessLogic.Services.WorkingTimeServices;
+using ProjectClock.MVC.Extensions;
 
 namespace ProjectClock.MVC.Controllers
 {
@@ -27,6 +29,18 @@ namespace ProjectClock.MVC.Controllers
             return View();
         }
 
-       
+        [HttpPost]
+        [Authorize(Roles = "User")]
+        public async Task<IActionResult> Stop(StartStopWorkingTimeDto dto)
+        {
+            if (!HttpContext.User.Claims.TryGetAuthenticatedUserId(out var accountId))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            await _workingTimeServices.StopWork(dto);
+
+            return RedirectToAction("Index", "Home");
+        }
     }
 }

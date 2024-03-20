@@ -30,14 +30,14 @@ namespace ProjectClock.MVC.Controllers
         [Authorize(Roles = "User")]
         public async Task <IActionResult> Index()
         {
-            var dto = new StartWorkingTimeDto();
+            var dto = new StartStopWorkingTimeDto();
             dto.Projects = await _projectService.GetAll(); //TODO: Write method giving me only projects from user organization
             return View(dto);
         }
 
         [HttpPost]
         [Authorize(Roles = "User")]
-        public async Task<IActionResult> Index(StartWorkingTimeDto dto)
+        public async Task<IActionResult> Index(StartStopWorkingTimeDto dto)
         {
             if (!HttpContext.User.Claims.TryGetAuthenticatedUserId(out var accountId))
             {
@@ -52,6 +52,7 @@ namespace ProjectClock.MVC.Controllers
 
             return View(dto);
         }
+       
 
 
 

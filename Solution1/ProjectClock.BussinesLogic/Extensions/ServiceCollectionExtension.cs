@@ -19,11 +19,11 @@ namespace ProjectClock.Database.Extensions
             services.AddAutoMapper(typeof(WorkingTimeMappingProfile));
 
 
-            services.AddScoped<IProjectServices, ProjectServices>();
-            services.AddScoped<IUserServices, UserServices>();
-            services.AddScoped<IAccountService, AccountService>();
-            services.AddScoped<IOrganizationServices, OrganizationServices>();
-            services.AddScoped<IWorkingTimeServices, WorkingTimeServices>();
+            services.AddTransient<IProjectServices, ProjectServices>();
+            services.AddTransient<IUserServices, UserServices>();
+            services.AddTransient<IAccountService, AccountService>();
+            services.AddTransient<IOrganizationServices, OrganizationServices>();
+            services.AddTransient<IWorkingTimeServices, WorkingTimeServices>();
 
             services.AddValidatorsFromAssemblyContaining<LoginDtoValidator>()
                 .AddFluentValidationAutoValidation()
