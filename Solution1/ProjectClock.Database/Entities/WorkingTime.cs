@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Diagnostics.Tracing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ProjectClock.Database.Entities
+﻿namespace ProjectClock.Database.Entities
 {
     public class WorkingTime
     {

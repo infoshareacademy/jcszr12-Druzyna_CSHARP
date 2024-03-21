@@ -14,7 +14,6 @@ namespace ProjectClock.MVC.Controllers
         public ProjectController(IProjectServices serviceProject)
         {           
             _serviceProject = serviceProject;
-            
         }
 
         [Authorize(Roles = "User")]

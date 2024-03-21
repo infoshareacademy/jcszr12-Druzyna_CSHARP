@@ -1,12 +1,4 @@
-﻿using Microsoft.Identity.Client;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ProjectClock.Database.Entities
+﻿namespace ProjectClock.Database.Entities
 {
     public class Organization
     {

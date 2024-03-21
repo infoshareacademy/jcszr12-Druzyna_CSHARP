@@ -1,0 +1,21 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
+
+namespace ProjectClock.Database
+{
+    public class ProjectClockDbContextFactory : IDesignTimeDbContextFactory<ProjectClockDbContext>
+    {
+        public ProjectClockDbContext CreateDbContext(string[] args)
+        {
+            var optionsBuilder = new DbContextOptionsBuilder<ProjectClockDbContext>();
+            optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=EcommerceDb;Trusted_Connection=True;MultipleActiveResultSets=true");
+
+            return new ProjectClockDbContext(optionsBuilder.Options);
+        }
+    }
+}

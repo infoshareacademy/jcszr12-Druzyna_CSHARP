@@ -18,7 +18,7 @@ namespace ProjectClock.DatabaseTests
                 UserServices userServices = new UserServices(dbContext);
                 ProjectServices projectServices = new ProjectServices(dbContext);
                 WorkingTimeServices workingTimeServices = new WorkingTimeServices(dbContext);
-                OrganizationServices organizationService = new OrganizationServices(dbContext);
+                //OrganizationServices organizationService = new OrganizationServices(dbContext);
                
                 Organization org = new Organization() { Name = "BigOrganiaztion" };
                 Organization org2 = new Organization() { Name = "SmallOrganiaztion" };
@@ -42,7 +42,7 @@ namespace ProjectClock.DatabaseTests
                 //await projectServices.Create(project2);
                 //await projectServices.Create(project3);
                 //await workingTimeServices.Create(wt);
-                await organizationService.Create(org2);
+                //await organizationService.Create(org2);
 
                 //User user4 = new User("John", "Hancock", "hancock@gmail.com");
                 //Project project4 = new Project() { Name = "SRC Keybord" };

@@ -7,7 +7,7 @@ using ProjectClock.BusinessLogic.Services;
 using ProjectClock.BusinessLogic.Dtos.Validators;
 using ProjectClock.BusinessLogic.Dtos.Validators;
 using ProjectClock.BusinessLogic.Dtos.AccountsValidatorsDto;
-
+using ProjectClock.BusinessLogic.Mappings;
 
 
 namespace ProjectClock.Database.Extensions
@@ -21,6 +21,7 @@ namespace ProjectClock.Database.Extensions
             services.AddScoped<IUserServices, UserServices>();
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IOrganizationServices, OrganizationServices>();
+            services.AddAutoMapper(typeof(OrganizationMappingProfile));
 
             services.AddValidatorsFromAssemblyContaining<LoginDtoValidator>()
                 .AddFluentValidationAutoValidation()

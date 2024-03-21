@@ -1,0 +1,28 @@
+﻿@using ProjectClock.Database.Entities
+@model List<User>
+
+<div class="row">
+    <label for="selectedOrganization">Users</label>
+    <div class="col-md-3 col-3 mb-3 transparent-border col-md-3 transparent-border mx-auto" id="organizationSelect">
+        <form asp-controller="User" asp-action="GetUsersFromOrganization" method="post">
+            <label>Choose User</label>
+            <select class="form-select form-select-sm" aria-label="Small select example" id="selectedUser" name="id">
+                @{
+                    foreach (var user in Model)
+                    {
+                        <option value="@user.Id">@user.Name</option>
+                    }
+                }
+            </select>
+            <button type="submit" class="btn btn-outline-secondary text-center m-1">Choose</button>
+        </form>
+    </div>
+
+    <div class="col-md-3 col-3 mb-3 transparent-border">
+        Remove user
+    </div>
+
+    <div class="col-md-3 col-3 mb-3 transparent-border">
+        Add User
+    </div>
+</div>

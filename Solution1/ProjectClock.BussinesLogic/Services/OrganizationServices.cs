@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using ProjectClock.BusinessLogic.Dtos.OrganizationDto;
 using ProjectClock.Database;
 using ProjectClock.Database.Entities;
 
@@ -11,7 +13,7 @@ namespace ProjectClock.BusinessLogic.Services
 {
     public interface IOrganizationServices
     {
-        Task<bool> Create(Organization organization);
+        Task<bool> Create(OrganizationDto organizationDto);
         Task<Organization> GetById(int id);
         Task<List<Organization>> GetAll();
         Task Update(Organization model);
@@ -22,19 +24,23 @@ namespace ProjectClock.BusinessLogic.Services
     public class OrganizationServices : IOrganizationServices
     {
         private ProjectClockDbContext _projectClockDbContext;
+        private IMapper _mapper;
 
-        public OrganizationServices(ProjectClockDbContext projectClockDbContext)
+        public OrganizationServices(ProjectClockDbContext projectClockDbContext, IMapper mapper)
         {
             _projectClockDbContext = projectClockDbContext;
+            _mapper = mapper;
         }
 
-        public async Task<bool> Create(Organization organization)
+        public async Task<bool> Create(OrganizationDto organizationDto)
         {
+            var organization = _mapper.Map<Organization>(organizationDto);
+
             try
             {
                 if (await OrganizationExist(organization.Name))
                 {
-                    throw new Exception($"This organization already exist");
+                    throw new Exception($"This organization already exist");    
                     return false;
 
                 }

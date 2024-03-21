@@ -87,7 +87,7 @@ namespace ProjectClock.Database.Migrations
 
                     b.HasIndex("OrganizationId");
 
-                    b.ToTable("OrganizationUser");
+                    b.ToTable("OrganizationsUser");
                 });
 
             modelBuilder.Entity("ProjectClock.Database.Entities.Project", b =>
@@ -160,7 +160,7 @@ namespace ProjectClock.Database.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserProject");
+                    b.ToTable("UserProjects");
                 });
 
             modelBuilder.Entity("ProjectClock.Database.Entities.WorkingTime", b =>

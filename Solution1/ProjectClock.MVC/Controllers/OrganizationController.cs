@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ProjectClock.BusinessLogic.Dtos.OrganizationDto;
 using ProjectClock.BusinessLogic.Services;
 using ProjectClock.Database.Entities;
 
@@ -7,9 +8,11 @@ namespace ProjectClock.MVC.Controllers
     public class OrganizationController : Controller
     {
         private IOrganizationServices _organizationServices;
+        private IUserServices _userServices;
 
-        public OrganizationController(IOrganizationServices organizationServices)
+        public OrganizationController(IOrganizationServices organizationServices, IUserServices userServices)
         {
+            _userServices = userServices;
             _organizationServices = organizationServices;
         }
 
@@ -20,7 +23,7 @@ namespace ProjectClock.MVC.Controllers
             return View(list);
         }
 
-        
+
         // GET: OrganizationController/Details/5
         public ActionResult Details(int id)
         {
@@ -37,7 +40,7 @@ namespace ProjectClock.MVC.Controllers
         // POST: OrganizationController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Organization model)
+        public async Task<IActionResult> Create(OrganizationDto organizationDto)
         {
             try
             {
@@ -46,9 +49,9 @@ namespace ProjectClock.MVC.Controllers
                 //    return View(model);
                 //}
 
-                await _organizationServices.Create(model);
+                await _organizationServices.Create(organizationDto);
 
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Create));
             }
             catch
             {
@@ -103,5 +106,23 @@ namespace ProjectClock.MVC.Controllers
                 return View();
             }
         }
+
+
+        public async Task<IActionResult> Manage(OrganizationDto organizationDto)
+        {
+            var list = await _organizationServices.GetAll();
+            return View(list);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Choose(int id)
+        {
+            // Pobierz listę użytkowników dla danej organizacji na podstawie identyfikatora (id)
+            var users = await _userServices.GetAllFromOrganization(id);
+
+            // Przekazanie listy użytkowników jako modelu do częściowego widoku
+            return RedirectToAction("GetUsersFromOrganization", "User", new { users = users });
+        }
+
     }
 }

@@ -7,6 +7,7 @@ namespace ProjectClock.BusinessLogic.Services
     public class UserServices : IUserServices
     {
         private ProjectClockDbContext _projectClockDbContext;
+
         public UserServices(ProjectClockDbContext projectClockDbContext)
         {
             _projectClockDbContext = projectClockDbContext;
@@ -19,7 +20,7 @@ namespace ProjectClock.BusinessLogic.Services
                 if (await UserExist(user.Email))
                 {
                     throw new Exception($"This user already exist");
-                    
+
                 }
                 else
                 {
@@ -70,7 +71,7 @@ namespace ProjectClock.BusinessLogic.Services
                 }
                 else
                 {
-                    
+
                     _projectClockDbContext.Users.Remove(user);
                     await _projectClockDbContext.SaveChangesAsync();
                     return true;
@@ -88,6 +89,13 @@ namespace ProjectClock.BusinessLogic.Services
         {
             return await _projectClockDbContext.Users.AsNoTracking().AnyAsync(u => u.Email == email);
         }
+
+        public async Task<IEnumerable<User>> GetAllFromOrganization(int organizationId)
+        {
+            var users = await _projectClockDbContext.OrganizationsUser.Where(o => o.OrganizationId == organizationId)
+                .Select(u => u.User).ToListAsync();
+            return users;
+        }
     }
 
     public interface IUserServices
@@ -98,6 +106,7 @@ namespace ProjectClock.BusinessLogic.Services
         Task Update(User model);
         Task<bool> Delete(int id);
         Task<bool> UserExist(string email);
-
+        Task<IEnumerable<User>> GetAllFromOrganization(int organizationId);
     }
+
 }
