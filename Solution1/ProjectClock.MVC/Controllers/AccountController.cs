@@ -92,7 +92,7 @@ namespace ProjectClock.MVC.Controllers
             return View();
         }
 
-        [HttpPatch]
+        [HttpPost]
         [Authorize(Roles = "User")]
         public async Task<IActionResult> EditEmail(EditEmailDto dto)
         {
@@ -124,7 +124,7 @@ namespace ProjectClock.MVC.Controllers
             return View();
         }
 
-        [HttpPatch]
+        [HttpPost]
         [Authorize(Roles = "User")]
         public async Task<IActionResult> EditPassword(EditPasswordDto dto)
         {
@@ -156,7 +156,7 @@ namespace ProjectClock.MVC.Controllers
             return View();
         }
 
-        [HttpDelete]
+        [HttpPost]
         [Authorize(Roles = "User")]
         public async Task<IActionResult> Delete(DeleteAccountDto dto)
         {
