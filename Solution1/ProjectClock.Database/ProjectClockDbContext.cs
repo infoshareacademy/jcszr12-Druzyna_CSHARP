@@ -16,6 +16,8 @@ namespace ProjectClock.Database
         public DbSet<Project> Projects { get; set; }
         public DbSet<WorkingTime> WorkingTimes { get; set; }
         public DbSet<Organization> Organizations { get; set; }
+        public DbSet<UserProject> UserProjects { get; set; }
+        public DbSet<OrganizationUser> OrganizationsUsers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

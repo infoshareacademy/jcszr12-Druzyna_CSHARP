@@ -1,5 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using ProjectClock.BusinessLogic.Dtos.Organization;
+using ProjectClock.BusinessLogic.Dtos.OrganizationDto;
 using ProjectClock.BusinessLogic.Services;
+using ProjectClock.Database;
 using ProjectClock.Database.Entities;
 
 namespace ProjectClock.MVC.Controllers
@@ -7,9 +11,13 @@ namespace ProjectClock.MVC.Controllers
     public class OrganizationController : Controller
     {
         private IOrganizationServices _organizationServices;
+        private IUserServices _userServices;
+        private IMapper _mapper;
 
-        public OrganizationController(IOrganizationServices organizationServices)
+        public OrganizationController(IOrganizationServices organizationServices, IUserServices userServices, IMapper mapper)
         {
+            _mapper = mapper;
+            _userServices = userServices;
             _organizationServices = organizationServices;
         }
 
@@ -20,7 +28,7 @@ namespace ProjectClock.MVC.Controllers
             return View(list);
         }
 
-        
+
         // GET: OrganizationController/Details/5
         public ActionResult Details(int id)
         {
@@ -28,7 +36,6 @@ namespace ProjectClock.MVC.Controllers
             return View(organization);
         }
 
-        // GET: OrganizationController/Create
         public ActionResult Create()
         {
             return View();
@@ -37,7 +44,7 @@ namespace ProjectClock.MVC.Controllers
         // POST: OrganizationController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Organization model)
+        public async Task<IActionResult> Create(CreateOrganizationDto organizationDto)
         {
             try
             {
@@ -46,9 +53,9 @@ namespace ProjectClock.MVC.Controllers
                 //    return View(model);
                 //}
 
-                await _organizationServices.Create(model);
+                await _organizationServices.Create(organizationDto);
 
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Create));
             }
             catch
             {
@@ -57,9 +64,9 @@ namespace ProjectClock.MVC.Controllers
         }
 
         // GET: OrganizationController/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<ActionResult> Edit(int id)
         {
-            var model = _organizationServices.GetById(id);
+            var model = await _organizationServices.GetById(id);
             return View(model);
         }
 
@@ -103,5 +110,48 @@ namespace ProjectClock.MVC.Controllers
                 return View();
             }
         }
+
+
+        public async Task<IActionResult> Manage()
+        {
+            ManageOrganizationDto model = new ManageOrganizationDto();
+
+            var organizations = await _organizationServices.GetAll();
+
+            model.Organizations = organizations;
+            //model.Projects = new List<Project>();
+            //model.Users = new List<User>();
+
+            return View("Manage", model);
+
+
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Choose(int id)
+        {
+
+            ManageOrganizationDto model = new ManageOrganizationDto();
+
+            var organizations = await _organizationServices.GetAll();
+
+            model.Organizations = organizations;
+            var projects = model.Organizations.FirstOrDefault(o => o.Id == id).Projects.ToList();
+            model.Projects = model.Organizations.First(o => o.Id == id).Projects.ToList();
+            var user = model.Organizations.First(o => o.Id == id).OrganizationUsers.Select(ou => ou.User).ToList();
+            model.Users = model.Organizations.First(o => o.Id == id).OrganizationUsers.Select(ou => ou.User).ToList();
+
+
+
+            //model.Users = model.Organizations.First(o => o.Id == id).OrganizationUsers
+            //    .Where(o => o.Organization.Id == id).Select(u => u.User).ToList();
+
+            return View("Manage", model);
+
+                
+        }
+
+      
+
     }
 }

@@ -87,6 +87,30 @@ namespace ProjectClock.BusinessLogic.Services
         {
             return await _projectClockDbContext.Users.AsNoTracking().AnyAsync(u => u.Email == email);
         }
+
+        public async Task<IEnumerable<User>> GetAllFromOrganization(int organizationId)
+        {
+            var users = await _projectClockDbContext.OrganizationsUsers.Where(o => o.OrganizationId == organizationId)
+                .Select(u => u.User).ToListAsync();
+            return users;
+        }
+
+        public async Task<bool> SignUserToOrganization(User user, Organization organization)
+        {
+            try
+            {
+                OrganizationUser organizationUser = new OrganizationUser() { User = user, Organization = organization };
+                await _projectClockDbContext.OrganizationsUsers.AddAsync(organizationUser);
+                await _projectClockDbContext.SaveChangesAsync();
+                return true;
+
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
     }
 
     public interface IUserServices
