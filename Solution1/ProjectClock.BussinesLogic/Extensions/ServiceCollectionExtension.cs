@@ -2,12 +2,12 @@
 using FluentValidation.AspNetCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using ProjectClock.BusinessLogic.Dtos.Validators;
-using ProjectClock.BusinessLogic.Services;
-using ProjectClock.BusinessLogic.Dtos.Validators;
-using ProjectClock.BusinessLogic.Dtos.Validators;
 using ProjectClock.BusinessLogic.Dtos.AccountsValidatorsDto;
-using ProjectClock.BusinessLogic.Mappings;
+using ProjectClock.BusinessLogic.Dtos.Validators;
+using ProjectClock.BusinessLogic.Mapping;
+using ProjectClock.BusinessLogic.Services;
+using ProjectClock.BusinessLogic.Services.WorkingTimeServices;
+
 
 
 namespace ProjectClock.Database.Extensions
@@ -16,12 +16,12 @@ namespace ProjectClock.Database.Extensions
     {
         public static void AddServices(this IServiceCollection services, IConfiguration configuration)
         {
-
+            services.AddAutoMapper(typeof(WorkingTimeMappingProfile));
+            services.AddAutoMapper(typeof(OrganizationMappingProfile));
             services.AddScoped<IProjectServices, ProjectServices>();
             services.AddScoped<IUserServices, UserServices>();
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IOrganizationServices, OrganizationServices>();
-            services.AddAutoMapper(typeof(OrganizationMappingProfile));
 
             services.AddValidatorsFromAssemblyContaining<LoginDtoValidator>()
                 .AddFluentValidationAutoValidation()

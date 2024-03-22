@@ -1,0 +1,22 @@
+﻿@using ProjectClock.BusinessLogic.Dtos.WorkingTime.WorkingTimeDtos
+
+@model UpdateWorkingTimeDto
+
+<form id="Update" method="post">
+    <div class="mb-3">
+        <label for="selectedDateTime" class="form-label">Start time</label>
+        <input type="datetime-local" id="selectedDateTime" asp-for="@Model.StartTime" class="form-control" aria-describedby="dateTimeHelp" required />
+        <div id="dateTimeHelp" class="form-text">Please select a date and time.</div>
+    </div>
+    <div class="mb-3">
+        <label for="selectedDateTime" class="form-label">Stop time</label>
+        <input type="datetime-local" id="selectedDateTime" asp-for="@Model.EndTime" class="form-control" aria-describedby="dateTimeHelp" required />
+        <div id="dateTimeHelp" class="form-text">Please select a date and time.</div>
+    </div>
+    <div class="mb-3">
+        <label for="selectedDateTime" class="form-label">Description</label>
+        <input type="text" id="selectedDateTime" asp-for="@Model.Description" class="form-control" aria-describedby="dateTimeHelp" required />
+        <div id="dateTimeHelp" class="form-text">Please select a date and time.</div>
+    </div>
+    <button type="submit" class="btn btn-primary">Change</button>
+</form>

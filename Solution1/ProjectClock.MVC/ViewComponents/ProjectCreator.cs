@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-namespace ProjectClock.MVC.Services.Components
+namespace ProjectClock.MVC.ViewComponents
 {
     public class ProjectCreator : ViewComponent
     {
