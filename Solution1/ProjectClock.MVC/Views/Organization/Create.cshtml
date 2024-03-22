@@ -23,38 +23,12 @@
                     <input type="text" name="Name" class="form-control form-control-sm" id="Name" placeholder="Type name here">
                 </div>
                 <button type="submit" class="btn btn-primary btn-sm">Create</button> 
-
             }
         </div>
     </div>
     <br />
    
-        <div class="row">
-            <div class="col-md-3 col-3 mb-3 transparent-border">
-                Choose your organization
-                <select class="form-select form-select-sm" aria-label="Small select example">
-                    @{
-                        foreach (var organization in Model)
-                        {
-                            <option value="@organization">@organization.Name</option>
-                        }
-                    } 
-                </select>
-            </div>
-
-            <div class="col-md-3 col-3 mb-3 transparent-border">
-                Invite to organization
-            </div>
-
-            <div class="col-md-3 col-3 mb-3 transparent-border">
-                Hired people
-            </div>
-
-            <div class="col-md-3 col-3 mb-3 transparent-border">
-                Manage users
-            </div>
-        </div>
-    <br/>
+       
     
     <div class="row">
         <div class="col-md-3 col-3 mb-3 transparent-border">
