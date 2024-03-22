@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ProjectClock.BusinessLogic.Services;
-using ProjectClock.BusinessLogic.Services.WorkingTimeServices;
 using ProjectClock.Database;
 using ProjectClock.Database.Entities;
 

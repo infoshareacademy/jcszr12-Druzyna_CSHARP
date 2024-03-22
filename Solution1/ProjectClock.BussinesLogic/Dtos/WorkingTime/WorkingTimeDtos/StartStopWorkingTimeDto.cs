@@ -1,6 +1,4 @@
-﻿using ProjectClock.Database.Entities;
-
-namespace ProjectClock.BusinessLogic.Dtos.WorkingTime.WorkingTimeDtos;
+﻿namespace ProjectClock.BusinessLogic.Dtos.WorkingTime.WorkingTimeDtos;
 
 public class StartStopWorkingTimeDto
 {

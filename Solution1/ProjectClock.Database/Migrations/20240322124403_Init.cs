@@ -6,11 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ProjectClock.Database.Migrations
 {
     /// <inheritdoc />
-<<<<<<<< HEAD:Solution1/ProjectClock.Database/Migrations/20240322122511_Init.cs
     public partial class Init : Migration
-========
-    public partial class Initial : Migration
->>>>>>>> develop:Solution1/ProjectClock.Database/Migrations/20240319222354_Initial.cs
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -64,9 +60,6 @@ namespace ProjectClock.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
-<<<<<<<< HEAD:Solution1/ProjectClock.Database/Migrations/20240322122511_Init.cs
-                name: "OrganizationsUser",
-========
                 name: "Accounts",
                 columns: table => new
                 {
@@ -90,8 +83,7 @@ namespace ProjectClock.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "OrganizationUser",
->>>>>>>> develop:Solution1/ProjectClock.Database/Migrations/20240319222354_Initial.cs
+                name: "OrganizationsUser",
                 columns: table => new
                 {
                     UserId = table.Column<int>(type: "int", nullable: false),

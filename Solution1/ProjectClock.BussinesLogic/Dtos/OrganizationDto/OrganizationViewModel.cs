@@ -11,6 +11,6 @@ namespace ProjectClock.BusinessLogic.Dtos.OrganizationDto
     {
         public List<Organization> Organizations { get; set; }
         public List<User> Users { get; set; }
-        public List<Project> Projects { get; set; } = new List<Project>();
+        public List<Database.Entities.Project> Projects { get; set; } = new List<Database.Entities.Project>();
     }
 }
