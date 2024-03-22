@@ -13,7 +13,7 @@ namespace ProjectClock.Database
         public ProjectClockDbContext CreateDbContext(string[] args)
         {
             var optionsBuilder = new DbContextOptionsBuilder<ProjectClockDbContext>();
-            optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=EcommerceDb;Trusted_Connection=True;MultipleActiveResultSets=true");
+            optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=ProjectClock;Trusted_Connection=True;MultipleActiveResultSets=true");
 
             return new ProjectClockDbContext(optionsBuilder.Options);
         }

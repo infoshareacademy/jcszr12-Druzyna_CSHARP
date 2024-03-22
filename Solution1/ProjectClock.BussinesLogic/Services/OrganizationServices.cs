@@ -32,6 +32,11 @@ namespace ProjectClock.BusinessLogic.Services
             _mapper = mapper;
         }
 
+        public OrganizationServices(ProjectClockDbContext projectClockDbContext)
+        {
+            _projectClockDbContext = projectClockDbContext;
+        }
+
         public async Task<bool> Create(OrganizationDto organizationDto)
         {
             var organization = _mapper.Map<Organization>(organizationDto);

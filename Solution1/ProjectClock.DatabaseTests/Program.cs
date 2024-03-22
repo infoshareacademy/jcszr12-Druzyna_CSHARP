@@ -18,22 +18,24 @@ namespace ProjectClock.DatabaseTests
                 UserServices userServices = new UserServices(dbContext);
                 ProjectServices projectServices = new ProjectServices(dbContext);
                 WorkingTimeServices workingTimeServices = new WorkingTimeServices(dbContext);
-                //OrganizationServices organizationService = new OrganizationServices(dbContext);
-               
+                OrganizationServices organizationService = new OrganizationServices(dbContext);
+
                 Organization org = new Organization() { Name = "BigOrganiaztion" };
                 Organization org2 = new Organization() { Name = "SmallOrganiaztion" };
-                Project project = new Project() { Name = "NBA.com", Organization = org };
-                User user = new User("Scottie", "Pippen", "scottie@gmail.com");
-                user.UserProjects.Add(new UserProject() {Project = project});
+                //Project project = new Project() { Name = "NBA.com", Organization = org };
+                //User user = new User("Scottie", "Pippen", "scottie@gmail.com");
+                //user.UserProjects.Add(new UserProject() {Project = project});
                 User user2 = new User("Michael", "Jordan", "jordan@gmail.com");
                 User user3 = new User("Luc", "Longley", "longley@gmail.com");
-                
-                Project project2 = new Project() { Name = "ShittyLand", Organization = org };
-                Project project3 = new Project() { Name = "PorkStattion", Organization = org };
-              
-                WorkingTime wt = new WorkingTime() { User = user, Project = project};
-                WorkingTime wt2 = new WorkingTime() { User = user2, Project = project2};
 
+                //Project project2 = new Project() { Name = "ShittyLand", Organization = org };
+                //Project project3 = new Project() { Name = "PorkStattion", Organization = org };
+
+                //WorkingTime wt = new WorkingTime() { User = user, Project = project};
+                //WorkingTime wt2 = new WorkingTime() { User = user2, Project = project2};
+
+                await userServices.SignUserToOrganization(user2, org);
+                await userServices.SignUserToOrganization(user3, org2);
 
                 //await userServices.Create(user);
                 //await userServices.Create(user2);

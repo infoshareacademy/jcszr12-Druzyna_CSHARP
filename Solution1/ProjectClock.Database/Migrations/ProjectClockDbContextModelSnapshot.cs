@@ -17,7 +17,7 @@ namespace ProjectClock.Database.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.2")
+                .HasAnnotation("ProductVersion", "8.0.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -79,9 +79,6 @@ namespace ProjectClock.Database.Migrations
 
                     b.Property<int>("OrganizationId")
                         .HasColumnType("int");
-
-                    b.Property<bool>("IsOwner")
-                        .HasColumnType("bit");
 
                     b.HasKey("UserId", "OrganizationId");
 

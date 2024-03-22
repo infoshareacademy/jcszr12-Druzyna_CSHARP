@@ -36,6 +36,22 @@ namespace ProjectClock.BusinessLogic.Services
             }
         }
 
+        public async Task<bool> SignUserToOrganization(User user, Organization organization)
+        {
+            try
+            {
+                OrganizationUser organizationUser = new OrganizationUser() { User = user, Organization = organization };
+                await _projectClockDbContext.OrganizationsUser.AddAsync(organizationUser);
+                await _projectClockDbContext.SaveChangesAsync();
+                return true;
+
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
         public async Task<User?> GetById(int id)
         {
             return await _projectClockDbContext.Users.FirstOrDefaultAsync(u => u.Id == id);

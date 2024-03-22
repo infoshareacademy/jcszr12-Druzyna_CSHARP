@@ -1,4 +1,4 @@
-﻿@model List<ProjectClock.Database.Entities.Organization>
+﻿@model ProjectClock.BusinessLogic.Dtos.OrganizationDto.OrganizationViewModel
 
 <style>
     .transparent-border {
@@ -21,7 +21,7 @@
                 <label for="selectedOrganization">Choose your organization</label>
                 <select class="form-select form-select-sm" aria-label="Small select example" id="selectedOrganization" name="id">
                     @{
-                        foreach (var organization in Model)
+                        foreach (var organization in Model.Organizations)
                         {
                             <option value="@organization.Id">@organization.Name</option>
                         }
@@ -32,8 +32,29 @@
         </div>
 
     </div>
+    
+    <div class="row">
+        <div class="col-md-3 col-3 mb-3 transparent-border col-md-3 transparent-border mx-auto" id="organizationSelect">
+            <form asp-controller="Organization" asp-action="Choose" method="post">
+                <label for="selectedOrganization">Choose your organization</label>
+                <select class="form-select form-select-sm" aria-label="Small select example" id="selectedOrganization" name="id">
+                    @{
+                        foreach (var user in Model.Users)
+                        {
+                            <option value="@user.Id">@user.Name</option>
+                        }
+                    }
+                </select>
+                <button type="submit" class="btn btn-outline-secondary text-center m-1">Choose</button>
+            </form>
+        </div>
+
+    </div>
+    
+    
 
     @* <partial name="_UserRowPartialView"/> *@
+
     @* <partial name="_ProjectRowPartialView"/> *@
 
 </div>

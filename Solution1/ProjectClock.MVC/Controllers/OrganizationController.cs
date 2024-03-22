@@ -60,9 +60,9 @@ namespace ProjectClock.MVC.Controllers
         }
 
         // GET: OrganizationController/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<ActionResult> Edit(int id)
         {
-            var model = _organizationServices.GetById(id);
+            var model = await _organizationServices.GetById(id);
             return View(model);
         }
 
@@ -108,20 +108,37 @@ namespace ProjectClock.MVC.Controllers
         }
 
 
-        public async Task<IActionResult> Manage(OrganizationDto organizationDto)
+        public async Task<IActionResult> Manage()
         {
-            var list = await _organizationServices.GetAll();
-            return View(list);
+            OrganizationViewModel model = new OrganizationViewModel();
+
+            var organizations = await _organizationServices.GetAll();
+
+            model.Organizations = organizations;
+            model.Projects = new List<Project>();
+            model.Users = new List<User>();
+
+            return View("Manage", model);
+
+
         }
 
         [HttpPost]
         public async Task<IActionResult> Choose(int id)
         {
-            // Pobierz listę użytkowników dla danej organizacji na podstawie identyfikatora (id)
-            var users = await _userServices.GetAllFromOrganization(id);
 
-            // Przekazanie listy użytkowników jako modelu do częściowego widoku
-            return RedirectToAction("GetUsersFromOrganization", "User", new { users = users });
+            OrganizationViewModel model = new OrganizationViewModel();
+
+            var organizations = await _organizationServices.GetAll();
+            
+            model.Organizations = organizations;
+            model.Projects = model.Organizations.First(o => o.Id == id).Projects;
+            model.Users = model.Organizations.First(o => o.Id == id).OrganizationUsers
+                .Where(o => o.Organization.Id == id).Select(u => u.User).ToList();
+
+            return View("Manage", model);
+
+            
         }
 
     }

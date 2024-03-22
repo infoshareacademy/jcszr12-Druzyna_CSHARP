@@ -82,8 +82,7 @@ namespace ProjectClock.Database.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<int>(type: "int", nullable: false),
-                    OrganizationId = table.Column<int>(type: "int", nullable: false),
-                    IsOwner = table.Column<bool>(type: "bit", nullable: false)
+                    OrganizationId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {

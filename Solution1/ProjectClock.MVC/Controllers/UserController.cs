@@ -92,7 +92,7 @@ namespace ProjectClock.MVC.Controllers
             }
         }
 
-        public async Task<IActionResult> GetUsersFromOrganization(int organizationId)
+        public async Task<IActionResult> UsersFromOrg(int organizationId)
         {
             var users = await _userServices.GetAllFromOrganization(organizationId);
             return View(users);
