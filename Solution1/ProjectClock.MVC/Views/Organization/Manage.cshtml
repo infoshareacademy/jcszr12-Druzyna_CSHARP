@@ -1,0 +1,79 @@
+﻿@model ProjectClock.BusinessLogic.Dtos.OrganizationDto.ManageOrganizationDto
+
+<style>
+    .transparent-border {
+        border: 2px solid rgba(0, 74, 122, 0.05);
+        padding: 10px;
+    }
+
+    .column-spacing {
+        margin-right: 4px; 
+    }
+</style>
+
+<h1 class="fw-bold mb-4 text-center">Manage organization</h1>
+
+<div class="container-lg">
+
+    <div class="row">
+        <div class="col-md-3 col-3 mb-3 transparent-border col-md-3 transparent-border mx-auto" id="organizationSelect">
+            <form asp-controller="Organization" asp-action="Choose" method="post">
+                <label for="selectedOrganization">Choose your organization</label>
+                <select class="form-select form-select-sm" aria-label="Small select example" id="selectedOrganization" name="id">
+                    @{
+                        foreach (var organization in Model.Organizations)
+                        {
+                            <option value="@organization.Id">@organization.Name</option>
+                        }
+                    }
+                </select>
+                <button type="submit" class="btn btn-outline-secondary text-center m-1">Choose</button>
+            </form>
+        </div>
+    </div>
+    
+    @{
+        if (Model.Projects.Count != 0)
+        {
+            <div class="row">
+                <div class="col-md-3 col-3 mb-3 transparent-border col-md-3 transparent-border mx-auto" id="organizationSelect">
+                    <form asp-controller="Organization" asp-action="Choose" method="post">
+                        <label for="selectedOrganization">Choose project to edit</label>
+                        <select class="form-select form-select-sm" aria-label="Small select example" id="selectedOrganization" name="id">
+                            @{
+                                foreach (var project in Model.Projects)
+                                {
+                                    <option value="@project.Id">@project.Name</option>
+                                }
+                            }
+                        </select>
+                        <button type="submit" class="btn btn-outline-secondary text-center m-1">Choose</button>
+                    </form>
+                </div>
+            </div>
+        }
+    }
+    
+    @{
+        if (Model.Users.Count != 0)
+        {
+            <div class="row">
+                <div class="col-md-3 col-3 mb-3 transparent-border col-md-3 transparent-border mx-auto" id="organizationSelect">
+                    <form asp-controller="Organization" asp-action="Choose" method="post">
+                        <label for="selectedOrganization">Choose user to manage</label>
+                        <select class="form-select form-select-sm" aria-label="Small select example" id="selectedOrganization" name="id">
+                            @{
+                                foreach (var user in Model.Users)
+                                {
+                                    <option value="@user.Id">@user.Name</option>
+                                }
+                            }
+                        </select>
+                        <button type="submit" class="btn btn-outline-secondary text-center m-1">Choose</button>
+                    </form>
+                </div>
+            </div>
+        }
+    }
+
+</div>

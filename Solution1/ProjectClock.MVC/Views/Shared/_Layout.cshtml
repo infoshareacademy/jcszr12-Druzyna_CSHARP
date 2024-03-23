@@ -40,8 +40,22 @@
                                     <li class="nav-item btn-nav">
                                         <a class="@(controller =="Home" && action == "Index" ? "btn-active" : "") nav-link text-white" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                                     </li>
-                                    <li class="nav-item btn-nav">
-                                        <a class="@(controller =="Organization" && action == "Index" ? "btn-active" : "") nav-link text-white" asp-area="" asp-controller="Organization" asp-action="Index">Organizations</a>
+                                   
+                                    <li class="nav-item dropend btn-nav">
+                                        <a class=" @(controller =="Organization" ? "btn-active" : "") nav-link text-white dropdown-toggle " href="#" id="raportDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Organizations
+                                        </a>
+                                        <ul class="dropdown-menu bg-opacity-10" aria-labelledby="raportDropdown">
+                                            <li class="dropdown-item">
+                                                <a class="nav-link text-white" asp-area="" asp-controller="Organization" asp-action="Create">Create an organization</a>
+                                            </li>
+                                            <li class="dropdown-item">
+                                                <a class="nav-link text-white" asp-area="" asp-controller="Organization" asp-action="Manage">Manage an organization</a>
+                                            </li>
+                                            <li class="dropdown-item">
+                                                <a class="nav-link text-white" asp-area="" asp-controller="Organization" asp-action="Delete">Delete an organization</a>
+                                            </li>
+                                        </ul>
                                     </li>
 
                                     @if (isOrganisationOwner)
