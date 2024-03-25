@@ -48,20 +48,33 @@ namespace ProjectClock.MVC.Controllers
         {
             try
             {
-                //if (!ModelState.IsValid)
-                //{
-                //    return View(model);
-                //}
+                if (!ModelState.IsValid)
+                {
+                    return View();
+                }
+                
+                bool created = await _organizationServices.Create(organizationDto);
 
-                await _organizationServices.Create(organizationDto);
+                if (created)
+                {
+                    TempData["SuccessMessage"] = "Organization created successfully.";
+                }
+                else
+                {
+                    TempData["ErrorMessage"] = "This organization already exists.";
+                }
 
                 return RedirectToAction(nameof(Create));
             }
-            catch
+            catch (Exception ex)
             {
+                TempData["ErrorMessage"] = $"Error occurred while creating organization: {ex.Message}";
                 return View();
             }
         }
+
+
+
 
         // GET: OrganizationController/Edit/5
         public async Task<ActionResult> Edit(int id)
@@ -119,8 +132,6 @@ namespace ProjectClock.MVC.Controllers
             var organizations = await _organizationServices.GetAll();
 
             model.Organizations = organizations;
-            //model.Projects = new List<Project>();
-            //model.Users = new List<User>();
 
             return View("Manage", model);
 
@@ -128,30 +139,25 @@ namespace ProjectClock.MVC.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Choose(int id)
+        public async Task<IActionResult> Choose(int organizationId, int userId)
         {
+            
 
             ManageOrganizationDto model = new ManageOrganizationDto();
+
+            model.UserOrganizationId = organizationId;
 
             var organizations = await _organizationServices.GetAll();
 
             model.Organizations = organizations;
-            var projects = model.Organizations.FirstOrDefault(o => o.Id == id).Projects.ToList();
-            model.Projects = model.Organizations.First(o => o.Id == id).Projects.ToList();
-            var user = model.Organizations.First(o => o.Id == id).OrganizationUsers.Select(ou => ou.User).ToList();
-            model.Users = model.Organizations.First(o => o.Id == id).OrganizationUsers.Select(ou => ou.User).ToList();
+            
+            var users = model.Organizations.First(o => o.Id == organizationId).OrganizationUsers.Select(ou => ou.User).ToList();
+            model.Users = model.Organizations.First(o => o.Id == organizationId).OrganizationUsers.Select(ou => ou.User).ToList();
 
-
-
-            //model.Users = model.Organizations.First(o => o.Id == id).OrganizationUsers
-            //    .Where(o => o.Organization.Id == id).Select(u => u.User).ToList();
-
+            var user = users.FirstOrDefault(u => u.Id == userId);
+            model.User = user;
+            
             return View("Manage", model);
-
-                
         }
-
-      
-
     }
 }
