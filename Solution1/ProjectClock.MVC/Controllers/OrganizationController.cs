@@ -48,20 +48,33 @@ namespace ProjectClock.MVC.Controllers
         {
             try
             {
-                //if (!ModelState.IsValid)
-                //{
-                //    return View(model);
-                //}
+                if (!ModelState.IsValid)
+                {
+                    return View();
+                }
+                
+                bool created = await _organizationServices.Create(organizationDto);
 
-                await _organizationServices.Create(organizationDto);
+                if (created)
+                {
+                    TempData["SuccessMessage"] = "Organization created successfully.";
+                }
+                else
+                {
+                    TempData["ErrorMessage"] = "This organization already exists.";
+                }
 
                 return RedirectToAction(nameof(Create));
             }
-            catch
+            catch (Exception ex)
             {
+                TempData["ErrorMessage"] = $"Error occurred while deleting organization: {ex.Message}";
                 return View();
             }
         }
+
+
+
 
         // GET: OrganizationController/Edit/5
         public async Task<ActionResult> Edit(int id)
@@ -88,22 +101,35 @@ namespace ProjectClock.MVC.Controllers
         }
 
         // GET: OrganizationController/Delete/5
-        public ActionResult Delete(int id)
+        public async Task<IActionResult> Delete()
         {
-            var organization = _organizationServices.GetById(id);
-            return View(organization);
+            DeleteOrganizationDto model = new();
+
+            var organizations = await _organizationServices.GetAll();
+            model.Organizations = organizations;
+
+            return View("Delete", model);
         }
 
         // POST: OrganizationController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<IActionResult> Delete(int organizationId)
         {
             try
             {
-                _organizationServices.Delete(id);
+                bool deleted = await _organizationServices.Delete(organizationId);
 
-                return RedirectToAction(nameof(Index));
+                if (deleted)
+                {
+                    TempData["SuccessMessage"] = "Organization deleted successfully.";
+                }
+                else
+                {
+                    TempData["ErrorMessage"] = "This organization doesn't exists.";
+                }
+
+                return RedirectToAction(nameof(Delete));
             }
             catch
             {
@@ -119,39 +145,38 @@ namespace ProjectClock.MVC.Controllers
             var organizations = await _organizationServices.GetAll();
 
             model.Organizations = organizations;
-            //model.Projects = new List<Project>();
-            //model.Users = new List<User>();
 
             return View("Manage", model);
-
 
         }
 
         [HttpPost]
-        public async Task<IActionResult> Choose(int id)
+        public async Task<IActionResult> Choose(int organizationId, int userId)
         {
-
             ManageOrganizationDto model = new ManageOrganizationDto();
 
             var organizations = await _organizationServices.GetAll();
+            var organization = organizations.FirstOrDefault(o => o.Id == organizationId);
+            
+            if (organization.OrganizationUsers.Count != 0)
+            {
+                var users = organization.OrganizationUsers.Select(ou => ou.User).ToList();
+                var user = users.FirstOrDefault(u => u.Id == userId);
 
+                model.Users = users;
+                model.User = user;
+            }
+            else
+            {
+                TempData["NoUsersMessage"] = "This organization hasn't got users yet.";
+                model.Users = new List<User>();
+                model.User = null;
+            }
+
+            model.OrganizationId = organizationId;
             model.Organizations = organizations;
-            var projects = model.Organizations.FirstOrDefault(o => o.Id == id).Projects.ToList();
-            model.Projects = model.Organizations.First(o => o.Id == id).Projects.ToList();
-            var user = model.Organizations.First(o => o.Id == id).OrganizationUsers.Select(ou => ou.User).ToList();
-            model.Users = model.Organizations.First(o => o.Id == id).OrganizationUsers.Select(ou => ou.User).ToList();
-
-
-
-            //model.Users = model.Organizations.First(o => o.Id == id).OrganizationUsers
-            //    .Where(o => o.Organization.Id == id).Select(u => u.User).ToList();
 
             return View("Manage", model);
-
-                
         }
-
-      
-
     }
 }

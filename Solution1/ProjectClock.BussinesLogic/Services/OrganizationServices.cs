@@ -42,9 +42,7 @@ namespace ProjectClock.BusinessLogic.Services
             {
                 if (await OrganizationExist(organization.Name))
                 {
-                    throw new Exception($"This organization already exist");
                     return false;
-
                 }
                 else
                 {
@@ -68,24 +66,21 @@ namespace ProjectClock.BusinessLogic.Services
             {
                 if (await OrganizationExist(organization.Name))
                 {
-                    throw new Exception($"This organization already exist");
                     return false;
-
                 }
                 else
                 {
                     await _projectClockDbContext.Organizations.AddAsync(organization);
                     await _projectClockDbContext.SaveChangesAsync();
                     return true;
-
                 }
-
             }
             catch (Exception)
             {
                 return false;
             }
         }
+
 
         public async Task<Organization> GetById(int id)
         {
@@ -114,7 +109,6 @@ namespace ProjectClock.BusinessLogic.Services
 
                 if (organization is null)
                 {
-                    throw new Exception($"This organization doesn't exist");
                     return false;
                 }
                 else

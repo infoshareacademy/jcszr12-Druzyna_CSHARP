@@ -1,4 +1,8 @@
 ﻿@model List<ProjectClock.Database.Entities.Organization>
+@{
+    var successMessage = TempData["SuccessMessage"] as string;
+    var errorMessage = TempData["ErrorMessage"] as string;
+}
 
 <style>
     .transparent-border {
@@ -7,11 +11,13 @@
     }
 
     .column-spacing {
-        margin-right: 4px; /* Możesz dostosować wielkość odstępu według potrzeb */
+        margin-right: 4px;
     }
 </style>
 
 <h1 class="fw-bold mb-4 text-center">Organization management</h1>
+
+
 
 <div class="container-lg">
     <div class="row">
@@ -27,3 +33,17 @@
         </div>
     </div>
 </div>
+
+@if (!string.IsNullOrEmpty(successMessage))
+{
+    <div class="alert alert-success" role="alert">
+        @successMessage
+    </div>
+}
+
+@if (!string.IsNullOrEmpty(errorMessage))
+{
+    <div class="alert alert-danger" role="alert">
+        @errorMessage
+    </div>
+}

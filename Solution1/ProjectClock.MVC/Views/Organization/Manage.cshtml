@@ -1,4 +1,7 @@
 ﻿@model ProjectClock.BusinessLogic.Dtos.OrganizationDto.ManageOrganizationDto
+@{
+    var noUsersMessage = TempData["NoUsersMessage"] as string;
+}
 
 <style>
     .transparent-border {
@@ -7,7 +10,7 @@
     }
 
     .column-spacing {
-        margin-right: 4px; 
+        margin-right: 4px;
     }
 </style>
 
@@ -19,7 +22,7 @@
         <div class="col-md-3 col-3 mb-3 transparent-border col-md-3 transparent-border mx-auto" id="organizationSelect">
             <form asp-controller="Organization" asp-action="Choose" method="post">
                 <label for="selectedOrganization">Choose your organization</label>
-                <select class="form-select form-select-sm" aria-label="Small select example" id="selectedOrganization" name="id">
+                <select class="form-select form-select-sm" aria-label="Small select example" id="selectedOrganization" name="organizationId">
                     @{
                         foreach (var organization in Model.Organizations)
                         {
@@ -31,29 +34,7 @@
             </form>
         </div>
     </div>
-    
-    @{
-        if (Model.Projects.Count != 0)
-        {
-            <div class="row">
-                <div class="col-md-3 col-3 mb-3 transparent-border col-md-3 transparent-border mx-auto" id="organizationSelect">
-                    <form asp-controller="Organization" asp-action="Choose" method="post">
-                        <label for="selectedOrganization">Choose project to edit</label>
-                        <select class="form-select form-select-sm" aria-label="Small select example" id="selectedOrganization" name="id">
-                            @{
-                                foreach (var project in Model.Projects)
-                                {
-                                    <option value="@project.Id">@project.Name</option>
-                                }
-                            }
-                        </select>
-                        <button type="submit" class="btn btn-outline-secondary text-center m-1">Choose</button>
-                    </form>
-                </div>
-            </div>
-        }
-    }
-    
+
     @{
         if (Model.Users.Count != 0)
         {
@@ -61,7 +42,8 @@
                 <div class="col-md-3 col-3 mb-3 transparent-border col-md-3 transparent-border mx-auto" id="organizationSelect">
                     <form asp-controller="Organization" asp-action="Choose" method="post">
                         <label for="selectedOrganization">Choose user to manage</label>
-                        <select class="form-select form-select-sm" aria-label="Small select example" id="selectedOrganization" name="id">
+                        <input type="hidden" name="organizationId" value="@Model.OrganizationId" /> <!-- Dodane pole ukryte -->
+                        <select class="form-select form-select-sm" aria-label="Small select example" id="selectedOrganization" name="userId">
                             @{
                                 foreach (var user in Model.Users)
                                 {
@@ -76,4 +58,25 @@
         }
     }
 
+    @{
+        if (Model.User is not null)
+        {
+            <div class="row">
+                <div class="col-md-3 col-3 mb-3 transparent-border col-md-3 transparent-border mx-auto" id="organizationSelect">
+                    <input type="hidden" name="organizationId" value="@Model.OrganizationId" /> <!-- Dodane pole ukryte -->
+                    <p> Id: @Model.User.Id Name: @Model.User.Name Surname:@Model.User.Surname </p>
+                </div>
+            </div>
+        }
+    }
+
+
+
 </div>
+
+@if (!string.IsNullOrEmpty(noUsersMessage))
+{
+    <div class="alert alert-danger" role="alert">
+        @noUsersMessage
+    </div>
+}
