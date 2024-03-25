@@ -42,9 +42,7 @@ namespace ProjectClock.BusinessLogic.Services
             {
                 if (await OrganizationExist(organization.Name))
                 {
-                    throw new Exception($"This organization already exist");
                     return false;
-
                 }
                 else
                 {
@@ -111,7 +109,6 @@ namespace ProjectClock.BusinessLogic.Services
 
                 if (organization is null)
                 {
-                    throw new Exception($"This organization doesn't exist");
                     return false;
                 }
                 else
