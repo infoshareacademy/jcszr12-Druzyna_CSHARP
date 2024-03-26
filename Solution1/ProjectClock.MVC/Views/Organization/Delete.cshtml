@@ -20,21 +20,24 @@
 <div class="container-lg">
 
     <div class="row">
-        <div class="col-md-3 col-3 mb-3 transparent-border col-md-3 transparent-border mx-auto" id="organizationSelect">
+        <div class="col-md-3 transparent-border mx-auto d-flex justify-content-center align-items-center">
             <form asp-controller="Organization" asp-action="Delete" method="post">
-                <label for="selectedOrganization">Choose organization to delete</label>
-                <select class="form-select form-select-sm" aria-label="Small select example" id="selectedOrganization" name="organizationId">
-                    @{
-                        foreach (var organization in Model.Organizations)
-                        {
-                            <option value="@organization.Id">@organization.Name</option>
+                <div class="mb-2">
+                    <label for="selectedOrganization">Choose organization to delete</label>
+                    <select class="form-select form-select-sm" aria-label="Small select example" id="selectedOrganization" name="organizationId">
+                        @{
+                            foreach (var organization in Model.Organizations)
+                            {
+                                <option value="@organization.Id">@organization.Name</option>
+                            }
                         }
-                    }
-                </select>
-                <button type="submit" class="btn btn-outline-secondary text-center m-1">Delete</button>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary btn-sm d-block mx-auto">Delete</button>
             </form>
         </div>
     </div>
+
 
 </div>
 

@@ -21,14 +21,14 @@
 
 <div class="container-lg">
     <div class="row">
-        <div class="col-md-3 transparent-border mx-auto">
+        <div class="col-md-3 transparent-border mx-auto d-flex justify-content-center align-items-center">
             @using (Html.BeginForm("Create", "Organization", FormMethod.Post))
             {
-                <div class="mb-2"> 
+                    <div class="mb-2"> 
                     <label for="organizationName" class="form-label">Create new organization</label>
                     <input type="text" name="Name" class="form-control form-control-sm" id="Name" placeholder="Type name here">
                 </div>
-                <button type="submit" class="btn btn-primary btn-sm">Create</button> 
+                <button type="submit" class="btn btn-primary btn-sm d-block mx-auto">Create</button>
             }
         </div>
     </div>

@@ -153,30 +153,62 @@ namespace ProjectClock.MVC.Controllers
         [HttpPost]
         public async Task<IActionResult> Choose(int organizationId, int userId)
         {
+            ManageOrganizationDto model = await GetManageOrganizationDto(organizationId, userId);
+
+            return View("Manage", model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> InviteUser(int organizationId, int userId)
+        {
+            
+            bool invited = await _organizationServices.AddUser(organizationId, userId);
+            ManageOrganizationDto model = await GetManageOrganizationDto(organizationId, userId);
+
+            if (invited)
+            {
+                TempData["UserAddedMessage"] = $"User with {userId} has been added to organization with {organizationId}.";
+            }
+            else
+            {
+                TempData["UserAddedFailedMessage"] =
+                    $"User with {userId} hasn't been added to organization with {organizationId}.";
+            }
+
+            return View("Manage", model);
+        }
+
+        private async Task<ManageOrganizationDto> GetManageOrganizationDto(int organizationId, int userId)
+        {
             ManageOrganizationDto model = new ManageOrganizationDto();
 
             var organizations = await _organizationServices.GetAll();
             var organization = organizations.FirstOrDefault(o => o.Id == organizationId);
-            
-            if (organization.OrganizationUsers.Count != 0)
+            var allUsers = await _userServices.GetAll();
+
+            if (organization?.OrganizationUsers?.Count > 0)
             {
                 var users = organization.OrganizationUsers.Select(ou => ou.User).ToList();
                 var user = users.FirstOrDefault(u => u.Id == userId);
 
-                model.Users = users;
+                model.OrganizationUsers = users;
                 model.User = user;
             }
             else
             {
                 TempData["NoUsersMessage"] = "This organization hasn't got users yet.";
-                model.Users = new List<User>();
+                model.OrganizationUsers = new List<User>();
                 model.User = null;
             }
 
             model.OrganizationId = organizationId;
             model.Organizations = organizations;
+            model.AllUsers = allUsers;
+            model.Organization = organization;
+            model.SelectedOrganizationId = organizationId;
 
-            return View("Manage", model);
+            return model;
         }
+
     }
 }

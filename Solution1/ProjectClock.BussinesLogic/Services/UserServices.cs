@@ -18,7 +18,7 @@ namespace ProjectClock.BusinessLogic.Services
             {
                 if (await UserExist(user.Email))
                 {
-                    throw new Exception($"This user already exist");
+                    throw new Exception($"This user already exist"); //czy tu tresc exception ma sens skoro nie bedzie wystwietlana?
                     
                 }
                 else

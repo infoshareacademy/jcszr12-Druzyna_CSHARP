@@ -1,6 +1,8 @@
 ﻿@model ProjectClock.BusinessLogic.Dtos.OrganizationDto.ManageOrganizationDto
 @{
     var noUsersMessage = TempData["NoUsersMessage"] as string;
+    var userAddedMessage = TempData["UserAddedMessage"] as string;
+    var userAddFailedMessage = TempData["UserAddedFailedMessage"] as string;
 }
 
 <style>
@@ -14,38 +16,97 @@
     }
 </style>
 
-<h1 class="fw-bold mb-4 text-center">Manage organization</h1>
+
+@{
+    if (Model.Organization is null)
+    {
+        <h1 class="fw-bold mb-4 text-center">Manage organization</h1>
+    }
+    else
+    {
+        <h1 class="fw-bold mb-4 text-center">Manage organization @Model.Organization.Name</h1>
+    }
+}
+
+
 
 <div class="container-lg">
 
     <div class="row">
-        <div class="col-md-3 col-3 mb-3 transparent-border col-md-3 transparent-border mx-auto" id="organizationSelect">
+        <div class="col-md-3 transparent-border mx-auto d-flex justify-content-center align-items-center">
             <form asp-controller="Organization" asp-action="Choose" method="post">
-                <label for="selectedOrganization">Choose your organization</label>
-                <select class="form-select form-select-sm" aria-label="Small select example" id="selectedOrganization" name="organizationId">
-                    @{
-                        foreach (var organization in Model.Organizations)
-                        {
-                            <option value="@organization.Id">@organization.Name</option>
+                <div class="mb-2">
+                    <label for="selectedOrganization">Choose your organization</label>
+                    <select class="form-select form-select-sm" aria-label="Small select example" id="selectedOrganization" name="organizationId">
+                        @{
+                            foreach (var organization in Model.Organizations)
+                            {
+                                <option value="@organization.Id">@organization.Name</option>
+                            }
                         }
-                    }
-                </select>
-                <button type="submit" class="btn btn-outline-secondary text-center m-1">Choose</button>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary btn-sm d-block mx-auto">Choose</button>
             </form>
         </div>
     </div>
 
     @{
-        if (Model.Users.Count != 0)
+        if (Model.AllUsers.Count != 0)
         {
             <div class="row">
+                <div class="col-md-3 col-3 mb-3 transparent-border col-md-3 transparent-border mx-auto" id="organizationSelect">
+                    <form asp-controller="Organization" asp-action="InviteUser" method="post">
+                        <label for="selectedOrganization">Invite to organization</label>
+                        <input type="hidden" name="organizationId" value="@Model.OrganizationId" />
+                        <select class="form-select form-select-sm" aria-label="Small select example" id="selectedOrganization" name="userId">
+                            @{
+                                foreach (var user in Model.AllUsers)
+                                {
+                                    <option value="@user.Id">@user.Name @user.Surname</option>
+                                }
+                            }
+                        </select>
+                        <button type="submit" class="btn btn-outline-secondary text-center m-1">Invite</button>
+                    </form>
+                </div>
                 <div class="col-md-3 col-3 mb-3 transparent-border col-md-3 transparent-border mx-auto" id="organizationSelect">
                     <form asp-controller="Organization" asp-action="Choose" method="post">
                         <label for="selectedOrganization">Choose user to manage</label>
                         <input type="hidden" name="organizationId" value="@Model.OrganizationId" /> <!-- Dodane pole ukryte -->
                         <select class="form-select form-select-sm" aria-label="Small select example" id="selectedOrganization" name="userId">
                             @{
-                                foreach (var user in Model.Users)
+                                foreach (var user in Model.OrganizationUsers)
+                                {
+                                    <option value="@user.Id">@user.Name</option>
+                                }
+                            }
+                        </select>
+                        <button type="submit" class="btn btn-outline-secondary text-center m-1">Choose</button>
+                    </form>
+                </div>
+                <div class="col-md-3 col-3 mb-3 transparent-border col-md-3 transparent-border mx-auto" id="organizationSelect">
+                    <form asp-controller="Organization" asp-action="Choose" method="post">
+                        <label for="selectedOrganization">Choose user to manage</label>
+                        <input type="hidden" name="organizationId" value="@Model.OrganizationId" /> <!-- Dodane pole ukryte -->
+                        <select class="form-select form-select-sm" aria-label="Small select example" id="selectedOrganization" name="userId">
+                            @{
+                                foreach (var user in Model.OrganizationUsers)
+                                {
+                                    <option value="@user.Id">@user.Name</option>
+                                }
+                            }
+                        </select>
+                        <button type="submit" class="btn btn-outline-secondary text-center m-1">Choose</button>
+                    </form>
+                </div>
+                <div class="col-md-3 col-3 mb-3 transparent-border col-md-3 transparent-border mx-auto" id="organizationSelect">
+                    <form asp-controller="Organization" asp-action="Choose" method="post">
+                        <label for="selectedOrganization">Choose user to manage</label>
+                        <input type="hidden" name="organizationId" value="@Model.OrganizationId" /> <!-- Dodane pole ukryte -->
+                        <select class="form-select form-select-sm" aria-label="Small select example" id="selectedOrganization" name="userId">
+                            @{
+                                foreach (var user in Model.OrganizationUsers)
                                 {
                                     <option value="@user.Id">@user.Name</option>
                                 }
@@ -78,5 +139,17 @@
 {
     <div class="alert alert-danger" role="alert">
         @noUsersMessage
+    </div>
+}
+@if (!string.IsNullOrEmpty(userAddedMessage))
+{
+    <div class="alert alert-success" role="alert">
+        @userAddedMessage
+    </div>
+}
+@if (!string.IsNullOrEmpty(userAddFailedMessage))
+{
+    <div class="alert alert-success" role="alert">
+        @userAddFailedMessage
     </div>
 }

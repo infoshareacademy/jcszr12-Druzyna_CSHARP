@@ -19,6 +19,8 @@ namespace ProjectClock.BusinessLogic.Services
         Task Update(Organization model);
         Task<bool> Delete(int id);
         Task<bool> OrganizationExist(string name);
+
+        Task<bool> AddUser(int organizationId, int userId);
     }
 
     public class OrganizationServices : IOrganizationServices
@@ -130,6 +132,31 @@ namespace ProjectClock.BusinessLogic.Services
         public async Task<bool> OrganizationExist(string name)
         {
             return await _projectClockDbContext.Organizations.AsNoTracking().AnyAsync(u => u.Name == name);
+        }
+
+        public async Task<bool> AddUser(int organizationId, int userId)
+        {
+            try
+            {
+                var user = await _projectClockDbContext.Users.FirstOrDefaultAsync(u => u.Id == userId);
+                var organization = await GetById(organizationId);
+
+                if (user is null || organization is null)
+                {
+                    return false;
+                }
+                else
+                {
+                    OrganizationUser organizationUser = new OrganizationUser() { User = user, Organization = organization };
+                    await _projectClockDbContext.OrganizationsUsers.AddAsync(organizationUser);
+                    await _projectClockDbContext.SaveChangesAsync();
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
         }
 
         public async Task<bool> AddProjectToOrganization(int organizationId, Project project)
