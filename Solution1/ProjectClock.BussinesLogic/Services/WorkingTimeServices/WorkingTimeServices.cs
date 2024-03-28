@@ -117,8 +117,7 @@ public class WorkingTimeServices : IWorkingTimeServices
             }
             else
             {
-                workingTime.EndTime = DateTime.UtcNow;
-                workingTime.TotalWorkTime = workingTime.EndTime - workingTime.StartTime;
+                workingTime.EndTime = DateTime.UtcNow;              
                 await _projectClockDbContext.SaveChangesAsync();
                 return true;
             }
@@ -136,7 +135,7 @@ public class WorkingTimeServices : IWorkingTimeServices
     }
     public async Task<IEnumerable<NotFinisedWorkingTimeDto>> GetNotFinisedWorkingTimes()
     {
-        var list = await _projectClockDbContext.WorkingTimes.Where(e => e.EndTime == null).ToListAsync();
+        var list = await _projectClockDbContext.WorkingTimes.Where(e => e.EndTime == null).Include(Project).ToListAsync();
 
         var dtos = _mapper.Map<IEnumerable<NotFinisedWorkingTimeDto>>(list);
         return dtos;

@@ -23,7 +23,6 @@
 
 	<ItemGroup>
 	  <Folder Include="Services\" />
-	  <Folder Include="Views\Project\Components\" />
 	</ItemGroup>
 	<PropertyGroup>
 		<LangVersion>latest</LangVersion>

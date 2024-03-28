@@ -87,7 +87,7 @@ namespace ProjectClock.MVC.Controllers
         }
 
         [Authorize(Roles = "User")]
-        public async Task<IActionResult> EditEmail()
+        public  IActionResult EditEmail()
         {
             return View();
         }
