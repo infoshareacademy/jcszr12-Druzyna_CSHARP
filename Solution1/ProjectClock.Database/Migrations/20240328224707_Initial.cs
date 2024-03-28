@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ProjectClock.Database.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -83,24 +83,24 @@ namespace ProjectClock.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "OrganizationUser",
+                name: "OrganizationsUsers",
                 columns: table => new
                 {
                     UserId = table.Column<int>(type: "int", nullable: false),
                     OrganizationId = table.Column<int>(type: "int", nullable: false),
-                    IsOwner = table.Column<bool>(type: "bit", nullable: false)
+                    IsOwner = table.Column<bool>(type: "bit", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_OrganizationUser", x => new { x.UserId, x.OrganizationId });
+                    table.PrimaryKey("PK_OrganizationsUsers", x => new { x.UserId, x.OrganizationId });
                     table.ForeignKey(
-                        name: "FK_OrganizationUser_Organizations_OrganizationId",
+                        name: "FK_OrganizationsUsers_Organizations_OrganizationId",
                         column: x => x.OrganizationId,
                         principalTable: "Organizations",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_OrganizationUser_Users_UserId",
+                        name: "FK_OrganizationsUsers_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
@@ -108,7 +108,7 @@ namespace ProjectClock.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserProject",
+                name: "UserProjects",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -118,15 +118,15 @@ namespace ProjectClock.Database.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserProject", x => x.Id);
+                    table.PrimaryKey("PK_UserProjects", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_UserProject_Projects_ProjectId",
+                        name: "FK_UserProjects_Projects_ProjectId",
                         column: x => x.ProjectId,
                         principalTable: "Projects",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_UserProject_Users_UserId",
+                        name: "FK_UserProjects_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
@@ -137,18 +137,16 @@ namespace ProjectClock.Database.Migrations
                 name: "WorkingTimes",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
                     ProjectId = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false),
                     StartTime = table.Column<DateTime>(type: "datetime2", nullable: true),
                     EndTime = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    TotalWorkTime = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_WorkingTimes", x => x.Id);
+                    table.PrimaryKey("PK_WorkingTimes", x => new { x.ProjectId, x.UserId });
                     table.ForeignKey(
                         name: "FK_WorkingTimes_Projects_ProjectId",
                         column: x => x.ProjectId,
@@ -164,8 +162,8 @@ namespace ProjectClock.Database.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_OrganizationUser_OrganizationId",
-                table: "OrganizationUser",
+                name: "IX_OrganizationsUsers_OrganizationId",
+                table: "OrganizationsUsers",
                 column: "OrganizationId");
 
             migrationBuilder.CreateIndex(
@@ -174,19 +172,14 @@ namespace ProjectClock.Database.Migrations
                 column: "OrganizationId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserProject_ProjectId",
-                table: "UserProject",
+                name: "IX_UserProjects_ProjectId",
+                table: "UserProjects",
                 column: "ProjectId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserProject_UserId",
-                table: "UserProject",
+                name: "IX_UserProjects_UserId",
+                table: "UserProjects",
                 column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_WorkingTimes_ProjectId",
-                table: "WorkingTimes",
-                column: "ProjectId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_WorkingTimes_UserId",
@@ -201,10 +194,10 @@ namespace ProjectClock.Database.Migrations
                 name: "Accounts");
 
             migrationBuilder.DropTable(
-                name: "OrganizationUser");
+                name: "OrganizationsUsers");
 
             migrationBuilder.DropTable(
-                name: "UserProject");
+                name: "UserProjects");
 
             migrationBuilder.DropTable(
                 name: "WorkingTimes");

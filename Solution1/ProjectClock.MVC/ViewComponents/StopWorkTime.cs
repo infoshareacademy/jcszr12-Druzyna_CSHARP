@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ProjectClock.BusinessLogic.Dtos.WorkingTime.WorkingTimeDtos;
+using ProjectClock.BusinessLogic.Services;
 using ProjectClock.BusinessLogic.Services.WorkingTimeServices;
 using ProjectClock.MVC.Extensions;
 namespace ProjectClock.MVC.Services.Components;
@@ -7,17 +8,21 @@ namespace ProjectClock.MVC.Services.Components;
 public class StopWorkTime : ViewComponent
 {
     private readonly IWorkingTimeServices _workingTimeServices;
-    public StopWorkTime(IWorkingTimeServices workingTimeServices)
+    private readonly IAccountService _accountService;
+
+    public StopWorkTime(IWorkingTimeServices workingTimeServices
+        , IAccountService accountService)
     {
         _workingTimeServices = workingTimeServices;
-      
+        _accountService = accountService;
     }
 
     public async Task<IViewComponentResult> InvokeAsync()
     {
-        HttpContext.User.Claims.TryGetAuthenticatedUserId(out var userId);
-
-        var dto = await _workingTimeServices.GetNotFinisedWorkingTimes();
+        HttpContext.User.Claims.TryGetAuthenticatedUserId(out var accountId);
+        
+        var userId = await _accountService.GetUserIdFromAccountId(accountId);
+        var dto = await _workingTimeServices.GetUserNotFinisedWorkingTimes(userId);
 
         return View(dto);
     }
