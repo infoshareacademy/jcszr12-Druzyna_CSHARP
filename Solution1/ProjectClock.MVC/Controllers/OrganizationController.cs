@@ -1,5 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using ProjectClock.BusinessLogic.Dtos.Organization;
+using ProjectClock.BusinessLogic.Dtos.OrganizationDto;
 using ProjectClock.BusinessLogic.Services;
+using ProjectClock.Database;
 using ProjectClock.Database.Entities;
 
 namespace ProjectClock.MVC.Controllers
@@ -7,9 +11,13 @@ namespace ProjectClock.MVC.Controllers
     public class OrganizationController : Controller
     {
         private IOrganizationServices _organizationServices;
+        private IUserServices _userServices;
+        private IMapper _mapper;
 
-        public OrganizationController(IOrganizationServices organizationServices)
+        public OrganizationController(IOrganizationServices organizationServices, IUserServices userServices, IMapper mapper)
         {
+            _mapper = mapper;
+            _userServices = userServices;
             _organizationServices = organizationServices;
         }
 
@@ -20,7 +28,7 @@ namespace ProjectClock.MVC.Controllers
             return View(list);
         }
 
-        
+
         // GET: OrganizationController/Details/5
         public ActionResult Details(int id)
         {
@@ -28,7 +36,6 @@ namespace ProjectClock.MVC.Controllers
             return View(organization);
         }
 
-        // GET: OrganizationController/Create
         public ActionResult Create()
         {
             return View();
@@ -37,29 +44,42 @@ namespace ProjectClock.MVC.Controllers
         // POST: OrganizationController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Organization model)
+        public async Task<IActionResult> Create(CreateOrganizationDto organizationDto)
         {
             try
             {
-                //if (!ModelState.IsValid)
-                //{
-                //    return View(model);
-                //}
+                if (!ModelState.IsValid)
+                {
+                    return View();
+                }
+                
+                bool created = await _organizationServices.Create(organizationDto);
 
-                await _organizationServices.Create(model);
+                if (created)
+                {
+                    TempData["SuccessMessage"] = "Organization created successfully.";
+                }
+                else
+                {
+                    TempData["ErrorMessage"] = "This organization already exists.";
+                }
 
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Create));
             }
-            catch
+            catch (Exception ex)
             {
+                TempData["ErrorMessage"] = $"Error occurred while deleting organization: {ex.Message}";
                 return View();
             }
         }
 
+
+
+
         // GET: OrganizationController/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<ActionResult> Edit(int id)
         {
-            var model = _organizationServices.GetById(id);
+            var model = await _organizationServices.GetById(id);
             return View(model);
         }
 
@@ -81,27 +101,114 @@ namespace ProjectClock.MVC.Controllers
         }
 
         // GET: OrganizationController/Delete/5
-        public ActionResult Delete(int id)
+        public async Task<IActionResult> Delete()
         {
-            var organization = _organizationServices.GetById(id);
-            return View(organization);
+            DeleteOrganizationDto model = new();
+
+            var organizations = await _organizationServices.GetAll();
+            model.Organizations = organizations;
+
+            return View("Delete", model);
         }
 
         // POST: OrganizationController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<IActionResult> Delete(int organizationId)
         {
             try
             {
-                _organizationServices.Delete(id);
+                bool deleted = await _organizationServices.Delete(organizationId);
 
-                return RedirectToAction(nameof(Index));
+                if (deleted)
+                {
+                    TempData["SuccessMessage"] = "Organization deleted successfully.";
+                }
+                else
+                {
+                    TempData["ErrorMessage"] = "This organization doesn't exists.";
+                }
+
+                return RedirectToAction(nameof(Delete));
             }
             catch
             {
                 return View();
             }
         }
+
+
+        public async Task<IActionResult> Manage()
+        {
+            ManageOrganizationDto model = new ManageOrganizationDto();
+
+            var organizations = await _organizationServices.GetAll();
+
+            model.Organizations = organizations;
+
+            return View("Manage", model);
+
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Choose(int organizationId, int userId)
+        {
+            ManageOrganizationDto model = await GetManageOrganizationDto(organizationId, userId);
+
+            return View("Manage", model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> InviteUser(int organizationId, int userId)
+        {
+            
+            bool invited = await _organizationServices.AddUser(organizationId, userId);
+            ManageOrganizationDto model = await GetManageOrganizationDto(organizationId, userId);
+
+            if (invited)
+            {
+                TempData["UserAddedMessage"] = $"User with {userId} has been added to organization with {organizationId}.";
+            }
+            else
+            {
+                TempData["UserAddedFailedMessage"] =
+                    $"User with {userId} hasn't been added to organization with {organizationId}.";
+            }
+
+            return View("Manage", model);
+        }
+
+        private async Task<ManageOrganizationDto> GetManageOrganizationDto(int organizationId, int userId)
+        {
+            ManageOrganizationDto model = new ManageOrganizationDto();
+
+            var organizations = await _organizationServices.GetAll();
+            var organization = organizations.FirstOrDefault(o => o.Id == organizationId);
+            var allUsers = await _userServices.GetAll();
+
+            if (organization?.OrganizationUsers?.Count > 0)
+            {
+                var users = organization.OrganizationUsers.Select(ou => ou.User).ToList();
+                var user = users.FirstOrDefault(u => u.Id == userId);
+
+                model.OrganizationUsers = users;
+                model.User = user;
+            }
+            else
+            {
+                TempData["NoUsersMessage"] = "This organization hasn't got users yet.";
+                model.OrganizationUsers = new List<User>();
+                model.User = null;
+            }
+
+            model.OrganizationId = organizationId;
+            model.Organizations = organizations;
+            model.AllUsers = allUsers;
+            model.Organization = organization;
+            model.SelectedOrganizationId = organizationId;
+
+            return model;
+        }
+
     }
 }

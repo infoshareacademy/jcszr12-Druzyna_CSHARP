@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProjectClock.Database;
 
@@ -11,9 +12,11 @@ using ProjectClock.Database;
 namespace ProjectClock.Database.Migrations
 {
     [DbContext(typeof(ProjectClockDbContext))]
-    partial class ProjectClockDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240322133942_Init")]
+    partial class Init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -80,14 +83,14 @@ namespace ProjectClock.Database.Migrations
                     b.Property<int>("OrganizationId")
                         .HasColumnType("int");
 
-                    b.Property<bool?>("IsOwner")
+                    b.Property<bool>("IsOwner")
                         .HasColumnType("bit");
 
                     b.HasKey("UserId", "OrganizationId");
 
                     b.HasIndex("OrganizationId");
 
-                    b.ToTable("OrganizationsUsers");
+                    b.ToTable("OrganizationUser");
                 });
 
             modelBuilder.Entity("ProjectClock.Database.Entities.Project", b =>
@@ -157,7 +160,7 @@ namespace ProjectClock.Database.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserProjects");
+                    b.ToTable("UserProject");
                 });
 
             modelBuilder.Entity("ProjectClock.Database.Entities.WorkingTime", b =>

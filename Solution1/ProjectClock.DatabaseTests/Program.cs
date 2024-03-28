@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using ProjectClock.BusinessLogic.Dtos.Organization;
 using ProjectClock.BusinessLogic.Services;
 using ProjectClock.BusinessLogic.Services.WorkingTimeServices;
 using ProjectClock.Database;
@@ -18,36 +19,20 @@ namespace ProjectClock.DatabaseTests
             {
                 UserServices userServices = new UserServices(dbContext);
                 ProjectServices projectServices = new ProjectServices(dbContext);
-                
                 OrganizationServices organizationService = new OrganizationServices(dbContext);
-               
-                Organization org = new Organization() { Name = "BigOrganiaztion" };
-                Organization org2 = new Organization() { Name = "SmallOrganiaztion" };
-                Project project = new Project() { Name = "NBA.com", Organization = org };
-                User user = new User("Scottie", "Pippen", "scottie@gmail.com");
-                user.UserProjects.Add(new UserProject() {Project = project});
-                User user2 = new User("Michael", "Jordan", "jordan@gmail.com");
-                User user3 = new User("Luc", "Longley", "longley@gmail.com");
-                
-                Project project2 = new Project() { Name = "ShittyLand", Organization = org };
-                Project project3 = new Project() { Name = "PorkStattion", Organization = org };
-              
-                WorkingTime wt = new WorkingTime() { User = user, Project = project};
-                WorkingTime wt2 = new WorkingTime() { User = user2, Project = project2};
 
 
-                //await userServices.Create(user);
-                //await userServices.Create(user2);
-                //await userServices.Create(user3);
-                //await projectServices.Create(project);
-                //await projectServices.Create(project2);
-                //await projectServices.Create(project3);
-                //await workingTimeServices.Create(wt);
-                await organizationService.Create(org2);
 
-                //User user4 = new User("John", "Hancock", "hancock@gmail.com");
-                //Project project4 = new Project() { Name = "SRC Keybord" };
-                //await workingTimeServices.Create(wt2);
+                User user = new User("Zdzichu", "Po Kielichu", "zdzszek@kieliszek");
+                await userServices.Create(user);
+
+                Project newVodka = new Project() { Name = "Zytnia 70%", };
+                Organization polmos = new Organization() { Name = "Polmos", Projects = new List<Project>() { newVodka } };
+
+                await userServices.SignUserToOrganization(user, polmos);
+                OrganizationUser oU = new OrganizationUser() { User = user, Organization = polmos };
+                await organizationService.Create(polmos);
+
                 Console.WriteLine("End");
             }
 

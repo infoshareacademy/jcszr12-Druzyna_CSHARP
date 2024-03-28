@@ -12,8 +12,8 @@ using ProjectClock.Database;
 namespace ProjectClock.Database.Migrations
 {
     [DbContext(typeof(ProjectClockDbContext))]
-    [Migration("20240319222354_Initial")]
-    partial class Initial
+    [Migration("20240325171529_Init33")]
+    partial class Init33
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -90,7 +90,7 @@ namespace ProjectClock.Database.Migrations
 
                     b.HasIndex("OrganizationId");
 
-                    b.ToTable("OrganizationUser");
+                    b.ToTable("OrganizationsUsers");
                 });
 
             modelBuilder.Entity("ProjectClock.Database.Entities.Project", b =>
@@ -160,7 +160,7 @@ namespace ProjectClock.Database.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserProject");
+                    b.ToTable("UserProjects");
                 });
 
             modelBuilder.Entity("ProjectClock.Database.Entities.WorkingTime", b =>
