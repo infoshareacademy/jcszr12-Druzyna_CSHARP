@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProjectClock.BusinessLogic.Dtos.WorkingTime.WorkingTimeDtos
 {
-    public class NotFinisedWorkingTimeDto
+    public class WorkingTimeDto
     {
         public int WorkingTimeId { get; set; }
         public string ProjectName { get; set; }

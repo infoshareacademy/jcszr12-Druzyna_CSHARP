@@ -162,11 +162,11 @@ namespace ProjectClock.Database.Migrations
 
             modelBuilder.Entity("ProjectClock.Database.Entities.WorkingTime", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("ProjectId")
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -174,21 +174,13 @@ namespace ProjectClock.Database.Migrations
                     b.Property<DateTime?>("EndTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("ProjectId")
+                    b.Property<int>("Id")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("StartTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("TotalWorkTime")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProjectId");
+                    b.HasKey("ProjectId", "UserId");
 
                     b.HasIndex("UserId");
 

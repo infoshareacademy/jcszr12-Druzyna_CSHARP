@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ProjectClock.BusinessLogic.Dtos.WorkingTime.WorkingTimeDtos;
+using ProjectClock.BusinessLogic.Services;
 using ProjectClock.BusinessLogic.Services.WorkingTimeServices;
 using ProjectClock.MVC.Extensions;
 
@@ -9,9 +10,23 @@ namespace ProjectClock.MVC.Controllers
     public class WorkingTimeController : Controller
     {
         private readonly IWorkingTimeServices _workingTimeServices;
-        public WorkingTimeController(IWorkingTimeServices workingTimeServices)
+        private readonly IAccountService _accountService;
+
+        public WorkingTimeController(IWorkingTimeServices workingTimeServices,
+            IAccountService accountService)
         {
             _workingTimeServices = workingTimeServices;
+            _accountService = accountService;
+        }
+
+        public async Task<IActionResult> Index()
+        {
+            HttpContext.User.Claims.TryGetAuthenticatedUserId(out var accountId);
+
+            
+            var userId = await _accountService.GetUserIdFromAccountId(accountId);
+            var dto = await _workingTimeServices.GetUserAllWorkingTimes(userId);
+            return View(dto);
         }
 
 
@@ -45,11 +60,15 @@ namespace ProjectClock.MVC.Controllers
 
         public async Task<ActionResult> GetTime()
         {
+            HttpContext.User.Claims.TryGetAuthenticatedUserId(out var accountId);
+
             string data;
-            var dto = await _workingTimeServices.GetNotFinisedWorkingTimes();
-            if(dto != null)
+            var userId = await _accountService.GetUserIdFromAccountId(accountId);
+            var dto = await _workingTimeServices.GetUserNotFinisedWorkingTimes(userId);
+
+            if (dto != null)
             {
-                var time = DateTime.Now - dto.Min(e => e.StartTime);
+                var time = DateTime.UtcNow - dto.Min(e => e.StartTime);
                 data = time.ToString(@"hh\:mm\:ss");
             }
             else

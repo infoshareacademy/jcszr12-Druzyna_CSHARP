@@ -21,12 +21,8 @@ namespace ProjectClock.Database
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-           modelBuilder.Entity<WorkingTime>()
-                .Property(wt => wt.TotalWorkTime)
-                .HasConversion(
-                    v => v.ToString(), // Konwersja TimeSpan na string
-                    v => TimeSpan.Parse(v) // Konwersja string na TimeSpan
-                );
+            modelBuilder.Entity<WorkingTime>()
+                .HasKey(wt => new { wt.ProjectId, wt.UserId });
 
             modelBuilder.Entity<User>(eb =>
             {

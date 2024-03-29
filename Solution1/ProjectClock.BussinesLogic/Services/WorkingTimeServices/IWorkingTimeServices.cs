@@ -11,7 +11,8 @@ namespace ProjectClock.BusinessLogic.Services.WorkingTimeServices
         Task Update(UpdateWorkingTimeDto dto);
         Task<bool> Delete(int id);
         bool WorkingTimeExist(StartStopWorkingTimeDto dto);
-        Task<IEnumerable<NotFinisedWorkingTimeDto>> GetNotFinisedWorkingTimes();
+        Task<IEnumerable<WorkingTimeDto>> GetUserNotFinisedWorkingTimes(int userId);
+        Task<IEnumerable<WorkingTimeDto>> GetUserAllWorkingTimes(int userId);
         Task<bool> StopWork(StartStopWorkingTimeDto dto);
     }
 

@@ -117,14 +117,10 @@ public class WorkingTimeServices : IWorkingTimeServices
             }
             else
             {
-                workingTime.EndTime = DateTime.UtcNow;
-                workingTime.TotalWorkTime = workingTime.EndTime - workingTime.StartTime;
+                workingTime.EndTime = DateTime.UtcNow;              
                 await _projectClockDbContext.SaveChangesAsync();
                 return true;
-            }
-
-        
-        
+            }  
     }
 
     public async Task<int> GetId(WorkingTime workingTime)
@@ -134,12 +130,28 @@ public class WorkingTimeServices : IWorkingTimeServices
 
         return wt.Id;
     }
-    public async Task<IEnumerable<NotFinisedWorkingTimeDto>> GetNotFinisedWorkingTimes()
+    public async Task<IEnumerable<WorkingTimeDto>> GetUserNotFinisedWorkingTimes(int userId)
     {
-        var list = await _projectClockDbContext.WorkingTimes.Where(e => e.EndTime == null).ToListAsync();
+        var list = await _projectClockDbContext.WorkingTimes
+            .Where(e => e.EndTime == null && e.UserId == userId)
+            .Include(wt => wt.Project)
+            .ToListAsync();
 
-        var dtos = _mapper.Map<IEnumerable<NotFinisedWorkingTimeDto>>(list);
+        var dtos = _mapper.Map<IEnumerable<WorkingTimeDto>>(list);
         return dtos;
     }
+
+    public async Task<IEnumerable<WorkingTimeDto>> GetUserAllWorkingTimes(int userId)
+    {
+        var list = await _projectClockDbContext.WorkingTimes
+            .Where(e=> e.UserId == userId)
+            .Include(wt => wt.Project)
+            .ToListAsync();
+
+        var dtos = _mapper.Map<IEnumerable<WorkingTimeDto>>(list);
+        return dtos;
+    }
+
+
 }
 

@@ -18,10 +18,10 @@ namespace ProjectClock.MVC.Controllers
         }
 
         [Authorize(Roles = "User")]
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            var list = await _serviceProject.GetAll();
-            return View(list);
+            
+            return View();
         }
 
         [Authorize(Roles = "User")]

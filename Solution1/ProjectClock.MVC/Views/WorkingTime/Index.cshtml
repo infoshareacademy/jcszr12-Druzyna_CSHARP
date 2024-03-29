@@ -1,0 +1,39 @@
+﻿@using ProjectClock.BusinessLogic.Dtos.WorkingTime.WorkingTimeDtos
+
+@model IEnumerable<WorkingTimeDto>
+@foreach (var group in Model.GroupBy(w => w.StartTime.Date))
+{<div class="container bg-info-subtle r-4 rounded">
+        <div class="row">
+            <h4 class="text-info">Date: @group.Key.ToShortDateString()</h4>
+            <div class="table-responsive opacity-75">
+                <table class="table table-info ">
+                    <thead>
+                        <tr>
+                            <th>Project Name</th>
+                            <th>Is Finished</th>
+                            <th>Start Time</th>
+                            <th>End Time</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in group)
+                        {
+                            <tr>                              
+                                <td>@item.ProjectName</td>
+                                <td>@(item.IsFinished ? "Ended" : "In progress")</td>
+                                <td>@item.StartTime.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                                <td>@item.EndTime.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                                <td>
+                                    <button class="btn btn-danger m-1" onclick="location.href='@Url.Action("Delete", "Home", new { id = item.WorkingTimeId })'">Delete</button>
+                                    <button class="btn btn-primary m-1" onclick="location.href='@Url.Action("Modify", "Home", new { id = item.WorkingTimeId })'">Modify</button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+</div>
+      
+}
