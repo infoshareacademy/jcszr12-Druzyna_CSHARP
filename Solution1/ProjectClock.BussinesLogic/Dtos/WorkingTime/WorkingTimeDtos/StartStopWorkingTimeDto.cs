@@ -1,4 +1,5 @@
-﻿using ProjectClock.Database.Entities;
+﻿using ProjectClock.BusinessLogic.Dtos.Project.ProjectDtos;
+using ProjectClock.Database.Entities;
 
 namespace ProjectClock.BusinessLogic.Dtos.WorkingTime.WorkingTimeDtos;
 
@@ -8,5 +9,5 @@ public class StartStopWorkingTimeDto
     public int UserId { get; set; }
     public string? ProjectName { get; set; }
     public string? Description { get; set; }
-    public List<Database.Entities.Project> Projects { get; set; } = new List<Database.Entities.Project>();
+    public IEnumerable<ProjectDto> Projects { get; set; } = new List<ProjectDto>();
 }

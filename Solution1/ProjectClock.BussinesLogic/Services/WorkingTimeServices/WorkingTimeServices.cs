@@ -152,6 +152,7 @@ public class WorkingTimeServices : IWorkingTimeServices
             .ToListAsync();
 
         var dtos = _mapper.Map<IEnumerable<WorkingTimeDto>>(list);
+
         return dtos;
     }
 
