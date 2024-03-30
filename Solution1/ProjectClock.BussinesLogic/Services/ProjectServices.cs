@@ -8,12 +8,11 @@ namespace ProjectClock.BusinessLogic.Services
 {
     public interface IProjectServices
     {
-        Task<bool> Create(Project project);
+        Task<bool> Create(CreateProjectDto project);
         Task<Project> GetById(int id);
         Task<IEnumerable<ProjectDto>> GetAll();
         Task Update(Project model);
         Task<bool> Delete(int id);
-        Task<bool> ProjectExist(string name);
     }
 
     public class ProjectServices : IProjectServices
@@ -27,56 +26,28 @@ namespace ProjectClock.BusinessLogic.Services
             _mapper = mapper;
         }
 
-        public async Task<bool> Create(Project project)
+        public async Task<bool> Create(CreateProjectDto dto)
         {
-            try
-            {
-                if (await ProjectExist(project.Name))
-                {
-                    throw new Exception($"This project already exist");
+            if (await _projectClockDbContext.Projects
+            .AsNoTracking()
+            .AnyAsync(p => p.Name == dto.ProjectName 
+                && p.Organization.Name == dto.OrganizationName))
+                {                  
                     return false;
-
-                }
-                else
-                {
-                    _projectClockDbContext.Projects.Add(project);
-                    await _projectClockDbContext.SaveChangesAsync();
-                    return true;
-
                 }
 
-            }
-            catch (Exception)
+            var project = new Project()
             {
-                return false;
-            }
+                Name = dto.ProjectName,
+                Organization = await _projectClockDbContext.Organizations.SingleOrDefaultAsync(e => e.Name == dto.OrganizationName),
+            };
+
+            await _projectClockDbContext.Projects.AddAsync(project);
+            await _projectClockDbContext.SaveChangesAsync();
+            return true;
         }
 
-        public async Task<bool> Create(string name)
-        {
-            try
-            {
-                if (await ProjectExist(name))
-                {
-                    throw new Exception($"This project already exist");
-                    return false;
-
-                }
-                else
-                {
-                    Project project = new Project() { Name = name };
-                    _projectClockDbContext.Projects.Add(project);
-                    await _projectClockDbContext.SaveChangesAsync();
-                    return true;
-
-                }
-
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
+        
 
         public async Task<Project?> GetById(int id)
         {
@@ -132,10 +103,7 @@ namespace ProjectClock.BusinessLogic.Services
 
         }
 
-        public async Task<bool> ProjectExist(string name)
-        {
-            return await _projectClockDbContext.Projects.AsNoTracking().AnyAsync(p => p.Name == name);
-        }
+        
     }
 
 }

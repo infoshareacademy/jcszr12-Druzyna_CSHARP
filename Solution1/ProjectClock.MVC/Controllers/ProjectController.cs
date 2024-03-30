@@ -30,13 +30,7 @@ namespace ProjectClock.MVC.Controllers
             return View();
         }
 
-        [Authorize(Roles = "User")]
-        [HttpPost]
-        public async Task<IActionResult> Create(Project project)
-        {
-            await _serviceProject.Create(project);
-            return RedirectToAction(nameof(Index));
-        }
+       
 
         [Authorize(Roles = "User")]
         [Route("Project/{name}")]
