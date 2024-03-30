@@ -7,5 +7,6 @@ public class StartStopWorkingTimeDto
     public int WorkingTimeId { get; set; }
     public int UserId { get; set; }
     public string? ProjectName { get; set; }
+    public string? Description { get; set; }
     public List<Database.Entities.Project> Projects { get; set; } = new List<Database.Entities.Project>();
 }

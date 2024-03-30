@@ -1,11 +1,6 @@
 ﻿using AutoMapper;
 using ProjectClock.BusinessLogic.Dtos.WorkingTime.WorkingTimeDtos;
 using ProjectClock.Database.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ProjectClock.BusinessLogic.Mapping
 {
@@ -18,7 +13,8 @@ namespace ProjectClock.BusinessLogic.Mapping
             .ForMember(dest => dest.StartTime, opt => opt.MapFrom(src => src.StartTime))
             .ForMember(dest => dest.EndTime, opt => opt.MapFrom(src => src.EndTime))
             .ForMember(dest => dest.IsFinished, opt => opt.MapFrom(src => src.IsFinished))
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(dest => dest.Id));
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(dest => dest.Id))
+            .ForMember(dest => dest.Description, opt => opt.MapFrom(dest => dest.Description));
         }
     }
 }
