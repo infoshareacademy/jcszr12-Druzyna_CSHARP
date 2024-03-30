@@ -2,11 +2,12 @@
 
 @model IEnumerable<WorkingTimeDto>
 @foreach (var group in Model.GroupBy(w => w.StartTime.Date))
-{<div class="container bg-info-subtle r-4 rounded">
+{
+    <div class="container bg-light bg-opacity-50 rounded-2 p-2 m-1 box-shadow">
         <div class="row">
-            <h4 class="text-info">Date: @group.Key.ToShortDateString()</h4>
-            <div class="table-responsive opacity-75">
-                <table class="table table-info ">
+            <h4 class="">Date: @group.Key.ToShortDateString()</h4>
+            <div class="table-responsive">
+                <table class="table table-info bg-opacity-25">
                     <thead>
                         <tr>
                             <th>Project Name</th>
@@ -23,10 +24,10 @@
                                 <td>@item.ProjectName</td>
                                 <td>@(item.IsFinished ? "Ended" : "In progress")</td>
                                 <td>@item.StartTime.ToString("yyyy-MM-dd HH:mm:ss")</td>
-                                <td>@item.EndTime.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                                <td>@(item.IsFinished ? @item.EndTime.ToString("yyyy - MM - dd HH: mm: ss") : "-") </td>
                                 <td>
-                                    <button class="btn btn-danger m-1" onclick="location.href='@Url.Action("Delete", "Home", new { id = item.WorkingTimeId })'">Delete</button>
-                                    <button class="btn btn-primary m-1" onclick="location.href='@Url.Action("Modify", "Home", new { id = item.WorkingTimeId })'">Modify</button>
+                                    <button class="btn btn-danger m-1" onclick="location.href='@Url.Action("Delete", "Home", new { id = item.Id })'">Delete</button>
+                                    <button class="btn btn-primary m-1" onclick="location.href='@Url.Action("Modify", "Home", new { id = item.Id })'">Modify</button>
                                 </td>
                             </tr>
                         }

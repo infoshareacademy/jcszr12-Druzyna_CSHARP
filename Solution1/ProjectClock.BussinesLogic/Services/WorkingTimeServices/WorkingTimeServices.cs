@@ -108,7 +108,7 @@ public class WorkingTimeServices : IWorkingTimeServices
     public async Task<bool> StopWork(StartStopWorkingTimeDto dto)
     {
 
-        var workingTime = await _projectClockDbContext.WorkingTimes.SingleOrDefaultAsync(e => e.Id == dto.Id);
+        var workingTime = await _projectClockDbContext.WorkingTimes.SingleOrDefaultAsync(e => e.Id == dto.WorkingTimeId);
 
             
             if (workingTime.IsFinished)
@@ -135,9 +135,11 @@ public class WorkingTimeServices : IWorkingTimeServices
         var list = await _projectClockDbContext.WorkingTimes
             .Where(e => e.EndTime == null && e.UserId == userId)
             .Include(wt => wt.Project)
+            .Include(wt => wt.User)
             .ToListAsync();
 
         var dtos = _mapper.Map<IEnumerable<WorkingTimeDto>>(list);
+
         return dtos;
     }
 
@@ -146,6 +148,7 @@ public class WorkingTimeServices : IWorkingTimeServices
         var list = await _projectClockDbContext.WorkingTimes
             .Where(e=> e.UserId == userId)
             .Include(wt => wt.Project)
+            .Include(wt => wt.User)
             .ToListAsync();
 
         var dtos = _mapper.Map<IEnumerable<WorkingTimeDto>>(list);

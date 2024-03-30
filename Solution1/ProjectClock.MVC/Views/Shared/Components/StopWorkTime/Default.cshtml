@@ -13,13 +13,14 @@
                     <form action="/WorkingTime/Stop" method="post">
                         <div class="row mb-3">
                             <div class="col-md-8">
-                                <label for="Id" class="control-label">Project</label>
-                                <select name="Id" class="form-select form-select-lg">
+                                <label for="WorkingTimeId" class="control-label">Project</label>
+                                <select name="WorkingTimeId" class="form-select form-select-lg">
                                     @foreach (var workingTime in Model)
                                     {
-                                        <option value="@workingTime.WorkingTimeId">@workingTime.ProjectName</option>
+                                        <option value="@workingTime.Id">@workingTime.ProjectName</option>                                       
                                     }
                                 </select>
+                                
                             </div>                                                 
                         <div class="col-md-4 mt-1" id="stopwatch"></div>
                         </div>
