@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using ProjectClock.BusinessLogic.Dtos.Organization;
+using ProjectClock.BusinessLogic.Dtos.Project.ProjectDtos;
 using ProjectClock.Database;
 using ProjectClock.Database.Entities;
 
@@ -16,6 +17,7 @@ namespace ProjectClock.BusinessLogic.Services
         Task<bool> Create(CreateOrganizationDto organization);
         Task<Organization> GetById(int id);
         Task<List<Organization>> GetAll();
+        Task<List<OrganizationsDto>> GetAllUserOrganization(int userId);
         Task Update(Organization model);
         Task<bool> Delete(int id);
         Task<bool> OrganizationExist(string name);
@@ -174,6 +176,17 @@ namespace ProjectClock.BusinessLogic.Services
             await _projectClockDbContext.SaveChangesAsync();
 
             return true;
+        }
+
+        public async Task<List<OrganizationsDto>> GetAllUserOrganization(int userId)
+        {
+            var list = _projectClockDbContext.Organizations
+                .Where(o => o.OrganizationUsers
+                .FirstOrDefault(e => e.UserId == userId).User.Id == userId);
+
+            var dtos = _mapper.Map<List<OrganizationsDto>>(list);
+
+            return dtos;
         }
     }
 }

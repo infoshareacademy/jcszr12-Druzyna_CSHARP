@@ -4,8 +4,7 @@
 
 @if (Model.Any())
 {
-
-    <li class="list-group-item col-lg text-bg-info bg-opacity-50 rounded-2 p-1 m-1 box-shadow">
+    <li class="list-group-item col-lg col-12 text-bg-info bg-opacity-50 rounded-2 p-1 m-1 box-shadow">
         <div class="container">
             <h2 class="text-center">Projects in progress</h2>
             <div class="row justify-content-center ">
@@ -13,13 +12,14 @@
                     <form action="/WorkingTime/Stop" method="post">
                         <div class="row mb-3">
                             <div class="col-md-8">
-                                <label for="Id" class="control-label">Project</label>
-                                <select name="Id" class="form-select form-select-lg">
+                                <label for="WorkingTimeId" class="control-label">Project</label>
+                                <select name="WorkingTimeId" class="form-select form-select-lg">
                                     @foreach (var workingTime in Model)
                                     {
-                                        <option value="@workingTime.WorkingTimeId">@workingTime.ProjectName</option>
+                                        <option value="@workingTime.Id">@workingTime.ProjectName</option>                                       
                                     }
                                 </select>
+                                
                             </div>                                                 
                         <div class="col-md-4 mt-1" id="stopwatch"></div>
                         </div>
