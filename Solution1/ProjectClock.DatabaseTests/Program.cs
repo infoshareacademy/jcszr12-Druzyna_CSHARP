@@ -18,7 +18,7 @@ namespace ProjectClock.DatabaseTests
             using (var dbContext = new ProjectClockDbContext(optionsBuilder.Options))
             {
                 UserServices userServices = new UserServices(dbContext);
-                ProjectServices projectServices = new ProjectServices(dbContext);
+                //ProjectServices projectServices = new ProjectServices(dbContext);
                 OrganizationServices organizationService = new OrganizationServices(dbContext);
 
 
@@ -29,7 +29,7 @@ namespace ProjectClock.DatabaseTests
                 Project newVodka = new Project() { Name = "Zytnia 70%", };
                 Organization polmos = new Organization() { Name = "Polmos", Projects = new List<Project>() { newVodka } };
 
-                await userServices.SignUserToOrganization(user, polmos);
+                //await userServices.SignUserToOrganization(user, polmos);
                 OrganizationUser oU = new OrganizationUser() { User = user, Organization = polmos };
                 await organizationService.Create(polmos);
 

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ProjectClock.Database.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -137,16 +137,16 @@ namespace ProjectClock.Database.Migrations
                 name: "WorkingTimes",
                 columns: table => new
                 {
+                    Id = table.Column<int>(type: "int", nullable: false),
                     ProjectId = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false),
-                    Id = table.Column<int>(type: "int", nullable: false),
                     StartTime = table.Column<DateTime>(type: "datetime2", nullable: true),
                     EndTime = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_WorkingTimes", x => new { x.ProjectId, x.UserId });
+                    table.PrimaryKey("PK_WorkingTimes", x => new { x.ProjectId, x.UserId, x.Id });
                     table.ForeignKey(
                         name: "FK_WorkingTimes_Projects_ProjectId",
                         column: x => x.ProjectId,
