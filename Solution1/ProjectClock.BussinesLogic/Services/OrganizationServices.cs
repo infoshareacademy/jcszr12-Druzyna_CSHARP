@@ -64,7 +64,19 @@ namespace ProjectClock.BusinessLogic.Services
         }
         public async Task<bool> Create(CreateOrganizationDto organizationDto)
         {
-            var organization = _mapper.Map<Organization>(organizationDto);
+            var organization = new Organization()
+            {
+                Name = organizationDto.Name
+            };
+
+            organization.OrganizationUsers = new List<OrganizationUser>()
+            {
+                new OrganizationUser()
+                {
+                User = _projectClockDbContext.Users.SingleOrDefault(e => e.Id == organizationDto.UserId),
+                Organization = organization
+                }
+            };
 
             try
             {
