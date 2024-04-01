@@ -18,7 +18,7 @@ namespace ProjectClock.DatabaseTests
             using (var dbContext = new ProjectClockDbContext(optionsBuilder.Options))
             {
                 UserServices userServices = new UserServices(dbContext);
-                ProjectServices projectServices = new ProjectServices(dbContext);
+                //ProjectServices projectServices = new ProjectServices(dbContext);
                 OrganizationServices organizationService = new OrganizationServices(dbContext);
 
 

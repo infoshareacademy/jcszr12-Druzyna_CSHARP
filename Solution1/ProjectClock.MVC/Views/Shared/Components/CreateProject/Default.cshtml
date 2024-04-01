@@ -4,19 +4,19 @@
 
 <div class="row justify-content-center">
     <div class="col-md-4">
-        <form id="home" method="post">
-            <div class="form-group mb-3">
-                <label for="Organization" class="control-label">Project</label>
-                <select name="Organization" class="form-select form-select-lg">
+        <form action="/NewProject/Create" method="post">
+            <div class="form-group mt-1">
+                <label for="OrganizationName" class="control-label">Organization</label>
+                <select name="OrganizationName" class="form-select form-select-lg">
                     @foreach (var organization in @Model)
                     {
-                        <option value="@organization.OrganizationId">@organization.OrganizationName</option>
+                        <option value="@organization.OrganizationName">@organization.OrganizationName</option>
                     }
                 </select>
-                <label for="ProjectName" class="control-label">Name</label>
-                <input for="ProjectName" type="text">
+                <label for="ProjectName" class="control-label mt-1">Name</label>
+                <input name="ProjectName" type="text">
             </div>
-            <div class="form-group mb-3">
+            <div class="form-group mt-1">
                 <input value="Create" type="submit" class="btn btn-primary">
             </div>
         </form>

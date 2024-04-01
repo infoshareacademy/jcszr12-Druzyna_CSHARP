@@ -69,14 +69,15 @@ namespace ProjectClock.BusinessLogic.Services
                 Name = organizationDto.Name
             };
 
-            organization.OrganizationUsers = new List<OrganizationUser>()
+            var owner = new OrganizationUser()
             {
-                new OrganizationUser()
-                {
                 User = _projectClockDbContext.Users.SingleOrDefault(e => e.Id == organizationDto.UserId),
-                Organization = organization
-                }
+                Organization = organization,
+                IsOwner = true               
             };
+
+
+
 
             try
             {
@@ -87,6 +88,7 @@ namespace ProjectClock.BusinessLogic.Services
                 else
                 {
                     await _projectClockDbContext.Organizations.AddAsync(organization);
+                    await _projectClockDbContext.OrganizationsUsers.AddAsync(owner);
                     await _projectClockDbContext.SaveChangesAsync();
                     return true;
                 }
@@ -192,9 +194,11 @@ namespace ProjectClock.BusinessLogic.Services
 
         public async Task<List<OrganizationsDto>> GetAllUserOrganization(int userId)
         {
-            var list = _projectClockDbContext.Organizations
+            
+            var list = await _projectClockDbContext.Organizations
                 .Where(o => o.OrganizationUsers
-                .FirstOrDefault(e => e.UserId == userId).User.Id == userId);
+                .FirstOrDefault(e => e.UserId == userId).User.Id == userId)
+                .ToListAsync();
 
             var dtos = _mapper.Map<List<OrganizationsDto>>(list);
 

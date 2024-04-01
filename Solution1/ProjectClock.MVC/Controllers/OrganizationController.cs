@@ -5,6 +5,7 @@ using ProjectClock.BusinessLogic.Dtos.OrganizationDto;
 using ProjectClock.BusinessLogic.Services;
 using ProjectClock.Database;
 using ProjectClock.Database.Entities;
+using ProjectClock.MVC.Extensions;
 
 namespace ProjectClock.MVC.Controllers
 {
@@ -12,13 +13,18 @@ namespace ProjectClock.MVC.Controllers
     {
         private IOrganizationServices _organizationServices;
         private IUserServices _userServices;
+        private IAccountService _accountService;
         private IMapper _mapper;
 
-        public OrganizationController(IOrganizationServices organizationServices, IUserServices userServices, IMapper mapper)
+        public OrganizationController(IOrganizationServices organizationServices, 
+            IUserServices userServices, 
+            IAccountService accountService, 
+            IMapper mapper)
         {
             _mapper = mapper;
             _userServices = userServices;
             _organizationServices = organizationServices;
+            _accountService = accountService;
         }
 
         // GET: OrganizationController
@@ -52,7 +58,9 @@ namespace ProjectClock.MVC.Controllers
                 {
                     return View();
                 }
-                
+                HttpContext.User.Claims.TryGetAuthenticatedUserId(out var accountId);
+                organizationDto.UserId = await _accountService.GetUserIdFromAccountId(accountId);
+
                 bool created = await _organizationServices.Create(organizationDto);
 
                 if (created)

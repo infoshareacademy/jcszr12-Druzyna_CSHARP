@@ -56,7 +56,7 @@ namespace ProjectClock.BusinessLogic.Services
 
         public async Task<IEnumerable<ProjectDto>> GetAll()
         {
-            var list = await _projectClockDbContext.Projects.ToListAsync();
+            var list = await _projectClockDbContext.Projects.Include(p => p.Organization).ToListAsync();
 
             var dtos = _mapper.Map<IEnumerable<ProjectDto>>(list);
 

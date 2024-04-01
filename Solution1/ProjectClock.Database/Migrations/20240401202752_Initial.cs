@@ -63,17 +63,18 @@ namespace ProjectClock.Database.Migrations
                 name: "Accounts",
                 columns: table => new
                 {
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    Id = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PasswordSalt = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
                     PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Accounts", x => x.UserId);
+                    table.PrimaryKey("PK_Accounts", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Accounts_Users_UserId",
                         column: x => x.UserId,
@@ -137,16 +138,17 @@ namespace ProjectClock.Database.Migrations
                 name: "WorkingTimes",
                 columns: table => new
                 {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     ProjectId = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false),
-                    Id = table.Column<int>(type: "int", nullable: false),
                     StartTime = table.Column<DateTime>(type: "datetime2", nullable: true),
                     EndTime = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_WorkingTimes", x => new { x.ProjectId, x.UserId });
+                    table.PrimaryKey("PK_WorkingTimes", x => x.Id);
                     table.ForeignKey(
                         name: "FK_WorkingTimes_Projects_ProjectId",
                         column: x => x.ProjectId,
@@ -160,6 +162,11 @@ namespace ProjectClock.Database.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Accounts_UserId",
+                table: "Accounts",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_OrganizationsUsers_OrganizationId",
@@ -180,6 +187,11 @@ namespace ProjectClock.Database.Migrations
                 name: "IX_UserProjects_UserId",
                 table: "UserProjects",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_WorkingTimes_ProjectId",
+                table: "WorkingTimes",
+                column: "ProjectId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_WorkingTimes_UserId",
