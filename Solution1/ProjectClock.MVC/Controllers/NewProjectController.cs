@@ -27,6 +27,14 @@ namespace ProjectClock.MVC.Controllers
             return View(list);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Create(CreateProjectDto dto)
+        {
+            await _serviceProject.Create(dto);
+
+            return RedirectToAction(nameof(Index));
+        }
+
         
     }
 }

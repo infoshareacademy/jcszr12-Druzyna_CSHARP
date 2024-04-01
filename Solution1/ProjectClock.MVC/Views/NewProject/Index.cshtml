@@ -1,10 +1,14 @@
 ﻿@using ProjectClock.BusinessLogic.Dtos.Project.ProjectDtos
+
 @model IEnumerable<ProjectDto>
+
+<div class="container bg-light bg-opacity-50 rounded-2 p-2 m-1 box-shadow">
+    <div class="row">@await Component.InvokeAsync("CreateProject")</div>
+</div>
 
 @foreach (var group in Model.GroupBy(w => w.Organization))
 {
     <div class="container bg-light bg-opacity-50 rounded-2 p-2 m-1 box-shadow">
-        <div class="row">@await Component.InvokeAsync("CreateProject")</div>
         <div class="row">
             <h4 class="">Organization: @group.Key</h4>
             <div class="table-responsive">

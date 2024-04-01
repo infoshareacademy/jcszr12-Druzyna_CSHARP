@@ -21,10 +21,12 @@ namespace ProjectClock.Database
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<WorkingTime>(wt =>
+            modelBuilder.Entity<WorkingTime>(eb =>
             {
-                wt.HasKey(u => new {u.ProjectId, u.UserId, u.Id });
+                eb.HasOne(wt => wt.User);
+                eb.HasOne(wt => wt.Project);
             });
+                
                 
 
             modelBuilder.Entity<User>(eb =>
@@ -43,9 +45,10 @@ namespace ProjectClock.Database
                 .HasForeignKey(u => u.ProjectId);
 
             });
+
             modelBuilder.Entity<Account>(eb =>
             {
-                eb.HasKey(u => u.UserId);
+                eb.HasOne(a => a.User);             
             });
 
             modelBuilder.Entity<OrganizationUser>().HasKey(x => new { x.UserId, x.OrganizationId });

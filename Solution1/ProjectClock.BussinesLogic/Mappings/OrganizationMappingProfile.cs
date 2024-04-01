@@ -9,7 +9,9 @@ namespace ProjectClock.BusinessLogic.Mappings
         public OrganizationMappingProfile()
         {
             CreateMap<CreateOrganizationDto, Organization>();
-            CreateMap<Organization,OrganizationsDto> ();
+            CreateMap<Organization,OrganizationsDto>()
+                .ForMember(dest => dest.OrganizationId, opt => opt.MapFrom(org => org.Id))
+                .ForMember(dest => dest.OrganizationName, opt => opt.MapFrom(org => org.Name));
         }
     }
 }
