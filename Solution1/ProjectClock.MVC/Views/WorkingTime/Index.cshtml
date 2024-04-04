@@ -35,14 +35,16 @@
                                         <div class="row">
                                             <div class="col-4 col-sm-12 ">
                                                 <button class="btn btn-sm btn-danger" 
-                                                onclick="location.href='@Url.Action("Delete", "Home", new { id = item.Id })'">Delete
+                                                onclick="location.href='@Url.Action("Delete", "WorkingTime", new { id = item.Id })'">Delete
                                             </button></div>
                                         </div>
                                         <div class="row">
                                             <div class="col-4 col-sm-12 pt-1">
-                                                <button class="btn btn-sm btn-primary" 
-                                                onclick="location.href='@Url.Action("Modify", "Home", new { id = item.Id })'">Modify
-                                            </button></div>
+                                                <a asp-controller="WorkingTime"
+                                                asp-action="Delete" 
+                                                asp-route-id="@item.Id"
+                                                   class="btn btn-danger btn-sm text-center">Delete</a>
+                                            </div>
                                         </div>
                                     </div>
                                 </td>
