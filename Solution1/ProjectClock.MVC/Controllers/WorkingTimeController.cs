@@ -58,6 +58,17 @@ namespace ProjectClock.MVC.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+
+        [HttpPost]
+        [Authorize(Roles = "User")]
+        [Route("WorkingTime/Delete/{id}")]
+        public async Task<ActionResult> Delete(int id)
+        {
+            await _workingTimeServices.Delete(id);
+
+            return RedirectToAction("Index", "WorkingTime");
+        }
+
         public async Task<ActionResult> GetTime()
         {
             HttpContext.User.Claims.TryGetAuthenticatedUserId(out var accountId);

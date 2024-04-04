@@ -44,11 +44,16 @@ namespace ProjectClock.MVC.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            dto.UserId = await _accountService.GetUserIdFromAccountId(accountId);
+            dto.UserId = await _accountService.GetUserIdFromAccountId(accountId);            
 
-            
-
-            await _workingTimeServices.Create(dto); 
+            if( await _workingTimeServices.Create(dto))
+            {
+                TempData["IsSuccess"] = true;
+            }
+            else
+            {
+                TempData["IsSuccess"] = false;
+            };
 
             return RedirectToAction("Index", "Home");
         }
