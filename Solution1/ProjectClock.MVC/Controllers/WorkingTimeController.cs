@@ -37,7 +37,7 @@ namespace ProjectClock.MVC.Controllers
         }
 
 
-        [HttpPatch]
+        [HttpPost]
         public IActionResult Update(UpdateWorkingTimeDto dto)
         {
 
@@ -62,7 +62,7 @@ namespace ProjectClock.MVC.Controllers
         [HttpPost]
         [Authorize(Roles = "User")]
         [Route("WorkingTime/Delete/{id}")]
-        public async Task<ActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             await _workingTimeServices.Delete(id);
 
