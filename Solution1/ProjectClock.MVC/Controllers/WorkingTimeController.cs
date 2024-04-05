@@ -30,10 +30,14 @@ namespace ProjectClock.MVC.Controllers
         }
 
 
-
-        public IActionResult Update()
+        [Route("WorkingTime/{id}/Update")]
+        public IActionResult Update(string id)
         {
-            return View();
+            int.TryParse(id, out var userId);
+
+            var dto = _workingTimeServices.GetById(userId);
+
+            return View(dto);
         }
 
 

@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using ProjectClock.BusinessLogic.Dtos.WorkingTime.WorkingTimeDtos;
 using ProjectClock.Database;
 using ProjectClock.Database.Entities;
+using System.Collections.Generic;
 
 namespace ProjectClock.BusinessLogic.Services.WorkingTimeServices;
 
@@ -48,9 +49,11 @@ public class WorkingTimeServices : IWorkingTimeServices
         return true;
     }
 
-    public async Task<WorkingTime?> GetById(int id)
+    public async Task<WorkingTimeDto?> GetById(int id)
     {
-        return await _projectClockDbContext.WorkingTimes.FirstOrDefaultAsync(u => u.Id == id);
+        var entity = await _projectClockDbContext.WorkingTimes.FirstOrDefaultAsync(u => u.Id == id);
+        var dto = _mapper.Map<WorkingTimeDto>(entity);
+        return dto;
     }
 
     public async Task<List<WorkingTime>> GetAll()
@@ -78,7 +81,7 @@ public class WorkingTimeServices : IWorkingTimeServices
             }
             else
             {
-                var wt = await GetById(id);
+                var wt = await _projectClockDbContext.WorkingTimes.FirstOrDefaultAsync(e => e.Id == id);
                 _projectClockDbContext.WorkingTimes.Remove(wt);
                 await _projectClockDbContext.SaveChangesAsync();
                 return true;
@@ -117,7 +120,8 @@ public class WorkingTimeServices : IWorkingTimeServices
             }
             else
             {
-                workingTime.EndTime = DateTime.UtcNow;              
+                workingTime.EndTime = DateTime.UtcNow;
+                workingTime.Description = dto.Description;
                 await _projectClockDbContext.SaveChangesAsync();
                 return true;
             }  

@@ -99,5 +99,6 @@ body {
     color: white;
     background-color: #65aec5;
     border-radius: 10px;
+    width: auto;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
 }
