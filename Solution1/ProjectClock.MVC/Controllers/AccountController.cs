@@ -171,7 +171,6 @@ namespace ProjectClock.MVC.Controllers
 
             dto.Id = userId;
 
-
             var deletionSuccessful = await _accountService.DeleteAccount(dto);
 
             if (deletionSuccessful)

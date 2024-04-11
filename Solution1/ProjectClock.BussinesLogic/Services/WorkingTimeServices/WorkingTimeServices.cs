@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using ProjectClock.BusinessLogic.Dtos.WorkingTime.WorkingTimeDtos;
 using ProjectClock.Database;
 using ProjectClock.Database.Entities;
-using System.Collections.Generic;
 
 namespace ProjectClock.BusinessLogic.Services.WorkingTimeServices;
 
@@ -18,7 +17,7 @@ public class WorkingTimeServices : IWorkingTimeServices
         _projectClockDbContext = projectClockDbContext;
         _mapper = mapper;
     }
-   
+
 
     public async Task<bool> Create(StartStopWorkingTimeDto dto)
     {
@@ -61,14 +60,7 @@ public class WorkingTimeServices : IWorkingTimeServices
         return await _projectClockDbContext.WorkingTimes.ToListAsync();
     }
 
-    public async Task Update(UpdateWorkingTimeDto dto)
-    {
-        var workingTime = await _projectClockDbContext.WorkingTimes.FirstOrDefaultAsync();
 
-
-
-        await _projectClockDbContext.SaveChangesAsync();
-    }
 
     public async Task<bool> Delete(int id)
     {
@@ -99,7 +91,7 @@ public class WorkingTimeServices : IWorkingTimeServices
     {
         return _projectClockDbContext.WorkingTimes.AsNoTracking().Any(wt =>
             wt.EndTime == null
-            && wt.Project.Name == dto.ProjectName 
+            && wt.Project.Name == dto.ProjectName
             && wt.User.Id == dto.UserId);
     }
 
@@ -113,18 +105,18 @@ public class WorkingTimeServices : IWorkingTimeServices
 
         var workingTime = await _projectClockDbContext.WorkingTimes.SingleOrDefaultAsync(e => e.Id == dto.WorkingTimeId);
 
-            
-            if (workingTime.IsFinished)
-            {             
-                return false;
-            }
-            else
-            {
-                workingTime.EndTime = DateTime.UtcNow;
-                workingTime.Description = dto.Description;
-                await _projectClockDbContext.SaveChangesAsync();
-                return true;
-            }  
+
+        if (workingTime.IsFinished)
+        {
+            return false;
+        }
+        else
+        {
+            workingTime.EndTime = DateTime.UtcNow;
+            workingTime.Description = dto.Description;
+            await _projectClockDbContext.SaveChangesAsync();
+            return true;
+        }
     }
 
     public async Task<int> GetId(WorkingTime workingTime)
@@ -150,7 +142,7 @@ public class WorkingTimeServices : IWorkingTimeServices
     public async Task<IEnumerable<WorkingTimeDto>> GetUserAllWorkingTimes(int userId)
     {
         var list = await _projectClockDbContext.WorkingTimes
-            .Where(e=> e.UserId == userId)
+            .Where(e => e.UserId == userId)
             .Include(wt => wt.Project)
             .Include(wt => wt.User)
             .ToListAsync();
@@ -160,6 +152,21 @@ public class WorkingTimeServices : IWorkingTimeServices
         return dtos;
     }
 
+    public async Task<bool> Update(UpdateWorkingTimeDto dto)
+    {
+        var workingTime = await _projectClockDbContext.WorkingTimes.FirstOrDefaultAsync(wt => wt.Id == dto.Id);
+        if (workingTime == null)
+        {
+            return false;
+        }
 
+        workingTime.StartTime = dto.StartTime;
+        workingTime.EndTime = dto.EndTime;
+        workingTime.Description = dto.Description;
+
+        await _projectClockDbContext.SaveChangesAsync();
+
+        return true;
+    }
 }
 

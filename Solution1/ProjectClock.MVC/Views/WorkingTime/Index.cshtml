@@ -6,8 +6,8 @@
     <div class="container bg-light bg-opacity-50 rounded-2 p-2 m-1 box-shadow">
         <div class="row">
             <h4 class="">Date: @group.Key.ToShortDateString()</h4>
-            <div class="table-responsive">
-                <table class="table table-info bg-opacity-25">
+            <div class="container">
+                <table class="table table-light rounded rounded-5">
                     <thead>
                         <tr>
                             <th>Project Name</th>
@@ -34,24 +34,21 @@
                                     <div class="container">
                                         <div class="row">
                                             <div class="col-4 col-sm-12 ">
-                                                <button class="btn btn-sm btn-danger"
-                                                        onclick="location.href='@Url.Action("Update", "WorkingTime")'">
-                                                    Modify
-                                                </button>
+                                                <a asp-action="Update"
+                                                   asp-route-id="@item.Id"
+                                                   class="btn btn-danger btn-sm text-center">Modify</a>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-4 col-sm-12 pt-1">
-                                                <a asp-action="Delete"
-                                                   asp-route-id="@item.Id"
-                                                   class="btn btn-danger btn-sm text-center">Delete</a>
+                                                <form asp-action="Delete" asp-route-id="@item.Id" method="post">
+                                                    <button type="submit" class="btn btn-danger btn-sm text-center">Delete</button>
+                                                    <input type="hidden" name="_method" value="POST" />
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
                                 </td>
-                            </tr>
-                            <tr class="d-none d-sm-table-cell">                               
-                                <td class="w-100" colspan="6">@(item.Description is null ? "-" : item.Description)</td>
                             </tr>
                         }
                     </tbody>
