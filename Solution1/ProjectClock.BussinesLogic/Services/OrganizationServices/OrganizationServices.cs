@@ -10,20 +10,8 @@ using ProjectClock.BusinessLogic.Dtos.Project.ProjectDtos;
 using ProjectClock.Database;
 using ProjectClock.Database.Entities;
 
-namespace ProjectClock.BusinessLogic.Services
+namespace ProjectClock.BusinessLogic.Services.OrganizationServices
 {
-    public interface IOrganizationServices
-    {
-        Task<bool> Create(CreateOrganizationDto organization);
-        Task<Organization> GetById(int id);
-        Task<List<Organization>> GetAll();
-        Task<List<OrganizationsDto>> GetAllUserOrganization(int userId);
-        Task Update(Organization model);
-        Task<bool> Delete(int id);
-        Task<bool> OrganizationExist(string name);
-
-        Task<bool> AddUser(int organizationId, int userId);
-    }
 
     public class OrganizationServices : IOrganizationServices
     {
@@ -73,7 +61,7 @@ namespace ProjectClock.BusinessLogic.Services
             {
                 User = _projectClockDbContext.Users.SingleOrDefault(e => e.Id == organizationDto.UserId),
                 Organization = organization,
-                IsOwner = true               
+                IsOwner = true
             };
 
 
@@ -107,7 +95,7 @@ namespace ProjectClock.BusinessLogic.Services
 
         public async Task<List<Organization>> GetAll()
         {
-            return await _projectClockDbContext.Organizations.Include(o => o.Projects).Include(o=>o.OrganizationUsers).ThenInclude(u=>u.User).ToListAsync();
+            return await _projectClockDbContext.Organizations.Include(o => o.Projects).Include(o => o.OrganizationUsers).ThenInclude(u => u.User).ToListAsync();
         }
 
         public async Task Update(Organization model)
@@ -139,7 +127,7 @@ namespace ProjectClock.BusinessLogic.Services
 
             }
             catch (Exception)
-            { 
+            {
                 return false;
             }
 
@@ -177,7 +165,7 @@ namespace ProjectClock.BusinessLogic.Services
 
         public async Task<bool> AddProjectToOrganization(int organizationId, Project project)
         {
-            
+
             var organization = await _projectClockDbContext.Organizations.FindAsync(organizationId);
 
             if (organization == null)
@@ -185,7 +173,7 @@ namespace ProjectClock.BusinessLogic.Services
                 return false;
             }
 
-            
+
             organization.Projects.Add(project);
             await _projectClockDbContext.SaveChangesAsync();
 
@@ -194,7 +182,7 @@ namespace ProjectClock.BusinessLogic.Services
 
         public async Task<List<OrganizationsDto>> GetAllUserOrganization(int userId)
         {
-            
+
             var list = await _projectClockDbContext.Organizations
                 .Where(o => o.OrganizationUsers
                 .FirstOrDefault(e => e.UserId == userId).User.Id == userId)

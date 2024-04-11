@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.EntityFrameworkCore;
 using ProjectClock.BusinessLogic.Dtos.AccountDtos;
+using ProjectClock.BusinessLogic.Services.UserServices;
 using ProjectClock.Database;
 using ProjectClock.Database.Entities;
 using System.Security.Claims;
@@ -100,10 +101,10 @@ namespace ProjectClock.BusinessLogic.Services.AccountServices
             return resultDto;
         }
 
-        public async Task<string> GetAccountEmail(int Id)
+        public async Task<string> GetAccountEmail(int id)
         {
             var email = await _dbContext.Accounts
-                .Where(u => u.Id == Id)
+                .Where(u => u.Id == id)
                 .Select(u => u.Email)
                 .FirstAsync();
 
@@ -250,18 +251,18 @@ namespace ProjectClock.BusinessLogic.Services.AccountServices
             return new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
         }
 
-        public async Task<AccountDto> GetAccountDetails(int Id)
+        public async Task<AccountDto> GetAccountDetails(int id)
         {
             var account = await _dbContext.Accounts
-                .Where(u => u.Id == Id)
+                .Where(u => u.Id == id)
                 .Select(u => new AccountDto { FirstName = u.FirstName, LastName = u.LastName, Email = u.Email })
                 .FirstOrDefaultAsync();
             return account;
         }
 
-        public async Task<int> GetUserIdFromAccountId(int Id)
+        public async Task<int> GetUserIdFromAccountId(int id)
         {
-            var account = await _dbContext.Accounts.FirstOrDefaultAsync(e => e.Id == Id);
+            var account = await _dbContext.Accounts.FirstOrDefaultAsync(e => e.Id == id);
             var userId = account.UserId;
             return userId;
         }

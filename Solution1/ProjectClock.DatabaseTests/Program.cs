@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ProjectClock.BusinessLogic.Dtos.Organization;
-using ProjectClock.BusinessLogic.Services;
+using ProjectClock.BusinessLogic.Services.OrganizationServices;
+using ProjectClock.BusinessLogic.Services.UserServices;
 using ProjectClock.BusinessLogic.Services.WorkingTimeServices;
 using ProjectClock.Database;
 using ProjectClock.Database.Entities;
