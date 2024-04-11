@@ -1,7 +1,6 @@
-﻿
-using ProjectClock.BusinessLogic.Dtos.AccountDtos;
+﻿using ProjectClock.BusinessLogic.Dtos.AccountDtos;
 
-namespace ProjectClock.BusinessLogic.Services
+namespace ProjectClock.BusinessLogic.Services.AccountServices
 {
     public interface IAccountService
     {

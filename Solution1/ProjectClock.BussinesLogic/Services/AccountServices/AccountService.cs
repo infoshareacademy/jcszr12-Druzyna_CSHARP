@@ -8,7 +8,7 @@ using ProjectClock.Database.Entities;
 using System.Security.Claims;
 using System.Security.Cryptography;
 
-namespace ProjectClock.BusinessLogic.Services
+namespace ProjectClock.BusinessLogic.Services.AccountServices
 {
 
 
@@ -56,9 +56,9 @@ namespace ProjectClock.BusinessLogic.Services
 
             var salt = GeneratePasswordSalt();
             var passwordHash = GetHashedPassword(dto.Password, salt);
-           
+
             await _userService.Create(new User(dto.FirstName, dto.LastName, dto.Email));
-            var user = await _dbContext.Users.SingleOrDefaultAsync(u => u.Name == dto.FirstName && u.Email == dto.Email);   
+            var user = await _dbContext.Users.SingleOrDefaultAsync(u => u.Name == dto.FirstName && u.Email == dto.Email);
 
             var newAccount = new Account
             {
@@ -256,7 +256,7 @@ namespace ProjectClock.BusinessLogic.Services
                 .Where(u => u.Id == Id)
                 .Select(u => new AccountDto { FirstName = u.FirstName, LastName = u.LastName, Email = u.Email })
                 .FirstOrDefaultAsync();
-            return account;    
+            return account;
         }
 
         public async Task<int> GetUserIdFromAccountId(int Id)

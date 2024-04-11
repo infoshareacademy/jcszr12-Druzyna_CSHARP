@@ -4,9 +4,9 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ProjectClock.BusinessLogic.Dtos.AccountDtos;
-using ProjectClock.BusinessLogic.Services;
 using System.Security.Claims;
 using ProjectClock.MVC.Extensions;
+using ProjectClock.BusinessLogic.Services.AccountServices;
 
 
 namespace ProjectClock.MVC.Controllers

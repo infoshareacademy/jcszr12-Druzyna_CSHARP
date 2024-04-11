@@ -4,17 +4,8 @@ using ProjectClock.BusinessLogic.Dtos.Project.ProjectDtos;
 using ProjectClock.Database;
 using ProjectClock.Database.Entities;
 
-namespace ProjectClock.BusinessLogic.Services
+namespace ProjectClock.BusinessLogic.Services.ProjectServices
 {
-    public interface IProjectServices
-    {
-        Task<bool> Create(CreateProjectDto project);
-        Task<Project> GetById(int id);
-        Task<IEnumerable<ProjectDto>> GetAll();
-        Task Update(Project model);
-        Task<bool> Delete(int id);
-    }
-
     public class ProjectServices : IProjectServices
     {
         private ProjectClockDbContext _projectClockDbContext;
@@ -30,11 +21,11 @@ namespace ProjectClock.BusinessLogic.Services
         {
             if (await _projectClockDbContext.Projects
             .AsNoTracking()
-            .AnyAsync(p => p.Name == dto.ProjectName 
+            .AnyAsync(p => p.Name == dto.ProjectName
                 && p.Organization.Name == dto.OrganizationName))
-                {                  
-                    return false;
-                }
+            {
+                return false;
+            }
 
             var project = new Project()
             {
@@ -47,7 +38,7 @@ namespace ProjectClock.BusinessLogic.Services
             return true;
         }
 
-        
+
 
         public async Task<Project?> GetById(int id)
         {
@@ -103,7 +94,7 @@ namespace ProjectClock.BusinessLogic.Services
 
         }
 
-        
+
     }
 
 }
