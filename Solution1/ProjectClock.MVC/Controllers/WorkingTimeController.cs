@@ -30,18 +30,25 @@ namespace ProjectClock.MVC.Controllers
         }
 
 
-
-        public IActionResult Update()
+        [Route("WorkingTime/Update/{id}")]
+        public async Task<IActionResult> Update(string id)
         {
-            return View();
+            int.TryParse(id, out var userId);
+
+            var dto = await _workingTimeServices.GetById(userId);
+
+            return View(dto);
         }
 
 
         [HttpPost]
-        public IActionResult Update(UpdateWorkingTimeDto dto)
+        [Route("WorkingTime/Update/{id}")]
+        public async Task<IActionResult> Update(UpdateWorkingTimeDto dto, int id)
         {
+            dto.Id = id;
+            await _workingTimeServices.Update(dto);
 
-            return View();
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpPost]
