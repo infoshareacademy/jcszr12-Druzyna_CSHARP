@@ -2,7 +2,7 @@
 
 namespace ProjectClock.BusinessLogic.Services.AccountServices
 {
-    public interface IAccountService
+    public interface IAccountServices
     {
         Task<bool> DeleteAccount(DeleteAccountDto dto);
         Task<EditEmailResultDto> EditAccountEmail(EditEmailDto dto);

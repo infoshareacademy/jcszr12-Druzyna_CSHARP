@@ -24,7 +24,7 @@ namespace ProjectClock.Database.Extensions
 
             services.AddTransient<IProjectServices, ProjectServices>();
             services.AddTransient<IUserServices, UserServices>();
-            services.AddTransient<IAccountService, AccountService>();
+            services.AddTransient<IAccountServices, AccountService>();
             services.AddTransient<IOrganizationServices, OrganizationServices>();
             services.AddTransient<IWorkingTimeServices, WorkingTimeServices>();
 

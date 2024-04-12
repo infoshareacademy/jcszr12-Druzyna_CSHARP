@@ -9,30 +9,36 @@ namespace ProjectClock.MVC.Controllers
 {
     public class ProjectController : Controller
     {
-        private readonly IProjectServices _serviceProject;
-        private readonly IOrganizationServices _serviceOrganization;
-        private readonly IAccountService _accountService;
+        private readonly IProjectServices _projectServices;
+        private readonly IOrganizationServices _organizationServices;
+        private readonly IAccountServices _accountServices;
 
         public ProjectController(IProjectServices serviceProject, 
             IOrganizationServices serviceOrganization,
-            IAccountService accountService)
+            IAccountServices accountService)
         {
-            _serviceProject = serviceProject;
-            _serviceOrganization = serviceOrganization;
-            _accountService = accountService;
+            _projectServices = serviceProject;
+            _organizationServices = serviceOrganization;
+            _accountServices = accountService;
         }
 
         public async Task<IActionResult> Index()
         {
-            var list = await _serviceProject.GetAll();
+            if (!HttpContext.User.Claims.TryGetAuthenticatedUserId(out var accountId))
+            {
+                return RedirectToAction("Index", "Home");
+            }
 
-            return View(list);
+            var userId = await _accountServices.GetUserIdFromAccountId(accountId);
+            var dtos = await _projectServices.GetAllUserProjects(userId);
+
+            return View(dtos);
         }
 
         [HttpPost]
         public async Task<IActionResult> Create(CreateProjectDto dto)
         {
-            await _serviceProject.Create(dto);
+            await _projectServices.Create(dto);
 
             return RedirectToAction(nameof(Index));
         }

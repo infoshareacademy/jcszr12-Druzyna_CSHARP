@@ -65,6 +65,7 @@ namespace ProjectClock.BusinessLogic.Services.ProjectServices
                 list = list.Concat
                 (await _projectClockDbContext.Projects
                 .Where(p => p.OrganizationId == org.OrganizationId)
+                .Include(p => p.Organization)
                 .ToListAsync())
                 .ToList();
             }
