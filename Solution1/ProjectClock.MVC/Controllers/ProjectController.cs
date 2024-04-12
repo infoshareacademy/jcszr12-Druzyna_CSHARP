@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using ProjectClock.BusinessLogic.Services;
+using ProjectClock.BusinessLogic.Services.ProjectServices;
 using ProjectClock.Database.Entities;
 
 namespace ProjectClock.MVC.Controllers

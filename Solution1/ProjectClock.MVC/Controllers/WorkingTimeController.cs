@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ProjectClock.BusinessLogic.Dtos.WorkingTime.WorkingTimeDtos;
-using ProjectClock.BusinessLogic.Services;
+using ProjectClock.BusinessLogic.Services.AccountServices;
 using ProjectClock.BusinessLogic.Services.WorkingTimeServices;
 using ProjectClock.MVC.Extensions;
 

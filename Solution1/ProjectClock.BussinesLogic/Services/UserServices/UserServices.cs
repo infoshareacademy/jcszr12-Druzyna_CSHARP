@@ -2,7 +2,7 @@
 using ProjectClock.Database;
 using ProjectClock.Database.Entities;
 
-namespace ProjectClock.BusinessLogic.Services
+namespace ProjectClock.BusinessLogic.Services.UserServices
 {
     public class UserServices : IUserServices
     {
@@ -19,7 +19,7 @@ namespace ProjectClock.BusinessLogic.Services
                 if (await UserExist(user.Email))
                 {
                     throw new Exception($"This user already exist"); //czy tu tresc exception ma sens skoro nie bedzie wystwietlana?
-                    
+
                 }
                 else
                 {
@@ -69,7 +69,7 @@ namespace ProjectClock.BusinessLogic.Services
                 }
                 else
                 {
-                    
+
                     _projectClockDbContext.Users.Remove(user);
                     await _projectClockDbContext.SaveChangesAsync();
                     return true;
@@ -110,17 +110,6 @@ namespace ProjectClock.BusinessLogic.Services
                 return false;
             }
         }
-
-    }
-
-    public interface IUserServices
-    {
-        Task<bool> Create(User user);
-        Task<User> GetById(int id);
-        Task<List<User>> GetAll();
-        Task Update(User model);
-        Task<bool> Delete(int id);
-        Task<bool> UserExist(string email);
 
     }
 }
