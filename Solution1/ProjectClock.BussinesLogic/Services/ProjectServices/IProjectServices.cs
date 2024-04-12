@@ -8,6 +8,7 @@ namespace ProjectClock.BusinessLogic.Services.ProjectServices
         Task<bool> Create(CreateProjectDto project);
         Task<Project> GetById(int id);
         Task<IEnumerable<ProjectDto>> GetAll();
+        Task<IEnumerable<ProjectDto>> GetAllUserProjects(int userId);
         Task Update(Project model);
         Task<bool> Delete(int id);
     }

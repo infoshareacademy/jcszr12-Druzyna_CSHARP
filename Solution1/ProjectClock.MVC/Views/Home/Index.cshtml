@@ -1,5 +1,6 @@
-﻿@using ProjectClock.BusinessLogic.Dtos.WorkingTime.WorkingTimeDtos
-@model StartStopWorkingTimeDto
+﻿@using ProjectClock.BusinessLogic.Dtos.Project.ProjectDtos
+
+@model IEnumerable<ProjectDto>
 
 
 <h1 class="text-center p-2">Start track your project</h1>
@@ -10,7 +11,7 @@
             <div class="form-group mb-3">
                 <label for="ProjectName" class="control-label">Project</label>
                 <select name="ProjectName" class="form-select form-select-lg">
-                    @foreach(var project in @Model.Projects)
+                    @foreach(var project in @Model)
                     {
                         <option value="@project.Name">@project.Name</option>
                     }                                                           

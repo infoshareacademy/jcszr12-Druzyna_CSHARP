@@ -54,10 +54,24 @@ namespace ProjectClock.BusinessLogic.Services.ProjectServices
             return dtos;
         }
 
-        public async Task<List<Project>> GetAllUserProjects()
+        public async Task<IEnumerable<ProjectDto>> GetAllUserProjects(int userId)
         {
-            var list = await _projectClockDbContext.Projects.ToListAsync();
-            return list;
+            var organizations = await _projectClockDbContext.OrganizationsUsers.Where(o => o.UserId == userId).ToListAsync();
+
+            var list = new List<Project>();
+
+            foreach(var org in organizations) 
+            {                
+                list = list.Concat
+                (await _projectClockDbContext.Projects
+                .Where(p => p.OrganizationId == org.OrganizationId)
+                .ToListAsync())
+                .ToList();
+            }
+
+            var dtos = _mapper.Map<IEnumerable<ProjectDto>>(list);
+
+            return dtos;
         }
 
         public async Task Update(Project model)

@@ -31,9 +31,15 @@ namespace ProjectClock.MVC.Controllers
         [Authorize(Roles = "User")]
         public async Task <IActionResult> Index()
         {
-            var dto = new StartStopWorkingTimeDto();
-            dto.Projects = await _projectService.GetAll(); //TODO: Write method giving me only projects from user organization
-            return View(dto);
+            if (!HttpContext.User.Claims.TryGetAuthenticatedUserId(out var accountId))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            var userId = await _accountService.GetUserIdFromAccountId(accountId);
+            var dtos = await _projectService.GetAllUserProjects(userId); 
+
+            return View(dtos);
         }
 
         [HttpPost]

@@ -7,52 +7,74 @@
         <div class="row">
             <h4 class="">Date: @group.Key.ToShortDateString()</h4>
             <div class="container">
-                <table class="table table-light rounded rounded-5">
-                    <thead>
-                        <tr>
-                            <th>Project Name</th>
-                            <th class="d-none d-sm-table-cell">Is Finished</th>
-                            <th class="d-none d-sm-table-cell">Start Time</th>
-                            <th class="d-none d-sm-table-cell">End Time</th>
-                            <th>Time</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in group)
-                        {
-                            <tr>
-                                <td>@item.ProjectName</td>
-                                <td class="d-none d-sm-table-cell">@(item.IsFinished ? "Ended" : "In progress")</td>
-                                <td class="d-none d-sm-table-cell">@item.StartTime.ToString("yyyy-MM-dd HH:mm:ss")</td>
-                                <td class="d-none d-sm-table-cell">@(item.IsFinished ? @item.EndTime.ToString("yyyy-MM-dd HH:mm:ss") : "-")</td>
-                                @{
-                                    var totalTime = item.EndTime - item.StartTime;
+                <div class="container">
+                    <div class="row">
+                        <div class="col">
+                            <div class="row font-weight-bold border border-bottom mb-2">
+                                <div class="col ">Project Name</div>
+                                <div class="col d-none d-md-block ">Is Finished</div>
+                                <div class="col d-none d-md-block ">Start Time</div>
+                                <div class="col d-none d-md-block ">End Time</div>
+                                <div class="col">Time</div>
+                                <div class="col">Action</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    @foreach (var item in group)
+                    {
+                        <div class="row mb-2">
+                            <div class="col">@item.ProjectName</div>
+                            <div class="col d-none d-md-block">@if (item.IsFinished)
+                                {
+                                    <p>Ended</p>
                                 }
-                                <td>@(item.IsFinished ? totalTime.ToString(@"hh\:mm\:ss") : "-")</td>
-                                <td>
-                                    <div class="container">
-                                        <div class="row">
-                                            <div class="col-4 col-sm-12 ">
-                                                <a asp-action="Update"
-                                                   asp-route-id="@item.Id"
-                                                   class="btn btn-danger btn-sm text-center">Modify</a>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-4 col-sm-12 pt-1">
-                                                <form asp-action="Delete" asp-route-id="@item.Id" method="post">
-                                                    <button type="submit" class="btn btn-danger btn-sm text-center">Delete</button>
-                                                    <input type="hidden" name="_method" value="POST" />
-                                                </form>
-                                            </div>
-                                        </div>
+                                else
+                                {
+                                    <p>In progress</p>
+                                }</div>
+                            <div class="col d-none d-md-block">@item.StartTime.ToString("yyyy-MM-dd HH:mm:ss")</div>
+                            <div class="col d-none d-md-block">
+                                @if (item.IsFinished)
+                                {
+                                    <p>@item.EndTime.ToString("yyyy-MM-dd HH:mm:ss")</p>
+                                }
+                                else
+                                {
+                                    <p>-</p>
+                                }</div>
+                            @{
+                                var totalTime = item.EndTime - item.StartTime;
+                            }
+                            <div class="col">@if (item.IsFinished)
+                                {
+                                    <p>@totalTime.ToString(@"hh\:mm\:ss")</p>
+                                }
+                                else
+                                {
+                                    <p>-</p>
+                                }</div>
+                            <div class="col">
+                                <div class="row">
+                                    <div class="col-4 col-sm-12">
+                                        <a asp-action="Update"
+                                           asp-route-id="@item.Id"
+                                           class="btn btn-danger btn-sm text-center">Modify</a>
                                     </div>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
+                                </div>
+                                <div class="row">
+                                    <div class="col-4 col-sm-12 pt-1">
+                                        <form asp-action="Delete" asp-route-id="@item.Id" method="post">
+                                            <button type="submit" class="btn btn-danger btn-sm text-center">Delete</button>
+                                            <input type="hidden" name="_method" value="POST" />
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+
             </div>
         </div>
     </div>
