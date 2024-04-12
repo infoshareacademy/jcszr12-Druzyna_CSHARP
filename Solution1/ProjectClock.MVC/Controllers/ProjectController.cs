@@ -1,52 +1,42 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using ProjectClock.BusinessLogic.Dtos.Project.ProjectDtos;
+using ProjectClock.BusinessLogic.Services.AccountServices;
+using ProjectClock.BusinessLogic.Services.OrganizationServices;
 using ProjectClock.BusinessLogic.Services.ProjectServices;
-using ProjectClock.Database.Entities;
+using ProjectClock.MVC.Extensions;
 
 namespace ProjectClock.MVC.Controllers
 {
     public class ProjectController : Controller
     {
-        
         private readonly IProjectServices _serviceProject;
-        
+        private readonly IOrganizationServices _serviceOrganization;
+        private readonly IAccountService _accountService;
 
-        public ProjectController(IProjectServices serviceProject)
-        {           
+        public ProjectController(IProjectServices serviceProject, 
+            IOrganizationServices serviceOrganization,
+            IAccountService accountService)
+        {
             _serviceProject = serviceProject;
-            
+            _serviceOrganization = serviceOrganization;
+            _accountService = accountService;
         }
 
-        [Authorize(Roles = "User")]
-        public IActionResult Index()
-        {
-            
-            return View();
-        }
-
-        [Authorize(Roles = "User")]
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-       
-
-        [Authorize(Roles = "User")]
-        [Route("Project/{name}")]
-        public async Task<IActionResult> Delete(string name)
+        public async Task<IActionResult> Index()
         {
             var list = await _serviceProject.GetAll();
-            int id = 0;
-            foreach (var project in list)
-            {
-                if (project.Name == name)
-                {
-                    id = project.Id;
-                }
-            }
-            await _serviceProject.Delete(id);
+
+            return View(list);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(CreateProjectDto dto)
+        {
+            await _serviceProject.Create(dto);
+
             return RedirectToAction(nameof(Index));
         }
+
+        
     }
 }
