@@ -10,10 +10,10 @@ namespace ProjectClock.MVC.Controllers
     public class WorkingTimeController : Controller
     {
         private readonly IWorkingTimeServices _workingTimeServices;
-        private readonly IAccountService _accountService;
+        private readonly IAccountServices _accountService;
 
         public WorkingTimeController(IWorkingTimeServices workingTimeServices,
-            IAccountService accountService)
+            IAccountServices accountService)
         {
             _workingTimeServices = workingTimeServices;
             _accountService = accountService;

@@ -1,52 +1,48 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using ProjectClock.BusinessLogic.Dtos.Project.ProjectDtos;
+using ProjectClock.BusinessLogic.Services.AccountServices;
+using ProjectClock.BusinessLogic.Services.OrganizationServices;
 using ProjectClock.BusinessLogic.Services.ProjectServices;
-using ProjectClock.Database.Entities;
+using ProjectClock.MVC.Extensions;
 
 namespace ProjectClock.MVC.Controllers
 {
     public class ProjectController : Controller
     {
-        
-        private readonly IProjectServices _serviceProject;
-        
+        private readonly IProjectServices _projectServices;
+        private readonly IOrganizationServices _organizationServices;
+        private readonly IAccountServices _accountServices;
 
-        public ProjectController(IProjectServices serviceProject)
-        {           
-            _serviceProject = serviceProject;
-            
+        public ProjectController(IProjectServices serviceProject, 
+            IOrganizationServices serviceOrganization,
+            IAccountServices accountService)
+        {
+            _projectServices = serviceProject;
+            _organizationServices = serviceOrganization;
+            _accountServices = accountService;
         }
 
-        [Authorize(Roles = "User")]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            
-            return View();
-        }
-
-        [Authorize(Roles = "User")]
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-       
-
-        [Authorize(Roles = "User")]
-        [Route("Project/{name}")]
-        public async Task<IActionResult> Delete(string name)
-        {
-            var list = await _serviceProject.GetAll();
-            int id = 0;
-            foreach (var project in list)
+            if (!HttpContext.User.Claims.TryGetAuthenticatedUserId(out var accountId))
             {
-                if (project.Name == name)
-                {
-                    id = project.Id;
-                }
+                return RedirectToAction("Index", "Home");
             }
-            await _serviceProject.Delete(id);
+
+            var userId = await _accountServices.GetUserIdFromAccountId(accountId);
+            var dtos = await _projectServices.GetAllUserProjects(userId);
+
+            return View(dtos);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(CreateProjectDto dto)
+        {
+            await _projectServices.Create(dto);
+
             return RedirectToAction(nameof(Index));
         }
+
+        
     }
 }

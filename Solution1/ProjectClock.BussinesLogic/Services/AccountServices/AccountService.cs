@@ -13,7 +13,7 @@ namespace ProjectClock.BusinessLogic.Services.AccountServices
 {
 
 
-    public class AccountService : IAccountService
+    public class AccountService : IAccountServices
     {
         private readonly ProjectClockDbContext _dbContext;
         private readonly IUserServices _userService;

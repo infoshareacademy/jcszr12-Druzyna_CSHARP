@@ -13,9 +13,9 @@ namespace ProjectClock.MVC.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly IAccountService _accountService;
+        private readonly IAccountServices _accountService;
 
-        public AccountController(IAccountService accountService, IMapper mapper)
+        public AccountController(IAccountServices accountService, IMapper mapper)
         {
             _accountService = accountService;
         }

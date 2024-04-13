@@ -15,12 +15,12 @@ namespace ProjectClock.MVC.Controllers
     {
         private IOrganizationServices _organizationServices;
         private IUserServices _userServices;
-        private IAccountService _accountService;
+        private IAccountServices _accountService;
         private IMapper _mapper;
 
         public OrganizationController(IOrganizationServices organizationServices, 
             IUserServices userServices, 
-            IAccountService accountService, 
+            IAccountServices accountService, 
             IMapper mapper)
         {
             _mapper = mapper;

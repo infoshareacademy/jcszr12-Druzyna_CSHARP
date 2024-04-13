@@ -15,13 +15,13 @@ namespace ProjectClock.MVC.Controllers
     public class HomeController : Controller
     {       
         private readonly IProjectServices _projectService;
-        private readonly IAccountService _accountService;
+        private readonly IAccountServices _accountService;
         private readonly IWorkingTimeServices _workingTimeServices;
         
 
         public HomeController(IProjectServices serviceProject,
             IWorkingTimeServices workingTimeServices, 
-            IAccountService accountService)
+            IAccountServices accountService)
         {
             _projectService = serviceProject;            
             _accountService = accountService;
