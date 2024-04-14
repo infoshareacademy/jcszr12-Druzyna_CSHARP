@@ -37,9 +37,9 @@ namespace ProjectClock.MVC.Controllers
 
             var resultDto = await _accountService.LoginAccount(dto);
 
-            if (!resultDto.LoginWasSuccessful)
+            if (resultDto.LoginFailed)
             {
-                dto.LoginWasSuccessful = false;
+                dto.LoginFailed = true;
                 return View(dto);
             }
 

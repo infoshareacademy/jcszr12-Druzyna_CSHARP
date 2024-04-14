@@ -6,7 +6,7 @@ namespace ProjectClock.BusinessLogic.Dtos.AccountDtos
     public class LoginResultDto
     {
 
-        public bool LoginWasSuccessful { get; set; }
+        public bool LoginFailed { get; set; }
 
         public int? UserId { get; set; }
 
