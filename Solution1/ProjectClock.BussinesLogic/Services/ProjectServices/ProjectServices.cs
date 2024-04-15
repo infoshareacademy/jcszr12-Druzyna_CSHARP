@@ -40,9 +40,18 @@ namespace ProjectClock.BusinessLogic.Services.ProjectServices
 
 
 
-        public async Task<Project?> GetById(int id)
+        public async Task<Project> GetById(int id)
         {
             return await _projectClockDbContext.Projects.FirstOrDefaultAsync(p => p.Id == id);
+        }
+
+        public async Task<ProjectDto> GetProject(int projectId)
+        {
+            var entity = await _projectClockDbContext.Projects.FirstOrDefaultAsync(p => p.Id == projectId);
+
+            var dto = _mapper.Map<ProjectDto>(entity);
+
+            return dto;
         }
 
         public async Task<IEnumerable<ProjectDto>> GetAll()
@@ -75,7 +84,7 @@ namespace ProjectClock.BusinessLogic.Services.ProjectServices
             return dtos;
         }
 
-        public async Task Update(Project model)
+        public async Task Update(ProjectDto model)
         {
             var project = await GetById(model.Id);
             project.Name = model.Name;

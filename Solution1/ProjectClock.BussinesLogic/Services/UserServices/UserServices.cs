@@ -12,26 +12,18 @@ namespace ProjectClock.BusinessLogic.Services.UserServices
             _projectClockDbContext = projectClockDbContext;
         }
 
-        public async Task<bool> Create(User user)
+        public async Task<int> Create(User user)
         {
-            try
+            if (await UserExist(user.Email))
             {
-                if (await UserExist(user.Email))
-                {
-                    throw new Exception($"This user already exist"); //czy tu tresc exception ma sens skoro nie bedzie wystwietlana?
-
-                }
-                else
-                {
-                    _projectClockDbContext.Users.Add(user);
-                    await _projectClockDbContext.SaveChangesAsync();
-                    return true;
-                }
+                throw new Exception($"This user already exist"); //czy tu tresc exception ma sens skoro nie bedzie wystwietlana?
 
             }
-            catch (Exception)
+            else
             {
-                return false;
+                _projectClockDbContext.Users.Add(user);
+                await _projectClockDbContext.SaveChangesAsync();
+                return user.Id;
             }
         }
 

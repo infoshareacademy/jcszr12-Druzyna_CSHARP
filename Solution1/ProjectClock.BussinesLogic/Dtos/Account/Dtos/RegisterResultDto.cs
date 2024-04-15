@@ -9,9 +9,6 @@ namespace ProjectClock.BusinessLogic.Dtos.AccountDtos
     public class RegisterResultDto
     {
         public bool RegistrationFailed { get; set; }
-
-        public bool PasswordsAreEqual { get; set; }
-
         public bool EmailAlreadyInUse { get; set; }
     }
 }

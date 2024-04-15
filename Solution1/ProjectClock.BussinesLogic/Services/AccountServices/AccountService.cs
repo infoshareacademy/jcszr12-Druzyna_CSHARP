@@ -28,16 +28,6 @@ namespace ProjectClock.BusinessLogic.Services.AccountServices
         {
             var resultDto = new RegisterResultDto();
 
-            if (dto.Password != dto.ConfirmPassword)
-            {
-                resultDto.PasswordsAreEqual = false;
-                resultDto.RegistrationFailed = true;
-            }
-            else
-            {
-                resultDto.PasswordsAreEqual = true;
-            }
-
             if (await _dbContext.Accounts
                     .Select(u => u.Email)
                     .ContainsAsync(dto.Email))
@@ -58,8 +48,8 @@ namespace ProjectClock.BusinessLogic.Services.AccountServices
             var salt = GeneratePasswordSalt();
             var passwordHash = GetHashedPassword(dto.Password, salt);
 
-            await _userService.Create(new User(dto.FirstName, dto.LastName, dto.Email));
-            var user = await _dbContext.Users.SingleOrDefaultAsync(u => u.Name == dto.FirstName && u.Email == dto.Email);
+            var userId = await _userService.Create(new User(dto.FirstName, dto.LastName, dto.Email));
+            var user = await _dbContext.Users.SingleOrDefaultAsync(u => u.Name == dto.FirstName && u.Email == dto.Email && u.Id == userId);
 
             var newAccount = new Account
             {
@@ -88,12 +78,12 @@ namespace ProjectClock.BusinessLogic.Services.AccountServices
 
             if (user is null || user.PasswordHash != GetHashedPassword(dto.Password, user.PasswordSalt))
             {
-                resultDto.LoginWasSuccessful = false;
+                resultDto.LoginFailed = true;
 
                 return resultDto;
             }
 
-            resultDto.LoginWasSuccessful = true;
+            resultDto.LoginFailed = false;
             resultDto.UserId = user.Id;
             resultDto.ClaimsIdentity = GetClaimsIdentity(user.Id, user.name);
             resultDto.AuthProp = GetAuthProp(dto.RememberMe);
@@ -113,7 +103,7 @@ namespace ProjectClock.BusinessLogic.Services.AccountServices
 
         public async Task<EditEmailResultDto> EditAccountEmail(EditEmailDto dto)
         {
-            var user = await _dbContext.Accounts.FirstAsync(u => u.Id == dto.Id);
+            var user = await _dbContext.Accounts.Include(u => u.User).FirstAsync(u => u.Id == dto.Id);
 
             var resultDto = new EditEmailResultDto();
             if (dto.CurrentEmail != user.Email)
@@ -146,6 +136,7 @@ namespace ProjectClock.BusinessLogic.Services.AccountServices
             }
 
             user.Email = dto.NewEmail;
+            user.User.Email = dto.NewEmail;
             await _dbContext.SaveChangesAsync();
 
             return resultDto;

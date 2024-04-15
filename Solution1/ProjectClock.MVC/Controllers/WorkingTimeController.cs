@@ -31,11 +31,11 @@ namespace ProjectClock.MVC.Controllers
 
 
         [Route("WorkingTime/Update/{id}")]
-        public async Task<IActionResult> Update(string id)
+        public async Task<IActionResult> Update(int id)
         {
-            int.TryParse(id, out var userId);
+            
 
-            var dto = await _workingTimeServices.GetById(userId);
+            var dto = await _workingTimeServices.GetById(id);
 
             return View(dto);
         }
@@ -76,17 +76,18 @@ namespace ProjectClock.MVC.Controllers
             return RedirectToAction("Index", "WorkingTime");
         }
 
-        public async Task<ActionResult> GetTime()
+        public async Task<ActionResult> GetTime(int selectedProjectId)
         {
             HttpContext.User.Claims.TryGetAuthenticatedUserId(out var accountId);
 
             string data;
             var userId = await _accountService.GetUserIdFromAccountId(accountId);
-            var dto = await _workingTimeServices.GetUserNotFinisedWorkingTimes(userId);
+            var dtos = await _workingTimeServices.GetUserNotFinisedWorkingTimes(userId);
 
-            if (dto != null)
+            if (dtos != null)
             {
-                var time = DateTime.UtcNow - dto.Min(e => e.StartTime);
+                var projectStartTime = dtos.Where(wt => wt.Id == selectedProjectId).Select(wt => wt.StartTime).SingleOrDefault();
+                var time = DateTime.UtcNow - projectStartTime;
                 data = time.ToString(@"hh\:mm\:ss");
             }
             else

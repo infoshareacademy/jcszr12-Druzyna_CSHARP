@@ -12,8 +12,8 @@
                     <form action="/WorkingTime/Stop" method="post">
                         <div class="row mb-1">
                             <div class="col-md-8">
-                                <label for="WorkingTimeId" class="control-label">Project</label>
-                                <select name="WorkingTimeId" class="form-select form-select-lg">
+                                <label  for="WorkingTimeId" class="control-label">Project</label>
+                                <select id="WorkingTimeDropdown" name="WorkingTimeId" class="form-select form-select-lg">
                                     @foreach (var workingTime in Model)
                                     {
                                         <option value="@workingTime.Id">@workingTime.ProjectName</option>
@@ -43,12 +43,18 @@
 
 <script>
     function updateStopwatch() {
-        $.get('@Url.Action("GetTime", "WorkingTime")', function (data) {
+        var selectedValue = parseInt($('#WorkingTimeDropdown').val(), 10);
+
+        $.get('@Url.Action("GetTime", "WorkingTime")',{ selectedProjectId: selectedValue }, function (data) {
             $('#stopwatch').text(data);
         });
     }
 
     $(document).ready(function () {
         setInterval(updateStopwatch, 1000);
+
+        $('#WorkingTimeDropdown').change(function () {
+            updateStopwatch();  
+        });
     });
 </script>

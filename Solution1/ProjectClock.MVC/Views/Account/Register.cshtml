@@ -10,16 +10,11 @@
         <h1 class="text-center pt-5">@ViewData["Title"]</h1>
         <div class="row justify-content-center">
             <div class=" col-8 my-2">
-                <form id="registerForm" method="post">
-                    @if (Model is not null && !Model.Results.PasswordsAreEqual)
-                    {
-                        <p class="text-warning text-bg-warning p-1">Password is not equal</p>
-                    }
+                <form id="registerForm" method="post">                   
                     @if (Model is not null && Model.Results.EmailAlreadyInUse)
                     {
                         <p class="text-warning text-bg-warning p-1">Email is taken</p>
-                    }                  
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    }                                         
                     <div class="form-floating my-2">
                         <input asp-for="@Model.FirstName" class="form-control" autocomplete="firstName" aria-required="true" />
                         <label asp-for="@Model.FirstName" class="form-label"></label>
@@ -45,7 +40,7 @@
                         <label asp-for="@Model.ConfirmPassword" class="form-label"></label>
                         <span asp-validation-for="@Model.ConfirmPassword" class="invalid-feedback text-danger"></span>
                     </div>
-                    <button id="registerSubmit" type="submit" class=" w-50 btn btn-lg btn-outline-primary rounded-5">Register</button>
+                    <button id="registerSubmit" type="submit" class="w-50 btn btn-lg btn-outline-primary rounded-5">Register</button>
                     <div class="mt-4 text-center">
                         <p class="text-dark">
                             Already have an account? <a asp-action="Login">Sign in</a>
