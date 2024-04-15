@@ -23,7 +23,9 @@ namespace ProjectClock.MVC.Controllers
         [AllowAnonymous]
         public IActionResult Login()
         {
-            return View();
+            var dto = new LoginDto() { LoginFailed = false };
+
+            return View(dto);
         }
 
         [HttpPost]
@@ -54,7 +56,16 @@ namespace ProjectClock.MVC.Controllers
         [AllowAnonymous]
         public IActionResult Register()
         {
-            return View();
+            var dto = new RegisterDto() 
+            { 
+                Results = new RegisterResultDto()
+                {
+                    EmailAlreadyInUse = false,
+                    RegistrationFailed = false,
+                }
+            };
+
+            return View(dto);
         }
 
         [HttpPost]

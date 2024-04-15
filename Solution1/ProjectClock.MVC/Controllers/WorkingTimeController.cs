@@ -31,11 +31,11 @@ namespace ProjectClock.MVC.Controllers
 
 
         [Route("WorkingTime/Update/{id}")]
-        public async Task<IActionResult> Update(string id)
+        public async Task<IActionResult> Update(int id)
         {
-            int.TryParse(id, out var userId);
+            
 
-            var dto = await _workingTimeServices.GetById(userId);
+            var dto = await _workingTimeServices.GetById(id);
 
             return View(dto);
         }
