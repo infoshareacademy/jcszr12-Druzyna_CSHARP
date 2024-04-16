@@ -5,6 +5,8 @@
 
     dateForm.addEventListener('submit', function (e) {
         e.preventDefault();
+        
+
         var startDateValue = startDateInput.value;
         var endDateValue = endDateInput.value;
 
@@ -33,6 +35,12 @@
         console.log('End Date:', endDateValue);
         console.log('Start Date Object:', startDate);
         console.log('End Date Object:', endDate);
+
+        var allDates = document.querySelectorAll('.date-item');
+        allDates.forEach(function (date) {
+            date.classList.remove('d-block');
+            date.classList.add('d-none');
+        });
 
         var dates = generateDates(startDate, endDate);
 

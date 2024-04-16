@@ -27,7 +27,7 @@
 
 @foreach (var group in Model.GroupBy(w => w.StartTime.Date))
 {
-    <div class="container bg-light bg-opacity-50 rounded-2 p-2 m-1 box-shadow d-none" id="@group.Key.ToShortDateString()">
+    <div class="container bg-light bg-opacity-50 rounded-2 p-2 m-1 box-shadow d-none date-item" id="@group.Key.ToShortDateString()">
         <div class="row">
             <h4 class="" >Date: @group.Key.ToShortDateString()</h4>
             <div class="container">
