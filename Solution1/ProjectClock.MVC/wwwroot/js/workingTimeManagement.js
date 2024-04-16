@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', function () {
-    var dateForm = document.getElementById('dateForm');
     var startDateInput = document.getElementById('startDate');
     var endDateInput = document.getElementById('endDate');
 
@@ -12,9 +11,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     updateDisplayedDates();
 
-    dateForm.addEventListener('submit', function (e) {
-        e.preventDefault(); // Prevent form submission
-        updateDisplayedDates();
+    [startDateInput, endDateInput].forEach(function (input) {
+        input.addEventListener('change', updateDisplayedDates);
     });
 
     function updateDisplayedDates() {
@@ -36,7 +34,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (startDate > endDate) {
             alert('Start date must be less or equal to end date');
-            return;
+            startDateInput.value = oneWeekAgo;
+            endDateInput.value = today;
+            updateDisplayedDates();
+            return
         }
 
         console.log('Start Date:', startDateValue);
@@ -44,7 +45,7 @@ document.addEventListener('DOMContentLoaded', function () {
         console.log('Start Date Object:', startDate);
         console.log('End Date Object:', endDate);
 
-        // Hide all previously shown dates
+       
         var allDates = document.querySelectorAll('.date-item');
         allDates.forEach(function (date) {
             date.classList.remove('d-block');
@@ -85,11 +86,4 @@ document.addEventListener('DOMContentLoaded', function () {
 
         return `${day}.${month}.${year}`;
     }
-
-    [startDateInput, endDateInput].forEach(function (input) {
-        input.addEventListener('change', function () {
-            console.log("Selected Start Date:", startDateInput.value);
-            console.log("Selected End Date:", endDateInput.value);
-        });
-    });
 });
