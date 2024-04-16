@@ -2,21 +2,32 @@
 @model IEnumerable<WorkingTimeDto>
 
 <div class="container">
-    <h2>Display working times:</h2>
-    <div class="row">
-        <form id="dateForm">
-            <label for="startDate">From:</label>
-            <input type="date" id="startDate" name="startDate">
-            <label for="endDate">To:</label>
-            <input type="date" id="endDate" name="endDate">
-            <input type="submit" value="Submit">
-        </form>
+    <div class="row justify-content-center">
+        <div class="col-md-12">
+            <form id="dateForm" class="row align-items-center">
+                <div class="col-1">
+                    <label for="startDate" class="col-form-label">From:</label>
+                </div>
+                <div class="col-3">
+                    <input type="date" id="startDate" name="startDate" class="form-control">
+                </div>
+                <div class="col-1">
+                    <label for="endDate" class="col-form-label">To:</label>
+                </div>
+                <div class="col-3">
+                    <input type="date" id="endDate" name="endDate" class="form-control">
+                </div>
+                <div class="col-2">
+                    <input type="submit" value="Submit" class="btn btn-primary">
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 
 @foreach (var group in Model.GroupBy(w => w.StartTime.Date))
 {
-    <div class="container bg-light bg-opacity-50 rounded-2 p-2 m-1 box-shadow" id="@group.Key.ToShortDateString()">
+    <div class="container bg-light bg-opacity-50 rounded-2 p-2 m-1 box-shadow d-none date-item" id="@group.Key.ToShortDateString()">
         <div class="row">
             <h4 class="" >Date: @group.Key.ToShortDateString()</h4>
             <div class="container">
@@ -96,40 +107,6 @@
         </div>
     </div>   
 }
-<script>
-  
 
-    document.getElementById('dateForm').addEventListener('submit', function (e) {
-        var startDate = new Date(document.getElementById('startDate').value);
-        var endDate = new Date(document.getElementById('endDate').value);
 
-        if (startDate > endDate) {
-            alert('Start date must be less or equal to end date');
-            e.preventDefault();
 
-            document.getElementById('startDate').value = '';
-            document.getElementById('endDate').value = '';
-        }
-        else {
-            foreach(){ }
-            document.getElementById('results').style.display = 'block';
-        }
-
-    });
-
-    $(document).ready(function () {
-        var today = new Date().toISOString().split('T')[0];
-        var oneWeekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
-
-        $('#startDate').val(oneWeekAgo);
-        $('#endDate').val(today);
-
-        $('#startDate, #endDate').change(function () {
-            var startDate = $('#startDate').val();
-            var endDate = $('#endDate').val();
-
-            console.log("Selected Start Date:", startDate);
-            console.log("Selected End Date:", endDate);
-        });
-    });
-</script>
