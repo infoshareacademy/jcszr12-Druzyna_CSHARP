@@ -1,5 +1,5 @@
-﻿@{ 
-    var isOrganisationOwner = true;
+﻿@using ProjectClock.MVC.Services.Components
+@{ 
     var action = ViewContext.RouteData.Values["Action"]?.ToString();
     var controller = ViewContext.RouteData.Values["Controller"]?.ToString();
 }
@@ -18,8 +18,7 @@
 </head>
 <body class ="">
     <div class="container">
-        
-           @await Component.InvokeAsync("StopWorkTime")
+        @await Component.InvokeAsync(nameof(StopWorkTime))
         <div class="row col-12 col-lg text-bg-info bg-opacity-50 rounded-2 m-1 p-2 box-shadow">
                 <div class="row">
                     <ul class="col-lg-3 nav flex-column box-shadow m-1 p-1 b-0">
@@ -55,8 +54,6 @@
                                         </ul>
                                     </li>
 
-                                    @if (isOrganisationOwner)
-                                    {
                                         <li class="nav-item btn-nav">
                                             <a class="@(controller =="Project" && action == "Index" ? "btn-active" : "") nav-link text-white" asp-area="" asp-controller="Project" asp-action="Index">Projects</a>
                                         </li>
@@ -77,7 +74,6 @@
                                             </ul>
                                         </li>
 
-                                    }
                                     <li class="nav-item btn-nav">
                                         <a class="@(controller =="WorkingTime" ? "btn-active" : "") nav-link text-white" asp-area="" asp-controller="WorkingTime" asp-action="Index">My working times</a>
                                     </li>

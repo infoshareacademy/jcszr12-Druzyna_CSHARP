@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ProjectClock.BusinessLogic.Dtos.Project.ProjectDtos;
 using ProjectClock.BusinessLogic.Services.AccountServices;
 using ProjectClock.BusinessLogic.Services.OrganizationServices;
 using ProjectClock.MVC.Extensions;
