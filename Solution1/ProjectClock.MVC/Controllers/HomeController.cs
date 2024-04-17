@@ -1,5 +1,6 @@
 using Humanizer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using ProjectClock.BusinessLogic.Dtos.WorkingTime.WorkingTimeDtos;
 using ProjectClock.BusinessLogic.Services.AccountServices;
@@ -51,16 +52,18 @@ namespace ProjectClock.MVC.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            dto.UserId = await _accountService.GetUserIdFromAccountId(accountId);            
+            dto.UserId = await _accountService.GetUserIdFromAccountId(accountId);
 
-            if( await _workingTimeServices.Create(dto))
-            {
-                TempData["IsSuccess"] = true;
-            }
+            var wt = await _workingTimeServices.Create(dto);
+
+             if (wt)
+                {
+                    TempData["SuccessMessage"] = "Working time started";
+                }
             else
-            {
-                TempData["IsSuccess"] = false;
-            };
+                {
+                    TempData["ErrorMessage"] = "You already work on this project.";
+                }
 
             return RedirectToAction("Index", "Home");
         }

@@ -2,6 +2,11 @@
 
 @model IEnumerable<ProjectDto>
 
+@{
+    var successMessage = TempData["SuccessMessage"] as string;
+    var errorMessage = TempData["ErrorMessage"] as string;
+}
+
 
 <h1 class="text-center p-2">Start track your project</h1>
 <br>
@@ -21,6 +26,19 @@
                 <input value="Start" type="submit" class="btn btn-primary">
             </div>
         </form>
+        @if (!string.IsNullOrEmpty(successMessage))
+        {
+            <div class="alert alert-success" role="alert">
+                @successMessage
+            </div>
+        }
+
+        @if (!string.IsNullOrEmpty(errorMessage))
+        {
+            <div class="alert alert-danger" role="alert">
+                @errorMessage
+            </div>
+        }
     </div>  
 </div>
 
