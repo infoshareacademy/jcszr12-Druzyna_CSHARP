@@ -4,12 +4,24 @@
 
 <div class="container p-2 m-1 box-shadow border-bottom">
     <div class="row">@await Component.InvokeAsync("CreateProject")</div>
+    <div class="row">
+        @foreach (var org in Model.GroupBy(p => p.Organization))
+        {
+            <div class="col-md-4">
+                <div class="form-check">
+                    <input id="@org.Key" class="organization-checkbox form-check-input" type="checkbox" value="@org.Key" checked>
+                    <label class="form-check-label" for="@org.Key">@org.Key</label>
+                </div>
+            </div>
+        }
+    </div>
 </div>
+
 <div class="container">
     <div class="row">
         @foreach (var item in @Model)
         {
-            <div class="col-md-4 mb-4">
+            <div class="col-md-4 mb-4 project @item.Organization" data-organization="@item.Organization">
                 <div class="card h-100 d-flex">
                     <div class="card-body d-flex flex-column">
                         <h5 class="card-title">@item.Name</h5>
@@ -28,5 +40,7 @@
         }
     </div>
 </div>
+
+<script src="~/js/projectsManagement.js" asp-append-version="true"></script>
 
 

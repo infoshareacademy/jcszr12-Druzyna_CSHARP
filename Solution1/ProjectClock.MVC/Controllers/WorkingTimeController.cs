@@ -33,8 +33,6 @@ namespace ProjectClock.MVC.Controllers
         [Route("WorkingTime/Update/{id}")]
         public async Task<IActionResult> Update(int id)
         {
-            
-
             var dto = await _workingTimeServices.GetById(id);
 
             return View(dto);
@@ -45,10 +43,15 @@ namespace ProjectClock.MVC.Controllers
         [Route("WorkingTime/Update/{id}")]
         public async Task<IActionResult> Update(UpdateWorkingTimeDto dto, int id)
         {
+            if (!ModelState.IsValid)
+            {
+                var dto2 = await _workingTimeServices.GetById(id);
+                return View(dto2);
+            }
             dto.Id = id;
             await _workingTimeServices.Update(dto);
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "WorkingTime");
         }
 
         [HttpPost]

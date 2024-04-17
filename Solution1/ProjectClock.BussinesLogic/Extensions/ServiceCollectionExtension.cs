@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ProjectClock.BusinessLogic.Dtos.AccountsValidatorsDto;
 using ProjectClock.BusinessLogic.Dtos.Validators;
+using ProjectClock.BusinessLogic.Dtos.WorkingTime.ValidatorsDto;
 using ProjectClock.BusinessLogic.Mapping;
 using ProjectClock.BusinessLogic.Services.AccountServices;
 using ProjectClock.BusinessLogic.Services.OrganizationServices;
@@ -44,7 +45,9 @@ namespace ProjectClock.Database.Extensions
             services.AddValidatorsFromAssemblyContaining<DeleteAccountDtoValidator>()
                 .AddFluentValidationAutoValidation()
                 .AddFluentValidationClientsideAdapters();
-
+            services.AddValidatorsFromAssemblyContaining<UpdateWorkingTimeDtoValidator>()
+                .AddFluentValidationAutoValidation()
+                .AddFluentValidationClientsideAdapters();
         }
     }
 }
