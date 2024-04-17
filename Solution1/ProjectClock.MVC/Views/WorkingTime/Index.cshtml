@@ -4,17 +4,17 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-12">
-            <form id="dateForm" class="row align-items-center">
+            <form id="dateForm" class="row align-content-center">
                 <div class="col-1">
                     <label for="startDate" class="col-form-label">From:</label>
                 </div>
-                <div class="col-3">
+                <div class="col-5">
                     <input type="date" id="startDate" name="startDate" class="form-control">
                 </div>
                 <div class="col-1">
                     <label for="endDate" class="col-form-label">To:</label>
                 </div>
-                <div class="col-3">
+                <div class="col-5">
                     <input type="date" id="endDate" name="endDate" class="form-control">
                 </div>               
             </form>
@@ -73,7 +73,14 @@
                             <div class="col">
                                 @if (item.IsFinished)
                                 {
-                                    <p>@totalTime.ToString(@"hh\:mm\:ss")</p>
+                                    if (totalTime < new TimeSpan(1,0,0,0))
+                                    {
+                                        <p>@totalTime.ToString(@"hh\:mm\:ss")</p>
+                                    }
+                                    else
+                                    {
+                                        <p class="text-danger">@totalTime.ToString(@"dd\:hh\:mm\:ss")</p>
+                                    }
                                 }
                                 else
                                 {
