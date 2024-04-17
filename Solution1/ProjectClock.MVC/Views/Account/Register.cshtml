@@ -17,12 +17,12 @@
                     }                                         
                     <div class="form-floating my-2">
                         <input asp-for="@Model.FirstName" class="form-control" autocomplete="firstName" aria-required="true" />
-                        <label asp-for="@Model.FirstName" class="form-label"></label>
+                        <label asp-for="@Model.FirstName" class="form-label">First name</label>
                         <span asp-validation-for="@Model.FirstName" class="invalid-feedback text-danger"></span>
                     </div>
                     <div class="form-floating my-2">
                         <input asp-for="@Model.LastName" class="form-control" autocomplete="LastName" aria-required="true" />
-                        <label asp-for="@Model.LastName" class="form-label"></label>
+                        <label asp-for="@Model.LastName" class="form-label">Last name</label>
                         <span asp-validation-for="@Model.LastName" class="invalid-feedback text-danger"></span>
                     </div>
                     <div class="form-floating my-2">
@@ -37,7 +37,7 @@
                     </div>
                     <div class="form-floating my-2">
                         <input type="password" asp-for="@Model.ConfirmPassword" class="form-control" aria-required="true" />
-                        <label asp-for="@Model.ConfirmPassword" class="form-label"></label>
+                        <label asp-for="@Model.ConfirmPassword" class="form-label">Repeat password</label>
                         <span asp-validation-for="@Model.ConfirmPassword" class="invalid-feedback text-danger"></span>
                     </div>
                     <button id="registerSubmit" type="submit" class="w-50 btn btn-lg btn-outline-primary rounded-5">Register</button>
