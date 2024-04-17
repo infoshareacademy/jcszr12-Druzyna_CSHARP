@@ -15,12 +15,18 @@ namespace ProjectClock.MVC
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            builder.Services.AddControllersWithViews();
+            builder.Services.AddControllersWithViews()
+                .AddRazorOptions(options =>
+                 {
+                     options.ViewLocationFormats.Add("/{0}.cshtml");
+                 });
 
             builder.Services.AddInfrastructure(builder.Configuration);
             builder.Services.AddServices(builder.Configuration);
+           
+                
 
-            
+
 
             builder.Services.AddDbContext<ProjectClock.Database.ProjectClockDbContext>(options =>
             {
@@ -58,7 +64,7 @@ namespace ProjectClock.MVC
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Account}/{action=Login}/{id?}");
+                pattern: "{controller=Home}/{action=Index}/{id?}");
 
             app.Run();
         }
