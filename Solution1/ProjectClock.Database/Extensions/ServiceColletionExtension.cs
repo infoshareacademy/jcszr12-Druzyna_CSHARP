@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using ProjectClock.Database.Seeders;
 
 
 namespace ProjectClock.Database.Extensions
@@ -13,7 +12,7 @@ namespace ProjectClock.Database.Extensions
             services.AddDbContext<ProjectClockDbContext>(
                 options => options.UseSqlServer(configuration.GetConnectionString("ProjectClock")));
 
-            services.AddScoped<ProjectClockSeeder>();
+           
 
             //services.AddScoped<IProjectServices, ProjectServices>();
             //services.AddScoped<IUserServices, UserServices>();

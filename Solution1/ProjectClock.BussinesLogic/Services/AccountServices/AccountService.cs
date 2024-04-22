@@ -253,8 +253,9 @@ namespace ProjectClock.BusinessLogic.Services.AccountServices
 
         public async Task<int> GetUserIdFromAccountId(int id)
         {
-            var account = await _dbContext.Accounts.FirstOrDefaultAsync(e => e.Id == id);
+            var account = await _dbContext.Accounts.FirstOrDefaultAsync(e => e.Id == id) ?? new Account() { };
             var userId = account.UserId;
+
             return userId;
         }
     }
