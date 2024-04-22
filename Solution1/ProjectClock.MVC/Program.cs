@@ -1,10 +1,6 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using ProjectClock.Database.Extensions;
-using System.Configuration;
-using ProjectClock.Database.Seeders;
-using ProjectClock.BusinessLogic.Services;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using ProjectClock.BusinessLogic.Dtos.Validators;
 
 namespace ProjectClock.MVC
 {
@@ -23,15 +19,15 @@ namespace ProjectClock.MVC
 
             builder.Services.AddInfrastructure(builder.Configuration);
             builder.Services.AddServices(builder.Configuration);
-           
-                
+
+
 
 
 
             builder.Services.AddDbContext<ProjectClock.Database.ProjectClockDbContext>(options =>
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("ProjectClock"));
-                
+
             });
 
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -48,8 +44,8 @@ namespace ProjectClock.MVC
             var app = builder.Build();
 
             var scope = app.Services.CreateScope();
-            var seeder = scope.ServiceProvider.GetRequiredService<ProjectClockSeeder>();
-            await seeder.Seed();
+
+
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
