@@ -7,6 +7,8 @@ using ProjectClock.BusinessLogic.Dtos.AccountDtos;
 using System.Security.Claims;
 using ProjectClock.MVC.Extensions;
 using ProjectClock.BusinessLogic.Services.AccountServices;
+using ProjectClock.BusinessLogic.Dtos.Account.Dtos;
+using System.Drawing;
 
 
 namespace ProjectClock.MVC.Controllers
@@ -23,7 +25,7 @@ namespace ProjectClock.MVC.Controllers
         [AllowAnonymous]
         public IActionResult Login()
         {
-            var dto = new LoginDto() { LoginFailed = false };
+            var dto = new LoginDto() { LoginFailed = false, UserIsActive = true };
 
             return View(dto);
         }
@@ -38,12 +40,16 @@ namespace ProjectClock.MVC.Controllers
             }
 
             var resultDto = await _accountService.LoginAccount(dto);
-
+            if (resultDto.LoginFailed && !resultDto.AccountActive)
+            {
+                return RedirectToAction("Active", new { email = dto.Email });
+            }
             if (resultDto.LoginFailed)
             {
-                dto.LoginFailed = true;
+                dto.LoginFailed = true;                
                 return View(dto);
             }
+            
 
             await HttpContext.SignInAsync(
                 CookieAuthenticationDefaults.AuthenticationScheme,
@@ -66,6 +72,34 @@ namespace ProjectClock.MVC.Controllers
             };
 
             return View(dto);
+        }
+
+        [AllowAnonymous]
+        public IActionResult Active(string email)
+        {
+            var dto = new ActiveAccountDto()
+            {
+                Email = email,
+            };
+
+            return View(dto);
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> Active(ActiveAccountDto dto)
+        {
+            if (await _accountService.ChangeUserStatus(dto))
+            {
+                TempData["SuccessMessage"] = "Account actived";
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "Wrong code!";
+                return RedirectToAction("Active", new { email = dto.Email });
+            }
+
+            return RedirectToAction("Login", "Account");
         }
 
         [HttpPost]

@@ -9,15 +9,14 @@ public class CreateProject : ViewComponent
 {
     private readonly IOrganizationServices _organizationServices;
     private readonly IAccountServices _accountService;
-    private readonly IEmailHostedServices _emailHostedServices;
+    
 
     public CreateProject(IOrganizationServices organizationServices
-        , IAccountServices accountService,
-        EmailHostedServices emailHostedServices)
+        , IAccountServices accountService)
     {
         _organizationServices = organizationServices;
         _accountService = accountService;
-        _emailHostedServices = emailHostedServices;
+        
     }
 
     public async Task<IViewComponentResult> InvokeAsync()

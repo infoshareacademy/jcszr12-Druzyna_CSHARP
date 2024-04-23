@@ -1,4 +1,5 @@
-﻿using ProjectClock.BusinessLogic.Dtos.AccountDtos;
+﻿using ProjectClock.BusinessLogic.Dtos.Account.Dtos;
+using ProjectClock.BusinessLogic.Dtos.AccountDtos;
 
 namespace ProjectClock.BusinessLogic.Services.AccountServices
 {
@@ -12,5 +13,6 @@ namespace ProjectClock.BusinessLogic.Services.AccountServices
         Task<LoginResultDto> LoginAccount(LoginDto dto);
         Task<RegisterResultDto> RegisterAccount(RegisterDto dto);
         Task<int> GetUserIdFromAccountId(int id);
+        Task<bool> ChangeUserStatus(ActiveAccountDto dto);
     }
 }

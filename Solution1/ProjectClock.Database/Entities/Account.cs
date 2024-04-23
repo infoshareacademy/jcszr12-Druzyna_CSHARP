@@ -25,6 +25,8 @@ namespace ProjectClock.Database.Entities
         public int UserId { get; set; }
 
         public User User { get; set; }
+        public string ActivationCode { get; set; }
+        public bool IsActive { get; set; }
 
     }
 }
