@@ -2,7 +2,10 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.EntityFrameworkCore;
+using ProjectClock.BusinessLogic.Dtos.Account.Dtos;
 using ProjectClock.BusinessLogic.Dtos.AccountDtos;
+using ProjectClock.BusinessLogic.Email.Models.Email;
+using ProjectClock.BusinessLogic.Services.EmailHostedServices;
 using ProjectClock.BusinessLogic.Services.UserServices;
 using ProjectClock.Database;
 using ProjectClock.Database.Entities;
@@ -17,11 +20,13 @@ namespace ProjectClock.BusinessLogic.Services.AccountServices
     {
         private readonly ProjectClockDbContext _dbContext;
         private readonly IUserServices _userService;
+        private readonly IEmailHostedServices _emailHostedServices;
 
-        public AccountService(ProjectClockDbContext dbContext, IUserServices userServices)
+        public AccountService(ProjectClockDbContext dbContext, IUserServices userServices, EmailHostedServices.EmailHostedServices emailHostedServices)
         {
             _dbContext = dbContext;
             _userService = userServices;
+            _emailHostedServices = emailHostedServices;
         }
 
         public async Task<RegisterResultDto> RegisterAccount(RegisterDto dto)
@@ -58,9 +63,17 @@ namespace ProjectClock.BusinessLogic.Services.AccountServices
                 Email = dto.Email,
                 PasswordSalt = salt,
                 PasswordHash = passwordHash,
-                User = user
+                User = user,
+                ActivationCode = GenerateCode(),
+                IsActive = false
             };
 
+            await _emailHostedServices.SendMailAsync(new EmailModel()
+            {
+                EmailAdress = dto.Email,
+                Subject = "Project clock - Activation code",
+                Body = $"<!DOCTYPE html>\r\n<html>\r\n<head>\r\n    <title>Twój kod weryfikacyjny</title>\r\n</head>\r\n<body>\r\n\r\n    <h1>Twój kod weryfikacyjny</h1>\r\n    \r\n    <p>Witaj!</p>\r\n    \r\n    <p>Oto Twój 5-znakowy kod weryfikacyjny: <strong>{newAccount.ActivationCode}</strong></p>\r\n    \r\n    <p>Proszę użyć tego kodu do weryfikacji.</p>\r\n    \r\n    <p>Pozdrawiamy,<br>\r\n    Zespół Project Clock</p>\r\n\r\n</body>\r\n</html>"
+            });
             await _dbContext.Accounts.AddAsync(newAccount);
             await _dbContext.SaveChangesAsync();
 
@@ -71,7 +84,7 @@ namespace ProjectClock.BusinessLogic.Services.AccountServices
         {
             var user = await _dbContext.Accounts
                 .Where(u => u.Email == dto.Email)
-                .Select(u => new { u.Id, u.PasswordHash, u.PasswordSalt, name = $"{u.FirstName} {u.LastName}" })
+                .Select(u => new { u.Id, u.PasswordHash, u.PasswordSalt, name = $"{u.FirstName} {u.LastName}", u.IsActive})
                 .FirstOrDefaultAsync();
 
             var resultDto = new LoginResultDto();
@@ -79,6 +92,13 @@ namespace ProjectClock.BusinessLogic.Services.AccountServices
             if (user is null || user.PasswordHash != GetHashedPassword(dto.Password, user.PasswordSalt))
             {
                 resultDto.LoginFailed = true;
+
+                return resultDto;
+            }
+            if (!user.IsActive)
+            {
+                resultDto.LoginFailed = true;
+                resultDto.AccountActive = false;
 
                 return resultDto;
             }
@@ -257,6 +277,29 @@ namespace ProjectClock.BusinessLogic.Services.AccountServices
             var userId = account.UserId;
 
             return userId;
+        }
+
+        public async Task<bool> ChangeUserStatus(ActiveAccountDto dto)
+        {
+            var user = await _dbContext.Accounts.FirstOrDefaultAsync(a => a.Email == dto.Email);
+            if (user != null)
+            {
+                if(user.ActivationCode == dto.Code)
+                {
+                    user.IsActive = true;
+                    await _dbContext.SaveChangesAsync();
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private string GenerateCode()
+        {
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            var random = new Random();
+            return new string(Enumerable.Repeat(chars, 5)
+                .Select(s => s[random.Next(s.Length)]).ToArray());
         }
     }
 }

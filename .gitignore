@@ -211,3 +211,5 @@ paket-files/
 # Python Tools for Visual Studio (PTVS)
 __pycache__/
 *.pyc
+/Solution1/ProjectClock.MVC/emailApi.json
+/Solution1/ProjectClock.BussinesLogic/Email/emailApi.json

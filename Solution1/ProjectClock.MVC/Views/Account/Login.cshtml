@@ -3,6 +3,7 @@
 @{
     Layout = "~/Views/Shared/_LayoutLogin.cshtml";
     ViewData["Title"] = "Login";
+    var successMessage = TempData["SuccessMessage"] as string;
 }
 
 <div class="container-fluid form-body m-0 py-5">
@@ -14,7 +15,13 @@
                     @if (Model is not null && Model.LoginFailed)
                     {
                         <p class="text-warning text-bg-warning p-1">Invalid password</p>
-                    }                  
+                    }
+                    @if (!string.IsNullOrEmpty(successMessage))
+                    {
+                        <p class="text-success text-bg-success p-1">
+                            @successMessage
+                        </p>
+                    }
                     <form id="account" method="post">                        
                         <div class="form-floating my-2 text-start">
                             <input asp-for="@Model.Email" class="form-control" autocomplete="username" aria-required="true" />

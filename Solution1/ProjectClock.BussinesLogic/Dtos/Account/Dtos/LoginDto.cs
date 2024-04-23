@@ -13,5 +13,6 @@ namespace ProjectClock.BusinessLogic.Dtos.AccountDtos
         public string Password { get; set; }
         public bool RememberMe { get; set; }
         public bool LoginFailed { get; set; }
+        public bool UserIsActive { get; set; }
     }
 }

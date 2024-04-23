@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using ProjectClock.BusinessLogic.Dtos.Project.ProjectDtos;
+using ProjectClock.BusinessLogic.Services.EmailHostedServices;
 using ProjectClock.Database;
 using ProjectClock.Database.Entities;
 
@@ -10,8 +11,10 @@ namespace ProjectClock.BusinessLogic.Services.ProjectServices
     {
         private ProjectClockDbContext _projectClockDbContext;
         private IMapper _mapper;
+        
 
-        public ProjectServices(ProjectClockDbContext projectClockDbContext, IMapper mapper)
+        public ProjectServices(ProjectClockDbContext projectClockDbContext, 
+            IMapper mapper)
         {
             _projectClockDbContext = projectClockDbContext;
             _mapper = mapper;
