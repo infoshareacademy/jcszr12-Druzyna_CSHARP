@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using ProjectClock.BusinessLogic.Services.EmailHostedServices;
 using ProjectClock.Database.Extensions;
@@ -66,5 +67,5 @@ namespace ProjectClock.MVC
 
             app.Run();
         }
-    }
+    }    
 }
