@@ -7,6 +7,7 @@ using ProjectClock.BusinessLogic.Dtos.Validators;
 using ProjectClock.BusinessLogic.Dtos.WorkingTime.ValidatorsDto;
 using ProjectClock.BusinessLogic.Mapping;
 using ProjectClock.BusinessLogic.Services.AccountServices;
+using ProjectClock.BusinessLogic.Services.EmailHostedServices;
 using ProjectClock.BusinessLogic.Services.OrganizationServices;
 using ProjectClock.BusinessLogic.Services.ProjectServices;
 using ProjectClock.BusinessLogic.Services.UserServices;
@@ -28,6 +29,8 @@ namespace ProjectClock.Database.Extensions
             services.AddTransient<IAccountServices, AccountService>();
             services.AddTransient<IOrganizationServices, OrganizationServices>();
             services.AddTransient<IWorkingTimeServices, WorkingTimeServices>();
+            services.AddSingleton<EmailHostedServices>();
+            services.AddHostedService(provider => provider.GetService<EmailHostedServices>());
 
             services.AddValidatorsFromAssemblyContaining<LoginDtoValidator>()
                 .AddFluentValidationAutoValidation()
