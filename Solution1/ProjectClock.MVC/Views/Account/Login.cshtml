@@ -4,6 +4,7 @@
     Layout = "~/Views/Shared/_LayoutLogin.cshtml";
     ViewData["Title"] = "Login";
     var successMessage = TempData["SuccessMessage"] as string;
+    var userNotExist = TempData["UserNotExist"] as string;
 }
 
 <div class="container-fluid form-body m-0 py-5">
@@ -20,6 +21,12 @@
                     {
                         <p class="text-success text-bg-success p-1">
                             @successMessage
+                        </p>
+                    }
+                    @if (!string.IsNullOrEmpty(userNotExist))
+                    {
+                        <p class="text-warning text-bg-warning p-1">
+                            @userNotExist
                         </p>
                     }
                     <form id="account" method="post">                        

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using Mailjet.Client.Resources;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.EntityFrameworkCore;
@@ -9,8 +10,10 @@ using ProjectClock.BusinessLogic.Services.EmailHostedServices;
 using ProjectClock.BusinessLogic.Services.UserServices;
 using ProjectClock.Database;
 using ProjectClock.Database.Entities;
+using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography;
+using User = ProjectClock.Database.Entities.User;
 
 namespace ProjectClock.BusinessLogic.Services.AccountServices
 {
@@ -52,9 +55,22 @@ namespace ProjectClock.BusinessLogic.Services.AccountServices
 
             var salt = GeneratePasswordSalt();
             var passwordHash = GetHashedPassword(dto.Password, salt);
+            var user = await _dbContext.Users.SingleOrDefaultAsync(u => u.Email == dto.Email);
 
-            var userId = await _userService.Create(new User(dto.FirstName, dto.LastName, dto.Email));
-            var user = await _dbContext.Users.SingleOrDefaultAsync(u => u.Name == dto.FirstName && u.Email == dto.Email && u.Id == userId);
+
+            if (user == null)
+            {
+                await _userService.Create(new User(dto.FirstName, dto.LastName, dto.Email));
+                user = await _dbContext.Users.SingleOrDefaultAsync(u => u.Name == dto.FirstName && u.Email == dto.Email);
+            }
+            else
+            {
+                user.Name = dto.FirstName;
+                user.Surname = dto.LastName;
+                user.IsActive = true;
+            }
+
+            
 
             var newAccount = new Account
             {
@@ -68,11 +84,76 @@ namespace ProjectClock.BusinessLogic.Services.AccountServices
                 IsActive = false
             };
 
+            string emailBody = $@"
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Twój kod weryfikacyjny</title>
+    <style>
+        body {{
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #245d6c;
+            padding: 20px;
+            color: #ffffff;
+        }}
+        .container {{
+            max-width: 600px;
+            margin: auto;
+            background-color: #248eb7;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }}
+        h1 {{
+            color: #ffffff;
+            border-bottom: 2px solid #ffffff;
+            padding-bottom: 10px;
+        }}
+        p {{
+            margin-top: 15px;
+            margin-bottom: 15px;
+            color: #ffffff; /* Ustawienie koloru tekstu na biały */
+        }}
+        strong {{
+            color: #ffffff;
+        }}
+        .footer {{
+            margin-top: 20px;
+            border-top: 1px solid #ffffff;
+            padding-top: 10px;
+            font-size: 0.9em;
+        }}
+    </style>
+</head>
+<body>
+
+    <div class='container'>
+        
+        <h1>Witaj!</h1>
+        
+        <p>Oto Twój <strong>5-znakowy kod weryfikacyjny</strong>:</p>
+        
+        <p style='font-size: 24px; font-weight: bold;'>{newAccount.ActivationCode}</p>
+        
+        <p>Proszę użyć tego kodu do weryfikacji.</p>
+        
+        <div class='footer'>
+            <p>Pozdrawiam,<br>
+            Tomasz Żukowski - Project Clock</p>
+        </div>
+
+    </div>
+
+</body>
+</html>";
+
+
             await _emailHostedServices.SendMailAsync(new EmailModel()
             {
                 EmailAdress = dto.Email,
                 Subject = "Project clock - Activation code",
-                Body = $"<!DOCTYPE html>\r\n<html>\r\n<head>\r\n    <title>Twój kod weryfikacyjny</title>\r\n</head>\r\n<body>\r\n\r\n    <h1>Twój kod weryfikacyjny</h1>\r\n    \r\n    <p>Witaj!</p>\r\n    \r\n    <p>Oto Twój 5-znakowy kod weryfikacyjny: <strong>{newAccount.ActivationCode}</strong></p>\r\n    \r\n    <p>Proszę użyć tego kodu do weryfikacji.</p>\r\n    \r\n    <p>Pozdrawiamy,<br>\r\n    Zespół Project Clock</p>\r\n\r\n</body>\r\n</html>"
+                Body = emailBody
             });
             await _dbContext.Accounts.AddAsync(newAccount);
             await _dbContext.SaveChangesAsync();
@@ -89,21 +170,32 @@ namespace ProjectClock.BusinessLogic.Services.AccountServices
 
             var resultDto = new LoginResultDto();
 
-            if (user is null || user.PasswordHash != GetHashedPassword(dto.Password, user.PasswordSalt))
+            if (user is null)
+            {
+                resultDto.UserExist = false;
+                resultDto.LoginFailed = true;
+
+                return resultDto;
+            }
+
+            if (user.PasswordHash != GetHashedPassword(dto.Password, user.PasswordSalt))
             {
                 resultDto.LoginFailed = true;
+                resultDto.UserExist = true;
 
                 return resultDto;
             }
             if (!user.IsActive)
             {
                 resultDto.LoginFailed = true;
+                resultDto.UserExist = true;
                 resultDto.AccountActive = false;
 
                 return resultDto;
             }
 
             resultDto.LoginFailed = false;
+            resultDto.UserExist = true;
             resultDto.UserId = user.Id;
             resultDto.ClaimsIdentity = GetClaimsIdentity(user.Id, user.name);
             resultDto.AuthProp = GetAuthProp(dto.RememberMe);
@@ -209,15 +301,22 @@ namespace ProjectClock.BusinessLogic.Services.AccountServices
 
         public async Task<bool> DeleteAccount(DeleteAccountDto dto)
         {
-            var user = await _dbContext.Accounts
+            var account = await _dbContext.Accounts
                 .FirstAsync(u => u.Id == dto.Id);
 
-            if (user.PasswordHash != GetHashedPassword(dto.Password, user.PasswordSalt))
+            if (account.PasswordHash != GetHashedPassword(dto.Password, account.PasswordSalt))
             {
                 return false;
             }
 
-            _dbContext.Accounts.Remove(user);
+            _dbContext.Accounts.Remove(account);
+
+            var userId = await GetUserIdFromAccountId(dto.Id);
+
+            var user = _dbContext.Users.FirstOrDefault(u => u.Id == userId);
+
+            user.IsActive = false;
+
             await _dbContext.SaveChangesAsync();
 
             return true;

@@ -8,6 +8,7 @@ namespace ProjectClock.BusinessLogic.Dtos.AccountDtos
 
         public bool LoginFailed { get; set; }
         public bool AccountActive { get; set; }
+        public bool UserExist { get; set; }
 
         public int? UserId { get; set; }
 

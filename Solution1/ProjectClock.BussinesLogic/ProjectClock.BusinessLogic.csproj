@@ -27,9 +27,5 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\ProjectClock.Database\ProjectClock.Database.csproj" />
 	</ItemGroup>
-	
-	<ItemGroup>
-	  <Folder Include="Services\EmailService\" />
-	</ItemGroup>
 
 </Project>
