@@ -27,7 +27,10 @@ public class WorkingTimeServices : IWorkingTimeServices
         }
         var project = await _projectClockDbContext.Projects.FirstOrDefaultAsync(p => p.Name == dto.ProjectName);
         var user = await _projectClockDbContext.Users.FirstOrDefaultAsync(u => u.Id == dto.UserId);
-
+        if(project == null)
+        {
+            return false;
+        }
         //if (!user.OrganizationUsers.Any(e => e.Organization == project.Organization))
         //{
         //    return false;

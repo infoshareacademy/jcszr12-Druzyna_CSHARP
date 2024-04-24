@@ -25,7 +25,7 @@ namespace ProjectClock.MVC.Controllers
         [AllowAnonymous]
         public IActionResult Login()
         {
-            var dto = new LoginDto() { LoginFailed = false, UserIsActive = true };
+            var dto = new LoginDto() { LoginFailed = false, UserIsActive = true, UserExist = true };
 
             return View(dto);
         }
@@ -40,11 +40,17 @@ namespace ProjectClock.MVC.Controllers
             }
 
             var resultDto = await _accountService.LoginAccount(dto);
+            if (!resultDto.UserExist)
+            {
+                TempData["UserNotExist"] = "User with this email doesn't exist";
+                return View(dto);
+            }
+
             if (resultDto.LoginFailed && !resultDto.AccountActive)
             {
                 return RedirectToAction("Active", new { email = dto.Email });
             }
-            if (resultDto.LoginFailed)
+            if (resultDto.LoginFailed && resultDto.AccountActive)
             {
                 dto.LoginFailed = true;                
                 return View(dto);

@@ -12,7 +12,7 @@ using ProjectClock.Database;
 namespace ProjectClock.Database.Migrations
 {
     [DbContext(typeof(ProjectClockDbContext))]
-    [Migration("20240423204253_initial")]
+    [Migration("20240424095548_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -138,6 +138,9 @@ namespace ProjectClock.Database.Migrations
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
