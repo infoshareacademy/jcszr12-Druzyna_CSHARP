@@ -8,6 +8,10 @@ using ProjectClock.BusinessLogic.Services.WorkingTimeServices;
 using ProjectClock.Database;
 using ProjectClock.Database.Entities;
 
+using ProjectClock.BusinessLogic.Services.UserServices;
+
+using ProjectClock.BusinessLogic.Services.ProjectServices;
+
 
 namespace ProjectClock.BusinessLogic.Services.RaportServices
 {
