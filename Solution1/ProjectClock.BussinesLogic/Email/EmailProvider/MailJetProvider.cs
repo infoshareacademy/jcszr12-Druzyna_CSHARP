@@ -26,7 +26,7 @@ public class MailJetProvider : EmailSender.EmailSender, IEmailSender
             jArray.Add(new JObject
             {
                 new JProperty("FromEmail", "tomaszzukowskibp@gmail.com"),
-                new JProperty("FromName", "Tomasz Żukowski"),
+                new JProperty("FromName", "Project Clock Team"),
                 new JProperty("Recipients", new JArray
                 {
                     new JObject
