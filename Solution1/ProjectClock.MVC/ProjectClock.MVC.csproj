@@ -5,6 +5,13 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="Views\Raport\ChartOfuser.cshtml" />
+    <Content Remove="Views\Raport\Organization.cshtml" />
+    <Content Remove="Views\Raport\Project.cshtml" />
+    <Content Remove="Views\Raport\User.cshtml" />
+  </ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\ProjectClock.BussinesLogic\ProjectClock.BusinessLogic.csproj" />
 		<ProjectReference Include="..\ProjectClock.Database\ProjectClock.Database.csproj" />
@@ -33,5 +40,12 @@
 	</ItemGroup>
 	<ItemGroup>
 	  <_ContentIncludedByDefault Remove="Views\Organization\Delete.cshtml" />
+	</ItemGroup>
+	<ItemGroup>
+	  <None Include="Views\Raport\ChartOfuser.cshtml" />
+	  <None Include="Views\Raport\Organization.cshtml" />
+	  <None Include="Views\Raport\Project.cshtml" />
+	  <None Include="Views\Raport\User.cshtml" />
+	  <None Include="Views\Shared\Components\Raport\_LayoutRaport.cshtml" />
 	</ItemGroup>
 </Project>

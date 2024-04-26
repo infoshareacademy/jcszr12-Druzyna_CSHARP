@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using ProjectClock.BusinessLogic.Services.EmailHostedServices;
+using ProjectClock.BusinessLogic.Services.RaportServices;
 using ProjectClock.Database.Extensions;
 
 namespace ProjectClock.MVC
@@ -22,12 +23,12 @@ namespace ProjectClock.MVC
             builder.Services.AddInfrastructure(builder.Configuration);
             builder.Services.AddServices(builder.Configuration);
 
-            
+
+			builder.Services.AddScoped<IRaportServices, RaportServices>();
 
 
 
-
-            builder.Services.AddDbContext<ProjectClock.Database.ProjectClockDbContext>(options =>
+			builder.Services.AddDbContext<ProjectClock.Database.ProjectClockDbContext>(options =>
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("ProjectClock"));
 
