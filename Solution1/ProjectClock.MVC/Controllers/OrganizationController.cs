@@ -68,22 +68,23 @@ namespace ProjectClock.MVC.Controllers
                 HttpContext.User.Claims.TryGetAuthenticatedUserId(out var accountId);
                 organizationDto.UserId = await _accountService.GetUserIdFromAccountId(accountId);
 
-                if (!_organizationUserServices.IsUserAnOwner(accountId))
+                if (_organizationUserServices.IsUserAnOwner(accountId))
                 {
                     TempData["ErrorMessage"] = "You are already an owner of organization. You can only be owner of one organization.";
                 }
-
-
-                bool created = await _organizationServices.Create(organizationDto);
-
-                if (created)
-                {
-                    TempData["SuccessMessage"] = "Organization created successfully.";
-
-                }
                 else
                 {
-                    TempData["ErrorMessage"] = "This organization already exists.";
+                    bool created = await _organizationServices.Create(organizationDto);
+
+                    if (created)
+                    {
+                        TempData["SuccessMessage"] = "Organization created successfully.";
+
+                    }
+                    else
+                    {
+                        TempData["ErrorMessage"] = "This organization already exists.";
+                    }
                 }
 
                 return RedirectToAction(nameof(Create));
