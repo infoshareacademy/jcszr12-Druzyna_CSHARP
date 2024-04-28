@@ -131,8 +131,18 @@ namespace ProjectClock.MVC.Controllers
         {
             DeleteOrganizationDto model = new();
 
-            var organizations = await _organizationServices.GetAll();
-            model.Organizations = organizations;
+            HttpContext.User.Claims.TryGetAuthenticatedUserId(out var accountId);
+            int userId = await _accountService.GetUserIdFromAccountId(accountId);
+
+            var userOrganizations = await _organizationUserServices.GetUserOrganizations(userId);
+
+            var organizationDtoList = userOrganizations.Select(x => new OrganizationDto()
+            {
+                OrganizationId = x.Id,
+                OrganizationName = x.Name
+            }).ToList();
+           
+            model.Organizations = organizationDtoList;
 
             return View("Delete", model);
         }

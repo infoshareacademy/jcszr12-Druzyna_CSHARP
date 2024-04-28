@@ -180,7 +180,7 @@ namespace ProjectClock.BusinessLogic.Services.OrganizationServices
             return true;
         }
 
-        public async Task<List<OrganizationsDto>> GetAllUserOrganization(int userId)
+        public async Task<List<OrganizationDto>> GetAllUserOrganization(int userId)
         {
 
             var list = await _projectClockDbContext.Organizations
@@ -188,7 +188,7 @@ namespace ProjectClock.BusinessLogic.Services.OrganizationServices
                 .FirstOrDefault(e => e.UserId == userId).User.Id == userId)
                 .ToListAsync();
 
-            var dtos = _mapper.Map<List<OrganizationsDto>>(list);
+            var dtos = _mapper.Map<List<OrganizationDto>>(list);
 
             return dtos;
         }

@@ -9,7 +9,7 @@ namespace ProjectClock.BusinessLogic.Dtos.Project.ProjectDtos
        public string ProjectName { get; set; }
        public string OrganizationId { get; set; }
        public string OrganizationName { get; set; }
-       public IEnumerable<OrganizationsDto> UserOrganizations { get; set; }
+       public IEnumerable<Organization.OrganizationDto> UserOrganizations { get; set; }
        public bool IsCreated { get; set; }
     }
 }

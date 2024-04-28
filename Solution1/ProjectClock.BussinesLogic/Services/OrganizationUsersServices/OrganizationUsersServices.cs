@@ -1,4 +1,6 @@
-﻿using ProjectClock.Database;
+﻿using Microsoft.EntityFrameworkCore;
+using ProjectClock.Database;
+using ProjectClock.Database.Entities;
 
 namespace ProjectClock.BusinessLogic.Services.OrganizationUserServices
 {
@@ -15,6 +17,14 @@ namespace ProjectClock.BusinessLogic.Services.OrganizationUserServices
             int numOfProjects = _projectClockDbContext.OrganizationsUsers.Count(ou => ou.UserId == userId);
 
             return numOfProjects > 0;
+        }
+
+        public async Task<IEnumerable<Organization>> GetUserOrganizations(int userId)
+        {
+            var userOrganizations =
+                await _projectClockDbContext.OrganizationsUsers.Where(ou => ou.UserId == userId).Select(ou => ou.Organization).ToListAsync();
+
+            return userOrganizations;
         }
     }
 }
