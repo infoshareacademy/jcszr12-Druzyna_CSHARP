@@ -37,7 +37,6 @@
 	<ItemGroup>
 	  <None Include="Views\Raport\ChartOfuser.cshtml" />
 	  <None Include="Views\Raport\Organization.cshtml" />
-	  <None Include="Views\Raport\Project.cshtml" />
 	  <None Include="Views\Raport\User.cshtml" />
 	  <None Include="Views\Shared\Components\Raport\_LayoutRaport.cshtml" />
 	</ItemGroup>

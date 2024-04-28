@@ -81,7 +81,7 @@ namespace ProjectClock.MVC.Controllers
         // POST: OrganizationController/Create
         [HttpPost]
         //	[ValidateAntiForgeryToken]
-        public async Task<IActionResult> Wiii(int userId)
+        public async Task<IActionResult> User(int userId)
         {
 
             try
@@ -132,13 +132,17 @@ namespace ProjectClock.MVC.Controllers
 			dto.ListProjectsForRaports = await _raportServices.GetAllProjects();
 
 
-			//int zm  =     dto.ListProjectsForRaports.FirstOrDefault(a => a.Id > 0).Id;
+			int zm  =     dto.ListProjectsForRaports.FirstOrDefault(a => a.Id > 0).Id;
 
 
 			//dto = await _raportServices.GetUserNameAndTimeForProject(zm);
 
+			//dto = await _raportServices.get(zm);
 
-			//TempData["Id_2"] = zm_2.ToString();
+
+
+
+			TempData["IdProjChart"] = zm.ToString();
 
 
 			return View(dto);
@@ -149,16 +153,16 @@ namespace ProjectClock.MVC.Controllers
 		// POST: OrganizationController/Create
 		[HttpPost]
 		//	[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Wiii_2(int userId)
+		public async Task<IActionResult> Project(int projectId)
 		{
 
 			try
 			{
-				var dto = await _raportServices.GetProjectNameAndTimeForUser(userId);
+				var dto = await _raportServices.GetProjectNameAndTimeForUser(projectId);
 
-				TempData["Id"] = userId.ToString();
+				TempData["IdProjChart"] = projectId.ToString();
 
-				return View("User", dto);
+				return View("Project", dto);
 
 			}
 			catch (Exception ex)
@@ -168,6 +172,22 @@ namespace ProjectClock.MVC.Controllers
 			}
 
 		}
+
+
+
+		[Authorize(Roles = "User")]
+		//[HttpGet]
+		public async Task<IActionResult> ChartOfProject()
+		{
+
+            int zm_2 = int.Parse(TempData["IdProjChart"].ToString());
+            //int zm_2 = 1;
+			var dto = await _raportServices.GetDataForChart(zm_2);
+
+			return View(dto);
+
+		}
+
 
 
 

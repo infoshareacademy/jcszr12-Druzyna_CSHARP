@@ -156,7 +156,25 @@ namespace ProjectClock.BusinessLogic.Services.RaportServices
         }
 
 
-        public async Task<List<Project>> GetAllProjects()
+
+		public async Task<List<WorkingTime>> GetProjectsWorkingTimesAfterProjectId(int projectId)
+		{
+
+			var list = await _projectClockDbContext.WorkingTimes
+
+				 .Where(e => e.ProjectId == projectId)
+				 .ToListAsync();
+
+
+			return list;
+		}
+
+
+
+
+
+
+		public async Task<List<Project>> GetAllProjects()
         {
 
             var list = await _projectClockDbContext.Projects.ToListAsync();
@@ -216,7 +234,7 @@ namespace ProjectClock.BusinessLogic.Services.RaportServices
             {
 
 
-                var da = dto.workingTimes.Where(e => e.ProjectId == item.Id).ToList();
+                var da = dto.workingTimes.Where(e => e.ProjectId == item.Id && e.EndTime != null).ToList();
 
 
                 dto.totalTime_1 = da.Select(e => e.EndTime - e.StartTime).ToList();
@@ -377,6 +395,8 @@ namespace ProjectClock.BusinessLogic.Services.RaportServices
 
 		Task<Model> GetUserNameAndTimeForProject(int userId);
 
+
+        Task<List<WorkingTime>> GetProjectsWorkingTimesAfterProjectId(int projectId);
 
 
 	}

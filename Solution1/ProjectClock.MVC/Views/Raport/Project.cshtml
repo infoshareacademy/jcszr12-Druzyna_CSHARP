@@ -33,7 +33,7 @@
 
 	<div class="title">RAPORT FOR <br>PROJECT</div>
 
-	<button class="btnMore" id="btnchart" onclick="location.href='@Url.Action("ChartOfUser", "Raport")'">Chart</button>
+	<button class="btnMore" id="btnchart" onclick="location.href='@Url.Action("ChartOfProject", "Raport")'">Chart</button>
 	<button class="btnBack" onclick="location.href='@Url.Action("Index", "Home")'">Back</button>
 
 	@* <div class="form-group">
@@ -42,11 +42,11 @@
 
 
 	<div class="Select_a_user" id="sau_div_con">
-		<div class="Generate Report for:">Choose user:</div>
-		<form asp-controller="Raport" asp-action="Wiii_2" method="post">
+		<div class="Generate Report for:">Choose project :</div>
+		<form asp-controller="Raport" asp-action="Project" method="post">
 			<div class="mb-2">
 				<label for="selectedOrganization"></label>
-				<select class="form-select form-select-sm" aria-label="Small select example" id="selectedUser" name="userId">
+				<select class="form-select form-select-sm" aria-label="Small select example" id="selectedUser" name="projectId">
 					@{
 						foreach (var Item in list.ListProjectsForRaports)
 						{
