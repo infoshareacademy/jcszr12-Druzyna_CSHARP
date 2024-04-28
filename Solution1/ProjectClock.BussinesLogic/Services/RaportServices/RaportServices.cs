@@ -332,36 +332,7 @@ namespace ProjectClock.BusinessLogic.Services.RaportServices
 
 
 
-    public interface IRaportServices
-    {
-        void CreateParticipant(GetNameAndIdAllUsersDto participant);
-
-        Task<bool> AddProjectToOrganization(int organizationId, Project project);
-
-        Task<List<WorkingTime>> GetAll();
-
-        Task<List<WorkingTime>> GetUserWorkingTimesAfterUserId(int userId);
-
-        Task<List<Project>> GetAllProjects();
-
-        Task<IEnumerable<WorkingTimeDto>> GetUserAllWorkingTimes(int userId);
-
-        Task<Model> GetProjectNameAndTimeForUser(int userId);
-
-		Task<Model> GetDataForChart(int userId);
-
-
-
-		//=========================================== Project =====================================================
-
-
-		Task<Model> GetUserNameAndTimeForProject(int userId);
-
-
-        Task<List<WorkingTime>> GetProjectsWorkingTimesAfterProjectId(int projectId);
-
-
-	}
+   
 
 
 
