@@ -11,11 +11,6 @@ namespace ProjectClock.Database.Extensions
         {
             services.AddDbContext<ProjectClockDbContext>(
                 options => options.UseSqlServer(configuration.GetConnectionString("ProjectClock")));
-
-           
-
-            //services.AddScoped<IProjectServices, ProjectServices>();
-            //services.AddScoped<IUserServices, UserServices>();
         }
     }
 }

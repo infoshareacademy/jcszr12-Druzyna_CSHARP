@@ -62,13 +62,15 @@ namespace ProjectClock.MVC.Controllers
             {
                 if (!ModelState.IsValid)
                 {
+                    TempData["ErrorMessage"] = "You didn't enter name of organization.";
                     return View();
                 }
+
 
                 HttpContext.User.Claims.TryGetAuthenticatedUserId(out var accountId);
                 organizationDto.UserId = await _accountService.GetUserIdFromAccountId(accountId);
 
-                if (_organizationUserServices.IsUserAnOwner(accountId))
+                if (_organizationUserServices.IsUserAnOwner(organizationDto.UserId))
                 {
                     TempData["ErrorMessage"] = "You are already an owner of organization. You can only be owner of one organization.";
                 }
