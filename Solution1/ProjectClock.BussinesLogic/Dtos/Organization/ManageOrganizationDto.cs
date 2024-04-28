@@ -6,7 +6,7 @@ namespace ProjectClock.BusinessLogic.Dtos.OrganizationDto
     {
         public int OrganizationId { get; set; }
         public int? SelectedOrganizationId { get; set; }
-        public Database.Entities.Organization Organization { get; set; }
+        public Database.Entities.Organization? Organization { get; set; }
         public User User { get; set; }
         public List<Database.Entities.Organization> Organizations { get; set; }
         public List<Database.Entities.User>? OrganizationUsers { get; set; } = new List<Database.Entities.User> ();

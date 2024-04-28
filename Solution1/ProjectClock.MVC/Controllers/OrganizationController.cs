@@ -189,15 +189,28 @@ namespace ProjectClock.MVC.Controllers
         [HttpPost]
         public async Task<IActionResult> Choose(int organizationId, int userId)
         {
-            ManageOrganizationDto model = await GetManageOrganizationDto(organizationId, userId);
+            ManageOrganizationDto model = new ManageOrganizationDto();
 
-            return View("Manage", model);
+            if (organizationId == 0)
+            {
+                TempData["NoOrganizationChoosed"] = "You didn't choose organization.";
+                var organizations = await _organizationServices.GetAll();
+                model.Organizations = organizations;
+                return View("Manage", model);
+
+            }
+            else
+            {
+                model = await GetManageOrganizationDto(organizationId, userId);
+                return View("Manage", model);
+            }
         }
 
         [HttpPost]
         public async Task<IActionResult> InviteUser(int organizationId, string email, int userId)
         {
             var user = await _userServices.GetByEmail(email);
+            var organization = await _organizationServices.GetById(organizationId);
 
             ManageOrganizationDto model = new ManageOrganizationDto();
 
@@ -205,7 +218,7 @@ namespace ProjectClock.MVC.Controllers
             {
                 model = await GetManageOrganizationDto(organizationId, userId);
                 TempData["UserAddedFailedMessage"] =
-                    $"User with email: {email} hasn't been added to organization with {organizationId}. It doesn't exist.";
+                    $"User with email: {email} hasn't been added to the organization {organizationId}. User is not registered in system.";
             }
             else
             {
@@ -215,12 +228,12 @@ namespace ProjectClock.MVC.Controllers
 
                 if (invited)
                 {
-                    TempData["UserAddedMessage"] = $"User with {userId} has been added to organization with {organizationId}.";
+                    TempData["UserAddedMessage"] = $"User with email: {email} has been added to the organization {organization.Name}.";
                 }
                 else
                 {
                     TempData["UserAddedFailedMessage"] =
-                        $"User with {userId} hasn't been added to organization with {organizationId}.";
+                        $"User with email: {email} hasn't been added to organization with {organization.Name}.";
                 }
 
                 model = await GetManageOrganizationDto(organizationId, userId);
