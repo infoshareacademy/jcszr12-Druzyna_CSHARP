@@ -32,6 +32,11 @@ namespace ProjectClock.BusinessLogic.Services.UserServices
             return await _projectClockDbContext.Users.FirstOrDefaultAsync(u => u.Id == id);
         }
 
+        public async Task<User?> GetByEmail(string email)
+        {
+            return await _projectClockDbContext.Users.FirstOrDefaultAsync(u => u.Email == email);
+        }
+
         public async Task<List<User>> GetAll()
         {
             return await _projectClockDbContext.Users.ToListAsync();

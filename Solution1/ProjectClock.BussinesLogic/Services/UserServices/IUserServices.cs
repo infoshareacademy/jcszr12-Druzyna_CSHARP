@@ -10,6 +10,7 @@ namespace ProjectClock.BusinessLogic.Services.UserServices
         Task Update(User model);
         Task<bool> Delete(int id);
         Task<bool> UserExist(string email);
+        Task<User?> GetByEmail(string email);
 
     }
 }

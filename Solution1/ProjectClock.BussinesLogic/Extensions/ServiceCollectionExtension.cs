@@ -9,6 +9,7 @@ using ProjectClock.BusinessLogic.Mapping;
 using ProjectClock.BusinessLogic.Services.AccountServices;
 using ProjectClock.BusinessLogic.Services.EmailHostedServices;
 using ProjectClock.BusinessLogic.Services.OrganizationServices;
+using ProjectClock.BusinessLogic.Services.OrganizationUserServices;
 using ProjectClock.BusinessLogic.Services.ProjectServices;
 using ProjectClock.BusinessLogic.Services.UserServices;
 using ProjectClock.BusinessLogic.Services.WorkingTimeServices;
@@ -29,6 +30,7 @@ namespace ProjectClock.Database.Extensions
             services.AddTransient<IAccountServices, AccountService>();
             services.AddTransient<IOrganizationServices, OrganizationServices>();
             services.AddTransient<IWorkingTimeServices, WorkingTimeServices>();
+            services.AddTransient<IOrganizationUserServices, OrganizationUserServices>();
             services.AddSingleton<EmailHostedServices>();
             services.AddHostedService(provider => provider.GetService<EmailHostedServices>());
 

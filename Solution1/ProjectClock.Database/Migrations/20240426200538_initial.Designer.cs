@@ -12,8 +12,13 @@ using ProjectClock.Database;
 namespace ProjectClock.Database.Migrations
 {
     [DbContext(typeof(ProjectClockDbContext))]
+<<<<<<<< HEAD:Solution1/ProjectClock.Database/Migrations/20240426200538_initial.Designer.cs
     [Migration("20240426200538_initial")]
     partial class initial
+========
+    [Migration("20240427094529_Init")]
+    partial class Init
+>>>>>>>> develop:Solution1/ProjectClock.Database/Migrations/20240427094529_Init.Designer.cs
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
