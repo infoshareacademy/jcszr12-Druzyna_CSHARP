@@ -1,15 +1,24 @@
-﻿
-@{
+﻿@{
+    Layout = "~/Views/Shared/Components/Raport/_LayoutRaport.cshtml";
+
     var labels = new List<string>() { "Placeholder1Project", "Placeholder2Project", "Placeholder3Project", "Placeholder4Project" };
     var data = new List<int>() { 20, 25, 10, 4 };
     var list = new List<string>() { "Placeholder1", "Placeholder2", "Placeholder3", "Placeholder4" };
+
 }
-<h1 class="fw-bold mb-4 text-center">Raports</h1>
+<br />
+<br />
+
+<h1 class="title">Raport for organization</h1>
+
+<br />
+
+
 <div class="container">
-    <div class="row">
-        <div class="col-5">
-            <ul class="list-unstyled">
-                <li class="mb-3">
+    
+            
+
+
                     <label class="form-label m-2">Generate Report for:</label>
                     <select class="form-select" aria-label="Default select example">
                         @foreach (var item in list)
@@ -17,6 +26,10 @@
                             <option value="1">@item</option>
                         }
                     </select>
+
+
+
+
                     <label class="form-label m-2">Time:</label>
                     <select class="form-select" aria-label="Default select example">
                         <option value="1">This month</option>
@@ -27,6 +40,10 @@
                         <option value="6">Last year</option>
                         <option value="7">All the time</option>
                     </select>
+
+
+
+
                     <button class="btn btn-success mt-2">Generate</button>
                 </li>
                 <li>
@@ -46,23 +63,60 @@
                                     <td>Project A</td>
                                     <td>20 hours</td>
                                     <td>$500</td>
-                                </tr>                            
+                                </tr>
                             }
                         </tbody>
-                    </table>
-                </li>
-            </ul>
+                  
+            
 
         </div>
         <div class="col-7">
             <canvas id="myPieChart" width="400" height="400"></canvas>
-            
-        </div>
 
-
-    </div>
+     
 
 </div>
+
+
+
+
+
+<style>
+    .container {
+        background-color: dimgray;
+        opacity: 1;
+        border-radius: 20px;
+        /*  background: #73AD21;
+            padding: 20px;
+            width: 200px;
+            height: 150px; */
+    }
+
+    h1 {
+        /* text-decoration: underline; */
+
+        text-align: center;
+        opacity: 0.5;
+    }
+
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
@@ -88,6 +142,9 @@
                 borderWidth: 1
             }]
         }
-        
+
     });
 </script>
+
+
+
