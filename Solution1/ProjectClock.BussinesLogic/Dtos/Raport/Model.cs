@@ -11,6 +11,7 @@ namespace ProjectClock.BusinessLogic.Dtos.Raport
     public class Model
     {
         public int Id { get; set; }
+
         public List<Database.Entities.User>? ListUsersForRaports { get; set; } = new List<Database.Entities.User>();
 
 		public List<Database.Entities.User>? allUsers { get; set; } = new List<Database.Entities.User>();

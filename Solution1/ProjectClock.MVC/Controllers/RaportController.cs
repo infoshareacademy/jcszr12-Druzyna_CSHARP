@@ -60,17 +60,22 @@ namespace ProjectClock.MVC.Controllers
 
             Model dto = new Model();
 
-
-            dto.ListUsersForRaports = await _userService.GetAll();
-
-
-            int zm = dto.ListUsersForRaports.FirstOrDefault(a => a.Id > 0).Id;
-
-
-            dto = await _raportServices.GetProjectNameAndTimeForUser(zm);
-
-
+            var ListAllUsers = await _userService.GetAll();
+			//int zm = ListAllUsers.FirstOrDefault(a => a.Id > 0).Id;
+			int zm = ListAllUsers.FirstOrDefault().Id;
             TempData["Id"] = zm.ToString();
+
+
+
+
+
+
+
+
+			dto = await _raportServices.GetProjectNameAndTimeForUser(zm);
+
+
+            
 
 
             return View(dto);
@@ -78,9 +83,8 @@ namespace ProjectClock.MVC.Controllers
         }
 
 
-        // POST: OrganizationController/Create
+        
         [HttpPost]
-        //	[ValidateAntiForgeryToken]
         public async Task<IActionResult> User(int userId)
         {
 
