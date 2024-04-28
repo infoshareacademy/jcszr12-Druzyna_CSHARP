@@ -4,6 +4,7 @@ using ProjectClock.BusinessLogic.Dtos.Organization;
 using ProjectClock.BusinessLogic.Dtos.OrganizationDto;
 using ProjectClock.BusinessLogic.Services.AccountServices;
 using ProjectClock.BusinessLogic.Services.OrganizationServices;
+using ProjectClock.BusinessLogic.Services.OrganizationUserServices;
 using ProjectClock.BusinessLogic.Services.UserServices;
 using ProjectClock.Database;
 using ProjectClock.Database.Entities;
@@ -16,17 +17,20 @@ namespace ProjectClock.MVC.Controllers
         private IOrganizationServices _organizationServices;
         private IUserServices _userServices;
         private IAccountServices _accountService;
+        private IOrganizationUserServices _organizationUserServices;
         private IMapper _mapper;
 
         public OrganizationController(IOrganizationServices organizationServices, 
             IUserServices userServices, 
             IAccountServices accountService, 
+            IOrganizationUserServices organizationUserServices,
             IMapper mapper)
         {
             _mapper = mapper;
             _userServices = userServices;
             _organizationServices = organizationServices;
             _accountService = accountService;
+            _organizationUserServices = organizationUserServices;
         }
 
         // GET: OrganizationController
@@ -60,28 +64,38 @@ namespace ProjectClock.MVC.Controllers
                 {
                     return View();
                 }
+
                 HttpContext.User.Claims.TryGetAuthenticatedUserId(out var accountId);
                 organizationDto.UserId = await _accountService.GetUserIdFromAccountId(accountId);
 
-                bool created = await _organizationServices.Create(organizationDto);
-
-                if (created)
+                if (_organizationUserServices.IsUserAnOwner(accountId))
                 {
-                    TempData["SuccessMessage"] = "Organization created successfully.";
+                    TempData["ErrorMessage"] = "You are already an owner of organization. You can only be owner of one organization.";
                 }
                 else
                 {
-                    TempData["ErrorMessage"] = "This organization already exists.";
+                    bool created = await _organizationServices.Create(organizationDto);
+
+                    if (created)
+                    {
+                        TempData["SuccessMessage"] = "Organization created successfully.";
+
+                    }
+                    else
+                    {
+                        TempData["ErrorMessage"] = "This organization already exists.";
+                    }
                 }
 
                 return RedirectToAction(nameof(Create));
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = $"Error occurred while deleting organization: {ex.Message}";
+                TempData["ErrorMessage"] = $"Error occurred while creating organization: {ex.Message}";
                 return View();
             }
         }
+
 
 
 
