@@ -62,13 +62,15 @@ namespace ProjectClock.MVC.Controllers
             {
                 if (!ModelState.IsValid)
                 {
+                    TempData["ErrorMessage"] = "You didn't enter name of organization.";
                     return View();
                 }
+
 
                 HttpContext.User.Claims.TryGetAuthenticatedUserId(out var accountId);
                 organizationDto.UserId = await _accountService.GetUserIdFromAccountId(accountId);
 
-                if (_organizationUserServices.IsUserAnOwner(accountId))
+                if (_organizationUserServices.IsUserAnOwner(organizationDto.UserId))
                 {
                     TempData["ErrorMessage"] = "You are already an owner of organization. You can only be owner of one organization.";
                 }
@@ -129,8 +131,18 @@ namespace ProjectClock.MVC.Controllers
         {
             DeleteOrganizationDto model = new();
 
-            var organizations = await _organizationServices.GetAll();
-            model.Organizations = organizations;
+            HttpContext.User.Claims.TryGetAuthenticatedUserId(out var accountId);
+            int userId = await _accountService.GetUserIdFromAccountId(accountId);
+
+            var userOrganizations = await _organizationUserServices.GetUserOrganizations(userId);
+
+            var organizationDtoList = userOrganizations.Select(x => new OrganizationDto()
+            {
+                OrganizationId = x.Id,
+                OrganizationName = x.Name
+            }).ToList();
+           
+            model.Organizations = organizationDtoList;
 
             return View("Delete", model);
         }
@@ -183,20 +195,35 @@ namespace ProjectClock.MVC.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> InviteUser(int organizationId, int userId)
+        public async Task<IActionResult> InviteUser(int organizationId, string email, int userId)
         {
-            
-            bool invited = await _organizationServices.AddUser(organizationId, userId);
-            ManageOrganizationDto model = await GetManageOrganizationDto(organizationId, userId);
+            var user = await _userServices.GetByEmail(email);
 
-            if (invited)
+            ManageOrganizationDto model = new ManageOrganizationDto();
+
+            if (user is null)
             {
-                TempData["UserAddedMessage"] = $"User with {userId} has been added to organization with {organizationId}.";
+                model = await GetManageOrganizationDto(organizationId, userId);
+                TempData["UserAddedFailedMessage"] =
+                    $"User with email: {email} hasn't been added to organization with {organizationId}. It doesn't exist.";
             }
             else
             {
-                TempData["UserAddedFailedMessage"] =
-                    $"User with {userId} hasn't been added to organization with {organizationId}.";
+                userId = user.Id;
+
+                bool invited = await _organizationServices.AddUser(organizationId, userId);
+
+                if (invited)
+                {
+                    TempData["UserAddedMessage"] = $"User with {userId} has been added to organization with {organizationId}.";
+                }
+                else
+                {
+                    TempData["UserAddedFailedMessage"] =
+                        $"User with {userId} hasn't been added to organization with {organizationId}.";
+                }
+
+                model = await GetManageOrganizationDto(organizationId, userId);
             }
 
             return View("Manage", model);
