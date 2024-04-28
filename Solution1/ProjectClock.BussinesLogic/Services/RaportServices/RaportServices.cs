@@ -33,16 +33,6 @@ namespace ProjectClock.BusinessLogic.Services.RaportServices
         public RaportServices()
 		{
 			
-		
-
-
-
-
-
-
-	
-
-
             _participants = new()
 
             {
@@ -95,36 +85,23 @@ namespace ProjectClock.BusinessLogic.Services.RaportServices
             },
         };
 
-
-
-
-
-
-
-
-
-
-
-
         }
+
+
+
 
         public RaportServices(ProjectClockDbContext projectClockDbContext, IMapper mapper, IUserServices userService, IProjectServices projectService, IWorkingTimeServices workingTimeServices, ILogger<RaportServices> logger, ProjectClockDbContext dbContext)
         {
             _projectClockDbContext = projectClockDbContext;
             _mapper = mapper;
-
 			_userService = userService;
             _projectService = projectService;
             _workingTimeServices = workingTimeServices;
             _logger = logger;
-
             _dbContext = dbContext;
 
-
-
-
-
         }
+
 
         public async Task<bool> AddProjectToOrganization(int organizationId, Project project)
         {
@@ -168,9 +145,6 @@ namespace ProjectClock.BusinessLogic.Services.RaportServices
 
 			return list;
 		}
-
-
-
 
 
 
@@ -306,11 +280,6 @@ namespace ProjectClock.BusinessLogic.Services.RaportServices
 		//================================================================ Project ===================================================================
 
 
-
-
-
-
-
 		public async Task<Model> GetUserNameAndTimeForProject(int ProjectId)
 		{
 			Model dto = new Model();
@@ -359,11 +328,6 @@ namespace ProjectClock.BusinessLogic.Services.RaportServices
 
 
 
-
-
-
-
-
 	}
 
 
@@ -383,8 +347,6 @@ namespace ProjectClock.BusinessLogic.Services.RaportServices
         Task<IEnumerable<WorkingTimeDto>> GetUserAllWorkingTimes(int userId);
 
         Task<Model> GetProjectNameAndTimeForUser(int userId);
-
-		
 
 		Task<Model> GetDataForChart(int userId);
 
