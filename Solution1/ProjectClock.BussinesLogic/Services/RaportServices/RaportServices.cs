@@ -20,8 +20,7 @@ namespace ProjectClock.BusinessLogic.Services.RaportServices
     {
 
         private ProjectClockDbContext _projectClockDbContext;
-        private IMapper _mapper;
-        private List<GetNameAndIdAllUsersDto> _participants;
+        private IMapper _mapper;     
 		private readonly IUserServices _userService;
         private readonly IProjectServices _projectService;
         private readonly IWorkingTimeServices _workingTimeServices;
@@ -30,63 +29,7 @@ namespace ProjectClock.BusinessLogic.Services.RaportServices
 
 
 
-        public RaportServices()
-		{
-			
-            _participants = new()
-
-            {
-            new GetNameAndIdAllUsersDto()
-            {
-
-                StartData = new DateTime(1991, 07, 30)
-            },
-            new GetNameAndIdAllUsersDto()
-            {
-
-                StartData = new DateTime(Random.Shared.Next(1950, 2011),
-                Random.Shared.Next(1, 13),
-                Random.Shared.Next(1, 28))
-            },
-            new GetNameAndIdAllUsersDto()
-            {
-
-                StartData = new DateTime(Random.Shared.Next(1950, 2011),
-                Random.Shared.Next(1, 13),
-                Random.Shared.Next(1, 28))
-            },
-            new GetNameAndIdAllUsersDto()
-            {
-
-               StartData = new DateTime(Random.Shared.Next(1950, 2011),
-                Random.Shared.Next(1, 13),
-                Random.Shared.Next(1, 28))
-            },
-            new GetNameAndIdAllUsersDto()
-            {
-
-               StartData = new DateTime(Random.Shared.Next(1950, 2011),
-                Random.Shared.Next(1, 13),
-                Random.Shared.Next(1, 28))
-            },
-            new GetNameAndIdAllUsersDto()
-            {
-
-                StartData = new DateTime(Random.Shared.Next(1950, 2011),
-                Random.Shared.Next(1, 13),
-                Random.Shared.Next(1, 28))
-            },
-            new GetNameAndIdAllUsersDto()
-            {
-
-               StartData = new DateTime(Random.Shared.Next(1950, 2011),
-                Random.Shared.Next(1, 13),
-                Random.Shared.Next(1, 28))
-            },
-        };
-
-        }
-
+       
 
 
 
@@ -157,13 +100,6 @@ namespace ProjectClock.BusinessLogic.Services.RaportServices
             return list;
         }
 
-
-        public void CreateParticipant(GetNameAndIdAllUsersDto participant)
-        {
-            
-            _participants.Add(participant);
-        }
-
        
         public async Task<List<WorkingTime>> GetAll()
         {
@@ -200,7 +136,16 @@ namespace ProjectClock.BusinessLogic.Services.RaportServices
 
             dto.allProjects = await GetAllProjects();
 
+
+
+
+
+
             dto.projectsAfterUserId = dto.allProjects.Where(m => dto.workingTimes.Select(x => x.ProjectId).Contains(m.Id)).ToList();
+
+
+
+
 
 
 
@@ -226,6 +171,13 @@ namespace ProjectClock.BusinessLogic.Services.RaportServices
 
             }
 
+
+
+
+
+
+
+
             return dto;
         }
 
@@ -249,7 +201,7 @@ namespace ProjectClock.BusinessLogic.Services.RaportServices
 			{
 
 
-				var da = dto.workingTimes.Where(e => e.ProjectId == item.Id).ToList();
+				var da = dto.workingTimes.Where(e => e.ProjectId == item.Id && e.EndTime != null).ToList();
 
 
 				dto.totalTime_1 = da.Select(e => e.EndTime - e.StartTime).ToList();

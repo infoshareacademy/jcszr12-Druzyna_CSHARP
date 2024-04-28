@@ -11,7 +11,7 @@ namespace ProjectClock.BusinessLogic.Services.RaportServices
 {
 	public interface IRaportServices
 	{
-		void CreateParticipant(GetNameAndIdAllUsersDto participant);
+		
 
 		Task<bool> AddProjectToOrganization(int organizationId, Project project);
 
