@@ -17,9 +17,4 @@ namespace ProjectClock.BusinessLogic.Services.OrganizationUserServices
             return numOfProjects > 0;
         }
     }
-
-    public interface IOrganizationUserServices
-    {
-        bool IsUserAnOwner(int userId);
-    }
 }
