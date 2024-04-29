@@ -22,7 +22,7 @@
     </div>
 </div>
 
-@foreach (var group in Model.GroupBy(w => w.StartTime.Date))
+@foreach (var group in Model.OrderBy(w => w.StartTime.Date).GroupBy(w => w.StartTime.Date))
 {
     <div class="container bg-black bg-opacity-50 rounded-2 p-2 m-1 box-shadow d-none date-item" id="@group.Key.ToShortDateString()">
         <div class="row">

@@ -18,6 +18,7 @@ using Microsoft.EntityFrameworkCore;
 using ProjectClock.BusinessLogic.Dtos.Organization;
 using ProjectClock.MVC.Extensions;
 using Humanizer;
+using ProjectClock.BusinessLogic.Services.ExcelServices;
 
 
 namespace ProjectClock.MVC.Controllers
@@ -211,5 +212,19 @@ namespace ProjectClock.MVC.Controllers
 
 
 
-	}
+
+        //======================================================= ExcelGenerator ==============================================================
+
+        public IActionResult GenerateExcel()
+        {
+            // Ścieżka do szablonu Excela
+            string templatePath = @"ścieżka/do/szablonu/template.xlsx";
+
+            var fileStream = _excelService.GenerateExcel(templatePath);
+
+            return File(fileStream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "modified_template.xlsx");
+        }
+
+
+    }
 }
