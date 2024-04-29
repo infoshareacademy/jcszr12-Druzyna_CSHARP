@@ -57,8 +57,39 @@ public class ExcelServices : IExcelServices
     {
         using (SLDocument raport = new SLDocument(templatePath))
         {
-            raport.SetCellValue(2, 2, "Hello");
-            raport.SetCellValue(1, 2, "World");
+            raport.SetCellValue(2, 2, dto.OrganizationName);
+            raport.SetCellValue(2, 5, dto.UserName);
+            raport.SetCellValue(3, 2, dto.FromDate);
+            raport.SetCellValue(3, 3, dto.ToDate);
+            raport.SetCellValue(3, 5, dto.GenerateDate);
+            var i = 5;
+            foreach (var project in dto.OrganizationData)
+            {
+                raport.SetCellValue(i, 1, project.Name);
+                raport.SetCellValue(i, 2, project.OrganizationName);
+                raport.SetCellValue(i, 3, string.Format("{0:00}:{1:00}", (int)project.TotalTime.TotalHours, project.TotalTime.Minutes));
+
+                raport.AutoFitColumn(1);
+                raport.AutoFitColumn(2);
+                raport.AutoFitColumn(3);
+
+                SLStyle style = raport.CreateStyle();
+                SLFont font = raport.CreateFont();
+
+                font.SetFont("Calibri", 15);
+
+                style.Font = font;
+                style.Fill.SetPatternType(PatternValues.Solid);
+                style.Fill.SetPatternForegroundColor(System.Drawing.Color.FromArgb(164, 194, 244));
+
+                raport.SetCellStyle(i, 1, style);
+                raport.SetCellStyle(i, 2, style);
+                raport.SetCellStyle(i, 3, style);
+                raport.SetCellStyle(i, 4, style);
+                raport.SetCellStyle(i, 5, style);
+
+                i++;
+            }
 
             var outputStream = new MemoryStream();
             raport.SaveAs(outputStream);

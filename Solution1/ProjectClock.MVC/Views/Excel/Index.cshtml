@@ -32,3 +32,21 @@
     </div>
     <button type="submit" class="btn btn-primary">Generate Excel Report</button>
 </form>
+<form asp-controller="Excel" asp-action="GenerateOrganizationExcel" method="post">
+    <div class="form-group">
+        <label asp-for="organizationId">Organization ID:</label>
+        <input asp-for="organizationId" class="form-control" />
+        <span asp-validation-for="organizationId" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="fromDate">From Date:</label>
+        <input asp-for="fromDate" type="date" class="form-control" />
+        <span asp-validation-for="fromDate" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="toDate">To Date:</label>
+        <input asp-for="toDate" type="date" class="form-control" />
+        <span asp-validation-for="toDate" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Generate Excel Report</button>
+</form>

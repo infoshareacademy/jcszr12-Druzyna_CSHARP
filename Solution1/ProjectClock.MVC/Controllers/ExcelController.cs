@@ -46,7 +46,8 @@ namespace ProjectClock.MVC.Controllers
             var data = await _excelRaportServices.GenerateDataUser(dto);
             var fileStream = _excelServices.GenerateExcelForUser(templatePath, data);
 
-            return File(fileStream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", $"userraport_{dto.fromDate}_{dto.userId}.xlsx");
+            return File(fileStream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", 
+                $"userraport_{dto.fromDate.ToString("y-MM-dd")}_{dto.userId}.xlsx");
         }
 
         [HttpPost]
@@ -59,7 +60,7 @@ namespace ProjectClock.MVC.Controllers
             var fileStream = _excelServices.GenerateExcelForProject(templatePath, data);
 
             return File(fileStream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", 
-                $"projectraport_{dto.fromDate}_{dto.projectId}.xlsx");
+                $"projectraport_{dto.fromDate.ToString("y-MM-dd")}_{dto.projectId}.xlsx");
         }
 
         [HttpPost]
@@ -70,14 +71,14 @@ namespace ProjectClock.MVC.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            string templatePath = Path.Combine(_hostingEnvironment.WebRootPath, "excel_templates", "template_organiztion.xlsx");
+            string templatePath = Path.Combine(_hostingEnvironment.WebRootPath, "excel_templates", "template_organization.xlsx");
             dto.userId = await _accountServices.GetUserIdFromAccountId(accountId);
 
-            //var data = await _excelRaportServices.GenerateDataOrganization(dto);
-            //var fileStream = _excelServices.GenerateExcelForOrganization(templatePath, data);
+            var data = await _excelRaportServices.GenerateDataOrganization(dto);
+            var fileStream = _excelServices.GenerateExcelForOrganization(templatePath, data);
 
             return File(fileStream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                $"organizationraport_{dto.fromDate}_{dto.organizationId}.xlsx");
+                $"organizationraport_{dto.fromDate.ToString("y-MM-dd")}_{dto.organizationId}.xlsx");
         }
     }
 }
