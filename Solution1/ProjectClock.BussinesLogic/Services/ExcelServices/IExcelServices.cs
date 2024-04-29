@@ -1,4 +1,4 @@
-﻿using ProjectClock.BusinessLogic.Dtos.Excel;
+﻿using ProjectClock.BusinessLogic.Dtos.Excel.Dtos;
 
 namespace ProjectClock.BusinessLogic.Services.ExcelServices
 {
