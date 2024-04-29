@@ -1,0 +1,20 @@
+﻿@model ProjectClock.BusinessLogic.Services.ExcelRaportServices.ExcelRaportServices.GenerateDataUserDto
+
+<form asp-controller="Excel" asp-action="GenerateUserExcel" method="post">
+    <div class="form-group">
+        <label asp-for="userId">User ID:</label>
+        <input asp-for="userId" class="form-control" />
+        <span asp-validation-for="userId" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="fromDate">From Date:</label>
+        <input asp-for="fromDate" type="date" class="form-control" />
+        <span asp-validation-for="fromDate" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="toDate">To Date:</label>
+        <input asp-for="toDate" type="date" class="form-control" />
+        <span asp-validation-for="toDate" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Generate Excel Report</button>
+</form>

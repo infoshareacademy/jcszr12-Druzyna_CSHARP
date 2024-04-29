@@ -1,24 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using ProjectClock.BusinessLogic.Dtos.OrganizationDto;
-using ProjectClock.BusinessLogic.Services.WorkingTimeServices;
-
-using ProjectClock.BusinessLogic.Services.UserServices;
-using ProjectClock.BusinessLogic.Services.ProjectServices;
-
-using ProjectClock.BusinessLogic.Services;
-using ProjectClock.BusinessLogic.Services.RaportServices;
-
-using ProjectClock.BusinessLogic.Dtos.WorkingTime.WorkingTimeDtos;
 using ProjectClock.BusinessLogic.Dtos.Raport;
-using ProjectClock.Database.Entities;
-using System.Collections.Generic;
+using ProjectClock.BusinessLogic.Services.ProjectServices;
+using ProjectClock.BusinessLogic.Services.RaportServices;
+using ProjectClock.BusinessLogic.Services.UserServices;
+using ProjectClock.BusinessLogic.Services.WorkingTimeServices;
 using ProjectClock.Database;
-using Microsoft.EntityFrameworkCore;
-using ProjectClock.BusinessLogic.Dtos.Organization;
-using ProjectClock.MVC.Extensions;
-using Humanizer;
-using ProjectClock.BusinessLogic.Services.ExcelServices;
 
 
 namespace ProjectClock.MVC.Controllers
@@ -48,7 +35,7 @@ namespace ProjectClock.MVC.Controllers
 
 
 
-        
+
 
 
 
@@ -62,8 +49,8 @@ namespace ProjectClock.MVC.Controllers
             Model dto = new Model();
 
             var ListAllUsers = await _userService.GetAll();
-			//int zm = ListAllUsers.FirstOrDefault(a => a.Id > 0).Id;
-			int zm = ListAllUsers.FirstOrDefault().Id;
+            //int zm = ListAllUsers.FirstOrDefault(a => a.Id > 0).Id;
+            int zm = ListAllUsers.FirstOrDefault().Id;
             TempData["Id"] = zm.ToString();
 
 
@@ -73,10 +60,10 @@ namespace ProjectClock.MVC.Controllers
 
 
 
-			dto = await _raportServices.GetProjectNameAndTimeForUser(zm);
+            dto = await _raportServices.GetProjectNameAndTimeForUser(zm);
 
 
-            
+
 
 
             return View(dto);
@@ -84,7 +71,7 @@ namespace ProjectClock.MVC.Controllers
         }
 
 
-        
+
         [HttpPost]
         public async Task<IActionResult> User(int userId)
         {
@@ -122,108 +109,97 @@ namespace ProjectClock.MVC.Controllers
 
 
 
-		//======================================================= Project ==============================================================
+        //======================================================= Project ==============================================================
 
 
 
-		[Authorize(Roles = "User")]
-		public async Task<IActionResult> Project()
-		{
+        [Authorize(Roles = "User")]
+        public async Task<IActionResult> Project()
+        {
 
 
-			Model dto = new Model();
+            Model dto = new Model();
 
 
-			dto.ListProjectsForRaports = await _raportServices.GetAllProjects();
+            dto.ListProjectsForRaports = await _raportServices.GetAllProjects();
 
 
-			int zm  =     dto.ListProjectsForRaports.FirstOrDefault(a => a.Id > 0).Id;
+            int zm = dto.ListProjectsForRaports.FirstOrDefault(a => a.Id > 0).Id;
 
 
-			//dto = await _raportServices.GetUserNameAndTimeForProject(zm);
+            //dto = await _raportServices.GetUserNameAndTimeForProject(zm);
 
-			//dto = await _raportServices.get(zm);
-
-
-
-
-			TempData["IdProjChart"] = zm.ToString();
-
-
-			return View(dto);
-			
-		}
-
-
-		// POST: OrganizationController/Create
-		[HttpPost]
-		//	[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Project(int projectId)
-		{
-
-			try
-			{
-				var dto = await _raportServices.GetProjectNameAndTimeForUser(projectId);
-
-				TempData["IdProjChart"] = projectId.ToString();
-
-				return View("Project", dto);
-
-			}
-			catch (Exception ex)
-			{
-
-				return View();
-			}
-
-		}
+            //dto = await _raportServices.get(zm);
 
 
 
-		[Authorize(Roles = "User")]
-		//[HttpGet]
-		public async Task<IActionResult> ChartOfProject()
-		{
+
+            TempData["IdProjChart"] = zm.ToString();
+
+
+            return View(dto);
+
+        }
+
+
+        // POST: OrganizationController/Create
+        [HttpPost]
+        //	[ValidateAntiForgeryToken]
+        public async Task<IActionResult> Project(int projectId)
+        {
+
+            try
+            {
+                var dto = await _raportServices.GetProjectNameAndTimeForUser(projectId);
+
+                TempData["IdProjChart"] = projectId.ToString();
+
+                return View("Project", dto);
+
+            }
+            catch (Exception ex)
+            {
+
+                return View();
+            }
+
+        }
+
+
+
+        [Authorize(Roles = "User")]
+        //[HttpGet]
+        public async Task<IActionResult> ChartOfProject()
+        {
 
             int zm_2 = int.Parse(TempData["IdProjChart"].ToString());
             //int zm_2 = 1;
-			var dto = await _raportServices.GetDataForChart(zm_2);
+            var dto = await _raportServices.GetDataForChart(zm_2);
 
-			return View(dto);
+            return View(dto);
 
-		}
-
-
-
-
-
-
-
-		//======================================================= Organization ==============================================================
-
-
-
-		[Authorize(Roles = "User")]
-		public IActionResult Organization()
-		{
-			return View();
-		}
-
-
-
-
-
-        //======================================================= ExcelGenerator ==============================================================
-
-        public IActionResult GenerateExcel()
-        {
-            // Ścieżka do szablonu Excela
-            string templatePath = @"ścieżka/do/szablonu/template.xlsx";
-
-            var fileStream = _excelService.GenerateExcel(templatePath);
-
-            return File(fileStream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "modified_template.xlsx");
         }
+
+
+
+
+
+
+
+        //======================================================= Organization ==============================================================
+
+
+
+        [Authorize(Roles = "User")]
+        public IActionResult Organization()
+        {
+            return View();
+        }
+
+
+
+
+
 
 
     }

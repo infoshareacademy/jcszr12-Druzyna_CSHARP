@@ -8,6 +8,8 @@ using ProjectClock.BusinessLogic.Dtos.WorkingTime.ValidatorsDto;
 using ProjectClock.BusinessLogic.Mapping;
 using ProjectClock.BusinessLogic.Services.AccountServices;
 using ProjectClock.BusinessLogic.Services.EmailHostedServices;
+using ProjectClock.BusinessLogic.Services.ExcelRaportServices;
+using ProjectClock.BusinessLogic.Services.ExcelServices;
 using ProjectClock.BusinessLogic.Services.OrganizationServices;
 using ProjectClock.BusinessLogic.Services.OrganizationUserServices;
 using ProjectClock.BusinessLogic.Services.ProjectServices;
@@ -31,6 +33,8 @@ namespace ProjectClock.Database.Extensions
             services.AddTransient<IOrganizationServices, OrganizationServices>();
             services.AddTransient<IWorkingTimeServices, WorkingTimeServices>();
             services.AddTransient<IOrganizationUserServices, OrganizationUserServices>();
+            services.AddTransient<IExcelServices, ExcelServices>();
+            services.AddTransient<IExcelRaportServices, ExcelRaportServices>();
             services.AddSingleton<EmailHostedServices>();
             services.AddHostedService(provider => provider.GetService<EmailHostedServices>());
 

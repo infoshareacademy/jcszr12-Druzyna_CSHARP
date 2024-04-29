@@ -132,6 +132,7 @@ public class WorkingTimeServices : IWorkingTimeServices
     public async Task<IEnumerable<WorkingTimeDto>> GetUserNotFinisedWorkingTimes(int userId)
     {
         var list = await _projectClockDbContext.WorkingTimes
+            .AsNoTracking()
             .Where(e => e.EndTime == null && e.UserId == userId)
             .Include(wt => wt.Project)
             .Include(wt => wt.User)
@@ -145,6 +146,7 @@ public class WorkingTimeServices : IWorkingTimeServices
     public async Task<IEnumerable<WorkingTimeDto>> GetUserAllWorkingTimes(int userId)
     {
         var list = await _projectClockDbContext.WorkingTimes
+            .AsNoTracking()
             .Where(e => e.UserId == userId)
             .Include(wt => wt.Project)
             .Include(wt => wt.User)

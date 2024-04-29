@@ -14,6 +14,7 @@ namespace ProjectClock.BusinessLogic.Services.WorkingTimeServices
         Task<IEnumerable<WorkingTimeDto>> GetUserNotFinisedWorkingTimes(int userId);
         Task<IEnumerable<WorkingTimeDto>> GetUserAllWorkingTimes(int userId);
         Task<bool> StopWork(StartStopWorkingTimeDto dto);
+        
     }
 
 }
