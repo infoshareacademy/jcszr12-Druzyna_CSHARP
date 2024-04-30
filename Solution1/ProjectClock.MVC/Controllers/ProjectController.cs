@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ProjectClock.BusinessLogic.Dtos.Project.ProjectDtos;
-using ProjectClock.BusinessLogic.Dtos.WorkingTime.WorkingTimeDtos;
 using ProjectClock.BusinessLogic.Services.AccountServices;
 using ProjectClock.BusinessLogic.Services.OrganizationServices;
 using ProjectClock.BusinessLogic.Services.ProjectServices;
@@ -15,7 +14,7 @@ namespace ProjectClock.MVC.Controllers
         private readonly IOrganizationServices _organizationServices;
         private readonly IAccountServices _accountServices;
 
-        public ProjectController(IProjectServices serviceProject, 
+        public ProjectController(IProjectServices serviceProject,
             IOrganizationServices serviceOrganization,
             IAccountServices accountService)
         {
@@ -33,7 +32,11 @@ namespace ProjectClock.MVC.Controllers
             }
 
             var userId = await _accountServices.GetUserIdFromAccountId(accountId);
-            var dtos = await _projectServices.GetAllUserProjects(userId);
+
+            var editableProjects = await _projectServices.GetAllUserProjectsFromOrganizationWhereIsOwnerOrManager(userId);
+            var nonEditableProjects = await _projectServices.GetAllUserProjectsFromOrganizationWhereIsUser(userId);
+
+            var dtos = editableProjects.Concat(nonEditableProjects);
 
             return View(dtos);
         }

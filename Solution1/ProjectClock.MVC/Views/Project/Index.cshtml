@@ -1,7 +1,8 @@
-﻿@using ProjectClock.BusinessLogic.Dtos.Project.ProjectDtos
+﻿@using ProjectClock.BusinessLogic.Dtos.Project.Dtos
+@using ProjectClock.BusinessLogic.Dtos.Project.ProjectDtos
 @using ProjectClock.MVC.Services.Components
 
-@model IEnumerable<ProjectDto>
+@model IEnumerable<ProjectWithAccessLevelDto>
 
 <div class="container p-2 m-1 box-shadow border-bottom">
     <div class="row">@await Component.InvokeAsync(nameof(CreateProject))</div>
@@ -27,14 +28,17 @@
                     <div class="card-body d-flex flex-column">
                         <h5 class="card-title">@item.Name</h5>
                         <p class="card-text">Organization: @item.Organization</p>
-                        <form asp-action="Delete" asp-route-id="@item.Id" method="post">
-                            <button type="submit" class="btn btn-sm btn-primary col-12">Delete</button>
-                            <input type="hidden" name="_method" value="POST" />
-                        </form>
-                        <button class="btn btn-sm btn-primary mt-2 col-12"
-                                onclick="location.href='@Url.Action("Update", "Project", new { id = item.Id })'">
-                            Modify
-                        </button>
+                        @if (item.CanEdit)
+                        {
+                            <form asp-action="Delete" asp-route-id="@item.Id" method="post">
+                                <button type="submit" class="btn btn-sm btn-primary col-12">Delete</button>
+                                <input type="hidden" name="_method" value="POST" />
+                            </form>
+                            <button class="btn btn-sm btn-primary mt-2 col-12"
+                                    onclick="location.href='@Url.Action("Update", "Project", new { id = item.Id })'">
+                                Modify
+                            </button>
+                        }
                     </div>
                 </div>
             </div>

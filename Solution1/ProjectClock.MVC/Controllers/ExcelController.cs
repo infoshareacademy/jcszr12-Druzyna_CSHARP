@@ -8,6 +8,8 @@ using ProjectClock.BusinessLogic.Dtos.Organization;
 using ProjectClock.BusinessLogic.Services.UserServices;
 using ProjectClock.BusinessLogic.Services.AccountServices;
 using ProjectClock.BusinessLogic.Dtos.Excel.Dtos;
+using ProjectClock.BusinessLogic.Services.ProjectServices;
+using ProjectClock.BusinessLogic.Services.OrganizationServices;
 
 namespace ProjectClock.MVC.Controllers
 {
@@ -17,19 +19,42 @@ namespace ProjectClock.MVC.Controllers
         private readonly IExcelRaportServices _excelRaportServices;
         private readonly IAccountServices _accountServices;
         private readonly IExcelServices _excelServices;
+        private readonly IProjectServices _projectServices;
+        private readonly IOrganizationServices _organizationServices;
         public ExcelController(IWebHostEnvironment hostingEnvironment,
             IExcelRaportServices excelRaportServices,
             IExcelServices excelServices,
-            IAccountServices accountServices)
+            IAccountServices accountServices,
+            IProjectServices projectServices,
+            IOrganizationServices organizationServices)
         {
             _hostingEnvironment = hostingEnvironment;
             _excelRaportServices = excelRaportServices;
             _excelServices = excelServices;
             _accountServices = accountServices;
+            _projectServices = projectServices;
+            _organizationServices = organizationServices;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            if (!HttpContext.User.Claims.TryGetAuthenticatedUserId(out var accountId))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            var userId = await _accountServices.GetUserIdFromAccountId(accountId);
+
+            var dto = new GenerateDataDto()
+            {
+                userId = userId,
+                fromDate = DateTime.Now.AddMonths(-1),
+                toDate = DateTime.Now,
+                projects = await _projectServices.GetAllUserProjects(userId),
+                organizations = await _organizationServices.GetAllUserOrganizationWhereIsManagerOrOwner(userId)
+            };
+
+
+            return View(dto);
         }
 
         [HttpPost]

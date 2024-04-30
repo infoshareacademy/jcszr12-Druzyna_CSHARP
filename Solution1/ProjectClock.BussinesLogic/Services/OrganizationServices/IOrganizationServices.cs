@@ -14,5 +14,6 @@ namespace ProjectClock.BusinessLogic.Services.OrganizationServices
         Task<bool> OrganizationExist(string name);
 
         Task<bool> AddUser(int organizationId, int userId);
+        Task<List<OrganizationDto>> GetAllUserOrganizationWhereIsManagerOrOwner(int userId);
     }
 }
