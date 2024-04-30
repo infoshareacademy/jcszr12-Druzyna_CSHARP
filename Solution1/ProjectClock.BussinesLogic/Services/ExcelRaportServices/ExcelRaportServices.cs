@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using DocumentFormat.OpenXml.Spreadsheet;
 using Microsoft.EntityFrameworkCore;
 using ProjectClock.BusinessLogic.Dtos.Excel;
 using ProjectClock.BusinessLogic.Dtos.Excel.Dtos;
@@ -51,15 +52,16 @@ public partial class ExcelRaportServices : IExcelRaportServices
                         && wt.StartTime >= dto.fromDate
                         && wt.StartTime <= dto.toDate)
                 .ToList();
-            if(!worktimes.Any())
+
+            if(worktimes.Any())
             {
-                break;
+                foreach (var worktime in worktimes)
+                {
+                    var workTimeTotal = worktime.EndTime - worktime.StartTime;
+                    raportData.TotalTime += (TimeSpan)workTimeTotal;
+                }
             }
-            foreach (var worktime in worktimes)
-            {
-                var workTimeTotal = worktime.EndTime - worktime.StartTime;
-                raportData.TotalTime += (TimeSpan)workTimeTotal;
-            }
+            
             data.ProjectData.Add(raportData);
         }
         return data;
@@ -103,15 +105,15 @@ public partial class ExcelRaportServices : IExcelRaportServices
                         && wt.StartTime >= dto.fromDate
                         && wt.StartTime <= dto.toDate)
                 .ToList();
-            if (!worktimes.Any())
+            if (worktimes.Any())
             {
-                break;
+                foreach (var worktime in worktimes)
+                {
+                    var workTimeTotal = worktime.EndTime - worktime.StartTime;
+                    raportData.TotalTime += (TimeSpan)workTimeTotal;
+                }
             }
-            foreach (var worktime in worktimes)
-            {
-                var workTimeTotal = worktime.EndTime - worktime.StartTime;
-                raportData.TotalTime += (TimeSpan)workTimeTotal;
-            }
+            
             data.UserData.Add(raportData);
         }
         return data;
@@ -151,17 +153,60 @@ public partial class ExcelRaportServices : IExcelRaportServices
                         && wt.StartTime >= dto.fromDate
                         && wt.StartTime <= dto.toDate)
                 .ToList();
-            if (!worktimes.Any())
+
+            if (worktimes.Any())
             {
-                break;
+                foreach (var worktime in worktimes)
+                {
+                    var workTimeTotal = worktime.EndTime - worktime.StartTime;
+                    raportData.TotalTime += (TimeSpan)workTimeTotal;
+                }
             }
-            foreach (var worktime in worktimes)
-            {
-                var workTimeTotal = worktime.EndTime - worktime.StartTime;
-                raportData.TotalTime += (TimeSpan)workTimeTotal;
-            }
-            data.OrganizationData.Add(raportData);
+                data.OrganizationDataProjects.Add(raportData);
+
+            
         }
+
+        var users = _projectClockDbContext.OrganizationsUsers
+            .AsNoTracking()
+            .Include(o => o.User)
+            .Where(o => o.OrganizationId == organization.Id)
+            .Select(o => o.User)
+            .ToList();
+
+        foreach (var organizationUser in users)
+        {
+
+            var raportData = new UserWithTimeDto()
+            {
+                Name = organizationUser.Name,
+                Surname = organizationUser.Surname,
+            };
+
+
+            var worktimes = _projectClockDbContext.WorkingTimes
+                .AsNoTracking()
+                .Where(wt =>
+                           wt.EndTime != null
+                        && wt.UserId == organizationUser.Id
+                        && organization.Projects.Select(p => p.Id).Contains(wt.ProjectId)
+                        && wt.StartTime >= dto.fromDate
+                        && wt.StartTime <= dto.toDate)
+                .ToList();
+
+            if (worktimes.Any())
+            {
+                foreach (var worktime in worktimes)
+                {
+                    var workTimeTotal = worktime.EndTime - worktime.StartTime;
+                    raportData.TotalTime += (TimeSpan)workTimeTotal;
+                }
+            }
+
+            
+            data.OrganizationDataUsers.Add(raportData);
+        }
+
         return data;
     }
 }
