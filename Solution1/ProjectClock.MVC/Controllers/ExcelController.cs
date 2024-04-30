@@ -49,7 +49,7 @@ namespace ProjectClock.MVC.Controllers
                 userId = userId,
                 fromDate = DateTime.Now.AddMonths(-1),
                 toDate = DateTime.Now,
-                projects = await _projectServices.GetAllUserProjects(userId),
+                projects = await _projectServices.GetAllUserProjectsFromOrganizationWhereIsOwnerOrManager(userId),
                 organizations = await _organizationServices.GetAllUserOrganizationWhereIsManagerOrOwner(userId)
             };
 
