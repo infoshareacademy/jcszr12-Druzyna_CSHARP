@@ -1,52 +1,98 @@
 ﻿@using ProjectClock.BusinessLogic.Services.ExcelRaportServices
 @model GenerateDataDto;
 
-<form asp-controller="Excel" asp-action="GenerateUserExcel" method="post">
-    <div class="form-group">
-        <label asp-for="fromDate">From Date:</label>
-        <input asp-for="fromDate" type="date" class="form-control" />
-        <span asp-validation-for="fromDate" class="text-danger"></span>
+<div class="container">
+
+    <div class="card m-2">
+        <div class="card-body">
+            <h5 class="card-title text-center">Generate User Excel Report</h5>
+            <form asp-controller="Excel" asp-action="GenerateUserExcel" method="post">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="form-group m-1  col-sm-5">
+                    <label asp-for="fromDate">From Date:</label>
+                    <input asp-for="fromDate" type="date" class="form-control" />
+                    <span asp-validation-for="fromDate" class="text-danger"></span>
+                </div>
+                        <div class="form-group m-1  col-sm-5">
+                    <label asp-for="toDate">To Date:</label>
+                    <input asp-for="toDate" type="date" class="form-control" />
+                    <span asp-validation-for="toDate" class="text-danger"></span>
+                        </div>
+                </div>
+                <button type="submit" class="btn btn-primary m-1">Generate Excel Report</button>
+            </form>
+        </div>
     </div>
-    <div class="form-group">
-        <label asp-for="toDate">To Date:</label>
-        <input asp-for="toDate" type="date" class="form-control" />
-        <span asp-validation-for="toDate" class="text-danger"></span>
+</div>
+    <div class="card m-2">
+        <div class="card-body">
+            <h5 class="card-title text-center">Generate Project Excel Report</h5>
+            <form asp-controller="Excel" asp-action="GenerateProjectExcel" method="post">
+                <div class="container-fluid">
+                <div class="form-group m-1">
+                    <label asp-for="projectId">Project:</label>
+                    <select asp-for="projectId" class="form-select form-select-lg">
+                        @foreach (var project in Model.projects)
+                        {
+                            <option value="@project.Id">@project.Name</option>
+                        }
+                    </select>
+                    <span asp-validation-for="projectId" class="text-danger"></span>
+                </div>
+                    <div class="row">
+                        <div class="form-group m-1 col-sm-5">
+                            <label asp-for="fromDate">From Date:</label>
+                            <input asp-for="fromDate" type="date" class="form-control" />
+                            <span asp-validation-for="fromDate" class="text-danger"></span>
+                        </div>
+                    <div class="form-group m-1  col-sm-5">
+                            <label asp-for="toDate">To Date:</label>
+                            <input asp-for="toDate" type="date" class="form-control" />
+                            <span asp-validation-for="toDate" class="text-danger"></span>
+                        </div>
+                    </div>
+                <button type="submit" class="btn btn-primary m-1">Generate Excel Report</button>
+
+                </div>
+                
+            </form>
+        </div>
     </div>
-    <button type="submit" class="btn btn-primary">Generate Excel Report</button>
-</form>
-<form asp-controller="Excel" asp-action="GenerateProjectExcel" method="post">
-    <div class="form-group">
-        <label asp-for="projectId">Project ID:</label>
-        <input asp-for="projectId" class="form-control" />
-        <span asp-validation-for="projectId" class="text-danger"></span>
+    <div class="card m-2">
+        <div class="card-body">
+            <h5 class="card-title text-center">Generate Organization Excel Report</h5>
+            <form asp-controller="Excel" asp-action="GenerateOrganizationExcel" method="post">
+                <div class="container-fluid">
+            
+                <div class="form-group m-1">
+                    <label asp-for="organizationId">Organization:</label>
+                    <select asp-for="organizationId" class="form-select form-select-lg">
+                        @foreach (var organization in Model.organizations)
+                        {
+                            <option value="@organization.OrganizationId">@organization.OrganizationName</option>
+                        }
+                    </select>
+                    <span asp-validation-for="organizationId" class="text-danger"></span>
+                </div>
+                    <div class="row">
+                    <div class="form-group m-1  col-sm-5">
+                    <label asp-for="fromDate">From Date:</label>
+                    <input asp-for="fromDate" type="date" class="form-control" />
+                    <span asp-validation-for="fromDate" class="text-danger"></span>
+                </div>
+                    <div class="form-group m-1  col-sm-5">
+                    <label asp-for="toDate">To Date:</label>
+                    <input asp-for="toDate" type="date" class="form-control" />
+                    <span asp-validation-for="toDate" class="text-danger"></span>
+                </div>
+                    </div>
+                
+                <button type="submit" class="btn btn-primary m-1">Generate Excel Report</button>
     </div>
-    <div class="form-group">
-        <label asp-for="fromDate">From Date:</label>
-        <input asp-for="fromDate" type="date" class="form-control" />
-        <span asp-validation-for="fromDate" class="text-danger"></span>
+            </form>
+        </div>
     </div>
-    <div class="form-group">
-        <label asp-for="toDate">To Date:</label>
-        <input asp-for="toDate" type="date" class="form-control" />
-        <span asp-validation-for="toDate" class="text-danger"></span>
-    </div>
-    <button type="submit" class="btn btn-primary">Generate Excel Report</button>
-</form>
-<form asp-controller="Excel" asp-action="GenerateOrganizationExcel" method="post">
-    <div class="form-group">
-        <label asp-for="organizationId">Organization ID:</label>
-        <input asp-for="organizationId" class="form-control" />
-        <span asp-validation-for="organizationId" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="fromDate">From Date:</label>
-        <input asp-for="fromDate" type="date" class="form-control" />
-        <span asp-validation-for="fromDate" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="toDate">To Date:</label>
-        <input asp-for="toDate" type="date" class="form-control" />
-        <span asp-validation-for="toDate" class="text-danger"></span>
-    </div>
-    <button type="submit" class="btn btn-primary">Generate Excel Report</button>
-</form>
+</div>
+
+</div>
