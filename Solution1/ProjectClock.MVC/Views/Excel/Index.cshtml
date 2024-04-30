@@ -1,7 +1,25 @@
 ﻿@using ProjectClock.BusinessLogic.Services.ExcelRaportServices
 @model GenerateDataDto;
 
+
+    
+    
+
 <div class="container">
+    <div class="sticky-top justify-content-center m-2">
+        <div class="row d-none d-md-block">
+            <div class="col-md-12">
+                <div class="btn-group m-2" >
+                    <button type="button" class="btn btn-primary" onclick="setDateRange('this_week')">This week</button>
+                    <button type="button" class="btn btn-primary" onclick="setDateRange('this_month')">This month</button>
+                    <button type="button" class="btn btn-primary" onclick="setDateRange('this_year')">This year</button>
+                    <button type="button" class="btn btn-primary" onclick="setDateRange('last_week')">Last week</button>
+                    <button type="button" class="btn btn-primary" onclick="setDateRange('last_month')">Last month</button>
+                    <button type="button" class="btn btn-primary" onclick="setDateRange('last_year')">Last year</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="card m-2">
         <div class="card-body">
@@ -94,5 +112,86 @@
         </div>
     </div>
 </div>
-
 </div>
+
+
+<script>
+    function setDateRange(range) {
+        var fromDateInputs = document.querySelectorAll('input[name="fromDate"]');
+        var toDateInputs = document.querySelectorAll('input[name="toDate"]');
+        var today = new Date();
+        var dayOfWeek = today.getDay();
+        var diff = today.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1); 
+        var monday = new Date(today.setDate(diff));
+
+        switch (range) {
+            case 'this_week':
+                fromDateInputs.forEach(function (input) {
+                    input.value = formatDate(monday);
+                });
+                toDateInputs.forEach(function (input) {
+                    input.value = formatDate(new Date());
+                });
+                break;
+            case 'this_month':
+                var firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+                var lastDayOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+                fromDateInputs.forEach(function (input) {
+                    input.value = formatDate(firstDayOfMonth);
+                });
+                toDateInputs.forEach(function (input) {
+                    input.value = formatDate(lastDayOfMonth);
+                });
+                break;
+            case 'last_month':
+                var firstDayOfLastMonth = new Date(today.getFullYear(), today.getMonth() - 1, 1);
+                var lastDayOfLastMonth = new Date(today.getFullYear(), today.getMonth(), 0);
+                fromDateInputs.forEach(function (input) {
+                    input.value = formatDate(firstDayOfLastMonth);
+                });
+                toDateInputs.forEach(function (input) {
+                    input.value = formatDate(lastDayOfLastMonth);
+                });
+                break;
+            case 'last_week':
+                var lastMonday = new Date(today.getFullYear(), today.getMonth(), today.getDate() - dayOfWeek - 5);
+                var lastSunday = new Date(today.getFullYear(), today.getMonth(), today.getDate() - dayOfWeek + 1);
+                fromDateInputs.forEach(function (input) {
+                    input.value = formatDate(lastMonday);
+                });
+                toDateInputs.forEach(function (input) {
+                    input.value = formatDate(lastSunday);
+                });
+                break;
+            case 'this_year':
+                var firstDayOfYear = new Date(today.getFullYear(), 0, 1);
+                var lastDayOfYear = new Date(today.getFullYear(), 11, 31);
+                fromDateInputs.forEach(function (input) {
+                    input.value = formatDate(firstDayOfYear);
+                });
+                toDateInputs.forEach(function (input) {
+                    input.value = formatDate(lastDayOfYear);
+                });
+                break;
+            case 'last_year':
+                var firstDayOfLastYear = new Date(today.getFullYear() - 1, 0, 1);
+                var lastDayOfLastYear = new Date(today.getFullYear() - 1, 11, 31);
+                fromDateInputs.forEach(function (input) {
+                    input.value = formatDate(firstDayOfLastYear);
+                });
+                toDateInputs.forEach(function (input) {
+                    input.value = formatDate(lastDayOfLastYear);
+                });
+                break;
+            default:
+                break;
+        }
+    }
+
+    function formatDate(date) {
+        var yyyy = date.getFullYear();
+        var mm = String(date.getMonth() + 1).padStart(2, '0'); // January is 0!
+        var dd = String(date.getDate()).padStart(2, '0');
+        return yyyy + '-' + mm + '-' + dd;
+    }
+</script>
