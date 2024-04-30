@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using ProjectClock.BusinessLogic.Dtos.Project.Dtos;
 using ProjectClock.BusinessLogic.Dtos.Project.ProjectDtos;
 using ProjectClock.BusinessLogic.Services.EmailHostedServices;
 using ProjectClock.Database;
@@ -121,7 +122,48 @@ namespace ProjectClock.BusinessLogic.Services.ProjectServices
 
         }
 
+        public async Task<IEnumerable<ProjectWithAccessLevelDto>> GetAllUserProjectsFromOrganizationWhereIsOwnerOrManager(int userId)
+        {
+            var organizations = await _projectClockDbContext.OrganizationsUsers.Where(o => o.UserId == userId && (o.Role == Position.Owner || o.Role == Position.Manager) ).ToListAsync();
 
+            var list = new List<Project>();
+
+            foreach (var org in organizations)
+            {
+                list = list.Concat
+                (await _projectClockDbContext.Projects
+                .Where(p => p.OrganizationId == org.OrganizationId)
+                .Include(p => p.Organization)
+                .ToListAsync())
+                .ToList();
+            }
+
+            var dtos = _mapper.Map<IEnumerable<ProjectWithAccessLevelDto>>(list);
+            dtos.ToList().ForEach(dto => dto.CanEdit = true);
+
+            return dtos;
+        }
+
+        public async Task<IEnumerable<ProjectWithAccessLevelDto>> GetAllUserProjectsFromOrganizationWhereIsUser(int userId)
+        {
+            var organizations = await _projectClockDbContext.OrganizationsUsers.Where(o => o.UserId == userId && o.Role == Position.User).ToListAsync();
+
+            var list = new List<Project>();
+
+            foreach (var org in organizations)
+            {
+                list = list.Concat
+                (await _projectClockDbContext.Projects
+                .Where(p => p.OrganizationId == org.OrganizationId)
+                .Include(p => p.Organization)
+                .ToListAsync())
+                .ToList();
+            }
+
+            var dtos = _mapper.Map<IEnumerable<ProjectWithAccessLevelDto>>(list);
+
+            return dtos;
+        }
     }
 
 }

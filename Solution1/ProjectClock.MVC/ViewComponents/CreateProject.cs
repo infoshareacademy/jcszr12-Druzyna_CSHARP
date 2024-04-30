@@ -25,14 +25,8 @@ public class CreateProject : ViewComponent
 
         var userId = await _accountService.GetUserIdFromAccountId(accountId);
 
-        var list = await _organizationServices.GetAllUserOrganization(userId);
+        var list = await _organizationServices.GetAllUserOrganizationWhereIsManagerOrOwner(userId);
 
-        //await _emailHostedServices.SendMailAsync(new BusinessLogic.Email.Models.Email.EmailModel()
-        //{
-        //    EmailAdress = "tomaszzukowskibp@gmail.com",
-        //    Subject = "Hello ProjectClock here",
-        //    Body = "<strong>Hi</strong>",
-        //});
 
         return View(list);
     }
