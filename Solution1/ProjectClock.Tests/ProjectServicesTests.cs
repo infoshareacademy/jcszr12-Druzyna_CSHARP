@@ -89,17 +89,17 @@ public class ProjectServicesTests
         {
             var projectServices = new ProjectServices(context, Substitute.For<IMapper>());
 
-            var createProjectDto = new CreateProjectDto
+            var createProjectDto = new ProjectDto
             {
-                ProjectName = "New Project",
-                OrganizationName = "Organization"
+                Name = "New Project",
+                Organization = "New Organization"
             };
 
             // Act
-            var result = await projectServices.Create(createProjectDto);
+            var act = () => await projectServices.Update(createProjectDto);
 
             // Assert
-            result.Should().BeTrue();
+            act.Should().
         }
     }
 }
