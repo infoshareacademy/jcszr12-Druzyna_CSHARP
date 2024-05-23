@@ -1,5 +1,6 @@
 using AutoMapper;
 using FluentAssertions;
+using FluentAssertions.Execution;
 using Microsoft.EntityFrameworkCore;
 using NSubstitute;
 using ProjectClock.BusinessLogic.Dtos.Project.ProjectDtos;
@@ -88,18 +89,28 @@ public class ProjectServicesTests
         using (var context = new ProjectClockDbContext(options))
         {
             var projectServices = new ProjectServices(context, Substitute.For<IMapper>());
-
-            var createProjectDto = new ProjectDto
+            context.Projects.Add(new Project
             {
-                Name = "New Project",
-                Organization = "New Organization"
+                Id = 1,
+                Name = "Existing Project",
+                Organization = new Organization { Name = "Organization" }
+            });
+            await context.SaveChangesAsync();
+
+            var projectDto = new ProjectDto
+            {
+                Id = 1,
+                Name = "Updated Project"
             };
 
             // Act
-            var act = () => await projectServices.Update(createProjectDto);
+            await projectServices.Update(projectDto);
 
             // Assert
-            act.Should().
+            var updatedProject = await context.Projects.FindAsync(1);
+            updatedProject.Name.Should().Be("Updated Project");
+
+
         }
     }
 }
