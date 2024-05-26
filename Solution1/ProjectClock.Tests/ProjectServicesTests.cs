@@ -76,6 +76,7 @@ public class ProjectServicesTests
             result.Should().BeFalse();
         }
     }
+
     //Update
 
     [Fact]
@@ -107,10 +108,8 @@ public class ProjectServicesTests
             await projectServices.Update(projectDto);
 
             // Assert
-            var updatedProject = await context.Projects.FindAsync(1);
-            updatedProject.Name.Should().Be("Updated Project");
-
-
+            var updatedProject = await context.Projects.FindAsync(projectDto.Id);
+            updatedProject.Name.Should().Be(projectDto.Name);
         }
     }
 }
