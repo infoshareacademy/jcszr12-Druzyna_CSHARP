@@ -1,9 +1,10 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
-using ProjectClock.BusinessLogic.Services.EmailHostedServices;
 using ProjectClock.BusinessLogic.Services.RaportServices;
 using ProjectClock.Database.Extensions;
+using Microsoft.AspNetCore.Mvc.Razor;
+using System.Globalization;
+using Microsoft.AspNetCore.Localization;
 
 namespace ProjectClock.MVC
 {
@@ -15,6 +16,7 @@ namespace ProjectClock.MVC
 
             // Add services to the container.
             builder.Services.AddControllersWithViews()
+                .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
                 .AddRazorOptions(options =>
                  {
                      options.ViewLocationFormats.Add("/{0}.cshtml");
@@ -24,11 +26,11 @@ namespace ProjectClock.MVC
             builder.Services.AddServices(builder.Configuration);
 
 
-			builder.Services.AddScoped<IRaportServices, RaportServices>();
+            builder.Services.AddScoped<IRaportServices, RaportServices>();
 
 
 
-			builder.Services.AddDbContext<ProjectClock.Database.ProjectClockDbContext>(options =>
+            builder.Services.AddDbContext<ProjectClock.Database.ProjectClockDbContext>(options =>
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("ProjectClock"));
 
@@ -45,7 +47,26 @@ namespace ProjectClock.MVC
 
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
+            builder.Services.AddLocalization(options =>
+            {
+                options.ResourcesPath = "Resources";
+            });
+
+            builder.Services.Configure<RequestLocalizationOptions>(options =>
+            {
+                var supportedCultures = new[]
+                {
+                    new CultureInfo("en-US"),
+                    new CultureInfo("pl-PL")
+                };
+
+                options.DefaultRequestCulture = new RequestCulture("en-US");
+                options.SupportedUICultures = supportedCultures;
+            });
+
             var app = builder.Build();
+
+            app.UseRequestLocalization();
 
             var scope = app.Services.CreateScope();
 
@@ -68,5 +89,5 @@ namespace ProjectClock.MVC
 
             app.Run();
         }
-    }    
+    }
 }
