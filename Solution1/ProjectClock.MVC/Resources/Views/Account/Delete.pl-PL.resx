@@ -117,19 +117,22 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AccActived" xml:space="preserve">
-    <value>Account actived</value>
+  <data name="AccDelete" xml:space="preserve">
+    <value>Usuń konto</value>
   </data>
-  <data name="AccWrong" xml:space="preserve">
-    <value>Wrong code!</value>
+  <data name="AccDeleteConf" xml:space="preserve">
+    <value>Jesteś pewien? Ta akcja spowoduje usunięcie konta!</value>
   </data>
-  <data name="Active" xml:space="preserve">
-    <value>Active</value>
+  <data name="Cancel" xml:space="preserve">
+    <value>Anuluj</value>
   </data>
-  <data name="ActiveInfo" xml:space="preserve">
-    <value>Insert your active code:</value>
+  <data name="Delete" xml:space="preserve">
+    <value>Usuń</value>
   </data>
-  <data name="String" xml:space="preserve">
-    <value>Insert your active code:</value>
+  <data name="PassInvalid" xml:space="preserve">
+    <value>Nieprawidłowe hasło</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Hasło</value>
   </data>
 </root>

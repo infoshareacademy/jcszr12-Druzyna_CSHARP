@@ -117,19 +117,28 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AccActived" xml:space="preserve">
-    <value>Account actived</value>
+  <data name="AccEmail" xml:space="preserve">
+    <value>Change a email</value>
   </data>
-  <data name="AccWrong" xml:space="preserve">
-    <value>Wrong code!</value>
+  <data name="AccEmailEqual" xml:space="preserve">
+    <value>Emails aren't equal</value>
   </data>
-  <data name="Active" xml:space="preserve">
-    <value>Active</value>
+  <data name="AccEmailOld" xml:space="preserve">
+    <value>Your new email is same like old one.</value>
   </data>
-  <data name="ActiveInfo" xml:space="preserve">
-    <value>Insert your active code:</value>
+  <data name="AccEmailUsed" xml:space="preserve">
+    <value>Email is already used.</value>
   </data>
-  <data name="String" xml:space="preserve">
-    <value>Insert your active code:</value>
+  <data name="AccEmailWrong" xml:space="preserve">
+    <value>You insert wrong email!</value>
+  </data>
+  <data name="Change" xml:space="preserve">
+    <value>Change</value>
+  </data>
+  <data name="NEmail" xml:space="preserve">
+    <value>New email</value>
+  </data>
+  <data name="REmail" xml:space="preserve">
+    <value>Repeat email</value>
   </data>
 </root>
