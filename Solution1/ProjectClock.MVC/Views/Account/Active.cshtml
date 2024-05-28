@@ -1,11 +1,14 @@
-﻿@using ProjectClock.BusinessLogic.Dtos.Account.Dtos
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@using ProjectClock.BusinessLogic.Dtos.Account.Dtos
 
 @model ActiveAccountDto
 @{
     Layout = "~/Views/Shared/_LayoutLogin.cshtml";
-    ViewData["Title"] = "Active";
+    ViewData["Title"] = Localizer["ActiveInfo"];
     var errorMessage = TempData["ErrorMessage"] as string;
 }
+
+@inject IViewLocalizer Localizer
 
 <div class="container-fluid form-body m-0 py-5">
     <div class="container border-primary rounded-4 pt-2 text-white bg-opacity-50 text-bg-info col-lg-4">
@@ -14,7 +17,7 @@
             <div class="col-auto my-4">
                 @if (!string.IsNullOrEmpty(errorMessage))
                 {
-                    <p class="text-success text-bg-success p-1">
+                    <p class="text-danger text-bg-danger p-1">
                         @errorMessage
                     </p>
                 }
@@ -31,7 +34,7 @@
                             <span asp-validation-for="@Model.Code" class="text-danger"></span>
                         </div>                       
                         <div class="btn-group col-12" role="group">
-                            <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-outline-primary rounded-5 mx-3 ">Active</button>
+                            <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-outline-primary rounded-5 mx-3 ">@Localizer["Active"]</button>
                         </div>
                     </form>
                 </section>
