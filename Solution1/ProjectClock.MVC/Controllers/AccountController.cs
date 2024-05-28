@@ -9,6 +9,7 @@ using ProjectClock.MVC.Extensions;
 using ProjectClock.BusinessLogic.Services.AccountServices;
 using ProjectClock.BusinessLogic.Dtos.Account.Dtos;
 using System.Drawing;
+using Microsoft.Extensions.Localization;
 
 
 namespace ProjectClock.MVC.Controllers
@@ -16,10 +17,12 @@ namespace ProjectClock.MVC.Controllers
     public class AccountController : Controller
     {
         private readonly IAccountServices _accountService;
+        private readonly IStringLocalizer<AccountController> _localizer;
 
-        public AccountController(IAccountServices accountService, IMapper mapper)
+        public AccountController(IAccountServices accountService, IMapper mapper, IStringLocalizer<AccountController> localizer)
         {
             _accountService = accountService;
+            _localizer = localizer;
         }
 
         [AllowAnonymous]
@@ -97,11 +100,11 @@ namespace ProjectClock.MVC.Controllers
         {
             if (await _accountService.ChangeUserStatus(dto))
             {
-                TempData["SuccessMessage"] = "Account actived";
+                TempData["SuccessMessage"] = _localizer["AccActived"];
             }
             else
             {
-                TempData["ErrorMessage"] = "Wrong code!";
+                TempData["ErrorMessage"] = _localizer["AccWrong"];
                 return RedirectToAction("Active", new { email = dto.Email });
             }
 
