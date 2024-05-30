@@ -45,7 +45,7 @@ namespace ProjectClock.MVC.Controllers
             var resultDto = await _accountService.LoginAccount(dto);
             if (!resultDto.UserExist)
             {
-                TempData["UserNotExist"] = "User with this email doesn't exist";
+                TempData["UserNotExist"] = _localizer["UserNotExist"];
                 return View(dto);
             }
 
