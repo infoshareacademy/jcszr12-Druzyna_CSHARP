@@ -1,9 +1,13 @@
-﻿@using ProjectClock.BusinessLogic.Dtos.AccountDtos
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@using ProjectClock.BusinessLogic.Dtos.AccountDtos
 @model RegisterDto
 @{
     Layout = "~/Views/Shared/_LayoutLogin.cshtml";
     ViewData["Title"] = "Register";
 }
+
+@inject IViewLocalizer Localizer
+
 
 <div class="container-fluid form-body m-0 py-5">
     <div class="container border-primary rounded-4 pt-2 text-white bg-opacity-50 text-bg-info col-lg-4">
