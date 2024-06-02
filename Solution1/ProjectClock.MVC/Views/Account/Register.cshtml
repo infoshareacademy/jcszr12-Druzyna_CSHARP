@@ -17,16 +17,16 @@
                 <form id="registerForm" method="post">                   
                     @if (Model is not null && Model.Results.EmailAlreadyInUse)
                     {
-                        <p class="text-warning text-bg-warning p-1">Email is taken</p>
+                        <p class="text-warning text-bg-warning p-1">@Localizer["AccEmailUsed"]</p>
                     }                                         
                     <div class="form-floating my-2">
                         <input asp-for="@Model.FirstName" class="form-control" autocomplete="firstName" aria-required="true" />
-                        <label asp-for="@Model.FirstName" class="form-label">First name</label>
+                        <label asp-for="@Model.FirstName" class="form-label">@Localizer["Name"]</label>
                         <span asp-validation-for="@Model.FirstName" class="invalid-feedback text-danger"></span>
                     </div>
                     <div class="form-floating my-2">
                         <input asp-for="@Model.LastName" class="form-control" autocomplete="LastName" aria-required="true" />
-                        <label asp-for="@Model.LastName" class="form-label">Last name</label>
+                        <label asp-for="@Model.LastName" class="form-label">@Localizer["Surname"]</label>
                         <span asp-validation-for="@Model.LastName" class="invalid-feedback text-danger"></span>
                     </div>
                     <div class="form-floating my-2">
@@ -36,18 +36,18 @@
                     </div>
                     <div class="form-floating my-2">
                         <input type="password" asp-for="@Model.Password" class="form-control" aria-required="true" />
-                        <label asp-for="@Model.Password" class="form-label"></label>
+                        <label asp-for="@Model.Password" class="form-label">@Localizer["Password"]</label>
                         <span asp-validation-for="@Model.Password" class="text-danger"></span>
                     </div>
                     <div class="form-floating my-2">
                         <input type="password" asp-for="@Model.ConfirmPassword" class="form-control" aria-required="true" />
-                        <label asp-for="@Model.ConfirmPassword" class="form-label">Repeat password</label>
+                        <label asp-for="@Model.ConfirmPassword" class="form-label">@Localizer["RPassword"]</label>
                         <span asp-validation-for="@Model.ConfirmPassword" class="invalid-feedback text-danger"></span>
                     </div>
-                    <button id="registerSubmit" type="submit" class="w-50 btn btn-lg btn-outline-primary rounded-5">Register</button>
+                    <button id="registerSubmit" type="submit" class="w-50 btn btn-lg btn-outline-primary rounded-5">@Localizer["Register"]</button>
                     <div class="mt-4 text-center">
                         <p class="text-dark">
-                            Already have an account? <a asp-action="Login">Sign in</a>
+                            @Localizer["AccHave"] <a asp-action="Login">@Localizer["Sign"]</a>
                         </p>
                     </div>
                 </form>
