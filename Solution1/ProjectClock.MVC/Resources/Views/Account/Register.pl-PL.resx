@@ -118,27 +118,27 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AccEmailUsed" xml:space="preserve">
-    <value>Email is taken</value>
+    <value>Adres e-mail jest zajęty</value>
   </data>
   <data name="AccHave" xml:space="preserve">
-    <value>Already have an account?</value>
+    <value>Masz już konto?</value>
   </data>
   <data name="Name" xml:space="preserve">
-    <value>First name</value>
+    <value>Imię</value>
   </data>
   <data name="Password" xml:space="preserve">
-    <value>Password</value>
+    <value>Hasło</value>
   </data>
   <data name="Register" xml:space="preserve">
-    <value>Register</value>
+    <value>Zarejestruj się</value>
   </data>
   <data name="RPassword" xml:space="preserve">
-    <value>Repeat password</value>
+    <value>Powtórz hasło</value>
   </data>
   <data name="Sign" xml:space="preserve">
-    <value>Sign in</value>
+    <value>Zaloguj się</value>
   </data>
   <data name="Surname" xml:space="preserve">
-    <value>Last name</value>
+    <value>Nazwisko</value>
   </data>
 </root>

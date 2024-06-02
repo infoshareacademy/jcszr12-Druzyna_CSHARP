@@ -117,28 +117,46 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AccEmailUsed" xml:space="preserve">
-    <value>Email is taken</value>
+  <data name="From" xml:space="preserve">
+    <value>From Date:</value>
   </data>
-  <data name="AccHave" xml:space="preserve">
-    <value>Already have an account?</value>
+  <data name="GenerateRaportButton" xml:space="preserve">
+    <value>Generate Excel Report</value>
   </data>
-  <data name="Name" xml:space="preserve">
-    <value>First name</value>
+  <data name="GenerateRaportOrganization" xml:space="preserve">
+    <value>Generate Organization Excel Report</value>
   </data>
-  <data name="Password" xml:space="preserve">
-    <value>Password</value>
+  <data name="GenerateRaportProject" xml:space="preserve">
+    <value>Generate Project Excel Report</value>
   </data>
-  <data name="Register" xml:space="preserve">
-    <value>Register</value>
+  <data name="GenerateRaportUser" xml:space="preserve">
+    <value>Generate User Excel Report</value>
   </data>
-  <data name="RPassword" xml:space="preserve">
-    <value>Repeat password</value>
+  <data name="LMonth" xml:space="preserve">
+    <value>Last month</value>
   </data>
-  <data name="Sign" xml:space="preserve">
-    <value>Sign in</value>
+  <data name="LWeek" xml:space="preserve">
+    <value>Last week</value>
   </data>
-  <data name="Surname" xml:space="preserve">
-    <value>Last name</value>
+  <data name="LYear" xml:space="preserve">
+    <value>Last year</value>
+  </data>
+  <data name="Organization" xml:space="preserve">
+    <value>Organization:</value>
+  </data>
+  <data name="Project" xml:space="preserve">
+    <value>Project:</value>
+  </data>
+  <data name="TMonth" xml:space="preserve">
+    <value>This month</value>
+  </data>
+  <data name="To" xml:space="preserve">
+    <value>To Date:</value>
+  </data>
+  <data name="TWeek" xml:space="preserve">
+    <value>This week</value>
+  </data>
+  <data name="TYear" xml:space="preserve">
+    <value>This year</value>
   </data>
 </root>
