@@ -1,6 +1,10 @@
-﻿@using ProjectClock.BusinessLogic.Dtos.Project.Dtos
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@using ProjectClock.BusinessLogic.Dtos.Project.Dtos
 @using ProjectClock.BusinessLogic.Dtos.Project.ProjectDtos
 @using ProjectClock.MVC.Services.Components
+
+@inject IViewLocalizer Localizer
+
 
 @model IEnumerable<ProjectWithAccessLevelDto>
 
@@ -27,16 +31,16 @@
                 <div class="card h-100 d-flex">
                     <div class="card-body d-flex flex-column">
                         <h5 class="card-title">@item.Name</h5>
-                        <p class="card-text">Organization: @item.Organization</p>
+                        <p class="card-text">@Localizer["Organization"] @item.Organization</p>
                         @if (item.CanEdit)
                         {
                             <form asp-action="Delete" asp-route-id="@item.Id" method="post">
-                                <button type="submit" class="btn btn-sm btn-primary col-12">Delete</button>
+                                <button type="submit" class="btn btn-sm btn-primary col-12">@Localizer["Delete"]</button>
                                 <input type="hidden" name="_method" value="POST" />
                             </form>
                             <button class="btn btn-sm btn-primary mt-2 col-12"
                                     onclick="location.href='@Url.Action("Update", "Project", new { id = item.Id })'">
-                                Modify
+                                @Localizer["Modify"]
                             </button>
                         }
                     </div>

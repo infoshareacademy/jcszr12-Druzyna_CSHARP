@@ -45,7 +45,7 @@ namespace ProjectClock.MVC.Controllers
             var resultDto = await _accountService.LoginAccount(dto);
             if (!resultDto.UserExist)
             {
-                TempData["UserNotExist"] = _localizer["UserNotExist"];
+                TempData["UserNotExist"] = _localizer["UserNotExist"].Value;
                 return View(dto);
             }
 
@@ -100,11 +100,11 @@ namespace ProjectClock.MVC.Controllers
         {
             if (await _accountService.ChangeUserStatus(dto))
             {
-                TempData["SuccessMessage"] = _localizer["AccActived"];
+                TempData["SuccessMessage"] = _localizer["AccActived"].Value;
             }
             else
             {
-                TempData["ErrorMessage"] = _localizer["AccWrong"];
+                TempData["ErrorMessage"] = _localizer["AccWrong"].Value;
                 return RedirectToAction("Active", new { email = dto.Email });
             }
 

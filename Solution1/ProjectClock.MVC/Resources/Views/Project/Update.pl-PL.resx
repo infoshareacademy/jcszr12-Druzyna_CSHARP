@@ -117,19 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AccActived" xml:space="preserve">
-    <value>Konto aktywowane</value>
+  <data name="Change" xml:space="preserve">
+    <value>Zmień</value>
   </data>
-  <data name="AccWrong" xml:space="preserve">
-    <value>Nieprawidłowy kod!</value>
-  </data>
-  <data name="Active" xml:space="preserve">
-    <value>Aktywuj</value>
-  </data>
-  <data name="ActiveInfo" xml:space="preserve">
-    <value>Wprowadź swój kod aktywacyjny:</value>
-  </data>
-  <data name="Code" xml:space="preserve">
-    <value>Kod</value>
+  <data name="InsertName" xml:space="preserve">
+    <value>Wprowadź nową nazwę projektu:</value>
   </data>
 </root>

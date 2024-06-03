@@ -30,7 +30,7 @@
                         </div>
                         <div class="form-floating my-2 text-start">
                             <input type="text" asp-for="@Model.Code" class="form-control" aria-required="true" />
-                            <label asp-for="@Model.Code" class="form-label"></label>
+                            <label asp-for="@Model.Code" class="form-label">@Localizer["Code"]</label>
                             <span asp-validation-for="@Model.Code" class="text-danger"></span>
                         </div>                       
                         <div class="btn-group col-12" role="group">
