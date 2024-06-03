@@ -61,7 +61,10 @@ namespace ProjectClock.MVC
                 };
 
                 options.DefaultRequestCulture = new RequestCulture("en-US");
+                options.SupportedCultures = supportedCultures;
                 options.SupportedUICultures = supportedCultures;
+
+                options.RequestCultureProviders.Insert(0, new CookieRequestCultureProvider());
             });
 
             var app = builder.Build();
