@@ -1,0 +1,116 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@using ProjectClock.BusinessLogic.Services.ExcelRaportServices
+
+@model GenerateDataDto;
+
+@inject IViewLocalizer Localizer
+
+@{
+    var labels = new List<string>() {};
+    var data = new List<double>() {};
+    var list = new Dictionary<string, double>() {};
+    var projectDatas = Model.userData.ProjectData;
+    foreach(var projectData in projectDatas)
+    {
+        if(projectData.TotalTime.TotalHours > 0)
+        {
+        data.Add(projectData.TotalTime.TotalHours);
+        labels.Add(projectData.Name);
+            
+        }
+    }
+}
+<h1 class="fw-bold mb-4 text-center">Reports</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-5">
+            <ul class="list-unstyled">
+                <li class="mb-3">
+                    <label class="form-label m-2">Generate Report for user:</label>
+                    <form asp-controller="AwesomeReport" asp-action="GenerateUserAwesomeReport" method="post">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="form-group m-1  col-sm-5">
+                                    <label asp-for="fromDate">@Localizer["From"]</label>
+                                    <input asp-for="fromDate" type="date" class="form-control" />
+                                    <span asp-validation-for="fromDate" class="text-danger"></span>
+                                </div>
+                                <div class="form-group m-1  col-sm-5">
+                                    <label asp-for="toDate">@Localizer["To"]</label>
+                                    <input asp-for="toDate" type="date" class="form-control" />
+                                    <span asp-validation-for="toDate" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary m-1">@Localizer["GenerateRaportButton"]</button>
+                    </form>
+                </li>
+                <li>
+                    <h3>Okres czasu</h3>
+                    <table class="table-info">
+                        <thead>
+                            <tr>
+                                <th scope="col">Project</th>
+                                <th scope="col">Total Time</th>
+                                <th scope="col">Total Cost</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in list)
+                            {
+                                <tr>
+                                    <td>Project A</td>
+                                    <td>20 hours</td>
+                                    <td>$500</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </li>
+            </ul>
+
+        </div>
+        <div class="col-7">
+            <canvas id="myPieChart" width="400" height="400"></canvas>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    var ctx = document.getElementById('myPieChart').getContext('2d');
+    var myBarChart = new Chart(ctx, {
+        type: 'pie',  
+        data: {
+            labels: @Html.Raw(Json.Serialize(labels)),
+            datasets: [{
+                data: @Html.Raw(Json.Serialize(data)),
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.7)',
+                    'rgba(54, 162, 235, 0.7)',
+                    'rgba(255, 206, 86, 0.7)',
+                    'rgba(255, 241, 86, 0.7)',
+                    'rgba(215, 99, 132, 0.7)',
+                    'rgba(154, 162, 235, 0.7)',
+                    'rgba(55, 206, 86, 0.7)',
+                    'rgba(5, 241, 86, 0.7)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 0.7)',
+                    'rgba(54, 162, 235, 0.7)',
+                    'rgba(255, 206, 86, 0.7)',
+                    'rgba(255, 241, 86, 0.7)',
+                    'rgba(215, 99, 132, 0.7)',
+                    'rgba(154, 162, 235, 0.7)',
+                    'rgba(55, 206, 86, 0.7)',
+                    'rgba(5, 241, 86, 0.7)'
+                ],
+                borderWidth: 1
+            }]
+        }
+
+    });
+</script>

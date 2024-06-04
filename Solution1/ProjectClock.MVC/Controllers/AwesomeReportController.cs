@@ -1,0 +1,80 @@
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using ProjectClock.BusinessLogic.Services.AccountServices;
+using ProjectClock.BusinessLogic.Services.ExcelRaportServices;
+using ProjectClock.BusinessLogic.Services.ExcelServices;
+using ProjectClock.BusinessLogic.Services.OrganizationServices;
+using ProjectClock.BusinessLogic.Services.ProjectServices;
+using ProjectClock.MVC.Extensions;
+
+namespace ProjectClock.MVC.Controllers;
+
+
+public class AwesomeReportController : Controller
+{
+    private readonly IWebHostEnvironment _hostingEnvironment;
+    private readonly IExcelRaportServices _excelRaportServices;
+    private readonly IAccountServices _accountServices;
+    private readonly IExcelServices _excelServices;
+    private readonly IProjectServices _projectServices;
+    private readonly IOrganizationServices _organizationServices;
+
+    public AwesomeReportController(IWebHostEnvironment hostingEnvironment, 
+        IExcelRaportServices excelRaportServices, 
+        IAccountServices accountServices, 
+        IExcelServices excelServices, 
+        IProjectServices projectServices, 
+        IOrganizationServices organizationServices)
+    {
+        _hostingEnvironment = hostingEnvironment;
+        _excelRaportServices = excelRaportServices;
+        _accountServices = accountServices;
+        _excelServices = excelServices;
+        _projectServices = projectServices;
+        _organizationServices = organizationServices;
+    }
+
+    [Authorize(Roles = "User")]
+    public async Task<IActionResult> UserReport()
+    {
+        if (!HttpContext.User.Claims.TryGetAuthenticatedUserId(out var accountId))
+        {
+            return RedirectToAction("Index", "Home");
+        }
+
+        var userId = await _accountServices.GetUserIdFromAccountId(accountId);
+
+        var dto = new GenerateDataDto()
+        {
+            userId = userId,
+            fromDate = DateTime.Now.AddMonths(-1),
+            toDate = DateTime.Now,
+            projects = await _projectServices.GetAllUserProjectsFromOrganizationWhereIsOwnerOrManager(userId),
+            organizations = await _organizationServices.GetAllUserOrganizationWhereIsManagerOrOwner(userId)
+        };
+
+        var data = await _excelRaportServices.GenerateDataUser(dto);
+
+        dto.userData = data;
+
+
+        return View(dto);
+    }
+    [HttpPost]
+    public async Task<IActionResult> GenerateUserAwesomeReport(GenerateDataDto dto)
+    {
+        if (!HttpContext.User.Claims.TryGetAuthenticatedUserId(out var accountId))
+        {
+            return RedirectToAction("Index", "Home");
+        }
+
+        dto.userId = await _accountServices.GetUserIdFromAccountId(accountId);
+
+        var data = await _excelRaportServices.GenerateDataUser(dto);
+
+        dto.userData = data;
+
+
+        return RedirectToAction("UserReport", "AwesomeReport", data);
+    }
+}
