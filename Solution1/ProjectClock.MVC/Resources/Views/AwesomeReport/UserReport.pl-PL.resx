@@ -117,58 +117,46 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ChangeEmail" xml:space="preserve">
-    <value>Zmień email</value>
+  <data name="From" xml:space="preserve">
+    <value>Od dnia:</value>
   </data>
-  <data name="ChangePass" xml:space="preserve">
-    <value>Zmień hasło</value>
+  <data name="GenerateRaportButton" xml:space="preserve">
+    <value>Wygeneruj raport Excel</value>
   </data>
-  <data name="CreateOrg" xml:space="preserve">
-    <value>Utwórz organizację</value>
+  <data name="GenerateRaportOrganization" xml:space="preserve">
+    <value>Generowanie raportu Excel organizacji</value>
   </data>
-  <data name="DeleteAcc" xml:space="preserve">
-    <value>Usuń konto</value>
+  <data name="GenerateRaportProject" xml:space="preserve">
+    <value>Generowanie raportu Excel projektu</value>
   </data>
-  <data name="DeleteOrg" xml:space="preserve">
-    <value>Usuń organizację</value>
+  <data name="GenerateRaportUser" xml:space="preserve">
+    <value>Generowanie raportu Excel użytkownika</value>
   </data>
-  <data name="GenerateRep" xml:space="preserve">
-    <value>Generuj raport dla</value>
+  <data name="LMonth" xml:space="preserve">
+    <value>Ostatni miesiąc</value>
   </data>
-  <data name="GenerateRepFile" xml:space="preserve">
-    <value>Generuj plik raportu</value>
+  <data name="LWeek" xml:space="preserve">
+    <value>Ostatni tydzień</value>
   </data>
-  <data name="Home" xml:space="preserve">
-    <value>Strona główna</value>
-  </data>
-  <data name="LanguageSettings" xml:space="preserve">
-    <value>Ustawienia języków</value>
-  </data>
-  <data name="Logout" xml:space="preserve">
-    <value>Wyloguj się</value>
-  </data>
-  <data name="ManageOrg" xml:space="preserve">
-    <value>Zarządzaj organizacją</value>
-  </data>
-  <data name="MyWorkingTimes" xml:space="preserve">
-    <value>Moje godziny pracy</value>
+  <data name="LYear" xml:space="preserve">
+    <value>Ostatni rok</value>
   </data>
   <data name="Organization" xml:space="preserve">
-    <value>Organizacja</value>
-  </data>
-  <data name="Organizations" xml:space="preserve">
-    <value>Organizacje</value>
+    <value>Organizacja:</value>
   </data>
   <data name="Project" xml:space="preserve">
-    <value>Projekt</value>
+    <value>Projekt:</value>
   </data>
-  <data name="Projects" xml:space="preserve">
-    <value>Projekty</value>
+  <data name="TMonth" xml:space="preserve">
+    <value>Ten miesiąc</value>
   </data>
-  <data name="User" xml:space="preserve">
-    <value>Użytkownik</value>
+  <data name="To" xml:space="preserve">
+    <value>Do dnia:</value>
   </data>
-  <data name="UserSettings" xml:space="preserve">
-    <value>Ustawienia użytkownika</value>
+  <data name="TWeek" xml:space="preserve">
+    <value>Ten tydzień</value>
+  </data>
+  <data name="TYear" xml:space="preserve">
+    <value>Ten rok</value>
   </data>
 </root>
