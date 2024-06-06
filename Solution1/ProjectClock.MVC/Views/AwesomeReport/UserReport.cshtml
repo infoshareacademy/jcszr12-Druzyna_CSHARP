@@ -6,70 +6,77 @@
 @inject IViewLocalizer Localizer
 
 @{
-    var labels = new List<string>() {};
-    var data = new List<double>() {};
-    var list = new Dictionary<string, double>() {};
+    var labels = new List<string>() { };
+    var data = new List<double>() { };
+    var list = new Dictionary<string, TimeSpan>() { };
     var projectDatas = Model.userData.ProjectData;
-    foreach(var projectData in projectDatas)
+    foreach (var projectData in projectDatas)
     {
-        if(projectData.TotalTime.TotalHours > 0)
+        if (projectData.TotalTime.TotalSeconds > 60)
         {
-        data.Add(projectData.TotalTime.TotalHours);
-        labels.Add(projectData.Name);
-            
+            data.Add(projectData.TotalTime.TotalHours);
+            labels.Add(projectData.Name);
+            list.Add(projectData.Name, projectData.TotalTime);
         }
     }
 }
+
+<style>
+    .table-info {
+        width: 100%;
+    }
+
+        .table-info th, .table-info td {
+            width: 75%;
+            text-align: left;
+            padding: 2px;
+        }
+</style>
+
 <h1 class="fw-bold mb-4 text-center">Your raport:</h1>
 <div class="container">
     <div class="row">
-        <div class="col-5">
-            <ul class="list-unstyled">
-                <li class="mb-3">
-                    <label class="form-label m-2">Your raport</label>
-                    <form asp-controller="AwesomeReport" asp-action="GenerateUserAwesomeReport" method="post">
-                        <div class="container-fluid">
-                            <div class="row">
-                                <div class="form-group m-1  col-sm-5">
-                                    <label asp-for="fromDate">@Localizer["From"]</label>
-                                    <input asp-for="fromDate" type="date" class="form-control" />
-                                    <span asp-validation-for="fromDate" class="text-danger"></span>
-                                </div>
-                                <div class="form-group m-1  col-sm-5">
-                                    <label asp-for="toDate">@Localizer["To"]</label>
-                                    <input asp-for="toDate" type="date" class="form-control" />
-                                    <span asp-validation-for="toDate" class="text-danger"></span>
-                                </div>
-                            </div>
-                            <button type="submit" class="btn btn-primary m-1">@Localizer["GenerateRaportButton"]</button>
-                    </form>
-                </li>
-                <li>
-                    <h3>Okres czasu</h3>
-                    <table class="table-info">
-                        <thead>
-                            <tr>
-                                <th scope="col">Project</th>
-                                <th scope="col">Total Time</th>
-                                <th scope="col">Total Cost</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in list)
-                            {
-                                <tr>
-                                    <td>Project A</td>
-                                    <td>20 hours</td>
-                                    <td>$500</td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </li>
-            </ul>
+        <form asp-controller="AwesomeReport" asp-action="GenerateUserAwesomeReport" method="post">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="form-group m-1  col-sm-5">
+                        <label asp-for="fromDate">@Localizer["From"]</label>
+                        <input asp-for="fromDate" type="date" class="form-control" />
+                        <span asp-validation-for="fromDate" class="text-danger"></span>
+                    </div>
+                    <div class="form-group m-1  col-sm-5">
+                        <label asp-for="toDate">@Localizer["To"]</label>
+                        <input asp-for="toDate" type="date" class="form-control" />
+                        <span asp-validation-for="toDate" class="text-danger"></span>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary m-1">@Localizer["GenerateRaportButton"]</button>
+        </form>
+    </div>
+    
+    <div class="row m-2">
+        <div class="col-8">
+            <table class="table-info">
+                <thead>
+                    <tr>
+                        <th scope="col">Project</th>
+                        <th scope="col">Total Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in list)
+                    {
+                        <tr>
+                            <td>@item.Key</td>
+                            <td>@Math.Floor(item.Value.TotalHours) h @item.Value.Minutes m</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
 
         </div>
-        <div class="col-7">
+        <div class="col-4">
             <canvas id="myPieChart" width="400" height="400"></canvas>
 
         </div>
@@ -80,10 +87,11 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 <script>
     var ctx = document.getElementById('myPieChart').getContext('2d');
-    var myBarChart = new Chart(ctx, {
-        type: 'pie',  
+    var myPieChart = new Chart(ctx, {
+        type: 'pie',
         data: {
             labels: @Html.Raw(Json.Serialize(labels)),
             datasets: [{
@@ -110,7 +118,22 @@
                 ],
                 borderWidth: 1
             }]
+        },
+        options: {
+            plugins: {
+                legend: {
+                    display: false
+                },
+                datalabels: {
+                    formatter: function (value, context) {
+                        var dataset = context.chart.data.datasets[0];
+                        var total = dataset.data.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+                        var percentage = (value / total * 100).toFixed(2) + "%";
+                        return percentage;
+                    },
+                    color: '#fff'
+                }
+            }
         }
-
     });
 </script>
