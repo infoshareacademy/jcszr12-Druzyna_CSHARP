@@ -75,6 +75,6 @@ public class AwesomeReportController : Controller
         dto.userData = data;
 
 
-        return RedirectToAction("UserReport", "AwesomeReport", data);
+        return View("UserReport", dto);
     }
 }
