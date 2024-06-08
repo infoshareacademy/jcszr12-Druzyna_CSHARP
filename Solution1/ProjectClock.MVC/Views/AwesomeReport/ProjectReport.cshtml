@@ -6,63 +6,106 @@
 @inject IViewLocalizer Localizer
 
 @{
-    var labels = new List<string>() { "Placeholder1Project", "Placeholder2Project", "Placeholder3Project", "Placeholder4Project" };
-    var data = new List<int>() { 20, 25, 10, 4 };
-    var list = new List<string>() { "Placeholder1", "Placeholder2", "Placeholder3", "Placeholder4" };
+    var labels = new List<string>() { };
+    var data = new List<double>() { };
+    var list = new Dictionary<string, TimeSpan>() { };
+    var userDatas = Model.projectData.UserData;
+    var projectDataTotalHoursSum = userDatas.Select(pd => pd.TotalTime.TotalHours).Sum();
+    foreach (var userData in userDatas)
+    {
+        if (userData.TotalTime.TotalSeconds > 60)
+        {
+            data.Add(Math.Round((userData.TotalTime.TotalHours / projectDataTotalHoursSum), 2) * 100);
+            labels.Add(userData.Name);
+            list.Add(userData.Name, userData.TotalTime);
+        }
+    }
 }
+
+<style>
+    .table-info {
+        width: 100%;
+    }
+
+        .table-info th, .table-info td {
+            width: 75%;
+            text-align: left;
+            padding: 7px;
+        }
+</style>
+
 <h1 class="fw-bold mb-4 text-center">Your raport:</h1>
 <div class="container">
-    <div class="row">
-        <div class="col-5">
-            <ul class="list-unstyled">
-                <li class="mb-3">
-                    <label class="form-label m-2">Generate Report for:</label>
-                    <select class="form-select" aria-label="Default select example">
-                        @foreach (var item in list)
+    <div class="sticky-top justify-content-center m-2">
+        <div class="row d-none d-md-block">
+            <div class="col-md-12">
+                <div class="btn-group m-2">
+                    <button type="button" class="btn btn-primary" onclick="setDateRange('this_week')">@Localizer["TWeek"]</button>
+                    <button type="button" class="btn btn-primary" onclick="setDateRange('this_month')">@Localizer["TMonth"]</button>
+                    <button type="button" class="btn btn-primary" onclick="setDateRange('this_year')">@Localizer["TYear"]</button>
+                    <button type="button" class="btn btn-primary" onclick="setDateRange('last_week')">@Localizer["LWeek"]</button>
+                    <button type="button" class="btn btn-primary" onclick="setDateRange('last_month')">@Localizer["LMonth"]</button>
+                    <button type="button" class="btn btn-primary" onclick="setDateRange('last_year')">@Localizer["LYear"]</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row m-2">
+        <form asp-controller="AwesomeReport" asp-action="GenerateProjectAwesomeReport" method="post">
+            <div class="container-fluid">
+                <div class="form-group m-1">
+                    <label asp-for="projectId">@Localizer["Project"]</label>
+                    <select asp-for="projectId" class="form-select form-select-lg">
+                        @foreach (var project in Model.projects)
                         {
-                            <option value="1">@item</option>
+                            <option value="@project.Id">@project.Name</option>
                         }
                     </select>
-                    <label class="form-label m-2">Time:</label>
-                    <select class="form-select" aria-label="Default select example">
-                        <option value="1">This month</option>
-                        <option value="2">This week</option>
-                        <option value="3">This year</option>
-                        <option value="4">Last month</option>
-                        <option value="5">Last week</option>
-                        <option value="6">Last year</option>
-                        <option value="7">All the time</option>
-                    </select>
-                    <button class="btn btn-success mt-2">Generate</button>
-                </li>
-                <li>
-                    <h3>Okres czasu</h3>
-                    <table class="table-info">
-                        <thead>
-                            <tr>
-                                <th scope="col">Project</th>
-                                <th scope="col">Total Time</th>
-                                <th scope="col">Total Cost</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in list)
-                            {
-                                <tr>
-                                    <td>Project A</td>
-                                    <td>20 hours</td>
-                                    <td>$500</td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </li>
-            </ul>
+                    <span asp-validation-for="projectId" class="text-danger"></span>
+                </div>
+                <div class="row">
+                    <div class="form-group m-1 col-sm-5">
+                        <label asp-for="fromDate">@Localizer["From"]</label>
+                        <input asp-for="fromDate" type="date" class="form-control" />
+                        <span asp-validation-for="fromDate" class="text-danger"></span>
+                    </div>
+                    <div class="form-group m-1  col-sm-5">
+                        <label asp-for="toDate">@Localizer["To"]</label>
+                        <input asp-for="toDate" type="date" class="form-control" />
+                        <span asp-validation-for="toDate" class="text-danger"></span>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary m-1">@Localizer["GenerateRaportButton"]</button>
+
+            </div>
+
+        </form>
+    </div>
+
+    <div class="row my-2">
+        <div class="col-md-8">
+            <table class="table-info bg-opacity-25 bg-white rounded r-3">
+                <thead>
+                    <tr class="border-bottom">
+                        <th scope="col">Project</th>
+                        <th scope="col">Total Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in list)
+                    {
+                        <tr>
+                            <td>@item.Key</td>
+                            <td>@Math.Floor(item.Value.TotalHours) h @item.Value.Minutes m</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
 
         </div>
-        <div class="col-7">
-            <canvas id="myPieChart" width="400" height="400"></canvas>
-
+        <div class="col-md-4 my-2">
+            <canvas id="myPieChart" width="750" height="750"></canvas>
         </div>
 
 
@@ -73,8 +116,8 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     var ctx = document.getElementById('myPieChart').getContext('2d');
-    var myBarChart = new Chart(ctx, {
-        type: 'bar',  // Change to 'bar' for a bar chart
+    var myPieChart = new Chart(ctx, {
+        type: 'pie',
         data: {
             labels: @Html.Raw(Json.Serialize(labels)),
             datasets: [{
@@ -83,17 +126,144 @@
                     'rgba(255, 99, 132, 0.7)',
                     'rgba(54, 162, 235, 0.7)',
                     'rgba(255, 206, 86, 0.7)',
-                    'rgba(255, 241, 86, 0.7)'
+                    'rgba(255, 241, 86, 0.7)',
+                    'rgba(215, 99, 132, 0.7)',
+                    'rgba(154, 162, 235, 0.7)',
+                    'rgba(55, 206, 86, 0.7)',
+                    'rgba(5, 241, 86, 0.7)'
                 ],
                 borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(255, 241, 86, 1)'
+                    'rgba(255, 99, 132, 0.7)',
+                    'rgba(54, 162, 235, 0.7)',
+                    'rgba(255, 206, 86, 0.7)',
+                    'rgba(255, 241, 86, 0.7)',
+                    'rgba(215, 99, 132, 0.7)',
+                    'rgba(154, 162, 235, 0.7)',
+                    'rgba(55, 206, 86, 0.7)',
+                    'rgba(5, 241, 86, 0.7)'
                 ],
                 borderWidth: 1
             }]
+        },
+        options: {
+            plugins: {
+                legend: {
+                    display: false
+                }
+            }
         }
-
     });
+</script>
+<script>
+    function setDateRange(range) {
+        var fromDateInputs = document.querySelectorAll('input[name="fromDate"]');
+        var toDateInputs = document.querySelectorAll('input[name="toDate"]');
+        var today = new Date();
+        var dayOfWeek = today.getDay();
+        var diff = today.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1);
+        var monday = getPreviousMonday();
+
+        switch (range) {
+            case 'this_week':
+                fromDateInputs.forEach(function (input) {
+                    input.value = formatDate(monday);
+                });
+                toDateInputs.forEach(function (input) {
+                    input.value = formatDate(new Date());
+                });
+                break;
+            case 'this_month':
+                var firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+                var lastDayOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+                fromDateInputs.forEach(function (input) {
+                    input.value = formatDate(firstDayOfMonth);
+                });
+                toDateInputs.forEach(function (input) {
+                    input.value = formatDate(lastDayOfMonth);
+                });
+                break;
+            case 'last_month':
+                var firstDayOfLastMonth = new Date(today.getFullYear(), today.getMonth() - 1, 1);
+                var lastDayOfLastMonth = new Date(today.getFullYear(), today.getMonth(), 0);
+                fromDateInputs.forEach(function (input) {
+                    input.value = formatDate(firstDayOfLastMonth);
+                });
+                toDateInputs.forEach(function (input) {
+                    input.value = formatDate(lastDayOfLastMonth);
+                });
+                break;
+            case 'last_week':
+                var lastMonday = getMondayBeforeLast();
+                var lastSunday = getLastSunday();
+                fromDateInputs.forEach(function (input) {
+                    input.value = formatDate(lastMonday);
+                });
+                toDateInputs.forEach(function (input) {
+                    input.value = formatDate(lastSunday);
+                });
+                break;
+            case 'this_year':
+                var firstDayOfYear = new Date(today.getFullYear(), 0, 1);
+                var lastDayOfYear = new Date(today.getFullYear(), 11, 31);
+                fromDateInputs.forEach(function (input) {
+                    input.value = formatDate(firstDayOfYear);
+                });
+                toDateInputs.forEach(function (input) {
+                    input.value = formatDate(lastDayOfYear);
+                });
+                break;
+            case 'last_year':
+                var firstDayOfLastYear = new Date(today.getFullYear() - 1, 0, 1);
+                var lastDayOfLastYear = new Date(today.getFullYear() - 1, 11, 31);
+                fromDateInputs.forEach(function (input) {
+                    input.value = formatDate(firstDayOfLastYear);
+                });
+                toDateInputs.forEach(function (input) {
+                    input.value = formatDate(lastDayOfLastYear);
+                });
+                break;
+            default:
+                break;
+        }
+    }
+
+    function formatDate(date) {
+        var yyyy = date.getFullYear();
+        var mm = String(date.getMonth() + 1).padStart(2, '0');
+        var dd = String(date.getDate()).padStart(2, '0');
+        return yyyy + '-' + mm + '-' + dd;
+    }
+
+    function getPreviousMonday() {
+        var today = new Date();
+        var dayOfWeek = today.getDay();
+
+        var daysSincePreviousMonday = (dayOfWeek - 1 + 7) % 7;
+
+        var daysToSubtract = daysSincePreviousMonday === 0 ? 7 : daysSincePreviousMonday;
+
+        today.setDate(today.getDate() - daysToSubtract);
+
+        return today;
+    }
+
+    function getMondayBeforeLast() {
+        var previousMonday = getPreviousMonday();
+        var dayOfWeek = previousMonday.getDay();
+
+        previousMonday.setDate(previousMonday.getDate() - 7);
+
+        return previousMonday;
+    }
+
+    function getLastSunday() {
+        var today = new Date();
+        var dayOfWeek = today.getDay();
+
+        var daysToSubtract = dayOfWeek;
+
+        var lastSunday = new Date(today.getFullYear(), today.getMonth(), today.getDate() - daysToSubtract);
+
+        return lastSunday;
+    }
 </script>

@@ -77,4 +77,51 @@ public class AwesomeReportController : Controller
 
         return View("UserReport", dto);
     }
+
+    [Authorize(Roles = "User")]
+    public async Task<IActionResult> ProjectReport()
+    {
+        if (!HttpContext.User.Claims.TryGetAuthenticatedUserId(out var accountId))
+        {
+            return RedirectToAction("Index", "Home");
+        }
+
+        var userId = await _accountServices.GetUserIdFromAccountId(accountId);
+
+        var dto = new GenerateDataDto()
+        {
+            userId = userId,
+            fromDate = DateTime.Now.AddMonths(-1),
+            toDate = DateTime.Now,
+            projects = await _projectServices.GetAllUserProjectsFromOrganizationWhereIsOwnerOrManager(userId),
+            organizations = await _organizationServices.GetAllUserOrganizationWhereIsManagerOrOwner(userId)
+        };
+
+        dto.projectId = dto.projects.FirstOrDefault().Id;
+
+        if(dto.projectId != null)
+        {
+            var data = await _excelRaportServices.GenerateDataProject(dto);
+            dto.projectData = data;
+        }
+
+        return View(dto);
+    }
+    [HttpPost]
+    public async Task<IActionResult> GenerateProjectAwesomeReport(GenerateDataDto dto)
+    {
+        if (!HttpContext.User.Claims.TryGetAuthenticatedUserId(out var accountId))
+        {
+            return RedirectToAction("Index", "Home");
+        }
+
+        dto.userId = await _accountServices.GetUserIdFromAccountId(accountId);
+
+        var data = await _excelRaportServices.GenerateDataProject(dto);
+
+        dto.projectData = data;
+
+
+        return View("UserReport", dto);
+    }
 }
