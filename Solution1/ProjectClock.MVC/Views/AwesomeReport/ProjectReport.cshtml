@@ -8,7 +8,7 @@
 @{
     var labels = new List<string>() { };
     var data = new List<double>() { };
-    var list = new Dictionary<string, TimeSpan>() { };
+    var list = new List<LabelPlusTimeSpan>() { };
     var userDatas = Model.projectData.UserData;
     var projectDataTotalHoursSum = userDatas.Select(pd => pd.TotalTime.TotalHours).Sum();
     foreach (var userData in userDatas)
@@ -16,10 +16,15 @@
         if (userData.TotalTime.TotalSeconds > 60)
         {
             data.Add(Math.Round((userData.TotalTime.TotalHours / projectDataTotalHoursSum), 2) * 100);
-            labels.Add(userData.Name);
-            list.Add(userData.Name, userData.TotalTime);
-        }
+            labels.Add($"{userData.Name} {userData.Surname}");
+            list.Add(new LabelPlusTimeSpan()
+                    {
+                        Name = userData.Name,
+                        Surname = userData.Surname,
+                        Time = userData.TotalTime
+                    });
     }
+}
 }
 
 <style>
@@ -94,8 +99,8 @@
                     @foreach (var item in list)
                     {
                         <tr>
-                            <td>@item.Key</td>
-                            <td>@Math.Floor(item.Value.TotalHours) h @item.Value.Minutes m</td>
+                            <td>@item.Name @item.Surname</td>
+                            <td>@Math.Floor(item.Time.TotalHours) h @item.Time.Minutes m</td>
                         </tr>
                     }
                 </tbody>
