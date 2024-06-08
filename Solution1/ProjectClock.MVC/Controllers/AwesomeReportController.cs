@@ -129,4 +129,53 @@ public class AwesomeReportController : Controller
 
         return View("ProjectReport", dto);
     }
+
+    [Authorize(Roles = "User")]
+    public async Task<IActionResult> OrganizationReport()
+    {
+        if (!HttpContext.User.Claims.TryGetAuthenticatedUserId(out var accountId))
+        {
+            return RedirectToAction("Index", "Home");
+        }
+
+        var userId = await _accountServices.GetUserIdFromAccountId(accountId);
+
+        var dto = new GenerateDataDto()
+        {
+            userId = userId,
+            fromDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1),
+            toDate = DateTime.Now,
+            projects = await _projectServices.GetAllUserProjectsFromOrganizationWhereIsOwnerOrManager(userId),
+            organizations = await _organizationServices.GetAllUserOrganizationWhereIsManagerOrOwner(userId)
+        };
+
+        dto.organizationId = dto.organizations.FirstOrDefault().OrganizationId;
+
+        if (dto.organizationId != null)
+        {
+            var data = await _excelRaportServices.GenerateDataOrganization(dto);
+            dto.organizationData = data;
+        }
+
+        return View(dto);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> GenerateOrganizationAwesomeReport(GenerateDataDto dto)
+    {
+        if (!HttpContext.User.Claims.TryGetAuthenticatedUserId(out var accountId))
+        {
+            return RedirectToAction("Index", "Home");
+        }
+
+        dto.userId = await _accountServices.GetUserIdFromAccountId(accountId);
+        dto.projects = await _projectServices.GetAllUserProjectsFromOrganizationWhereIsOwnerOrManager(dto.userId);
+        dto.organizations = await _organizationServices.GetAllUserOrganizationWhereIsManagerOrOwner(dto.userId);
+
+        var data = await _excelRaportServices.GenerateDataOrganization(dto);
+        dto.organizationData = data;
+
+
+        return View("OrganizationReport", dto);
+    }
 }
