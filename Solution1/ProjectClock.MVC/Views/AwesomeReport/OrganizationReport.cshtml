@@ -8,11 +8,11 @@
 @{
     var labelsUser = new List<string>() { };
     var dataUser = new List<double>() { };
-    var listUser = new Dictionary<string, TimeSpan>() { };
+    var listUser = new List<LabelPlusTimeSpan>() { };
 
     var labelsProject = new List<string>() { };
     var dataProject = new List<double>() { };
-    var listProject = new Dictionary<string, TimeSpan>() { };
+    var listProject = new List<LabelPlusTimeSpan>() { };
 
     var userDatas = Model.organizationData.OrganizationDataUsers;
     var projectDatas = Model.organizationData.OrganizationDataProjects;
@@ -24,7 +24,11 @@
         {
             dataProject.Add(Math.Round((projectData.TotalTime.TotalHours / projectDataTotalHoursSum), 2) * 100);
             labelsProject.Add(projectData.Name);
-            listProject.Add(projectData.Name, projectData.TotalTime);
+            listProject.Add(new LabelPlusTimeSpan()
+            {
+                        Name = projectData.Name,
+                        Time = projectData.TotalTime
+            });
         }
     }
 
@@ -33,8 +37,13 @@
         if (userData.TotalTime.TotalSeconds > 60)
         {
             dataUser.Add(Math.Round((userData.TotalTime.TotalHours / projectDataTotalHoursSum), 2) * 100);
-            labelsUser.Add(userData.Name);
-            listUser.Add(userData.Name, userData.TotalTime);
+            labelsUser.Add($"{userData.Name} {userData.Surname}");
+            listUser.Add(new LabelPlusTimeSpan()
+                    {
+                        Name = userData.Name,
+                        Surname = userData.Surname,
+                        Time = userData.TotalTime
+                    });
         }
     }
 }
@@ -44,11 +53,11 @@
         width: 100%;
     }
 
-    .table-info th, .table-info td {
-        width: 75%;
-        text-align: left;
-        padding: 7px;
-    }
+        .table-info th, .table-info td {
+            width: 75%;
+            text-align: left;
+            padding: 7px;
+        }
 </style>
 
 <h1 class="fw-bold mb-4 text-center">Your raport:</h1>
@@ -112,8 +121,8 @@
                     @foreach (var item in listProject)
                     {
                         <tr>
-                            <td>@item.Key</td>
-                            <td>@Math.Floor(item.Value.TotalHours) h @item.Value.Minutes m</td>
+                            <td>@item.Name</td>
+                            <td>@Math.Floor(item.Time.TotalHours) h @item.Time.Minutes m</td>
                         </tr>
                     }
                 </tbody>
@@ -137,8 +146,8 @@
                     @foreach (var item in listUser)
                     {
                         <tr>
-                            <td>@item.Key</td>
-                            <td>@Math.Floor(item.Value.TotalHours) h @item.Value.Minutes m</td>
+                            <td>@item.Name @item.Surname</td>
+                            <td>@Math.Floor(item.Time.TotalHours) h @item.Time.Minutes m</td>
                         </tr>
                     }
                 </tbody>
