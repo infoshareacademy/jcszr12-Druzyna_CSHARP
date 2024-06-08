@@ -10,11 +10,12 @@
     var data = new List<double>() { };
     var list = new Dictionary<string, TimeSpan>() { };
     var projectDatas = Model.userData.ProjectData;
+    var projectDataTotalHoursSum = projectDatas.Select(pd => pd.TotalTime.TotalHours).Sum();
     foreach (var projectData in projectDatas)
     {
         if (projectData.TotalTime.TotalSeconds > 60)
         {
-            data.Add(projectData.TotalTime.TotalHours);
+            data.Add(Math.Round((projectData.TotalTime.TotalHours / projectDataTotalHoursSum),2)*100);
             labels.Add(projectData.Name);
             list.Add(projectData.Name, projectData.TotalTime);
         }
@@ -26,10 +27,10 @@
         width: 100%;
     }
 
-        .table-info th, .table-info td {
+    .table-info th, .table-info td {
             width: 75%;
             text-align: left;
-            padding: 2px;
+            padding: 7px;
         }
 </style>
 
@@ -67,12 +68,12 @@
                 <button type="submit" class="btn btn-primary m-1">@Localizer["GenerateRaportButton"]</button>
         </form>
     </div>
-    
-    <div class="row m-2">
+
+    <div class="row my-2">
         <div class="col-8">
-            <table class="table-info">
+            <table class="table-info bg-opacity-25 bg-white rounded r-3">
                 <thead>
-                    <tr>
+                    <tr class="border-bottom">
                         <th scope="col">Project</th>
                         <th scope="col">Total Time</th>
                     </tr>
@@ -90,7 +91,7 @@
 
 
         </div>
-        <div class="col-4">
+        <div class="col-4 my-2">
             <canvas id="myPieChart" width="400" height="400"></canvas>
 
         </div>
@@ -148,7 +149,7 @@
         var today = new Date();
         var dayOfWeek = today.getDay();
         var diff = today.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1);
-        var monday = getLastMonday();
+        var monday = getPreviousMonday();
 
         switch (range) {
             case 'this_week':
@@ -180,7 +181,7 @@
                 });
                 break;
             case 'last_week':
-                var lastMonday = getPreviousMonday();
+                var lastMonday = getMondayBeforeLast();
                 var lastSunday = getLastSunday();
                 fromDateInputs.forEach(function (input) {
                     input.value = formatDate(lastMonday);
@@ -216,22 +217,9 @@
 
     function formatDate(date) {
         var yyyy = date.getFullYear();
-        var mm = String(date.getMonth() + 1).padStart(2, '0'); 
+        var mm = String(date.getMonth() + 1).padStart(2, '0');
         var dd = String(date.getDate()).padStart(2, '0');
         return yyyy + '-' + mm + '-' + dd;
-    }
-
-    function getLastMonday() {
-        var today = new Date();
-        var dayOfWeek = today.getDay(); 
-
-        var daysSinceLastMonday = (dayOfWeek - 1 + 7) % 7;
-
-        var daysToSubtract = daysSinceLastMonday === 0 ? 7 : daysSinceLastMonday;
-
-        today.setDate(today.getDate() - daysToSubtract);
-
-        return today;
     }
 
     function getPreviousMonday() {
@@ -247,12 +235,21 @@
         return today;
     }
 
+    function getMondayBeforeLast() {
+        var previousMonday = getPreviousMonday();
+        var dayOfWeek = previousMonday.getDay();
+
+        previousMonday.setDate(previousMonday.getDate() - 7);
+
+        return previousMonday;
+    }
+
     function getLastSunday() {
         var today = new Date();
         var dayOfWeek = today.getDay();
 
         var daysToSubtract = dayOfWeek;
-        
+
         var lastSunday = new Date(today.getFullYear(), today.getMonth(), today.getDate() - daysToSubtract);
 
         return lastSunday;
