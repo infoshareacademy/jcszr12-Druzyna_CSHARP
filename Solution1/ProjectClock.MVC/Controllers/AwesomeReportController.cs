@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using DocumentFormat.OpenXml.Spreadsheet;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ProjectClock.BusinessLogic.Services.AccountServices;
 using ProjectClock.BusinessLogic.Services.ExcelRaportServices;
 using ProjectClock.BusinessLogic.Services.ExcelServices;
 using ProjectClock.BusinessLogic.Services.OrganizationServices;
 using ProjectClock.BusinessLogic.Services.ProjectServices;
+using ProjectClock.Database.Entities;
 using ProjectClock.MVC.Extensions;
 
 namespace ProjectClock.MVC.Controllers;
@@ -47,7 +49,7 @@ public class AwesomeReportController : Controller
         var dto = new GenerateDataDto()
         {
             userId = userId,
-            fromDate = DateTime.Now.AddMonths(-1),
+            fromDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1),
             toDate = DateTime.Now,
             projects = await _projectServices.GetAllUserProjectsFromOrganizationWhereIsOwnerOrManager(userId),
             organizations = await _organizationServices.GetAllUserOrganizationWhereIsManagerOrOwner(userId)
@@ -76,5 +78,55 @@ public class AwesomeReportController : Controller
 
 
         return View("UserReport", dto);
+    }
+
+    [Authorize(Roles = "User")]
+    public async Task<IActionResult> ProjectReport()
+    {
+        if (!HttpContext.User.Claims.TryGetAuthenticatedUserId(out var accountId))
+        {
+            return RedirectToAction("Index", "Home");
+        }
+
+        var userId = await _accountServices.GetUserIdFromAccountId(accountId);
+
+        var dto = new GenerateDataDto()
+        {
+            userId = userId,
+            fromDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1),
+            toDate = DateTime.Now,
+            projects = await _projectServices.GetAllUserProjectsFromOrganizationWhereIsOwnerOrManager(userId),
+            organizations = await _organizationServices.GetAllUserOrganizationWhereIsManagerOrOwner(userId)
+        };
+
+        dto.projectId = dto.projects.FirstOrDefault().Id;
+
+        if(dto.projectId != null)
+        {
+            var data = await _excelRaportServices.GenerateDataProject(dto);
+            dto.projectData = data;
+        }
+
+        return View(dto);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> GenerateProjectAwesomeReport(GenerateDataDto dto)
+    {
+        if (!HttpContext.User.Claims.TryGetAuthenticatedUserId(out var accountId))
+        {
+            return RedirectToAction("Index", "Home");
+        }
+
+        dto.userId = await _accountServices.GetUserIdFromAccountId(accountId);
+        dto.projects = await _projectServices.GetAllUserProjectsFromOrganizationWhereIsOwnerOrManager(dto.userId);
+        dto.organizations = await _organizationServices.GetAllUserOrganizationWhereIsManagerOrOwner(dto.userId);
+
+        var data = await _excelRaportServices.GenerateDataProject(dto);
+
+        dto.projectData = data;
+
+
+        return View("ProjectReport", dto);
     }
 }

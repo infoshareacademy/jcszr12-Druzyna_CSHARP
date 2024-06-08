@@ -47,7 +47,7 @@ namespace ProjectClock.MVC.Controllers
             var dto = new GenerateDataDto()
             {
                 userId = userId,
-                fromDate = DateTime.Now.AddMonths(-1),
+                fromDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1),
                 toDate = DateTime.Now,
                 projects = await _projectServices.GetAllUserProjectsFromOrganizationWhereIsOwnerOrManager(userId),
                 organizations = await _organizationServices.GetAllUserOrganizationWhereIsManagerOrOwner(userId)
