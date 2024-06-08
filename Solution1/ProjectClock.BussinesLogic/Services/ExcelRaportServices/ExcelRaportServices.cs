@@ -49,8 +49,8 @@ public partial class ExcelRaportServices : IExcelRaportServices
                 .Where(wt => wt.UserId == dto.userId
                         && wt.EndTime != null
                         && wt.ProjectId == project.Id
-                        && wt.StartTime >= dto.fromDate
-                        && wt.StartTime <= dto.toDate)
+                        && wt.StartTime.Value.Date >= dto.fromDate.Date
+                        && dto.toDate.Date >= wt.StartTime.Value.Date)
                 .ToList();
 
             if(worktimes.Any())

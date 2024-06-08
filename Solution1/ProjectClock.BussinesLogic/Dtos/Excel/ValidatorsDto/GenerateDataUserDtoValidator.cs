@@ -8,10 +8,10 @@ namespace ProjectClock.BusinessLogic.Dtos.Excel.ValidatorsDto
         public GenerateDataUserDtoValidator()
         {
             RuleFor(d => d.fromDate)
-                .GreaterThanOrEqualTo(d => d.toDate)
+                .LessThanOrEqualTo(d => d.toDate)
                 .WithMessage("Date 'From' must be before 'To'");
             RuleFor(d => d.toDate)
-               .LessThanOrEqualTo(d => d.fromDate)
+               .GreaterThanOrEqualTo(d => d.fromDate)
                .WithMessage("Date 'To' must be after 'Before'");
         }
     }
