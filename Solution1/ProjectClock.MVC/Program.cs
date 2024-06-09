@@ -14,7 +14,6 @@ namespace ProjectClock.MVC
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
             builder.Services.AddControllersWithViews()
                 .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
                 .AddRazorOptions(options =>
@@ -73,9 +72,6 @@ namespace ProjectClock.MVC
 
             var scope = app.Services.CreateScope();
 
-
-
-            // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
             {
                 app.UseExceptionHandler("/Home/Error");
