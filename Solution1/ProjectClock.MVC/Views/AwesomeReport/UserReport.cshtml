@@ -24,9 +24,9 @@
     {
         if (organizationData.TotalTime.TotalSeconds > 60)
         {
-            dataProject.Add(Math.Round((organizationData.TotalTime.TotalHours / projectDataTotalHoursSum), 2) * 100);
-            labelsProject.Add(organizationData.Name);
-            listProject.Add(new LabelPlusTimeSpan()
+            dataOrganization.Add(Math.Round((organizationData.TotalTime.TotalHours / projectDataTotalHoursSum), 2) * 100);
+            labelsOrganization.Add(organizationData.Name);
+            listOrganization.Add(new LabelPlusTimeSpan()
                     {
                         Name = organizationData.Name,
                         Time = organizationData.TotalTime
@@ -47,7 +47,6 @@
                     });
         }
     }
-    var xd = 0;
 }
 
 <style>
@@ -78,7 +77,7 @@
             </div>
         </div>
     </div>
-    <div class="row m-2">
+    <div class="row m-2 border-bottom">
         <form asp-controller="AwesomeReport" asp-action="GenerateUserAwesomeReport" method="post">
             <div class="container-fluid">
                 <div class="row">
@@ -102,7 +101,7 @@
             <table class="table-info bg-opacity-25 bg-white rounded r-3">
                 <thead>
                     <tr class="border-bottom">
-                        <th scope="col">User</th>
+                        <th scope="col">Organization</th>
                         <th scope="col">Total Time</th>
                     </tr>
                 </thead>
@@ -118,7 +117,7 @@
             </table>
         </div>
         <div class="col-md-4 my-2">
-            <canvas id="myPieChart" width="750" height="750"></canvas>
+            <canvas id="myPieChartOrg" width="750" height="750"></canvas>
         </div>
     </div>
 
@@ -127,7 +126,7 @@
             <table class="table-info bg-opacity-25 bg-white rounded r-3">
                 <thead>
                     <tr class="border-bottom">
-                        <th scope="col">User</th>
+                        <th scope="col">Project</th>
                         <th scope="col">Total Time</th>
                     </tr>
                 </thead>
@@ -143,7 +142,7 @@
             </table>
         </div>
         <div class="col-md-4 my-2">
-            <canvas id="myPieChartOrg" width="750" height="750"></canvas>
+            <canvas id="myPieChart" width="750" height="750"></canvas>
         </div>
     </div>
 
