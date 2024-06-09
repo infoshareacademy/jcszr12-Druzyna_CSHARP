@@ -6,24 +6,48 @@
 @inject IViewLocalizer Localizer
 
 @{
-    var labels = new List<string>() { };
-    var data = new List<double>() { };
-    var list = new List<LabelPlusTimeSpan>() { };
+    var labelsProject = new List<string>() { };
+    var dataProject = new List<double>() { };
+    var listProject = new List<LabelPlusTimeSpan>() { };
+
+    var labelsOrganization = new List<string>() { };
+    var dataOrganization = new List<double>() { };
+    var listOrganization = new List<LabelPlusTimeSpan>() { };
+
     var projectDatas = Model.userData.ProjectData;
     var projectDataTotalHoursSum = projectDatas.Select(pd => pd.TotalTime.TotalHours).Sum();
+
+    var organizationDatas = Model.userData.OrganizationData;
+
+
+    foreach (var organizationData in organizationDatas)
+    {
+        if (organizationData.TotalTime.TotalSeconds > 60)
+        {
+            dataProject.Add(Math.Round((organizationData.TotalTime.TotalHours / projectDataTotalHoursSum), 2) * 100);
+            labelsProject.Add(organizationData.Name);
+            listProject.Add(new LabelPlusTimeSpan()
+                    {
+                        Name = organizationData.Name,
+                        Time = organizationData.TotalTime
+                    });
+        }
+    }
+
     foreach (var projectData in projectDatas)
     {
         if (projectData.TotalTime.TotalSeconds > 60)
         {
-            data.Add(Math.Round((projectData.TotalTime.TotalHours / projectDataTotalHoursSum),2)*100);
-            labels.Add(projectData.Name);
-            list.Add(new LabelPlusTimeSpan()
+            dataProject.Add(Math.Round((projectData.TotalTime.TotalHours / projectDataTotalHoursSum), 2) * 100);
+            labelsProject.Add(projectData.Name);
+            listProject.Add(new LabelPlusTimeSpan()
                     {
                         Name = projectData.Name,
                         Time = projectData.TotalTime
                     });
         }
     }
+    var xd = 0;
 }
 
 <style>
@@ -31,7 +55,7 @@
         width: 100%;
     }
 
-    .table-info th, .table-info td {
+        .table-info th, .table-info td {
             width: 75%;
             text-align: left;
             padding: 7px;
@@ -83,7 +107,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var item in list)
+                    @foreach (var item in listOrganization)
                     {
                         <tr>
                             <td>@item.Name</td>
@@ -92,14 +116,35 @@
                     }
                 </tbody>
             </table>
-
-
         </div>
         <div class="col-md-4 my-2">
             <canvas id="myPieChart" width="750" height="750"></canvas>
         </div>
+    </div>
 
-
+    <div class="row my-2">
+        <div class="col-md-8">
+            <table class="table-info bg-opacity-25 bg-white rounded r-3">
+                <thead>
+                    <tr class="border-bottom">
+                        <th scope="col">User</th>
+                        <th scope="col">Total Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in listProject)
+                    {
+                        <tr>
+                            <td>@item.Name</td>
+                            <td>@Math.Floor(item.Time.TotalHours) h @item.Time.Minutes m</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-4 my-2">
+            <canvas id="myPieChartOrg" width="750" height="750"></canvas>
+        </div>
     </div>
 
 </div>
@@ -110,9 +155,9 @@
     var myPieChart = new Chart(ctx, {
         type: 'pie',
         data: {
-            labels: @Html.Raw(Json.Serialize(labels)),
+            labels: @Html.Raw(Json.Serialize(labelsProject)),
             datasets: [{
-                data: @Html.Raw(Json.Serialize(data)),
+                data: @Html.Raw(Json.Serialize(dataProject)),
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.7)',
                     'rgba(54, 162, 235, 0.7)',
@@ -145,6 +190,48 @@
         }
     });
 </script>
+
+<script>
+    var ctx = document.getElementById('myPieChartOrg').getContext('2d');
+    var myPieChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: @Html.Raw(Json.Serialize(labelsOrganization)),
+            datasets: [{
+                data: @Html.Raw(Json.Serialize(dataOrganization)),
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.7)',
+                    'rgba(54, 162, 235, 0.7)',
+                    'rgba(255, 206, 86, 0.7)',
+                    'rgba(255, 241, 86, 0.7)',
+                    'rgba(215, 99, 132, 0.7)',
+                    'rgba(154, 162, 235, 0.7)',
+                    'rgba(55, 206, 86, 0.7)',
+                    'rgba(5, 241, 86, 0.7)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 0.7)',
+                    'rgba(54, 162, 235, 0.7)',
+                    'rgba(255, 206, 86, 0.7)',
+                    'rgba(255, 241, 86, 0.7)',
+                    'rgba(215, 99, 132, 0.7)',
+                    'rgba(154, 162, 235, 0.7)',
+                    'rgba(55, 206, 86, 0.7)',
+                    'rgba(5, 241, 86, 0.7)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            plugins: {
+                legend: {
+                    display: false
+                }
+            }
+        }
+    });
+</script>
+
 <script>
     function setDateRange(range) {
         var fromDateInputs = document.querySelectorAll('input[name="fromDate"]');

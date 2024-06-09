@@ -64,6 +64,24 @@ public partial class ExcelRaportServices : IExcelRaportServices
             
             data.ProjectData.Add(raportData);
         }
+
+        var organizationList = data.ProjectData.Select(pd => pd.OrganizationName).ToList().Distinct();
+        foreach (var organization in organizationList)
+        {
+            var raportData = new OrganizationWithTimeDto()
+            {
+                Name = organization
+            };
+
+            var workingtimes = data.ProjectData.Where(pd => pd.OrganizationName == organization).Select(pd => pd.TotalTime).ToList();
+            foreach(var workingtime in workingtimes)
+            {
+                raportData.TotalTime += workingtime;
+            }
+
+            data.OrganizationData.Add(raportData);
+        }
+
         return data;
     }
     public async Task<DataForExcelProjectRaportDto> GenerateDataProject(GenerateDataDto dto)
@@ -102,8 +120,8 @@ public partial class ExcelRaportServices : IExcelRaportServices
                 .Where(wt => wt.UserId == user.Id
                         && wt.EndTime != null
                         && wt.ProjectId == project.Id
-                        && wt.StartTime >= dto.fromDate
-                        && wt.StartTime <= dto.toDate)
+                        && wt.StartTime.Value.Date >= dto.fromDate.Date
+                        && dto.toDate.Date >= wt.StartTime.Value.Date)
                 .ToList();
             if (worktimes.Any())
             {
@@ -150,8 +168,8 @@ public partial class ExcelRaportServices : IExcelRaportServices
                 .Where(wt => 
                            wt.EndTime != null
                         && wt.ProjectId == project.Id
-                        && wt.StartTime >= dto.fromDate
-                        && wt.StartTime <= dto.toDate)
+                        && wt.StartTime.Value.Date >= dto.fromDate.Date
+                        && dto.toDate.Date >= wt.StartTime.Value.Date)
                 .ToList();
 
             if (worktimes.Any())
@@ -190,8 +208,8 @@ public partial class ExcelRaportServices : IExcelRaportServices
                            wt.EndTime != null
                         && wt.UserId == organizationUser.Id
                         && organization.Projects.Select(p => p.Id).Contains(wt.ProjectId)
-                        && wt.StartTime >= dto.fromDate
-                        && wt.StartTime <= dto.toDate)
+                        && wt.StartTime.Value.Date >= dto.fromDate.Date
+                        && dto.toDate.Date >= wt.StartTime.Value.Date)
                 .ToList();
 
             if (worktimes.Any())
