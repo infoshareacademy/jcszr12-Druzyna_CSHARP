@@ -26,5 +26,15 @@ namespace ProjectClock.BusinessLogic.Services.OrganizationUserServices
 
             return userOrganizations;
         }
+
+        public async Task<IEnumerable<User>> GetOrganizationUsers(int organizationId)
+        {
+            var organizationUsers = await _projectClockDbContext.OrganizationsUsers
+                .Where(ou => ou.OrganizationId == organizationId).Select(ou => ou.User).ToListAsync();
+
+            return organizationUsers;
+        }
+
+
     }
 }

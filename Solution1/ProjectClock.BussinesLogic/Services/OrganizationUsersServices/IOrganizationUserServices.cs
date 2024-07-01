@@ -6,4 +6,5 @@ public interface IOrganizationUserServices
 {
     bool IsUserAnOwner(int userId);
     Task<IEnumerable<Organization>> GetUserOrganizations(int userId);
+    Task<IEnumerable<User>> GetOrganizationUsers(int organizationId);
 }

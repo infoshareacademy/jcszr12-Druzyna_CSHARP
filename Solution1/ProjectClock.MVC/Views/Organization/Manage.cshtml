@@ -1,4 +1,4 @@
-﻿@model ProjectClock.BusinessLogic.Dtos.OrganizationDto.ManageOrganizationDto
+﻿@model ProjectClock.BusinessLogic.Dtos.OrganizationDto.ManageOrganizationDtoRefactor
 @{
     var noUsersMessage = TempData["NoUsersMessage"] as string;
     var userAddedMessage = TempData["UserAddedMessage"] as string;
@@ -19,13 +19,13 @@
 
 
 @{
-    if (Model.Organization is null)
+    if (Model.OrganizationNames is null)
     {
         <h1 class="fw-bold mb-4 text-center">Manage organization</h1>
     }
     else
     {
-        <h1 class="fw-bold mb-4 text-center">Manage organization @Model.Organization.Name</h1>
+        <h1 class="fw-bold mb-4 text-center">Manage organization @Model.OrganizationName</h1>
     }
 }
 
@@ -38,11 +38,12 @@
             <form asp-controller="Organization" asp-action="Choose" method="post">
                 <div class="mb-2">
                     <label for="selectedOrganization">Choose your organization</label>
+                    <input type="hidden" name="choseOraganization" value="@Model.ChooseOrganizations" /> <!-- Dodane pole ukryte -->
                     <select class="form-select form-select-sm" aria-label="Small select example" id="selectedOrganization" name="organizationId">
                         @{
-                            foreach (var organization in Model.Organizations)
+                            foreach (var chooseOrganizatioDto in Model.ChooseOrganizations)
                             {
-                                <option value="@organization.Id">@organization.Name</option>
+                                <option value="@chooseOrganizatioDto.OrganizationId">@chooseOrganizatioDto.OrganizationName</option>
                             }
                         }
                     </select>
@@ -53,7 +54,7 @@
     </div>
 
     @{
-        if (Model.AllUsers.Count != 0)
+        if (Model.OrganizationUserNames.Count != 0)
         {
             <div class="row">
                 <div class="col-md-3 col-3 mb-3 transparent-border col-md-3 transparent-border mx-auto" id="organizationSelect">
@@ -65,14 +66,14 @@
                     </form>
                 </div>
                 <div class="col-md-3 col-3 mb-3 transparent-border col-md-3 transparent-border mx-auto" id="organizationSelect">
-                    <form asp-controller="Organization" asp-action="Choose" method="post">
+                    <form asp-controller="Organization" asp-action="ChooseUser" method="post">
                         <label for="selectedOrganization">Choose user to manage</label>
                         <input type="hidden" name="organizationId" value="@Model.OrganizationId" /> <!-- Dodane pole ukryte -->
                         <select class="form-select form-select-sm" aria-label="Small select example" id="selectedOrganization" name="userId">
                             @{
-                                foreach (var user in Model.OrganizationUsers)
+                                foreach (var chooseUserDto in Model.ChooseUserDto)
                                 {
-                                    <option value="@user.Id">@user.Name</option>
+                                    <option value="@chooseUserDto.Id">@chooseUserDto.Name</option>
                                 }
                             }
                         </select>
@@ -82,21 +83,21 @@
                 <div class="col-md-3 col-3 mb-3 transparent-border col-md-3 transparent-border mx-auto" id="organizationSelect">
                     <form asp-controller="Organization" asp-action="Choose" method="post">
                         <label for="selectedOrganization">Remove from Organization</label>
-                        
+
                         <button type="submit" class="btn btn-outline-secondary text-center m-1">Remove</button>
                     </form>
                 </div>
                 <div class="col-md-3 col-3 mb-3 transparent-border col-md-3 transparent-border mx-auto" id="organizationSelect">
                     <form asp-controller="Organization" asp-action="Choose" method="post">
                         <label for="selectedOrganization">Set as Manager</label>
-                        
+
                         <button type="submit" class="btn btn-outline-secondary text-center m-1">Set</button>
                     </form>
                 </div>
             </div>
         }
     }
-    
+
 </div>
 
 @if (!string.IsNullOrEmpty(noUsersMessage))
