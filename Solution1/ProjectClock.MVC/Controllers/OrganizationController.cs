@@ -158,7 +158,7 @@ namespace ProjectClock.MVC.Controllers
 
             #region GettingOrganizationNamesAndIdsToDto
             /* pobranie organizacji użytkownika */
-            var organizations = await _organizationUserServices.GetUserOrganizations(userId);
+            var organizations = await _organizationUserServices.GetUserAsAOwnerOrganization(userId);
 
             /* wyselekcjonowanie nazw i id organizacji uzytkownia */
             List<string> organizationNames = organizations.Select(o => o.Name).ToList();
@@ -196,7 +196,10 @@ namespace ProjectClock.MVC.Controllers
         [HttpPost]
         public async Task<IActionResult> Choose(int organizationId)
         {
-            ManageOrganizationDtoRefactor model = new ManageOrganizationDtoRefactor();
+            var model = new ManageOrganizationDtoRefactor
+            {
+                SelectedOrganizationId = organizationId
+            };
 
             #region UserIdGetter
             /* pobranie id użytkownika */
@@ -283,7 +286,10 @@ namespace ProjectClock.MVC.Controllers
         [HttpPost]
         public async Task<IActionResult> InviteUser(int organizationId, string email)
         {
-            ManageOrganizationDtoRefactor model = new ManageOrganizationDtoRefactor();
+            var model = new ManageOrganizationDtoRefactor
+            {
+                SelectedOrganizationId = organizationId
+            };
 
             #region UserIdGetter
             /* pobranie id użytkownika */
@@ -348,29 +354,31 @@ namespace ProjectClock.MVC.Controllers
             {
                 var allUsersFromDatabase = await _userServices.GetAll();
                 bool userExist = allUsersFromDatabase.Any(u => u.Email == email);
-                
+
+             
 
                 if (!userExist)
                 {
-                    TempData["ErrorMessage"] = $"User with email {email} does not exist in our base.";
+                    TempData["NoUsersMessage"] = $"User with email {email} does not exist in our base.";
                 }
                 else
                 {
-                    
                     var newUser = allUsersFromDatabase.FirstOrDefault(u => u.Email == email);
                     int newUserId = newUser.Id;
 
-                    bool isAdded = await _organizationServices.AddUser(organizationId, newUserId);
-
-                    if (isAdded)
+                    if (await _organizationUserServices.IsUserSignedToOrganization(newUserId, organizationId))
                     {
-                        TempData["SuccessMessage"] = $"User with {email} was added to organization.";
-                        return View("Manage", model);
+                        TempData["userAlreadySignedMessage"] = $"User with email {email} is already signed to {chosenOrganizationName}.";
                     }
                     
-                }
+                    bool addingSucceeded = await _organizationServices.AddUser(organizationId, newUserId);
 
-                
+                    if (addingSucceeded)
+                    {
+                        TempData["userAddedMessage"] = $"User with {email} was added to organization.";
+                        return View("Manage", model);
+                    }
+                }
             }
             catch
             {
