@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using DocumentFormat.OpenXml.Office2010.Excel;
+using Microsoft.EntityFrameworkCore;
 using ProjectClock.Database;
 using ProjectClock.Database.Entities;
 
@@ -49,7 +50,30 @@ namespace ProjectClock.BusinessLogic.Services.OrganizationUserServices
             return userOrganizations;
         }
 
-        
+        public async Task<bool> RemoveUserFromOrganization(int userId, int organizationId)
+        {
+            try
+            {
+                var ouToRemove = _projectClockDbContext.OrganizationsUsers.FirstOrDefault(ou =>
+                    ou.OrganizationId == organizationId || ou.UserId == userId);
+
+                if (ouToRemove is null)
+                {
+                    return false;
+                }
+                else
+                {
+                    _projectClockDbContext.OrganizationsUsers.Remove(ouToRemove);
+                    await _projectClockDbContext.SaveChangesAsync();
+                    return true;
+                }
+
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
 
     }
 }

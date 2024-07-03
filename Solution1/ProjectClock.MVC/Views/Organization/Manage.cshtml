@@ -5,6 +5,8 @@
     var userAddedMessage = TempData["UserAddedMessage"] as string;
     var userAddFailedMessage = TempData["UserAddedFailedMessage"] as string;
     var noOrganizationChoosed = TempData["NoOrganizationChoosed"] as string;
+    var userRemoveFailedMessage = TempData["UserToRemoveIsAnOwnerOrManager"] as string;
+    var userRemoveSuccessMessage = TempData["UserRemovedSuccessfully"] as string;
 }
 
 <style>
@@ -42,9 +44,9 @@
                     <input type="hidden" name="choseOraganization" value="@Model.ChooseOrganizations" /> <!-- Dodane pole ukryte -->
                     <select class="form-select form-select-sm" aria-label="Small select example" id="selectedOrganization" name="organizationId">
                         @{
-                            foreach (var chooseOrganizatioDto in Model.ChooseOrganizations)
+                            foreach (var chooseOrganizationDto in Model.ChooseOrganizations)
                             {
-                                <option value="@chooseOrganizatioDto.OrganizationId">@chooseOrganizatioDto.OrganizationName</option>
+                                <option value="@chooseOrganizationDto.OrganizationId">@chooseOrganizationDto.OrganizationName</option>
                             }
                         }
                     </select>
@@ -61,36 +63,24 @@
                 <div class="col-md-3 col-3 mb-3 transparent-border mx-auto" id="organizationSelect">
                     <form asp-controller="Organization" asp-action="InviteUser" method="post">
                         <label for="inviteEmail">Invite to organization</label>
-                        <input type="hidden" name="organizationId" value="@Model.SelectedOrganizationId" /> <!-- Use selected organization ID -->
+                        <input type="hidden" name="organizationId" value="@Model.SelectedOrganizationId"/> <!-- Use selected organization ID -->
                         <input type="email" class="form-control form-control-sm" id="inviteEmail" placeholder="Enter email here" aria-label=".form-control-sm example" name="email">
                         <button type="submit" class="btn btn-outline-secondary text-center m-1" style="width: 100px;">Invite</button>
                     </form>
                 </div>
-                <div class="col-md-3 col-3 mb-3 transparent-border mx-auto" id="organizationSelect">
-                    <form asp-controller="Organization" asp-action="ChooseUser" method="post">
-                        <label for="selectedUser">Choose user to manage</label>
-                        <input type="hidden" name="organizationId" value="@Model.SelectedOrganizationId" /> <!-- Use selected organization ID -->
-                        <select class="form-select form-select-sm" aria-label="Small select example" id="selectedUser" name="userId">
-                            @foreach (var chooseUserDto in Model.ChooseUserDto)
-                            {
-                                <option value="@chooseUserDto.Id">@chooseUserDto.Name</option>
+                <div class="col-md-3 col-3 mb-3 transparent-border col-md-3 transparent-border mx-auto" id="organizationSelect">
+                    <form asp-controller="Organization" asp-action="RemoveUserFromOrganization" method="post">
+                        <label for="selectedOrganization">Choose user to remove</label>
+                        <input type="hidden" name="organizationId" value="@Model.SelectedOrganizationId"/> <!-- Dodane pole ukryte -->
+                        <select class="form-select form-select-sm" aria-label="Small select example" id="selectedOrganization" name="userToRemoveId">
+                            @{
+                                foreach (var chooseUserDto in Model.ChooseUserDto)
+                                {
+                                    <option value="@chooseUserDto.Id">@chooseUserDto.Name</option>
+                                }
                             }
                         </select>
-                        <button type="submit" class="btn btn-outline-secondary text-center m-1">Choose</button>
-                    </form>
-                </div>
-                <div class="col-md-3 col-3 mb-3 transparent-border col-md-3 transparent-border mx-auto" id="organizationSelect">
-                    <form asp-controller="Organization" asp-action="Choose" method="post">
-                        <label for="selectedOrganization">Remove from Organization</label>
-
                         <button type="submit" class="btn btn-outline-secondary text-center m-1">Remove</button>
-                    </form>
-                </div>
-                <div class="col-md-3 col-3 mb-3 transparent-border col-md-3 transparent-border mx-auto" id="organizationSelect">
-                    <form asp-controller="Organization" asp-action="Choose" method="post">
-                        <label for="selectedOrganization">Set as Manager</label>
-
-                        <button type="submit" class="btn btn-outline-secondary text-center m-1">Set</button>
                     </form>
                 </div>
             </div>
@@ -127,5 +117,17 @@
 {
     <div class="alert alert-danger" role="alert">
         @noOrganizationChoosed
+    </div>
+}
+@if (!string.IsNullOrEmpty(userRemoveFailedMessage))
+{
+    <div class="alert alert-danger" role="alert">
+        @userRemoveFailedMessage
+    </div>
+}
+@if (!string.IsNullOrEmpty(userRemoveSuccessMessage))
+{
+    <div class="alert alert-success" role="alert">
+        @userRemoveSuccessMessage
     </div>
 }

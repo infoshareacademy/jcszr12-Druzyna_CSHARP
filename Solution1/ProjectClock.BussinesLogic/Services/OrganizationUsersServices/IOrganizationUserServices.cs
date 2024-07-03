@@ -9,4 +9,6 @@ public interface IOrganizationUserServices
     Task<IEnumerable<User>> GetOrganizationUsers(int organizationId);
     Task<bool> IsUserSignedToOrganization(int userId, int organizationId);
     Task<IEnumerable<Organization>> GetUserAsAOwnerOrganization(int userId);
+
+    Task<bool> RemoveUserFromOrganization(int userId, int organizationId);
 }
