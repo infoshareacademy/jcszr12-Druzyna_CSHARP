@@ -13,7 +13,7 @@ namespace ProjectClock.BusinessLogic.Services.OrganizationUserServices
             _projectClockDbContext = projectClockDbContext;
         }
 
-        public bool IsUserAnOwner(int userId)
+        public bool IsUserAnOwner(int userId) //nie do końca dobre
         {
             int numOfProjects = _projectClockDbContext.OrganizationsUsers.Count(ou => ou.UserId == userId);
 
@@ -55,7 +55,7 @@ namespace ProjectClock.BusinessLogic.Services.OrganizationUserServices
             try
             {
                 var ouToRemove = _projectClockDbContext.OrganizationsUsers.FirstOrDefault(ou =>
-                    ou.OrganizationId == organizationId || ou.UserId == userId);
+                    ou.OrganizationId == organizationId && ou.UserId == userId);
 
                 if (ouToRemove is null)
                 {
@@ -64,6 +64,92 @@ namespace ProjectClock.BusinessLogic.Services.OrganizationUserServices
                 else
                 {
                     _projectClockDbContext.OrganizationsUsers.Remove(ouToRemove);
+                    await _projectClockDbContext.SaveChangesAsync();
+                    return true;
+                }
+
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> AdvanceUserToManager(int userId, int organizationId)
+        {
+            try
+            {
+                var ouToAdvance = _projectClockDbContext.OrganizationsUsers.FirstOrDefault(ou =>
+                    ou.OrganizationId == organizationId && ou.UserId == userId);
+
+                if (ouToAdvance is null)
+                {
+                    return false;
+                }
+                else if (ouToAdvance.Role == Position.Owner || ouToAdvance.Role == Position.Manager)
+                {
+                    return false;
+                }
+                else
+                {
+                    ouToAdvance.Role = Position.Manager;
+                    await _projectClockDbContext.SaveChangesAsync();
+                    return true;
+                }
+
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> IsUserAnOwnerOfParticularOrganization(int userId, int organizationId)
+        {
+            try
+            {
+                var ou = _projectClockDbContext.OrganizationsUsers.FirstOrDefault(ou =>
+                    ou.UserId == userId && ou.OrganizationId == organizationId);
+
+                if (ou is null)
+                {
+                    return false;
+                }
+                else if (ou.Role == Position.Owner)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+            
+        }
+
+        public async Task<bool> DegradeManager(int userId, int organizationId)
+        {
+            try
+            {
+                var ouToDegrade = _projectClockDbContext.OrganizationsUsers.FirstOrDefault(ou =>
+                    ou.OrganizationId == organizationId && ou.UserId == userId);
+
+                if (ouToDegrade is null)
+                {
+                    return false;
+                }
+                else if (ouToDegrade.Role == Position.Owner || ouToDegrade.Role == Position.User)
+                {
+                    return false;
+                }
+                else
+                {
+                    ouToDegrade.Role = Position.User;
                     await _projectClockDbContext.SaveChangesAsync();
                     return true;
                 }

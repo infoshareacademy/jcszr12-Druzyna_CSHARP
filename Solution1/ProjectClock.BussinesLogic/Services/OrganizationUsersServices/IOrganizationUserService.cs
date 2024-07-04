@@ -9,6 +9,8 @@ public interface IOrganizationUserService
     Task<IEnumerable<User>> GetOrganizationUsers(int organizationId);
     Task<bool> IsUserSignedToOrganization(int userId, int organizationId);
     Task<IEnumerable<Organization>> GetUserAsAOwnerOrganization(int userId);
-
     Task<bool> RemoveUserFromOrganization(int userId, int organizationId);
+    Task<bool> AdvanceUserToManager(int userId, int organizationId);
+    Task<bool> IsUserAnOwnerOfParticularOrganization(int userId, int organizationId);
+    Task<bool> DegradeManager(int userId, int organizationId);
 }

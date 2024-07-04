@@ -136,7 +136,7 @@ namespace ProjectClock.MVC.Controllers
 
         public async Task<IActionResult> Manage()
         {
-            ManageOrganizationDtoRefactor model = new ManageOrganizationDtoRefactor();
+            ManageOrganizationDto model = new ManageOrganizationDto();
 
             #region UserIdGetter
             /* pobranie id użytkownika */
@@ -187,7 +187,7 @@ namespace ProjectClock.MVC.Controllers
         [HttpPost]
         public async Task<IActionResult> Choose(int organizationId)
         {
-            var model = new ManageOrganizationDtoRefactor
+            var model = new ManageOrganizationDto
             {
                 SelectedOrganizationId = organizationId
             };
@@ -275,7 +275,7 @@ namespace ProjectClock.MVC.Controllers
         [HttpPost]
         public async Task<IActionResult> InviteUser(int organizationId, string email)
         {
-            var model = new ManageOrganizationDtoRefactor
+            var model = new ManageOrganizationDto
             {
                 SelectedOrganizationId = organizationId
             };
@@ -319,15 +319,6 @@ namespace ProjectClock.MVC.Controllers
             model.ChooseOrganizations = chooseOragnizationDtoList;
             #endregion
 
-            #region GettingUsersFromOrganization
-
-            var organizationUsers = await _organizationUserService.GetOrganizationUsers(organizationId);
-            var organizationUsersNamesList = organizationUsers.Select(u => u.Name).ToList();
-            var organizationUsersIdList = organizationUsers.Select(u => u.Id).ToList();
-            model.OrganizationUserNames = organizationUsersNamesList;
-
-            #endregion
-
             #region SettingChosenOrganizationName
 
             var chosenOrganization = await _organizationService.GetById(organizationId);
@@ -340,16 +331,11 @@ namespace ProjectClock.MVC.Controllers
 
             #region AddingUser
 
-            List<string> updatedOrganizationUsersNamesList = new();
-
             try
             {
                 var allUsersFromDatabase = await _userService.GetAll();
                 bool userExist = allUsersFromDatabase.Any(u => u.Email == email);
               
-
-
-
                 if (!userExist)
                 {
                     TempData["NoUsersMessage"] = $"User with email {email} does not exist in our base.";
@@ -369,8 +355,6 @@ namespace ProjectClock.MVC.Controllers
                     if (addingSucceeded)
                     {
                         TempData["userAddedMessage"] = $"User with {email} was added to organization.";
-                        
-
                     }
                 }
             }
@@ -383,10 +367,11 @@ namespace ProjectClock.MVC.Controllers
             #endregion
 
             #region ChooseUserDtoLoading
+           
             var updatedOrganizationUsers = await _organizationUserService.GetOrganizationUsers(organizationId);
-            updatedOrganizationUsersNamesList = updatedOrganizationUsers.Select(u => u.Name).ToList();
+            List<string> updatedOrganizationUsersNamesList = updatedOrganizationUsers.Select(u => u.Name).ToList();
             model.OrganizationUserNames = updatedOrganizationUsersNamesList;
-            organizationUsersIdList = updatedOrganizationUsers.Select(u => u.Id).ToList();
+            var organizationUsersIdList = updatedOrganizationUsers.Select(u => u.Id).ToList();
             model.OrganizationUserNames = updatedOrganizationUsersNamesList;
 
             var chooseUserDtoList = new List<ChooseUserDto>();
@@ -413,7 +398,7 @@ namespace ProjectClock.MVC.Controllers
         [HttpPost]
         public async Task<IActionResult> RemoveUserFromOrganization(int organizationId, int userToRemoveId)
         {
-            var model = new ManageOrganizationDtoRefactor
+            var model = new ManageOrganizationDto
             {
                 SelectedOrganizationId = organizationId
             };
@@ -436,6 +421,117 @@ namespace ProjectClock.MVC.Controllers
             model.OrganizationNames = organizationNames;
             model.OrganizationIds = organizationIds;
 
+            #endregion
+
+            #region ChooseOrganizationDtoLoading
+            /* zaladowanie do dto ChooseOrganizationDto nazw i id w celu wyswietlenia listy i pobrania id wybranej organizacji */
+            var chooseOragnizationDtoList = new List<ChooseOrganizationDto>();
+
+            for (int i = 0; i < organizationNames.Count; i++)
+            {
+                ChooseOrganizationDto chooseOrganizationDto = new ChooseOrganizationDto()
+                {
+                    OrganizationId = organizationIds[i],
+                    OrganizationName = organizationNames[i]
+                };
+
+                chooseOragnizationDtoList.Add(chooseOrganizationDto);
+            }
+
+            /* przypisanie do modelu dto */
+            model.ChooseOrganizations = chooseOragnizationDtoList;
+            #endregion
+
+            #region SettingChosenOrganizationName
+
+            var chosenOrganization = await _organizationService.GetById(organizationId);
+            string chosenOrganizationName = chosenOrganization.Name;
+            model.OrganizationName = chosenOrganizationName;
+
+            #endregion
+
+            #region RemovingUser
+
+            try
+            {
+               var organizationUserToRemove = _projectClockDbContext.OrganizationsUsers.FirstOrDefault(ou =>
+                    ou.UserId == userToRemoveId && ou.OrganizationId == organizationId);
+
+               var userToBeRemovedFromOrganization = await _userService.GetById(userToRemoveId);
+
+                if (organizationUserToRemove.Role == Position.Manager || organizationUserToRemove.Role == Position.Owner)
+                {
+                    TempData["UserToRemoveIsAnOwnerOrManager"] = $"You cannot remove owner or manager.";
+                }
+                else
+                {
+                    if (await _organizationUserService.RemoveUserFromOrganization(userToRemoveId, organizationId))
+                    {
+                        TempData["UserRemovedSuccessfully"] = $"User with email {userToBeRemovedFromOrganization.Name} was removed from {chosenOrganizationName}.";
+                    }
+                }
+            }
+            catch
+            {
+                return View("Manage", model);
+            }
+
+            #endregion
+
+            #region ChooseUserDtoLoading
+
+            var updatedOrganizationUsers = await _organizationUserService.GetOrganizationUsers(organizationId);
+            List<string> updatedOrganizationUsersNamesList = updatedOrganizationUsers.Select(u => u.Name).ToList();
+            model.OrganizationUserNames = updatedOrganizationUsersNamesList;
+            var organizationUsersIdList = updatedOrganizationUsers.Select(u => u.Id).ToList();
+            model.OrganizationUserNames = updatedOrganizationUsersNamesList;
+
+            var chooseUserDtoList = new List<ChooseUserDto>();
+
+            for (int i = 0; i < updatedOrganizationUsersNamesList.Count; i++)
+            {
+                ChooseUserDto chooseUserDto = new ChooseUserDto()
+                {
+                    Id = organizationUsersIdList[i],
+                    Name = updatedOrganizationUsersNamesList[i]
+                };
+
+                chooseUserDtoList.Add(chooseUserDto);
+            }
+
+            /* przypisanie do modelu dto */
+            model.ChooseUserDto = chooseUserDtoList;
+            #endregion
+
+            return View("Manage", model);
+
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AssignManagerStatus(int organizationId, int userToBecomeManagerId)
+        {
+            var model = new ManageOrganizationDto
+            {
+                SelectedOrganizationId = organizationId
+            };
+
+            #region UserIdGetter
+            /* pobranie id użytkownika */
+            HttpContext.User.Claims.TryGetAuthenticatedUserId(out var accountId);
+            int userId = await _accountService.GetUserIdFromAccountId(accountId);
+            #endregion
+
+            #region GettingOrganizationNamesAndIdsToDto
+            /* pobranie organizacji użytkownia */
+            var organizations = await _organizationUserService.GetUserOrganizations(userId);
+
+            /* wyselekcjonowanie nazw i id organizacji uzytkownia */
+            List<string> organizationNames = organizations.Select(o => o.Name).ToList();
+            List<int> organizationIds = organizations.Select(o => o.Id).ToList();
+
+            /* przypisanie nazw i id do modelu */
+            model.OrganizationNames = organizationNames;
+            model.OrganizationIds = organizationIds;
 
             #endregion
 
@@ -458,15 +554,6 @@ namespace ProjectClock.MVC.Controllers
             model.ChooseOrganizations = chooseOragnizationDtoList;
             #endregion
 
-            #region GettingUsersFromOrganization
-
-            var organizationUsers = await _organizationUserService.GetOrganizationUsers(organizationId);
-            var organizationUsersNamesList = organizationUsers.Select(u => u.Name).ToList();
-            var organizationUsersIdList = organizationUsers.Select(u => u.Id).ToList();
-            model.OrganizationUserNames = organizationUsersNamesList;
-
-            #endregion
-
             #region SettingChosenOrganizationName
 
             var chosenOrganization = await _organizationService.GetById(organizationId);
@@ -475,31 +562,25 @@ namespace ProjectClock.MVC.Controllers
 
             #endregion
 
-
-
-            #region RemovingUser
-
-            List<string> updatedOrganizationUsersNamesList = new();
+            #region AssigningUserToManager
 
             try
             {
-               var organizationUserToRemove = _projectClockDbContext.OrganizationsUsers.FirstOrDefault(ou =>
-                    ou.UserId == userToRemoveId && ou.OrganizationId == organizationId);
+                var organizationUserToAdvance = _projectClockDbContext.OrganizationsUsers.FirstOrDefault(ou =>
+                     ou.UserId == userToBecomeManagerId && ou.OrganizationId == organizationId);
 
-               var userToBeRemovedFromOrganization = await _userService.GetById(userToRemoveId);
+                var userToBeAdvanced = await _userService.GetById(userToBecomeManagerId);
 
-                if (organizationUserToRemove.Role == Position.Manager || organizationUserToRemove.Role == Position.Owner)
+                if (organizationUserToAdvance.Role == Position.Manager || organizationUserToAdvance.Role == Position.Owner)
                 {
-                    TempData["UserToRemoveIsAnOwnerOrManager"] = $"You cannot remove owner or manager.";
+                    TempData["UserToAdvanceIsManagerOrOwner"] = $"You cannot advance owner or manager.";
                 }
                 else
                 {
-                    if (await _organizationUserService.RemoveUserFromOrganization(userToRemoveId, organizationId))
+                    if (await _organizationUserService.AdvanceUserToManager(userToBecomeManagerId, organizationId))
                     {
-                        TempData["UserRemovedSuccessfully"] = $"User with email {userToBeRemovedFromOrganization.Name} was removed from {chosenOrganizationName}.";
+                        TempData["UserAdvancedSuccessfully"] = $"User {userToBeAdvanced.Name} was advanced to manager role.";
                     }
-
-                    
                 }
             }
             catch
@@ -512,7 +593,9 @@ namespace ProjectClock.MVC.Controllers
             #region ChooseUserDtoLoading
 
             var updatedOrganizationUsers = await _organizationUserService.GetOrganizationUsers(organizationId);
-            updatedOrganizationUsersNamesList = updatedOrganizationUsers.Select(u => u.Name).ToList();
+            List<string> updatedOrganizationUsersNamesList = updatedOrganizationUsers.Select(u => u.Name).ToList();
+            model.OrganizationUserNames = updatedOrganizationUsersNamesList;
+            var organizationUsersIdList = updatedOrganizationUsers.Select(u => u.Id).ToList();
             model.OrganizationUserNames = updatedOrganizationUsersNamesList;
 
             var chooseUserDtoList = new List<ChooseUserDto>();
@@ -522,7 +605,7 @@ namespace ProjectClock.MVC.Controllers
                 ChooseUserDto chooseUserDto = new ChooseUserDto()
                 {
                     Id = organizationUsersIdList[i],
-                    Name = organizationUsersNamesList[i]
+                    Name = updatedOrganizationUsersNamesList[i]
                 };
 
                 chooseUserDtoList.Add(chooseUserDto);
@@ -536,6 +619,121 @@ namespace ProjectClock.MVC.Controllers
 
         }
 
+        [HttpPost]
+        public async Task<IActionResult> DegregadeFromManagerStatus(int organizationId, int userToDegradeId)
+        {
+            var model = new ManageOrganizationDto
+            {
+                SelectedOrganizationId = organizationId
+            };
+
+            #region UserIdGetter
+            /* pobranie id użytkownika */
+            HttpContext.User.Claims.TryGetAuthenticatedUserId(out var accountId);
+            int userId = await _accountService.GetUserIdFromAccountId(accountId);
+            #endregion
+
+            #region GettingOrganizationNamesAndIdsToDto
+            /* pobranie organizacji użytkownia */
+            var organizations = await _organizationUserService.GetUserOrganizations(userId);
+
+            /* wyselekcjonowanie nazw i id organizacji uzytkownia */
+            List<string> organizationNames = organizations.Select(o => o.Name).ToList();
+            List<int> organizationIds = organizations.Select(o => o.Id).ToList();
+
+            /* przypisanie nazw i id do modelu */
+            model.OrganizationNames = organizationNames;
+            model.OrganizationIds = organizationIds;
+
+            #endregion
+
+            #region ChooseOrganizationDtoLoading
+            /* zaladowanie do dto ChooseOrganizationDto nazw i id w celu wyswietlenia listy i pobrania id wybranej organizacji */
+            var chooseOragnizationDtoList = new List<ChooseOrganizationDto>();
+
+            for (int i = 0; i < organizationNames.Count; i++)
+            {
+                ChooseOrganizationDto chooseOrganizationDto = new ChooseOrganizationDto()
+                {
+                    OrganizationId = organizationIds[i],
+                    OrganizationName = organizationNames[i]
+                };
+
+                chooseOragnizationDtoList.Add(chooseOrganizationDto);
+            }
+
+            /* przypisanie do modelu dto */
+            model.ChooseOrganizations = chooseOragnizationDtoList;
+            #endregion
+
+            #region SettingChosenOrganizationName
+
+            var chosenOrganization = await _organizationService.GetById(organizationId);
+            string chosenOrganizationName = chosenOrganization.Name;
+            model.OrganizationName = chosenOrganizationName;
+
+            #endregion
+
+            #region DegregadeUserToManager
+
+            try
+            {
+                var organizationUserToDegrade = _projectClockDbContext.OrganizationsUsers.FirstOrDefault(ou =>
+                     ou.UserId == userToDegradeId && ou.OrganizationId == organizationId);
+
+                var managerToDegrade = await _userService.GetById(userToDegradeId);
+
+                if (organizationUserToDegrade.Role == Position.User || organizationUserToDegrade.Role == Position.Owner)
+                {
+                    TempData["UserDegradeFromManagerFailedMessage"] = $"User is not a manager.";
+                }
+                else if (!await _organizationUserService.IsUserAnOwnerOfParticularOrganization(userId, organizationId))
+                {
+                    TempData["LoggedInUserIsNotAnOwner"] = $"You do not have right to degrade managers.";
+                }
+                else
+                {
+                    if (await _organizationUserService.DegradeManager(userToDegradeId, organizationId))
+                    {
+                        TempData["UserAdvancedSuccessfully"] = $"User {managerToDegrade.Name} was degraded from manager role.";
+                    }
+                }
+            }
+            catch
+            {
+                return View("Manage", model);
+            }
+
+            #endregion
+
+            #region ChooseUserDtoLoading
+
+            var updatedOrganizationUsers = await _organizationUserService.GetOrganizationUsers(organizationId);
+            List<string> updatedOrganizationUsersNamesList = updatedOrganizationUsers.Select(u => u.Name).ToList();
+            model.OrganizationUserNames = updatedOrganizationUsersNamesList;
+            var organizationUsersIdList = updatedOrganizationUsers.Select(u => u.Id).ToList();
+            model.OrganizationUserNames = updatedOrganizationUsersNamesList;
+
+            var chooseUserDtoList = new List<ChooseUserDto>();
+
+            for (int i = 0; i < updatedOrganizationUsersNamesList.Count; i++)
+            {
+                ChooseUserDto chooseUserDto = new ChooseUserDto()
+                {
+                    Id = organizationUsersIdList[i],
+                    Name = updatedOrganizationUsersNamesList[i]
+                };
+
+                chooseUserDtoList.Add(chooseUserDto);
+            }
+
+            /* przypisanie do modelu dto */
+            model.ChooseUserDto = chooseUserDtoList;
+            #endregion
+
+            return View("Manage", model);
+
+        }
 
     }
 }
