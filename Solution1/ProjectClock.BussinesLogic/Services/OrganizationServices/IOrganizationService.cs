@@ -3,7 +3,7 @@ using ProjectClock.Database.Entities;
 
 namespace ProjectClock.BusinessLogic.Services.OrganizationServices
 {
-    public interface IOrganizationServices
+    public interface IOrganizationService
     {
         Task<bool> Create(CreateOrganizationDto organization);
         Task<Organization> GetById(int id);

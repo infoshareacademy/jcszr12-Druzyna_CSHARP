@@ -30,9 +30,9 @@ namespace ProjectClock.Database.Extensions
             services.AddTransient<IProjectServices, ProjectServices>();
             services.AddTransient<IUserServices, UserServices>();
             services.AddTransient<IAccountServices, AccountService>();
-            services.AddTransient<IOrganizationServices, OrganizationServices>();
+            services.AddTransient<IOrganizationService, OrganizationServices>();
             services.AddTransient<IWorkingTimeServices, WorkingTimeServices>();
-            services.AddTransient<IOrganizationUserServices, OrganizationUserServices>();
+            services.AddTransient<IOrganizationUserService, OrganizationUserServices>();
             services.AddTransient<IExcelServices, ExcelServices>();
             services.AddTransient<IExcelRaportServices, ExcelRaportServices>();
             services.AddSingleton<EmailHostedServices>();

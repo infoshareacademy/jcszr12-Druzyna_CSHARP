@@ -2,7 +2,7 @@
 
 namespace ProjectClock.BusinessLogic.Services.OrganizationUserServices;
 
-public interface IOrganizationUserServices
+public interface IOrganizationUserService
 {
     bool IsUserAnOwner(int userId);
     Task<IEnumerable<Organization>> GetUserOrganizations(int userId);

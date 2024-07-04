@@ -13,7 +13,7 @@ using ProjectClock.Database.Entities;
 namespace ProjectClock.BusinessLogic.Services.OrganizationServices
 {
 
-    public class OrganizationServices : IOrganizationServices
+    public class OrganizationServices : IOrganizationService
     {
         private ProjectClockDbContext _projectClockDbContext;
         private IMapper _mapper;

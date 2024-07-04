@@ -5,7 +5,7 @@ using ProjectClock.Database.Entities;
 
 namespace ProjectClock.BusinessLogic.Services.OrganizationUserServices
 {
-    public class OrganizationUserServices : IOrganizationUserServices
+    public class OrganizationUserServices : IOrganizationUserService
     {
         private ProjectClockDbContext _projectClockDbContext;
         public OrganizationUserServices(ProjectClockDbContext projectClockDbContext)

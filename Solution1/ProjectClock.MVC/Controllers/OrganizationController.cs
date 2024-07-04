@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using DocumentFormat.OpenXml.Wordprocessing;
 using Microsoft.AspNetCore.Mvc;
 using ProjectClock.BusinessLogic.Dtos.Organization;
 using ProjectClock.BusinessLogic.Dtos.OrganizationDto;
@@ -8,7 +7,6 @@ using ProjectClock.BusinessLogic.Services.OrganizationServices;
 using ProjectClock.BusinessLogic.Services.OrganizationUserServices;
 using ProjectClock.BusinessLogic.Services.UserServices;
 using ProjectClock.Database;
-using ProjectClock.Database.Entities;
 using ProjectClock.MVC.Extensions;
 using Position = ProjectClock.Database.Entities.Position;
 
@@ -16,25 +14,25 @@ namespace ProjectClock.MVC.Controllers
 {
     public class OrganizationController : Controller
     {
-        private IOrganizationServices _organizationServices;
-        private IUserServices _userServices;
+        private IOrganizationService _organizationService;
+        private IUserServices _userService;
         private IAccountServices _accountService;
-        private IOrganizationUserServices _organizationUserServices;
+        private IOrganizationUserService _organizationUserService;
         private ProjectClockDbContext _projectClockDbContext;
         private IMapper _mapper;
 
-        public OrganizationController(IOrganizationServices organizationServices,
+        public OrganizationController(IOrganizationService organizationServices,
             IUserServices userServices,
             IAccountServices accountService,
-            IOrganizationUserServices organizationUserServices,
+            IOrganizationUserService organizationUserServices,
             ProjectClockDbContext projectClockDbContext,
             IMapper mapper)
         {
             _mapper = mapper;
-            _userServices = userServices;
-            _organizationServices = organizationServices;
+            _userService = userServices;
+            _organizationService = organizationServices;
             _accountService = accountService;
-            _organizationUserServices = organizationUserServices;
+            _organizationUserService = organizationUserServices;
             _projectClockDbContext = projectClockDbContext;
         }
 
@@ -60,13 +58,13 @@ namespace ProjectClock.MVC.Controllers
                 HttpContext.User.Claims.TryGetAuthenticatedUserId(out var accountId);
                 organizationDto.UserId = await _accountService.GetUserIdFromAccountId(accountId);
 
-                if (_organizationUserServices.IsUserAnOwner(organizationDto.UserId))
+                if (_organizationUserService.IsUserAnOwner(organizationDto.UserId))
                 {
                     TempData["ErrorMessage"] = "You are already an owner of organization. You can only be owner of one organization.";
                 }
                 else
                 {
-                    bool created = await _organizationServices.Create(organizationDto);
+                    bool created = await _organizationService.Create(organizationDto);
 
                     if (created)
                     {
@@ -96,12 +94,13 @@ namespace ProjectClock.MVC.Controllers
             HttpContext.User.Claims.TryGetAuthenticatedUserId(out var accountId);
             int userId = await _accountService.GetUserIdFromAccountId(accountId);
 
-            var userOrganizations = await _organizationUserServices.GetUserOrganizations(userId);
+            var userOrganizations = await _organizationUserService.GetUserOrganizations(userId);
 
             var organizationDtoList = userOrganizations.Select(x => new OrganizationDto()
             {
                 OrganizationId = x.Id,
                 OrganizationName = x.Name
+
             }).ToList();
 
             model.Organizations = organizationDtoList;
@@ -116,7 +115,7 @@ namespace ProjectClock.MVC.Controllers
         {
             try
             {
-                bool deleted = await _organizationServices.Delete(organizationId);
+                bool deleted = await _organizationService.Delete(organizationId);
 
                 if (deleted)
                 {
@@ -145,9 +144,10 @@ namespace ProjectClock.MVC.Controllers
             int userId = await _accountService.GetUserIdFromAccountId(accountId);
             #endregion
 
+
             #region GettingOrganizationNamesAndIdsToDto
             /* pobranie organizacji użytkownika */
-            var organizations = await _organizationUserServices.GetUserAsAOwnerOrganization(userId);
+            var organizations = await _organizationUserService.GetUserOrganizations(userId);
 
             /* wyselekcjonowanie nazw i id organizacji uzytkownia */
             List<string> organizationNames = organizations.Select(o => o.Name).ToList();
@@ -157,11 +157,13 @@ namespace ProjectClock.MVC.Controllers
             model.OrganizationNames = organizationNames;
             model.OrganizationIds = organizationIds;
 
-
             #endregion
+
+
 
             #region ChooseOrganizationDtoLoading
             /* zaladowanie do dto ChooseOrganizationDto nazw i id w celu wyswietlenia listy i pobrania id wybranej organizacji */
+            
             var chooseOragnizationDtoList = new List<ChooseOrganizationDto>();
 
             for (int i = 0; i < organizationNames.Count; i++)
@@ -198,7 +200,7 @@ namespace ProjectClock.MVC.Controllers
 
             #region GettingOrganizationNamesAndIdsToDto
             /* pobranie organizacji użytkownia */
-            var organizations = await _organizationUserServices.GetUserOrganizations(userId);
+            var organizations = await _organizationUserService.GetUserOrganizations(userId);
 
             /* wyselekcjonowanie nazw i id organizacji uzytkownia */
             List<string> organizationNames = organizations.Select(o => o.Name).ToList();
@@ -207,8 +209,7 @@ namespace ProjectClock.MVC.Controllers
             /* przypisanie nazw i id do modelu */
             model.OrganizationNames = organizationNames;
             model.OrganizationIds = organizationIds;
-
-
+            
             #endregion
 
             #region ChooseOrganizationDtoLoading
@@ -232,24 +233,23 @@ namespace ProjectClock.MVC.Controllers
 
             #region GettingUsersFromOrganization
 
-            var organizationUsers = await _organizationUserServices.GetOrganizationUsers(organizationId);
+            var organizationUsers = await _organizationUserService.GetOrganizationUsers(organizationId);
             var organizationUsersNamesList = organizationUsers.Select(u => u.Name).ToList();
             var organizationUsersIdList = organizationUsers.Select(u => u.Id).ToList();
             model.OrganizationUserNames = organizationUsersNamesList;
+            
 
             #endregion
 
             #region SettingChosenOrganizationName
 
-            var chosenOrganization = await _organizationServices.GetById(organizationId);
+            var chosenOrganization = await _organizationService.GetById(organizationId);
             string chosenOranizationName = chosenOrganization.Name;
             model.OrganizationName = chosenOranizationName;
 
             #endregion
 
             #region ChooseUserDtoLoading
-
-
 
             var chooseUserDtoList = new List<ChooseUserDto>();
 
@@ -288,7 +288,7 @@ namespace ProjectClock.MVC.Controllers
 
             #region GettingOrganizationNamesAndIdsToDto
             /* pobranie organizacji użytkownia */
-            var organizations = await _organizationUserServices.GetUserOrganizations(userId);
+            var organizations = await _organizationUserService.GetUserOrganizations(userId);
 
             /* wyselekcjonowanie nazw i id organizacji uzytkownia */
             List<string> organizationNames = organizations.Select(o => o.Name).ToList();
@@ -297,8 +297,7 @@ namespace ProjectClock.MVC.Controllers
             /* przypisanie nazw i id do modelu */
             model.OrganizationNames = organizationNames;
             model.OrganizationIds = organizationIds;
-
-
+            
             #endregion
 
             #region ChooseOrganizationDtoLoading
@@ -322,7 +321,7 @@ namespace ProjectClock.MVC.Controllers
 
             #region GettingUsersFromOrganization
 
-            var organizationUsers = await _organizationUserServices.GetOrganizationUsers(organizationId);
+            var organizationUsers = await _organizationUserService.GetOrganizationUsers(organizationId);
             var organizationUsersNamesList = organizationUsers.Select(u => u.Name).ToList();
             var organizationUsersIdList = organizationUsers.Select(u => u.Id).ToList();
             model.OrganizationUserNames = organizationUsersNamesList;
@@ -331,23 +330,25 @@ namespace ProjectClock.MVC.Controllers
 
             #region SettingChosenOrganizationName
 
-            var chosenOrganization = await _organizationServices.GetById(organizationId);
+            var chosenOrganization = await _organizationService.GetById(organizationId);
             string chosenOrganizationName = chosenOrganization.Name;
             model.OrganizationName = chosenOrganizationName;
 
             #endregion
 
-           
+
 
             #region AddingUser
 
+            List<string> updatedOrganizationUsersNamesList = new();
 
             try
             {
-                var allUsersFromDatabase = await _userServices.GetAll();
+                var allUsersFromDatabase = await _userService.GetAll();
                 bool userExist = allUsersFromDatabase.Any(u => u.Email == email);
+              
 
-             
+
 
                 if (!userExist)
                 {
@@ -358,19 +359,17 @@ namespace ProjectClock.MVC.Controllers
                     var newUser = allUsersFromDatabase.FirstOrDefault(u => u.Email == email);
                     int newUserId = newUser.Id;
 
-                    if (await _organizationUserServices.IsUserSignedToOrganization(newUserId, organizationId))
+                    if (await _organizationUserService.IsUserSignedToOrganization(newUserId, organizationId))
                     {
                         TempData["userAlreadySignedMessage"] = $"User with email {email} is already signed to {chosenOrganizationName}.";
                     }
                     
-                    bool addingSucceeded = await _organizationServices.AddUser(organizationId, newUserId);
+                    bool addingSucceeded = await _organizationService.AddUser(organizationId, newUserId);
 
                     if (addingSucceeded)
                     {
                         TempData["userAddedMessage"] = $"User with {email} was added to organization.";
-                        var updatedOrganizationUsers = await _organizationUserServices.GetOrganizationUsers(organizationId);
-                        var updatedOrganizationUsersNamesList = updatedOrganizationUsers.Select(u => u.Name).ToList();
-                        model.OrganizationUserNames = organizationUsersNamesList;
+                        
 
                     }
                 }
@@ -384,17 +383,20 @@ namespace ProjectClock.MVC.Controllers
             #endregion
 
             #region ChooseUserDtoLoading
-
-
+            var updatedOrganizationUsers = await _organizationUserService.GetOrganizationUsers(organizationId);
+            updatedOrganizationUsersNamesList = updatedOrganizationUsers.Select(u => u.Name).ToList();
+            model.OrganizationUserNames = updatedOrganizationUsersNamesList;
+            organizationUsersIdList = updatedOrganizationUsers.Select(u => u.Id).ToList();
+            model.OrganizationUserNames = updatedOrganizationUsersNamesList;
 
             var chooseUserDtoList = new List<ChooseUserDto>();
 
-            for (int i = 0; i < organizationUsersNamesList.Count; i++)
+            for (int i = 0; i < updatedOrganizationUsersNamesList.Count; i++)
             {
                 ChooseUserDto chooseUserDto = new ChooseUserDto()
                 {
                     Id = organizationUsersIdList[i],
-                    Name = organizationUsersNamesList[i]
+                    Name = updatedOrganizationUsersNamesList[i]
                 };
 
                 chooseUserDtoList.Add(chooseUserDto);
@@ -424,7 +426,7 @@ namespace ProjectClock.MVC.Controllers
 
             #region GettingOrganizationNamesAndIdsToDto
             /* pobranie organizacji użytkownia */
-            var organizations = await _organizationUserServices.GetUserOrganizations(userId);
+            var organizations = await _organizationUserService.GetUserOrganizations(userId);
 
             /* wyselekcjonowanie nazw i id organizacji uzytkownia */
             List<string> organizationNames = organizations.Select(o => o.Name).ToList();
@@ -458,7 +460,7 @@ namespace ProjectClock.MVC.Controllers
 
             #region GettingUsersFromOrganization
 
-            var organizationUsers = await _organizationUserServices.GetOrganizationUsers(organizationId);
+            var organizationUsers = await _organizationUserService.GetOrganizationUsers(organizationId);
             var organizationUsersNamesList = organizationUsers.Select(u => u.Name).ToList();
             var organizationUsersIdList = organizationUsers.Select(u => u.Id).ToList();
             model.OrganizationUserNames = organizationUsersNamesList;
@@ -467,7 +469,7 @@ namespace ProjectClock.MVC.Controllers
 
             #region SettingChosenOrganizationName
 
-            var chosenOrganization = await _organizationServices.GetById(organizationId);
+            var chosenOrganization = await _organizationService.GetById(organizationId);
             string chosenOrganizationName = chosenOrganization.Name;
             model.OrganizationName = chosenOrganizationName;
 
@@ -484,7 +486,7 @@ namespace ProjectClock.MVC.Controllers
                var organizationUserToRemove = _projectClockDbContext.OrganizationsUsers.FirstOrDefault(ou =>
                     ou.UserId == userToRemoveId && ou.OrganizationId == organizationId);
 
-               var userToBeRemovedFromOrganization = await _userServices.GetById(userToRemoveId);
+               var userToBeRemovedFromOrganization = await _userService.GetById(userToRemoveId);
 
                 if (organizationUserToRemove.Role == Position.Manager || organizationUserToRemove.Role == Position.Owner)
                 {
@@ -492,7 +494,7 @@ namespace ProjectClock.MVC.Controllers
                 }
                 else
                 {
-                    if (await _organizationUserServices.RemoveUserFromOrganization(userToRemoveId, organizationId))
+                    if (await _organizationUserService.RemoveUserFromOrganization(userToRemoveId, organizationId))
                     {
                         TempData["UserRemovedSuccessfully"] = $"User with email {userToBeRemovedFromOrganization.Name} was removed from {chosenOrganizationName}.";
                     }
@@ -509,7 +511,7 @@ namespace ProjectClock.MVC.Controllers
 
             #region ChooseUserDtoLoading
 
-            var updatedOrganizationUsers = await _organizationUserServices.GetOrganizationUsers(organizationId);
+            var updatedOrganizationUsers = await _organizationUserService.GetOrganizationUsers(organizationId);
             updatedOrganizationUsersNamesList = updatedOrganizationUsers.Select(u => u.Name).ToList();
             model.OrganizationUserNames = updatedOrganizationUsersNamesList;
 
