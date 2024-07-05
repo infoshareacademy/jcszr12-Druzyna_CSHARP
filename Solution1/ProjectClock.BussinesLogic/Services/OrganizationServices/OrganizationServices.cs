@@ -61,7 +61,8 @@ namespace ProjectClock.BusinessLogic.Services.OrganizationServices
             {
                 User = _projectClockDbContext.Users.SingleOrDefault(e => e.Id == organizationDto.UserId),
                 Organization = organization,
-                Role = Position.Owner
+                Role = Position.Owner,
+                AcceptedInvitation = true
             };
 
 
@@ -151,7 +152,7 @@ namespace ProjectClock.BusinessLogic.Services.OrganizationServices
                 }
                 else
                 {
-                    OrganizationUser organizationUser = new OrganizationUser() { User = user, Organization = organization, Role = Position.User };
+                    OrganizationUser organizationUser = new OrganizationUser() { User = user, Organization = organization, Role = Position.User, AcceptedInvitation = false};
                     await _projectClockDbContext.OrganizationsUsers.AddAsync(organizationUser);
                     await _projectClockDbContext.SaveChangesAsync();
                     return true;
@@ -206,6 +207,30 @@ namespace ProjectClock.BusinessLogic.Services.OrganizationServices
             return dtos;
         }
 
-       
+        public async Task<bool> AcceptInvitation(int organizationId, int userId)
+        {
+            try
+            {
+                var ou = _projectClockDbContext.OrganizationsUsers.FirstOrDefault(ou =>
+                    ou.OrganizationId == organizationId && ou.UserId == userId);
+
+                if (ou is null)
+                {
+                    return false;
+                }
+                else
+                {
+                    ou.AcceptedInvitation = true;
+                    _projectClockDbContext.SaveChangesAsync();
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
+
     }
 }

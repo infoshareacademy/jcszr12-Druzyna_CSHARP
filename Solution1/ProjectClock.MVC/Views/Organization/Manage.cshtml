@@ -107,7 +107,7 @@
                 </div>
                 <div class="col-md-3 col-3 mb-3 transparent-border col-md-3 transparent-border mx-auto" id="organizationSelect">
                     <form asp-controller="Organization" asp-action="DegregadeFromManagerStatus" method="post">
-                        <label for="selectedOrganization">Choose user to advance</label>
+                        <label for="selectedOrganization">Choose user to degrade</label>
                         <input type="hidden" name="organizationId" value="@Model.SelectedOrganizationId"/> <!-- Dodane pole ukryte -->
                         <select class="form-select form-select-sm" aria-label="Small select example" id="selectedOrganization" name="userToDegradeId">
                             @{

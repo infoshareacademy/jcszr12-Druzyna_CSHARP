@@ -354,7 +354,7 @@ namespace ProjectClock.MVC.Controllers
 
                     if (addingSucceeded)
                     {
-                        TempData["userAddedMessage"] = $"User with {email} was added to organization.";
+                        TempData["userAddedMessage"] = $"Invitation was sent to user with email {email}.";
                     }
                 }
             }
@@ -574,7 +574,7 @@ namespace ProjectClock.MVC.Controllers
                 if (organizationUserToAdvance.Role == Position.Manager || organizationUserToAdvance.Role == Position.Owner)
                 {
                     TempData["UserToAdvanceIsManagerOrOwner"] = $"You cannot advance owner or manager.";
-                }
+                }//dodać warunek że tylko user moze dodawać promocje
                 else
                 {
                     if (await _organizationUserService.AdvanceUserToManager(userToBecomeManagerId, organizationId))
@@ -685,7 +685,7 @@ namespace ProjectClock.MVC.Controllers
 
                 if (organizationUserToDegrade.Role == Position.User || organizationUserToDegrade.Role == Position.Owner)
                 {
-                    TempData["UserDegradeFromManagerFailedMessage"] = $"User is not a manager.";
+                    TempData["UserDegradeFromManagerFailedMessage"] = $"You cannot degrade this person, because it is owner or common user.";
                 }
                 else if (!await _organizationUserService.IsUserAnOwnerOfParticularOrganization(userId, organizationId))
                 {

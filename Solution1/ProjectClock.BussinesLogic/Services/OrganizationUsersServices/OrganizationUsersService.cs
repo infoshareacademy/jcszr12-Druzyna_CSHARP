@@ -31,7 +31,7 @@ namespace ProjectClock.BusinessLogic.Services.OrganizationUserServices
         public async Task<IEnumerable<User>> GetOrganizationUsers(int organizationId)
         {
             var organizationUsers = await _projectClockDbContext.OrganizationsUsers
-                .Where(ou => ou.OrganizationId == organizationId).Select(ou => ou.User).ToListAsync();
+                .Where(ou => ou.OrganizationId == organizationId && ou.AcceptedInvitation == true).Select(ou => ou.User).ToListAsync();
 
             return organizationUsers;
         }
@@ -150,6 +150,36 @@ namespace ProjectClock.BusinessLogic.Services.OrganizationUserServices
                 else
                 {
                     ouToDegrade.Role = Position.User;
+                    await _projectClockDbContext.SaveChangesAsync();
+                    return true;
+                }
+
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> AcceptInvitationToOrganizationManager(int userId, int organizationId)
+        {
+            try
+            {
+                var ouToAccept = _projectClockDbContext.OrganizationsUsers.FirstOrDefault(ou =>
+                    ou.OrganizationId == organizationId && ou.UserId == userId);
+
+                if (ouToAccept is null)
+                {
+                    return false;
+                }
+                else if (ouToAccept.Role == Position.Owner || ouToAccept.Role == Position.Manager)
+                {
+                    return false;
+                }
+                else
+                {
+                    ouToAccept.Role = Position.User;
+                    ouToAccept.AcceptedInvitation = true;
                     await _projectClockDbContext.SaveChangesAsync();
                     return true;
                 }
