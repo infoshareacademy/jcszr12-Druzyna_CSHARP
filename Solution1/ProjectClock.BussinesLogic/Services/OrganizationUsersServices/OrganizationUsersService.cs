@@ -1,5 +1,6 @@
 ﻿using DocumentFormat.OpenXml.Office2010.Excel;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic;
 using ProjectClock.Database;
 using ProjectClock.Database.Entities;
 
@@ -189,6 +190,33 @@ namespace ProjectClock.BusinessLogic.Services.OrganizationUserServices
             {
                 return false;
             }
+        }
+
+        public async Task<IEnumerable<Organization>> GetInvitingOrganizations(int userId)
+        {
+            try
+            {
+                var invitingOrganizations = 
+                    _projectClockDbContext.OrganizationsUsers.Where(ou =>
+                        ou.UserId == userId && ou.AcceptedInvitation == false).ToList();
+
+                if (invitingOrganizations.Count == 0)
+                {
+                    return new List<Organization>();
+                }
+                else
+                {
+                    return invitingOrganizations.Select(io => io.Organization).ToList();
+                }
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+
+            
         }
 
     }

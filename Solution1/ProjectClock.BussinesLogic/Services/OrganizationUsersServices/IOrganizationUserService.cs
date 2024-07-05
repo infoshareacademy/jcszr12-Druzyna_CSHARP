@@ -13,4 +13,5 @@ public interface IOrganizationUserService
     Task<bool> AdvanceUserToManager(int userId, int organizationId);
     Task<bool> IsUserAnOwnerOfParticularOrganization(int userId, int organizationId);
     Task<bool> DegradeManager(int userId, int organizationId);
+    Task<IEnumerable<Organization>> GetInvitingOrganizations(int userId);
 }

@@ -735,5 +735,53 @@ namespace ProjectClock.MVC.Controllers
 
         }
 
+        // GET: OrganizationController/Delete/5
+        public async Task<IActionResult> Invitation()
+        {
+            InvitationToOrganizationDto model = new InvitationToOrganizationDto();
+
+            HttpContext.User.Claims.TryGetAuthenticatedUserId(out var accountId);
+            int userId = await _accountService.GetUserIdFromAccountId(accountId);
+
+            var invitingOrganizations = await _organizationUserService.GetInvitingOrganizations(userId);
+
+            var invitingOrganizationsDtoList = invitingOrganizations.Select(x => new OrganizationDto()
+            {
+                OrganizationId = x.Id,
+                OrganizationName = x.Name
+
+            }).ToList();
+
+            model.InvitingOrganizations = invitingOrganizationsDtoList;
+
+            return View("Invitations", model);
+        }
+
+        // POST: OrganizationController/Delete/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Invitation(int organizationId)
+        {
+            try
+            {
+                bool deleted = await _organizationService.Delete(organizationId);
+
+                if (deleted)
+                {
+                    TempData["SuccessMessage"] = "Organization deleted successfully.";
+                }
+                else
+                {
+                    TempData["ErrorMessage"] = "This organization doesn't exists.";
+                }
+
+                return RedirectToAction(nameof(Delete));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
     }
 }
