@@ -685,7 +685,7 @@ namespace ProjectClock.MVC.Controllers
 
                 if (organizationUserToDegrade.Role == Position.User || organizationUserToDegrade.Role == Position.Owner)
                 {
-                    TempData["UserDegradeFromManagerFailedMessage"] = $"User is not a manager.";
+                    TempData["UserDegradeFromManagerFailedMessage"] = $"You cannot degrade an owner or a common user.";
                 }
                 else if (!await _organizationUserService.IsUserAnOwnerOfParticularOrganization(userId, organizationId))
                 {
