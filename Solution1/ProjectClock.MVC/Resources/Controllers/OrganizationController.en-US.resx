@@ -117,61 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ChangeEmail" xml:space="preserve">
-    <value>Zmień email</value>
+  <data name="AccWrong" xml:space="preserve">
+    <value>Wrong code!</value>
   </data>
-  <data name="ChangePass" xml:space="preserve">
-    <value>Zmień hasło</value>
+  <data name="CreateError" xml:space="preserve">
+    <value>You didn't enter name of organization</value>
   </data>
-  <data name="CreateOrg" xml:space="preserve">
-    <value>Utwórz organizację</value>
-  </data>
-  <data name="DeleteAcc" xml:space="preserve">
-    <value>Usuń konto</value>
-  </data>
-  <data name="DeleteOrg" xml:space="preserve">
-    <value>Usuń organizację</value>
-  </data>
-  <data name="GenerateRep" xml:space="preserve">
-    <value>Generuj raport dla</value>
-  </data>
-  <data name="GenerateRepFile" xml:space="preserve">
-    <value>Generuj plik raportu</value>
-  </data>
-  <data name="Home" xml:space="preserve">
-    <value>Strona główna</value>
-  </data>
-  <data name="InvitationOrg" xml:space="preserve">
-    <value>Zaproszenia od organizacji</value>
-  </data>
-  <data name="LanguageSettings" xml:space="preserve">
-    <value>Ustawienia języków</value>
-  </data>
-  <data name="Logout" xml:space="preserve">
-    <value>Wyloguj się</value>
-  </data>
-  <data name="ManageOrg" xml:space="preserve">
-    <value>Zarządzaj organizacją</value>
-  </data>
-  <data name="MyWorkingTimes" xml:space="preserve">
-    <value>Moje godziny pracy</value>
-  </data>
-  <data name="Organization" xml:space="preserve">
-    <value>Organizacja</value>
-  </data>
-  <data name="Organizations" xml:space="preserve">
-    <value>Organizacje</value>
-  </data>
-  <data name="Project" xml:space="preserve">
-    <value>Projekt</value>
-  </data>
-  <data name="Projects" xml:space="preserve">
-    <value>Projekty</value>
-  </data>
-  <data name="User" xml:space="preserve">
-    <value>Użytkownik</value>
-  </data>
-  <data name="UserSettings" xml:space="preserve">
-    <value>Ustawienia użytkownika</value>
+  <data name="UserNotExist" xml:space="preserve">
+    <value>User with this email doesn't exist</value>
   </data>
 </root>

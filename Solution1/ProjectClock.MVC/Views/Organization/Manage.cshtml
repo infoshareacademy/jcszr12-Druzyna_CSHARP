@@ -1,4 +1,5 @@
-﻿@model ProjectClock.BusinessLogic.Dtos.OrganizationDto.ManageOrganizationDto
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@model ProjectClock.BusinessLogic.Dtos.OrganizationDto.ManageOrganizationDto
 @{
     var noUsersMessage = TempData["NoUsersMessage"] as string;
     var userAlreadySignedMessage = TempData["UserAlreadySignedMessage"] as string;
@@ -13,6 +14,8 @@
     var userDegradeFromManagerSucceededMessage = TempData["UserDegregadedSuccessfullyMessage"] as string;
     var loggedInUserIsNotUserMessage = TempData["LoggedInUserIsNotAnOwner"] as string;
 }
+
+@inject IViewLocalizer Localizer
 
 <style>
     .transparent-border {
@@ -29,11 +32,11 @@
 @{
     if (Model.OrganizationNames is null)
     {
-        <h1 class="fw-bold mb-4 text-center">Manage organization</h1>
+        <h1 class="fw-bold mb-4 text-center">@Localizer["ManageOrg"]</h1>
     }
     else
     {
-        <h1 class="fw-bold mb-4 text-center">Manage organization @Model.OrganizationName</h1>
+        <h1 class="fw-bold mb-4 text-center">@Localizer["ManageOrg"] @Model.OrganizationName</h1>
     }
 }
 
@@ -45,7 +48,7 @@
         <div class="col-md-3 transparent-border mx-auto d-flex justify-content-center align-items-center">
             <form asp-controller="Organization" asp-action="Choose" method="post">
                 <div class="mb-2">
-                    <label for="selectedOrganization">Choose your organization</label>
+                    <label for="selectedOrganization">@Localizer["ChooseOrg"]</label>
                     <input type="hidden" name="choseOraganization" value="@Model.ChooseOrganizations" /> <!-- Dodane pole ukryte -->
                     <select class="form-select form-select-sm" aria-label="Small select example" id="selectedOrganization" name="organizationId">
                         @{
@@ -56,7 +59,7 @@
                         }
                     </select>
                 </div>
-                <button type="submit" class="btn btn-primary btn-sm d-block mx-auto">Choose</button>
+                <button type="submit" class="btn btn-primary btn-sm d-block mx-auto">@Localizer["ChooseBtn"]</button>
             </form>
         </div>
     </div>
@@ -67,15 +70,15 @@
             <div class="row">
                 <div class="col-md-3 col-3 mb-3 transparent-border mx-auto" id="organizationSelect">
                     <form asp-controller="Organization" asp-action="InviteUser" method="post">
-                        <label for="inviteEmail">Invite to organization</label>
+                        <label for="inviteEmail">@Localizer["InviteOrg"]</label>
                         <input type="hidden" name="organizationId" value="@Model.SelectedOrganizationId"/> <!-- Use selected organization ID -->
-                        <input type="email" class="form-control form-control-sm" id="inviteEmail" placeholder="Enter email here" aria-label=".form-control-sm example" name="email">
-                        <button type="submit" class="btn btn-outline-secondary text-center m-1" style="width: 100px;">Invite</button>
+                        <input type="email" class="form-control form-control-sm" id="inviteEmail" placeholder="@Localizer["EnterEmailHere"]" aria-label=".form-control-sm example" name="email">
+                        <button type="submit" class="btn btn-outline-secondary text-center m-1" style="width: 100px;">@Localizer["InviteBtn"]</button>
                     </form>
                 </div>
                 <div class="col-md-3 col-3 mb-3 transparent-border col-md-3 transparent-border mx-auto" id="organizationSelect">
                     <form asp-controller="Organization" asp-action="RemoveUserFromOrganization" method="post">
-                        <label for="selectedOrganization">Choose user to remove</label>
+                        <label for="selectedOrganization">@Localizer["ChooseUserToRemove"]</label>
                         <input type="hidden" name="organizationId" value="@Model.SelectedOrganizationId"/> <!-- Dodane pole ukryte -->
                         <select class="form-select form-select-sm" aria-label="Small select example" id="selectedOrganization" name="userToRemoveId">
                             @{
@@ -85,14 +88,14 @@
                                 }
                             }
                         </select>
-                        <button type="submit" class="btn btn-outline-secondary text-center m-1">Remove</button>
+                        <button type="submit" class="btn btn-outline-secondary text-center m-1">@Localizer["RemoveBtn"]</button>
                     </form>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-3 col-3 mb-3 transparent-border col-md-3 transparent-border mx-auto" id="organizationSelect">
                     <form asp-controller="Organization" asp-action="AssignManagerStatus" method="post">
-                        <label for="selectedOrganization">Choose user to advance</label>
+                        <label for="selectedOrganization">@Localizer["ChooseUserToAdvance"]</label>
                         <input type="hidden" name="organizationId" value="@Model.SelectedOrganizationId"/> <!-- Dodane pole ukryte -->
                         <select class="form-select form-select-sm" aria-label="Small select example" id="selectedOrganization" name="userToBecomeManagerId">
                             @{
@@ -102,12 +105,12 @@
                                 }
                             }
                         </select>
-                        <button type="submit" class="btn btn-outline-secondary text-center m-1">Advance</button>
+                        <button type="submit" class="btn btn-outline-secondary text-center m-1">@Localizer["AdvanceBtn"]</button>
                     </form>
                 </div>
                 <div class="col-md-3 col-3 mb-3 transparent-border col-md-3 transparent-border mx-auto" id="organizationSelect">
                     <form asp-controller="Organization" asp-action="DegregadeFromManagerStatus" method="post">
-                        <label for="selectedOrganization">Choose user to degrade</label>
+                        <label for="selectedOrganization">@Localizer["ChooseUserToDegrade"]</label>
                         <input type="hidden" name="organizationId" value="@Model.SelectedOrganizationId"/> <!-- Dodane pole ukryte -->
                         <select class="form-select form-select-sm" aria-label="Small select example" id="selectedOrganization" name="userToDegradeId">
                             @{
@@ -117,7 +120,7 @@
                                 }
                             }
                         </select>
-                        <button type="submit" class="btn btn-outline-secondary text-center m-1">Degregade</button>
+                        <button type="submit" class="btn btn-outline-secondary text-center m-1">@Localizer["DegradeBtn"]</button>
                     </form>
                 </div>
             </div>

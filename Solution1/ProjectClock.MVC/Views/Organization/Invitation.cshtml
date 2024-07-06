@@ -1,8 +1,11 @@
-﻿@model ProjectClock.BusinessLogic.Dtos.Organization.InvitationToOrganizationDto
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@model ProjectClock.BusinessLogic.Dtos.Organization.InvitationToOrganizationDto
 @{
     var successMessage = TempData["AcceptanceSuccessMessage"] as string;
     var errorMessage = TempData["AcceptanceErrorMessage"] as string;
 }
+
+@inject IViewLocalizer Localizer
 
 <style>
     .transparent-border {
@@ -15,7 +18,7 @@
     }
 </style>
 
-<h1 class="fw-bold mb-4 text-center">Invitations</h1>
+<h1 class="fw-bold mb-4 text-center">@Localizer["Invitations"]</h1>
 
 <div class="container-lg">
 
@@ -23,7 +26,7 @@
         <div class="col-md-3 transparent-border mx-auto d-flex justify-content-center align-items-center">
             <form asp-controller="Organization" asp-action="Invitation" method="post">
                 <div class="mb-2">
-                    <label for="selectedOrganization">Choose inviting organization</label>
+                    <label for="selectedOrganization">@Localizer["ChooseOrgToAccept"]</label>
                     <select class="form-select form-select-sm" aria-label="Small select example" id="selectedOrganization" name="organizationId">
                         @{
                             foreach (var organization in Model.InvitingOrganizations)
@@ -33,7 +36,7 @@
                         }
                     </select>
                 </div>
-                <button type="submit" class="btn btn-primary btn-sm d-block mx-auto">Accept</button>
+                <button type="submit" class="btn btn-primary btn-sm d-block mx-auto">@Localizer["AcceptBtn"]</button>
             </form>
         </div>
     </div>

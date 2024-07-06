@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using ProjectClock.BusinessLogic.Dtos.Organization;
 using ProjectClock.BusinessLogic.Dtos.OrganizationDto;
 using ProjectClock.BusinessLogic.Services.AccountServices;
@@ -7,7 +8,6 @@ using ProjectClock.BusinessLogic.Services.OrganizationServices;
 using ProjectClock.BusinessLogic.Services.OrganizationUserServices;
 using ProjectClock.BusinessLogic.Services.UserServices;
 using ProjectClock.Database;
-using ProjectClock.Database.Entities;
 using ProjectClock.MVC.Extensions;
 using Position = ProjectClock.Database.Entities.Position;
 
@@ -21,13 +21,15 @@ namespace ProjectClock.MVC.Controllers
         private IOrganizationUserService _organizationUserService;
         private ProjectClockDbContext _projectClockDbContext;
         private IMapper _mapper;
+        private readonly IStringLocalizer<OrganizationController> _localizer;
 
         public OrganizationController(IOrganizationService organizationServices,
             IUserServices userServices,
             IAccountServices accountService,
             IOrganizationUserService organizationUserServices,
             ProjectClockDbContext projectClockDbContext,
-            IMapper mapper)
+            IMapper mapper,
+            IStringLocalizer<OrganizationController> localizer)
         {
             _mapper = mapper;
             _userService = userServices;
@@ -35,6 +37,7 @@ namespace ProjectClock.MVC.Controllers
             _accountService = accountService;
             _organizationUserService = organizationUserServices;
             _projectClockDbContext = projectClockDbContext;
+            _localizer = localizer;
         }
 
         public ActionResult Create()
@@ -51,7 +54,7 @@ namespace ProjectClock.MVC.Controllers
             {
                 if (!ModelState.IsValid)
                 {
-                    TempData["ErrorMessage"] = "You didn't enter name of organization.";
+                    TempData["ErrorMessage"] = _localizer["CreateError"].Value;
                     return View();
                 }
 
