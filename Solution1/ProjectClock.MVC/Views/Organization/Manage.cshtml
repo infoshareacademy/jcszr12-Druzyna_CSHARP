@@ -19,47 +19,54 @@
 
 <style>
     .transparent-border {
-        border: 2px solid rgba(0, 74, 122, 0.05);   
-        padding: 10px;
+        border: 2px solid rgba(0, 74, 122, 0.2);
+        padding: 15px;
+        border-radius: 10px;
     }
 
-    .column-spacing {
-        margin-right: 4px;
+    .form-section {
+        margin-bottom: 20px;
+    }
+
+        .form-section label {
+            font-weight: bold;
+        }
+
+    .btn-custom {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .alert {
+        margin-top: 20px;
     }
 </style>
-
 
 @{
     if (Model.OrganizationNames is null)
     {
-        <h1 class="fw-bold mb-4 text-center">@Localizer["ManageOrg"]</h1>
+        <h1 class="fw-bold mb-4 text-center text-primary">@Localizer["ManageOrg"]</h1>
     }
     else
     {
-        <h1 class="fw-bold mb-4 text-center">@Localizer["ManageOrg"] @Model.OrganizationName</h1>
+        <h1 class="fw-bold mb-4 text-center text-primary">@Localizer["ManageOrg"] @Model.OrganizationName</h1>
     }
 }
 
-
-
 <div class="container-lg">
-
     <div class="row">
-        <div class="col-md-3 transparent-border mx-auto d-flex justify-content-center align-items-center">
+        <div class="col-md-4 transparent-border mx-auto form-section">
             <form asp-controller="Organization" asp-action="Choose" method="post">
-                <div class="mb-2">
-                    <label for="selectedOrganization">@Localizer["ChooseOrg"]</label>
-                    <input type="hidden" name="choseOraganization" value="@Model.ChooseOrganizations" /> <!-- Dodane pole ukryte -->
-                    <select class="form-select form-select-sm" aria-label="Small select example" id="selectedOrganization" name="organizationId">
-                        @{
-                            foreach (var chooseOrganizationDto in Model.ChooseOrganizations)
-                            {
-                                <option value="@chooseOrganizationDto.OrganizationId">@chooseOrganizationDto.OrganizationName</option>
-                            }
+                <label for="selectedOrganization">@Localizer["ChooseOrg"]</label>
+                <select class="form-select form-select-sm" aria-label="Small select example" id="selectedOrganization" name="organizationId">
+                    @{
+                        foreach (var chooseOrganizationDto in Model.ChooseOrganizations)
+                        {
+                            <option value="@chooseOrganizationDto.OrganizationId">@chooseOrganizationDto.OrganizationName</option>
                         }
-                    </select>
-                </div>
-                <button type="submit" class="btn btn-primary btn-sm d-block mx-auto">@Localizer["ChooseBtn"]</button>
+                    }
+                </select>
+                <button type="submit" class="btn btn-primary btn-sm btn-custom">@Localizer["ChooseBtn"]</button>
             </form>
         </div>
     </div>
@@ -68,19 +75,20 @@
         if (Model.OrganizationUserNames.Count != 0)
         {
             <div class="row">
-                <div class="col-md-3 col-3 mb-3 transparent-border mx-auto" id="organizationSelect">
+                <div class="col-md-4 transparent-border mx-auto form-section">
                     <form asp-controller="Organization" asp-action="InviteUser" method="post">
                         <label for="inviteEmail">@Localizer["InviteOrg"]</label>
-                        <input type="hidden" name="organizationId" value="@Model.SelectedOrganizationId"/> <!-- Use selected organization ID -->
+                        <input type="hidden" name="organizationId" value="@Model.SelectedOrganizationId" />
                         <input type="email" class="form-control form-control-sm" id="inviteEmail" placeholder="@Localizer["EnterEmailHere"]" aria-label=".form-control-sm example" name="email">
-                        <button type="submit" class="btn btn-outline-secondary text-center m-1" style="width: 100px;">@Localizer["InviteBtn"]</button>
+                        <button type="submit" class="btn btn-outline-secondary btn-sm btn-custom">@Localizer["InviteBtn"]</button>
                     </form>
                 </div>
-                <div class="col-md-3 col-3 mb-3 transparent-border col-md-3 transparent-border mx-auto" id="organizationSelect">
+
+                <div class="col-md-4 transparent-border mx-auto form-section">
                     <form asp-controller="Organization" asp-action="RemoveUserFromOrganization" method="post">
-                        <label for="selectedOrganization">@Localizer["ChooseUserToRemove"]</label>
-                        <input type="hidden" name="organizationId" value="@Model.SelectedOrganizationId"/> <!-- Dodane pole ukryte -->
-                        <select class="form-select form-select-sm" aria-label="Small select example" id="selectedOrganization" name="userToRemoveId">
+                        <label for="userToRemove">@Localizer["ChooseUserToRemove"]</label>
+                        <input type="hidden" name="organizationId" value="@Model.SelectedOrganizationId" />
+                        <select class="form-select form-select-sm" aria-label="Small select example" id="userToRemove" name="userToRemoveId">
                             @{
                                 foreach (var chooseUserDto in Model.ChooseUserDto)
                                 {
@@ -88,16 +96,16 @@
                                 }
                             }
                         </select>
-                        <button type="submit" class="btn btn-outline-secondary text-center m-1">@Localizer["RemoveBtn"]</button>
+                        <button type="submit" class="btn btn-outline-secondary btn-sm btn-custom">@Localizer["RemoveBtn"]</button>
                     </form>
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-3 col-3 mb-3 transparent-border col-md-3 transparent-border mx-auto" id="organizationSelect">
+                <div class="col-md-4 transparent-border mx-auto form-section">
                     <form asp-controller="Organization" asp-action="AssignManagerStatus" method="post">
-                        <label for="selectedOrganization">@Localizer["ChooseUserToAdvance"]</label>
-                        <input type="hidden" name="organizationId" value="@Model.SelectedOrganizationId"/> <!-- Dodane pole ukryte -->
-                        <select class="form-select form-select-sm" aria-label="Small select example" id="selectedOrganization" name="userToBecomeManagerId">
+                        <label for="userToBecomeManager">@Localizer["ChooseUserToAdvance"]</label>
+                        <input type="hidden" name="organizationId" value="@Model.SelectedOrganizationId" />
+                        <select class="form-select form-select-sm" aria-label="Small select example" id="userToBecomeManager" name="userToBecomeManagerId">
                             @{
                                 foreach (var chooseUserDto in Model.ChooseUserDto)
                                 {
@@ -105,14 +113,14 @@
                                 }
                             }
                         </select>
-                        <button type="submit" class="btn btn-outline-secondary text-center m-1">@Localizer["AdvanceBtn"]</button>
+                        <button type="submit" class="btn btn-outline-secondary btn-sm btn-custom">@Localizer["AdvanceBtn"]</button>
                     </form>
                 </div>
-                <div class="col-md-3 col-3 mb-3 transparent-border col-md-3 transparent-border mx-auto" id="organizationSelect">
+                <div class="col-md-4 transparent-border mx-auto form-section">
                     <form asp-controller="Organization" asp-action="DegregadeFromManagerStatus" method="post">
-                        <label for="selectedOrganization">@Localizer["ChooseUserToDegrade"]</label>
-                        <input type="hidden" name="organizationId" value="@Model.SelectedOrganizationId"/> <!-- Dodane pole ukryte -->
-                        <select class="form-select form-select-sm" aria-label="Small select example" id="selectedOrganization" name="userToDegradeId">
+                        <label for="userToDegrade">@Localizer["ChooseUserToDegrade"]</label>
+                        <input type="hidden" name="organizationId" value="@Model.SelectedOrganizationId" />
+                        <select class="form-select form-select-sm" aria-label="Small select example" id="userToDegrade" name="userToDegradeId">
                             @{
                                 foreach (var chooseUserDto in Model.ChooseUserDto)
                                 {
@@ -120,16 +128,12 @@
                                 }
                             }
                         </select>
-                        <button type="submit" class="btn btn-outline-secondary text-center m-1">@Localizer["DegradeBtn"]</button>
+                        <button type="submit" class="btn btn-outline-secondary btn-sm btn-custom">@Localizer["DegradeBtn"]</button>
                     </form>
                 </div>
             </div>
         }
     }
-    
- 
-    
-  
 
 </div>
 
@@ -198,9 +202,10 @@
     <div class="alert alert-success" role="alert">
         @userDegradeFromManagerSucceededMessage
     </div>
-}@if (!string.IsNullOrEmpty(loggedInUserIsNotUserMessage))
+}
+@if (!string.IsNullOrEmpty(loggedInUserIsNotUserMessage))
 {
-    <div class="alert alert-success" role="alert">
+    <div class="alert alert-danger" role="alert">
         @loggedInUserIsNotUserMessage
     </div>
 }
