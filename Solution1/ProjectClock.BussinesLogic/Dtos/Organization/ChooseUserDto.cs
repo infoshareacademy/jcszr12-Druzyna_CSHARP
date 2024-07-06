@@ -1,9 +1,8 @@
 ﻿namespace ProjectClock.BusinessLogic.Dtos.Organization
 {
-    public class CreateUserOrganizationDto
-    { 
+    public  class ChooseUserDto
+    {
+        public int Id { get; set; }
         public string Name { get; set; }
-        public int UserId { get; set; }
-
     }
 }

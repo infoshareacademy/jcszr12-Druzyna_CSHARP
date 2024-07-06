@@ -117,61 +117,52 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ChangeEmail" xml:space="preserve">
-    <value>Zmień email</value>
+  <data name="AddingUserError" xml:space="preserve">
+    <value>User with this email does not exist in our base</value>
   </data>
-  <data name="ChangePass" xml:space="preserve">
-    <value>Zmień hasło</value>
+  <data name="CreateError" xml:space="preserve">
+    <value>You didn't enter name of organization</value>
   </data>
-  <data name="CreateOrg" xml:space="preserve">
-    <value>Utwórz organizację</value>
+  <data name="CreateErrorAlready" xml:space="preserve">
+    <value>You are already an owner of organization. You can only be owner of one organization</value>
   </data>
-  <data name="DeleteAcc" xml:space="preserve">
-    <value>Usuń konto</value>
+  <data name="CreateErrorNameExist" xml:space="preserve">
+    <value>This organization already exists</value>
   </data>
-  <data name="DeleteOrg" xml:space="preserve">
-    <value>Usuń organizację</value>
+  <data name="CreateSuccess" xml:space="preserve">
+    <value>Organization created successfully</value>
   </data>
-  <data name="GenerateRep" xml:space="preserve">
-    <value>Generuj raport dla</value>
+  <data name="DegradationFailure" xml:space="preserve">
+    <value>You cannot degrade this person, because it is owner or common user</value>
   </data>
-  <data name="GenerateRepFile" xml:space="preserve">
-    <value>Generuj plik raportu</value>
+  <data name="DegradationFailureNoRights" xml:space="preserve">
+    <value>You do not have right to degrade managers</value>
   </data>
-  <data name="Home" xml:space="preserve">
-    <value>Strona główna</value>
+  <data name="DegradationSuccess" xml:space="preserve">
+    <value>User was degraded from manager role</value>
   </data>
-  <data name="InvitationOrg" xml:space="preserve">
-    <value>Zaproszenia od organizacji</value>
+  <data name="InvitationSend" xml:space="preserve">
+    <value>Invitation was sent to user</value>
   </data>
-  <data name="LanguageSettings" xml:space="preserve">
-    <value>Ustawienia języków</value>
+  <data name="OrgDeleteError" xml:space="preserve">
+    <value>This organization doesn't exists</value>
   </data>
-  <data name="Logout" xml:space="preserve">
-    <value>Wyloguj się</value>
+  <data name="OrgDeleteSuccess" xml:space="preserve">
+    <value>Organization deleted successfully</value>
   </data>
-  <data name="ManageOrg" xml:space="preserve">
-    <value>Zarządzaj organizacją</value>
+  <data name="PromotionFailed" xml:space="preserve">
+    <value>You cannot advance owner or manager</value>
   </data>
-  <data name="MyWorkingTimes" xml:space="preserve">
-    <value>Moje godziny pracy</value>
+  <data name="PromotionSuccess" xml:space="preserve">
+    <value>User was advanced to manager role</value>
   </data>
-  <data name="Organization" xml:space="preserve">
-    <value>Organizacja</value>
+  <data name="UserAlreadySignedError" xml:space="preserve">
+    <value>User with this email is already signed to this organization</value>
   </data>
-  <data name="Organizations" xml:space="preserve">
-    <value>Organizacje</value>
+  <data name="UserIsOwnerOrManager" xml:space="preserve">
+    <value>You cannot remove owner or manager</value>
   </data>
-  <data name="Project" xml:space="preserve">
-    <value>Projekt</value>
-  </data>
-  <data name="Projects" xml:space="preserve">
-    <value>Projekty</value>
-  </data>
-  <data name="User" xml:space="preserve">
-    <value>Użytkownik</value>
-  </data>
-  <data name="UserSettings" xml:space="preserve">
-    <value>Ustawienia użytkownika</value>
+  <data name="UserRemoved" xml:space="preserve">
+    <value>User was removed from organization</value>
   </data>
 </root>

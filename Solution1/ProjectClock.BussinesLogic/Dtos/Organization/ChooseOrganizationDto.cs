@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace ProjectClock.BusinessLogic.Dtos.Organization
 {
-    public class OrganizationDto
+    public class ChooseOrganizationDto
     {
         public int OrganizationId { get; set; }
-        public string OrganizationName { get; set;}
+        public string OrganizationName { get; set; }
     }
 }

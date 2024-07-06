@@ -11,11 +11,11 @@ namespace ProjectClock.MVC.Controllers
     public class ProjectController : Controller
     {
         private readonly IProjectServices _projectServices;
-        private readonly IOrganizationServices _organizationServices;
+        private readonly IOrganizationService _organizationServices;
         private readonly IAccountServices _accountServices;
 
         public ProjectController(IProjectServices serviceProject,
-            IOrganizationServices serviceOrganization,
+            IOrganizationService serviceOrganization,
             IAccountServices accountService)
         {
             _projectServices = serviceProject;

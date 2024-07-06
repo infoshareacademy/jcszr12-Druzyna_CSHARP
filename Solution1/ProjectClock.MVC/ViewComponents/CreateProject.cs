@@ -7,11 +7,11 @@ namespace ProjectClock.MVC.Services.Components;
 
 public class CreateProject : ViewComponent
 {
-    private readonly IOrganizationServices _organizationServices;
+    private readonly IOrganizationService _organizationServices;
     private readonly IAccountServices _accountService;
     
 
-    public CreateProject(IOrganizationServices organizationServices
+    public CreateProject(IOrganizationService organizationServices
         , IAccountServices accountService)
     {
         _organizationServices = organizationServices;

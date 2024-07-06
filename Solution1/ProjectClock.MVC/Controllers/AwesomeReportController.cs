@@ -19,14 +19,14 @@ public class AwesomeReportController : Controller
     private readonly IAccountServices _accountServices;
     private readonly IExcelServices _excelServices;
     private readonly IProjectServices _projectServices;
-    private readonly IOrganizationServices _organizationServices;
+    private readonly IOrganizationService _organizationServices;
 
     public AwesomeReportController(IWebHostEnvironment hostingEnvironment, 
         IExcelRaportServices excelRaportServices, 
         IAccountServices accountServices, 
         IExcelServices excelServices, 
         IProjectServices projectServices, 
-        IOrganizationServices organizationServices)
+        IOrganizationService organizationServices)
     {
         _hostingEnvironment = hostingEnvironment;
         _excelRaportServices = excelRaportServices;
