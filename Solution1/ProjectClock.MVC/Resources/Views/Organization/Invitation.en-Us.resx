@@ -126,4 +126,7 @@
   <data name="Invitations" xml:space="preserve">
     <value>Invitations</value>
   </data>
+  <data name="NoInvitations" xml:space="preserve">
+    <value>You have no invitations</value>
+  </data>
 </root>
