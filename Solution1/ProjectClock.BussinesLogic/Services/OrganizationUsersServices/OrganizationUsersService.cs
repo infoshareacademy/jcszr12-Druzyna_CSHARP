@@ -24,7 +24,7 @@ namespace ProjectClock.BusinessLogic.Services.OrganizationUserServices
         public async Task<IEnumerable<Organization>> GetUserOrganizations(int userId)
         {
             var userOrganizations =
-                await _projectClockDbContext.OrganizationsUsers.Where(ou => ou.UserId == userId).Select(ou => ou.Organization).ToListAsync();
+                await _projectClockDbContext.OrganizationsUsers.Where(ou => ou.UserId == userId && ou.AcceptedInvitation == true).Select(ou => ou.Organization).ToListAsync();
 
             return userOrganizations;
         }
@@ -130,7 +130,7 @@ namespace ProjectClock.BusinessLogic.Services.OrganizationUserServices
                 Console.WriteLine(e);
                 throw;
             }
-            
+
         }
 
         public async Task<bool> DegradeManager(int userId, int organizationId)
@@ -196,8 +196,10 @@ namespace ProjectClock.BusinessLogic.Services.OrganizationUserServices
         {
             try
             {
-                var invitingOrganizations = 
-                    _projectClockDbContext.OrganizationsUsers.Where(ou =>
+                var invitingOrganizations =
+                    _projectClockDbContext.OrganizationsUsers
+                        .Include(ou => ou.Organization)
+                        .Where(ou =>
                         ou.UserId == userId && ou.AcceptedInvitation == false).ToList();
 
                 if (invitingOrganizations.Count == 0)
@@ -215,8 +217,33 @@ namespace ProjectClock.BusinessLogic.Services.OrganizationUserServices
                 Console.WriteLine(e);
                 throw;
             }
+        }
 
-            
+        public async Task<bool> AcceptInvitation(int userId, int organizationId)
+        {
+            try
+            {
+                var invitingOrganization =
+                    _projectClockDbContext.OrganizationsUsers.FirstOrDefault(ou =>
+                        ou.UserId == userId && ou.OrganizationId == organizationId);
+
+                if (invitingOrganization is null)
+                {
+                    return false;
+                }
+                else
+                {
+                    invitingOrganization.AcceptedInvitation = true;
+                    _projectClockDbContext.SaveChangesAsync();
+                    return true;
+                }
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
 
     }

@@ -754,7 +754,7 @@ namespace ProjectClock.MVC.Controllers
 
             model.InvitingOrganizations = invitingOrganizationsDtoList;
 
-            return View("Invitations", model);
+            return View("Invitation", model);
         }
 
         // POST: OrganizationController/Delete/5
@@ -762,20 +762,27 @@ namespace ProjectClock.MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Invitation(int organizationId)
         {
-            try
-            {
-                bool deleted = await _organizationService.Delete(organizationId);
 
-                if (deleted)
+
+            HttpContext.User.Claims.TryGetAuthenticatedUserId(out var accountId);
+            int userId = await _accountService.GetUserIdFromAccountId(accountId);
+
+            try
+            {//tu zrobić nową metodę w serwisie i poprawić metody do wyszukiwania organizacji z AcceptedInvitations, jak remove from organization to usun cały wiersz, jak create OU to z ustawieniem Invited na true or false?
+                bool acceptedInvitation = await _organizationUserService.AcceptInvitation(userId, organizationId);
+                var organization = await _organizationService.GetById(organizationId);
+                var organizationName = organization.Name;
+
+                if (acceptedInvitation)
                 {
-                    TempData["SuccessMessage"] = "Organization deleted successfully.";
+                    TempData["AcceptanceSuccessMessage"] = $"Invitation confirmed. Welcome to {organizationName}";
                 }
                 else
                 {
-                    TempData["ErrorMessage"] = "This organization doesn't exists.";
+                    TempData["AcceptanceErrorMessage"] = "There's problem with this invitation.";
                 }
 
-                return RedirectToAction(nameof(Delete));
+                return RedirectToAction(nameof(Invitation));
             }
             catch
             {
