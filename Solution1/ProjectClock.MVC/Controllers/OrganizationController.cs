@@ -788,8 +788,6 @@ namespace ProjectClock.MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Invitation(int organizationId)
         {
-
-
             HttpContext.User.Claims.TryGetAuthenticatedUserId(out var accountId);
             int userId = await _accountService.GetUserIdFromAccountId(accountId);
 
