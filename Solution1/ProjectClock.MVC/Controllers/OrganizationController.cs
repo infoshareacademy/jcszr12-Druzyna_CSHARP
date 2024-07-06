@@ -64,7 +64,7 @@ namespace ProjectClock.MVC.Controllers
 
                 if (_organizationUserService.IsUserAnOwner(organizationDto.UserId))
                 {
-                    TempData["ErrorMessage"] = "You are already an owner of organization. You can only be owner of one organization.";
+                    TempData["ErrorMessage"] = _localizer["CreateErrorAlready"].Value;
                 }
                 else
                 {
@@ -72,12 +72,12 @@ namespace ProjectClock.MVC.Controllers
 
                     if (created)
                     {
-                        TempData["SuccessMessage"] = "Organization created successfully.";
+                        TempData["SuccessMessage"] = _localizer["CreateSuccess"].Value;
 
                     }
                     else
                     {
-                        TempData["ErrorMessage"] = "This organization already exists.";
+                        TempData["ErrorMessage"] = _localizer["CreateErrorNameExist"].Value;
                     }
                 }
 
@@ -123,11 +123,11 @@ namespace ProjectClock.MVC.Controllers
 
                 if (deleted)
                 {
-                    TempData["SuccessMessage"] = "Organization deleted successfully.";
+                    TempData["SuccessMessage"] = _localizer["OrgDeleteSuccess"].Value;
                 }
                 else
                 {
-                    TempData["ErrorMessage"] = "This organization doesn't exists.";
+                    TempData["ErrorMessage"] = _localizer["OrgDeleteError"].Value;
                 }
 
                 return RedirectToAction(nameof(Delete));
@@ -342,7 +342,7 @@ namespace ProjectClock.MVC.Controllers
               
                 if (!userExist)
                 {
-                    TempData["NoUsersMessage"] = $"User with email {email} does not exist in our base.";
+                    TempData["NoUsersMessage"] = _localizer["AddingUserError"].Value;
                 }
                 else
                 {
@@ -351,14 +351,14 @@ namespace ProjectClock.MVC.Controllers
 
                     if (await _organizationUserService.IsUserSignedToOrganization(newUserId, organizationId))
                     {
-                        TempData["userAlreadySignedMessage"] = $"User with email {email} is already signed to {chosenOrganizationName}.";
+                        TempData["userAlreadySignedMessage"] = _localizer["UserAlreadySignedError"].Value;
                     }
                     
                     bool addingSucceeded = await _organizationService.AddUser(organizationId, newUserId);
 
                     if (addingSucceeded)
                     {
-                        TempData["userAddedMessage"] = $"Invitation was sent to user with email {email}.";
+                        TempData["userAddedMessage"] = _localizer["InvitationSend"].Value;
                     }
                 }
             }
@@ -465,13 +465,13 @@ namespace ProjectClock.MVC.Controllers
 
                 if (organizationUserToRemove.Role == Position.Manager || organizationUserToRemove.Role == Position.Owner)
                 {
-                    TempData["UserToRemoveIsAnOwnerOrManager"] = $"You cannot remove owner or manager.";
+                    TempData["UserToRemoveIsAnOwnerOrManager"] = _localizer["UserIsOwnerOrManager"].Value;
                 }
                 else
                 {
                     if (await _organizationUserService.RemoveUserFromOrganization(userToRemoveId, organizationId))
                     {
-                        TempData["UserRemovedSuccessfully"] = $"User with email {userToBeRemovedFromOrganization.Name} was removed from {chosenOrganizationName}.";
+                        TempData["UserRemovedSuccessfully"] = _localizer["UserRemoved"].Value;
                     }
                 }
             }
@@ -577,13 +577,13 @@ namespace ProjectClock.MVC.Controllers
 
                 if (organizationUserToAdvance.Role == Position.Manager || organizationUserToAdvance.Role == Position.Owner)
                 {
-                    TempData["UserToAdvanceIsManagerOrOwner"] = $"You cannot advance owner or manager.";
+                    TempData["UserToAdvanceIsManagerOrOwner"] = _localizer["PromotionFailed"].Value ;
                 }//dodać warunek że tylko user moze dodawać promocje
                 else
                 {
                     if (await _organizationUserService.AdvanceUserToManager(userToBecomeManagerId, organizationId))
                     {
-                        TempData["UserAdvancedSuccessfully"] = $"User {userToBeAdvanced.Name} was advanced to manager role.";
+                        TempData["UserAdvancedSuccessfully"] = _localizer["PromotionSuccess"].Value;
                     }
                 }
             }
@@ -689,17 +689,17 @@ namespace ProjectClock.MVC.Controllers
 
                 if (organizationUserToDegrade.Role == Position.User || organizationUserToDegrade.Role == Position.Owner)
                 {
-                    TempData["UserDegradeFromManagerFailedMessage"] = $"You cannot degrade this person, because it is owner or common user.";
+                    TempData["UserDegradeFromManagerFailedMessage"] = _localizer["DegradationFailure"].Value;
                 }
                 else if (!await _organizationUserService.IsUserAnOwnerOfParticularOrganization(userId, organizationId))
                 {
-                    TempData["LoggedInUserIsNotAnOwner"] = $"You do not have right to degrade managers.";
+                    TempData["LoggedInUserIsNotAnOwner"] = _localizer["DegradationFailureNoRights"].Value;
                 }
                 else
                 {
                     if (await _organizationUserService.DegradeManager(userToDegradeId, organizationId))
                     {
-                        TempData["UserAdvancedSuccessfully"] = $"User {managerToDegrade.Name} was degraded from manager role.";
+                        TempData["UserAdvancedSuccessfully"] = _localizer["DegradationSuccess"].Value;
                     }
                 }
             }

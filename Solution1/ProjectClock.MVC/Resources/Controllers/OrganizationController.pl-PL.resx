@@ -118,51 +118,51 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AddingUserError" xml:space="preserve">
-    <value>User with this email does not exist in our base</value>
+    <value>Użytkownik z tym emailem nie istnieje w bazie</value>
   </data>
   <data name="CreateError" xml:space="preserve">
-    <value>You didn't enter name of organization</value>
+    <value>Nie poddałeś nawy organizacji</value>
   </data>
   <data name="CreateErrorAlready" xml:space="preserve">
-    <value>You are already an owner of organization. You can only be owner of one organization</value>
+    <value>Jesteś już właścicielem organizacji. Możesz być właścicielem tylko jednej organizacji</value>
   </data>
   <data name="CreateErrorNameExist" xml:space="preserve">
-    <value>This organization already exists</value>
+    <value>Organizacja o tej nazwie już istnieje</value>
   </data>
   <data name="CreateSuccess" xml:space="preserve">
-    <value>Organization created successfully</value>
+    <value>Organizacja została stworzona</value>
   </data>
   <data name="DegradationFailure" xml:space="preserve">
-    <value>You cannot degrade this person, because it is owner or common user</value>
+    <value>Nie możesz zdegradować tej osoby</value>
   </data>
   <data name="DegradationFailureNoRights" xml:space="preserve">
-    <value>You do not have right to degrade managers</value>
+    <value>Nie masz uprawnień do degradacji menedżerów</value>
   </data>
   <data name="DegradationSuccess" xml:space="preserve">
-    <value>User was degraded from manager role</value>
+    <value>Użytkownik został zdegradowany z funkcji menedżera</value>
   </data>
   <data name="InvitationSend" xml:space="preserve">
-    <value>Invitation was sent to user</value>
+    <value>Zaproszenie zostało wysłane do pracownika</value>
   </data>
   <data name="OrgDeleteError" xml:space="preserve">
-    <value>This organization doesn't exists</value>
+    <value>Organizacja o tej nazwie nie istnieje</value>
   </data>
   <data name="OrgDeleteSuccess" xml:space="preserve">
-    <value>Organization deleted successfully</value>
+    <value>Organizacja została zamknięta</value>
   </data>
   <data name="PromotionFailed" xml:space="preserve">
-    <value>You cannot advance owner or manager</value>
+    <value>Nie można promować właściciela lub menedżera</value>
   </data>
   <data name="PromotionSuccess" xml:space="preserve">
-    <value>User was advanced to manager role</value>
+    <value>Pracownik został awansowany na menedżera</value>
   </data>
   <data name="UserAlreadySignedError" xml:space="preserve">
-    <value>User with this email is already signed to this organization</value>
+    <value>Pracownik jest już przypisany do tej organiacji</value>
   </data>
   <data name="UserIsOwnerOrManager" xml:space="preserve">
-    <value>You cannot remove owner or manager</value>
+    <value>Nie możesz usunąć włąściciela lub menedżera</value>
   </data>
   <data name="UserRemoved" xml:space="preserve">
-    <value>User was removed from organization</value>
+    <value>Użytkownik został wywalony na zbity pysk!</value>
   </data>
 </root>
