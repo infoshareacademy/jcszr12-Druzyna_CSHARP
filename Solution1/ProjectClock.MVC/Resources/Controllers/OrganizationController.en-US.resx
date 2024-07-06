@@ -136,7 +136,7 @@
     <value>You cannot degrade this person, because it is owner or common user</value>
   </data>
   <data name="DegradationFailureNoRights" xml:space="preserve">
-    <value>You do not have right to degrade managers</value>
+    <value>You do not have right to promote or degrade managers</value>
   </data>
   <data name="DegradationSuccess" xml:space="preserve">
     <value>User was degraded from manager role</value>

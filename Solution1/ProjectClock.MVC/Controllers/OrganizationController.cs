@@ -578,7 +578,11 @@ namespace ProjectClock.MVC.Controllers
                 if (organizationUserToAdvance.Role == Position.Manager || organizationUserToAdvance.Role == Position.Owner)
                 {
                     TempData["UserToAdvanceIsManagerOrOwner"] = _localizer["PromotionFailed"].Value ;
-                }//dodać warunek że tylko user moze dodawać promocje
+                }
+                else if (!await _organizationUserService.IsUserAnOwnerOfParticularOrganization(userId, organizationId))
+                {
+                    TempData["LoggedInUserIsNotAnOwner"] = _localizer["DegradationFailureNoRights"].Value;
+                }
                 else
                 {
                     if (await _organizationUserService.AdvanceUserToManager(userToBecomeManagerId, organizationId))
