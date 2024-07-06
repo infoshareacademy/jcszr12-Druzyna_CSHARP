@@ -37,6 +37,16 @@ namespace ProjectClock.BusinessLogic.Services.OrganizationUserServices
             return organizationUsers;
         }
 
+        public async Task<IEnumerable<User>> GetOrganizationUsersExceptOwner(int organizationId, int userId)
+        {
+            var organizationUsers = await _projectClockDbContext.OrganizationsUsers
+                .Where(ou => ou.OrganizationId == organizationId && ou.AcceptedInvitation == true && ou.UserId != userId)
+                .Select(ou => ou.User)
+                .ToListAsync();
+
+            return organizationUsers;
+        }
+
         public async Task<bool> IsUserSignedToOrganization(int userId, int organizationId)
         {
             return _projectClockDbContext.OrganizationsUsers.Any(ou =>

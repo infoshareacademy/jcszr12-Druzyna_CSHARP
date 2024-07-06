@@ -7,6 +7,7 @@ using ProjectClock.BusinessLogic.Services.OrganizationServices;
 using ProjectClock.BusinessLogic.Services.OrganizationUserServices;
 using ProjectClock.BusinessLogic.Services.UserServices;
 using ProjectClock.Database;
+using ProjectClock.Database.Entities;
 using ProjectClock.MVC.Extensions;
 using Position = ProjectClock.Database.Entities.Position;
 
@@ -364,8 +365,8 @@ namespace ProjectClock.MVC.Controllers
             }
 
 
-            #endregion
 
+            #endregion
             #region ChooseUserDtoLoading
            
             var updatedOrganizationUsers = await _organizationUserService.GetOrganizationUsers(organizationId);
