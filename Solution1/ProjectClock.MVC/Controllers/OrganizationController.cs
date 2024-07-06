@@ -117,20 +117,34 @@ namespace ProjectClock.MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int organizationId)
         {
+            
             try
             {
-                bool deleted = await _organizationService.Delete(organizationId);
+                HttpContext.User.Claims.TryGetAuthenticatedUserId(out var accountId);
+                int userId = await _accountService.GetUserIdFromAccountId(accountId);
 
-                if (deleted)
+
+                if (!await _organizationUserService.IsUserAnOwnerOfParticularOrganization(userId, organizationId))
                 {
-                    TempData["SuccessMessage"] = _localizer["OrgDeleteSuccess"].Value;
+                    TempData["LoggedInUserIsNotAnOwner"] = _localizer["DegradationFailureNoRights"].Value;
+                    return RedirectToAction(nameof(Delete));
                 }
                 else
                 {
-                    TempData["ErrorMessage"] = _localizer["OrgDeleteError"].Value;
-                }
+                    bool deleted = await _organizationService.Delete(organizationId);
 
-                return RedirectToAction(nameof(Delete));
+                    if (deleted)
+                    {
+                        TempData["SuccessMessage"] = _localizer["OrgDeleteSuccess"].Value;
+                    }
+                    else
+                    {
+                        TempData["ErrorMessage"] = _localizer["OrgDeleteError"].Value;
+                    }
+
+                    return RedirectToAction(nameof(Delete));
+                }
+              
             }
             catch
             {

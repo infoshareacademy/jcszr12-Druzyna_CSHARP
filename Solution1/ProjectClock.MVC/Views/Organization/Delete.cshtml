@@ -3,6 +3,7 @@
 @{
     var successMessage = TempData["SuccessMessage"] as string;
     var errorMessage = TempData["ErrorMessage"] as string;
+    var errorMessage2 = TempData["LoggedInUserIsNotAnOwner"] as string;
 }
 
 @inject IViewLocalizer Localizer
@@ -55,5 +56,10 @@
 {
     <div class="alert alert-danger" role="alert">
         @errorMessage
+    </div>
+}@if (!string.IsNullOrEmpty(errorMessage2))
+{
+    <div class="alert alert-danger" role="alert">
+        @errorMessage2
     </div>
 }

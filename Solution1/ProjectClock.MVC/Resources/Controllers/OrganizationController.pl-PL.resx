@@ -136,7 +136,7 @@
     <value>Nie możesz zdegradować tej osoby</value>
   </data>
   <data name="DegradationFailureNoRights" xml:space="preserve">
-    <value>Nie masz uprawnień do zwalniania, degradacji lub awansowania menedżerów</value>
+    <value>Nie masz uprawnień do zwalniania, degradacji lub awansowania pracowników oraz do zamykania organizacji</value>
   </data>
   <data name="DegradationSuccess" xml:space="preserve">
     <value>Użytkownik został zdegradowany z funkcji menedżera</value>
