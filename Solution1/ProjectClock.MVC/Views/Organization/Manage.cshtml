@@ -40,16 +40,20 @@
     .alert {
         margin-top: 20px;
     }
+
+    .white-title-color {
+        color: white; /* Biały kolor */
+    }
 </style>
 
 @{
     if (Model.OrganizationNames is null)
     {
-        <h1 class="fw-bold mb-4 text-center text-primary">@Localizer["ManageOrg"]</h1>
+        <h1 class="fw-bold mb-4 text-center white-title-color">@Localizer["ManageOrg"]</h1>
     }
     else
     {
-        <h1 class="fw-bold mb-4 text-center text-primary">@Localizer["ManageOrg"] @Model.OrganizationName</h1>
+        <h1 class="fw-bold mb-4 text-center white-title-color">@Localizer["ManageOrg"] @Model.OrganizationName</h1>
     }
 }
 
@@ -134,7 +138,6 @@
             </div>
         }
     }
-
 </div>
 
 @if (!string.IsNullOrEmpty(noUsersMessage))
