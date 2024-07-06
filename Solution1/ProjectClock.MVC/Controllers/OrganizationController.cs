@@ -467,6 +467,10 @@ namespace ProjectClock.MVC.Controllers
                 {
                     TempData["UserToRemoveIsAnOwnerOrManager"] = _localizer["UserIsOwnerOrManager"].Value;
                 }
+                else if (!await _organizationUserService.IsUserAnOwnerOfParticularOrganization(userId, organizationId))
+                {
+                    TempData["LoggedInUserIsNotAnOwner"] = _localizer["DegradationFailureNoRights"].Value;
+                }
                 else
                 {
                     if (await _organizationUserService.RemoveUserFromOrganization(userToRemoveId, organizationId))
