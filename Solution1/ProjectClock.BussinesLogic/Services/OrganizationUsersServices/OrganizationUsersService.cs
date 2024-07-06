@@ -16,7 +16,7 @@ namespace ProjectClock.BusinessLogic.Services.OrganizationUserServices
 
         public bool IsUserAnOwner(int userId) //nie do końca dobre
         {
-            int numOfProjects = _projectClockDbContext.OrganizationsUsers.Count(ou => ou.UserId == userId);
+            int numOfProjects = _projectClockDbContext.OrganizationsUsers.Count(ou => ou.UserId == userId && ou.Role == Position.Owner);
 
             return numOfProjects > 0;
         }
