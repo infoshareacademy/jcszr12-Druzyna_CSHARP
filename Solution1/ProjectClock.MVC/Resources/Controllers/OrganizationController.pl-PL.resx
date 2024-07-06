@@ -141,6 +141,9 @@
   <data name="DegradationSuccess" xml:space="preserve">
     <value>Użytkownik został zdegradowany z funkcji menedżera</value>
   </data>
+  <data name="InvitationConfirmed" xml:space="preserve">
+    <value>Zaprosznie potwierdzone</value>
+  </data>
   <data name="InvitationSend" xml:space="preserve">
     <value>Zaproszenie zostało wysłane do pracownika</value>
   </data>

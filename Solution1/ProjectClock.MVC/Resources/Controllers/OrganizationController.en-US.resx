@@ -141,6 +141,9 @@
   <data name="DegradationSuccess" xml:space="preserve">
     <value>User was degraded from manager role</value>
   </data>
+  <data name="InvitationConfirmed" xml:space="preserve">
+    <value>Invitation confirmed</value>
+  </data>
   <data name="InvitationSend" xml:space="preserve">
     <value>Invitation was sent to user</value>
   </data>

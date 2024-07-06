@@ -778,7 +778,7 @@ namespace ProjectClock.MVC.Controllers
 
                 if (acceptedInvitation)
                 {
-                    TempData["AcceptanceSuccessMessage"] = $"Invitation confirmed";
+                    TempData["AcceptanceSuccessMessage"] = _localizer["InvitationConfirmed"].Value;
                 }
                 else
                 {
