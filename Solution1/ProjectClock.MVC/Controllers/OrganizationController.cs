@@ -772,25 +772,24 @@ namespace ProjectClock.MVC.Controllers
             int userId = await _accountService.GetUserIdFromAccountId(accountId);
 
             try
-            {//tu zrobić nową metodę w serwisie i poprawić metody do wyszukiwania organizacji z AcceptedInvitations, jak remove from organization to usun cały wiersz, jak create OU to z ustawieniem Invited na true or false?
+            {
                 bool acceptedInvitation = await _organizationUserService.AcceptInvitation(userId, organizationId);
-                var organization = await _organizationService.GetById(organizationId);
-                var organizationName = organization.Name;
+               
 
                 if (acceptedInvitation)
                 {
-                    TempData["AcceptanceSuccessMessage"] = $"Invitation confirmed. Welcome to {organizationName}";
+                    TempData["AcceptanceSuccessMessage"] = $"Invitation confirmed";
                 }
                 else
                 {
-                    TempData["AcceptanceErrorMessage"] = "There's problem with this invitation.";
+                    TempData["AcceptanceErrorMessage"] = "There's problem with this invitation";
                 }
 
                 return RedirectToAction(nameof(Invitation));
             }
             catch
             {
-                return View();
+                return RedirectToAction(nameof(Invitation));
             }
         }
 

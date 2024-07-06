@@ -23,22 +23,39 @@
 <div class="container-lg">
 
     <div class="row">
-        <div class="col-md-3 transparent-border mx-auto d-flex justify-content-center align-items-center">
-            <form asp-controller="Organization" asp-action="Invitation" method="post">
-                <div class="mb-2">
-                    <label for="selectedOrganization">@Localizer["ChooseOrgToAccept"]</label>
-                    <select class="form-select form-select-sm" aria-label="Small select example" id="selectedOrganization" name="organizationId">
-                        @{
-                            foreach (var organization in Model.InvitingOrganizations)
-                            {
-                                <option value="@organization.OrganizationId">@organization.OrganizationName</option>
+        
+        @{
+            if (Model.InvitingOrganizations.Count != 0)
+            {
+                <div class="col-md-3 transparent-border mx-auto d-flex justify-content-center align-items-center">
+                    <form asp-controller="Organization" asp-action="Invitation" method="post">
+                        <div class="mb-2">
+                            <label for="selectedOrganization">@Localizer["ChooseOrgToAccept"]</label>
+
+                            @{
+                        
+                        
+                                <select class="form-select form-select-sm" aria-label="Small select example" id="selectedOrganization" name="organizationId">
+                                    @{
+                                        foreach (var organization in Model.InvitingOrganizations)
+                                        {
+                                            <option value="@organization.OrganizationId">@organization.OrganizationName</option>
+                                        }
+                                    }
+                                </select>
+                        
+
                             }
-                        }
-                    </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-sm d-block mx-auto">@Localizer["AcceptBtn"]</button>
+                    </form>
                 </div>
-                <button type="submit" class="btn btn-primary btn-sm d-block mx-auto">@Localizer["AcceptBtn"]</button>
-            </form>
-        </div>
+            }
+            else
+            {
+                <p>You have no invitations</p>
+            }
+        }
     </div>
 
 
