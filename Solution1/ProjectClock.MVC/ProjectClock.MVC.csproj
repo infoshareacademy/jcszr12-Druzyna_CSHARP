@@ -45,4 +45,10 @@
 	  <None Include="Views\Raport\User.cshtml" />
 	  <None Include="Views\Shared\Components\Raport\_LayoutRaport.cshtml" />
 	</ItemGroup>
+	<ItemGroup>
+	  <Content Update="Views\Organization\Invitation.cshtml">
+	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+	    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+	  </Content>
+	</ItemGroup>
 </Project>

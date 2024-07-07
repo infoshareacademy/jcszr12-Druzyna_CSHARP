@@ -1,19 +1,18 @@
-﻿using ProjectClock.Database.Entities;
+﻿using ProjectClock.BusinessLogic.Dtos.Organization;
 
 namespace ProjectClock.BusinessLogic.Dtos.OrganizationDto
 {
     public class ManageOrganizationDto
     {
-        public int OrganizationId { get; set; }
         public int? SelectedOrganizationId { get; set; }
-        public Database.Entities.Organization? Organization { get; set; }
-        public User User { get; set; }
-        public List<Database.Entities.Organization> Organizations { get; set; }
-        public List<Database.Entities.User>? OrganizationUsers { get; set; } = new List<Database.Entities.User> ();
-        public List<Database.Entities.Project>? Projects { get; set; } = new List<Database.Entities.Project>();
-        public List<User>? AllUsers { get; set; } = new List<User>();
+        public ICollection<int>? OrganizationIds { get; set; } = new List<int>();
+        public string? OrganizationName { get; set; }
+        public ICollection<string> OrganizationNames { get; set; }
+        public ICollection<ChooseOrganizationDto> ChooseOrganizations { get; set; } = new List<ChooseOrganizationDto>();
+        public ICollection<ChooseUserDto> ChooseUserDto { get; set; } = new List<ChooseUserDto>();
+        public ICollection<string> OrganizationUserNames { get; set; } = new List<string>();
 
     }
 
-   
+
 }

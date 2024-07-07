@@ -20,13 +20,13 @@ namespace ProjectClock.MVC.Controllers
         private readonly IAccountServices _accountServices;
         private readonly IExcelServices _excelServices;
         private readonly IProjectServices _projectServices;
-        private readonly IOrganizationServices _organizationServices;
+        private readonly IOrganizationService _organizationServices;
         public ExcelController(IWebHostEnvironment hostingEnvironment,
             IExcelRaportServices excelRaportServices,
             IExcelServices excelServices,
             IAccountServices accountServices,
             IProjectServices projectServices,
-            IOrganizationServices organizationServices)
+            IOrganizationService organizationServices)
         {
             _hostingEnvironment = hostingEnvironment;
             _excelRaportServices = excelRaportServices;

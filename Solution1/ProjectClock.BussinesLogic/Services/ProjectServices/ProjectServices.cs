@@ -69,7 +69,7 @@ namespace ProjectClock.BusinessLogic.Services.ProjectServices
 
         public async Task<IEnumerable<ProjectDto>> GetAllUserProjects(int userId)
         {
-            var organizations = await _projectClockDbContext.OrganizationsUsers.Where(o => o.UserId == userId).ToListAsync();
+            var organizations = await _projectClockDbContext.OrganizationsUsers.Where(o => o.UserId == userId && o.AcceptedInvitation == true).ToListAsync();
 
             var list = new List<Project>();
 
@@ -146,7 +146,7 @@ namespace ProjectClock.BusinessLogic.Services.ProjectServices
 
         public async Task<IEnumerable<ProjectWithAccessLevelDto>> GetAllUserProjectsFromOrganizationWhereIsUser(int userId)
         {
-            var organizations = await _projectClockDbContext.OrganizationsUsers.Where(o => o.UserId == userId && o.Role == Position.User).ToListAsync();
+            var organizations = await _projectClockDbContext.OrganizationsUsers.Where(o => o.UserId == userId && o.Role == Position.User && o.AcceptedInvitation == true).ToListAsync();
 
             var list = new List<Project>();
 

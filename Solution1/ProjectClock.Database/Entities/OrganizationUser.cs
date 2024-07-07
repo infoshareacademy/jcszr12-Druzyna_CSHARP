@@ -12,5 +12,6 @@ namespace ProjectClock.Database.Entities
         [ForeignKey("Organization")]
         public int OrganizationId { get; set; }
         public Organization Organization { get; set; }
+        public bool AcceptedInvitation { get; set; }
     }
 }

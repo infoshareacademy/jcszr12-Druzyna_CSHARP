@@ -1,8 +1,10 @@
-﻿@model List<ProjectClock.Database.Entities.Organization>
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@model List<ProjectClock.Database.Entities.Organization>
 @{
     var successMessage = TempData["SuccessMessage"] as string;
     var errorMessage = TempData["ErrorMessage"] as string;
 }
+@inject IViewLocalizer Localizer
 
 <style>
     .transparent-border {
@@ -15,7 +17,7 @@
     }
 </style>
 
-<h1 class="fw-bold mb-4 text-center">Organization management</h1>
+<h1 class="fw-bold mb-4 text-center">@Localizer["CreateOrg"]</h1>
 
 
 
@@ -24,11 +26,11 @@
         <div class="col-md-3 transparent-border mx-auto d-flex justify-content-center align-items-center">
             @using (Html.BeginForm("Create", "Organization", FormMethod.Post))
             {
-                    <div class="mb-2"> 
-                    <label for="organizationName" class="form-label">Create new organization</label>
-                    <input type="text" name="Name" class="form-control form-control-sm" id="Name" placeholder="Type name here">
+                    <div class="mb-2">
+                    <label for="organizationName" class="form-label">@Localizer["EnterName"]</label>
+                    <input type="text" name="Name" class="form-control form-control-sm" id="Name" placeholder="@Localizer["EnterHere"]">
                 </div>
-                <button type="submit" class="btn btn-primary btn-sm d-block mx-auto">Create</button>
+                <button type="submit" class="btn btn-primary btn-sm d-block mx-auto">@Localizer["Create"]</button>
             }
         </div>
     </div>

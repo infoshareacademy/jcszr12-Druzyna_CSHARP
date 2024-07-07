@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using ProjectClock.BusinessLogic.Dtos.Organization;
 using ProjectClock.BusinessLogic.Dtos.OrganizationDto;
 using ProjectClock.BusinessLogic.Services.AccountServices;
@@ -7,45 +8,36 @@ using ProjectClock.BusinessLogic.Services.OrganizationServices;
 using ProjectClock.BusinessLogic.Services.OrganizationUserServices;
 using ProjectClock.BusinessLogic.Services.UserServices;
 using ProjectClock.Database;
-using ProjectClock.Database.Entities;
 using ProjectClock.MVC.Extensions;
+using Position = ProjectClock.Database.Entities.Position;
 
 namespace ProjectClock.MVC.Controllers
 {
     public class OrganizationController : Controller
     {
-        private IOrganizationServices _organizationServices;
-        private IUserServices _userServices;
+        private IOrganizationService _organizationService;
+        private IUserServices _userService;
         private IAccountServices _accountService;
-        private IOrganizationUserServices _organizationUserServices;
+        private IOrganizationUserService _organizationUserService;
+        private ProjectClockDbContext _projectClockDbContext;
         private IMapper _mapper;
+        private readonly IStringLocalizer<OrganizationController> _localizer;
 
-        public OrganizationController(IOrganizationServices organizationServices, 
-            IUserServices userServices, 
-            IAccountServices accountService, 
-            IOrganizationUserServices organizationUserServices,
-            IMapper mapper)
+        public OrganizationController(IOrganizationService organizationServices,
+            IUserServices userServices,
+            IAccountServices accountService,
+            IOrganizationUserService organizationUserServices,
+            ProjectClockDbContext projectClockDbContext,
+            IMapper mapper,
+            IStringLocalizer<OrganizationController> localizer)
         {
             _mapper = mapper;
-            _userServices = userServices;
-            _organizationServices = organizationServices;
+            _userService = userServices;
+            _organizationService = organizationServices;
             _accountService = accountService;
-            _organizationUserServices = organizationUserServices;
-        }
-
-        // GET: OrganizationController
-        public async Task<IActionResult> Index()
-        {
-            var list = await _organizationServices.GetAll();
-            return View(list);
-        }
-
-
-        // GET: OrganizationController/Details/5
-        public ActionResult Details(int id)
-        {
-            var organization = _organizationServices.GetById(id);
-            return View(organization);
+            _organizationUserService = organizationUserServices;
+            _projectClockDbContext = projectClockDbContext;
+            _localizer = localizer;
         }
 
         public ActionResult Create()
@@ -62,7 +54,7 @@ namespace ProjectClock.MVC.Controllers
             {
                 if (!ModelState.IsValid)
                 {
-                    TempData["ErrorMessage"] = "You didn't enter name of organization.";
+                    TempData["ErrorMessage"] = _localizer["CreateError"].Value;
                     return View();
                 }
 
@@ -70,22 +62,22 @@ namespace ProjectClock.MVC.Controllers
                 HttpContext.User.Claims.TryGetAuthenticatedUserId(out var accountId);
                 organizationDto.UserId = await _accountService.GetUserIdFromAccountId(accountId);
 
-                if (_organizationUserServices.IsUserAnOwner(organizationDto.UserId))
+                if (_organizationUserService.IsUserAnOwner(organizationDto.UserId))
                 {
-                    TempData["ErrorMessage"] = "You are already an owner of organization. You can only be owner of one organization.";
+                    TempData["ErrorMessage"] = _localizer["CreateErrorAlready"].Value;
                 }
                 else
                 {
-                    bool created = await _organizationServices.Create(organizationDto);
+                    bool created = await _organizationService.Create(organizationDto);
 
                     if (created)
                     {
-                        TempData["SuccessMessage"] = "Organization created successfully.";
+                        TempData["SuccessMessage"] = _localizer["CreateSuccess"].Value;
 
                     }
                     else
                     {
-                        TempData["ErrorMessage"] = "This organization already exists.";
+                        TempData["ErrorMessage"] = _localizer["CreateErrorNameExist"].Value;
                     }
                 }
 
@@ -98,34 +90,6 @@ namespace ProjectClock.MVC.Controllers
             }
         }
 
-
-
-
-
-        // GET: OrganizationController/Edit/5
-        public async Task<ActionResult> Edit(int id)
-        {
-            var model = await _organizationServices.GetById(id);
-            return View(model);
-        }
-
-        // POST: OrganizationController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Organization model)
-        {
-
-            try
-            {
-                _organizationServices.Update(model);
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
         // GET: OrganizationController/Delete/5
         public async Task<IActionResult> Delete()
         {
@@ -134,14 +98,15 @@ namespace ProjectClock.MVC.Controllers
             HttpContext.User.Claims.TryGetAuthenticatedUserId(out var accountId);
             int userId = await _accountService.GetUserIdFromAccountId(accountId);
 
-            var userOrganizations = await _organizationUserServices.GetUserOrganizations(userId);
+            var userOrganizations = await _organizationUserService.GetUserOrganizations(userId);
 
             var organizationDtoList = userOrganizations.Select(x => new OrganizationDto()
             {
                 OrganizationId = x.Id,
                 OrganizationName = x.Name
+
             }).ToList();
-           
+
             model.Organizations = organizationDtoList;
 
             return View("Delete", model);
@@ -152,20 +117,34 @@ namespace ProjectClock.MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int organizationId)
         {
+            
             try
             {
-                bool deleted = await _organizationServices.Delete(organizationId);
+                HttpContext.User.Claims.TryGetAuthenticatedUserId(out var accountId);
+                int userId = await _accountService.GetUserIdFromAccountId(accountId);
 
-                if (deleted)
+
+                if (!await _organizationUserService.IsUserAnOwnerOfParticularOrganization(userId, organizationId))
                 {
-                    TempData["SuccessMessage"] = "Organization deleted successfully.";
+                    TempData["LoggedInUserIsNotAnOwner"] = _localizer["DegradationFailureNoRights"].Value;
+                    return RedirectToAction(nameof(Delete));
                 }
                 else
                 {
-                    TempData["ErrorMessage"] = "This organization doesn't exists.";
-                }
+                    bool deleted = await _organizationService.Delete(organizationId);
 
-                return RedirectToAction(nameof(Delete));
+                    if (deleted)
+                    {
+                        TempData["SuccessMessage"] = _localizer["OrgDeleteSuccess"].Value;
+                    }
+                    else
+                    {
+                        TempData["ErrorMessage"] = _localizer["OrgDeleteError"].Value;
+                    }
+
+                    return RedirectToAction(nameof(Delete));
+                }
+              
             }
             catch
             {
@@ -173,105 +152,665 @@ namespace ProjectClock.MVC.Controllers
             }
         }
 
-
         public async Task<IActionResult> Manage()
         {
             ManageOrganizationDto model = new ManageOrganizationDto();
 
-            var organizations = await _organizationServices.GetAll();
+            #region UserIdGetter
+            /* pobranie id użytkownika */
+            HttpContext.User.Claims.TryGetAuthenticatedUserId(out var accountId);
+            int userId = await _accountService.GetUserIdFromAccountId(accountId);
+            #endregion
 
-            model.Organizations = organizations;
+
+            #region GettingOrganizationNamesAndIdsToDto
+            /* pobranie organizacji użytkownika */
+            var organizations = await _organizationUserService.GetUserOrganizations(userId);
+
+            /* wyselekcjonowanie nazw i id organizacji uzytkownia */
+            List<string> organizationNames = organizations.Select(o => o.Name).ToList();
+            List<int> organizationIds = organizations.Select(o => o.Id).ToList();
+
+            /* przypisanie nazw i id do modelu */
+            model.OrganizationNames = organizationNames;
+            model.OrganizationIds = organizationIds;
+
+            #endregion
+
+
+
+            #region ChooseOrganizationDtoLoading
+            /* zaladowanie do dto ChooseOrganizationDto nazw i id w celu wyswietlenia listy i pobrania id wybranej organizacji */
+            
+            var chooseOragnizationDtoList = new List<ChooseOrganizationDto>();
+
+            for (int i = 0; i < organizationNames.Count; i++)
+            {
+                ChooseOrganizationDto chooseOrganizationDto = new ChooseOrganizationDto()
+                {
+                    OrganizationId = organizationIds[i],
+                    OrganizationName = organizationNames[i]
+                };
+
+                chooseOragnizationDtoList.Add(chooseOrganizationDto);
+            }
+
+            /* przypisanie do modelu dto */
+            model.ChooseOrganizations = chooseOragnizationDtoList;
+            #endregion
+
+            return View("Manage", model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Choose(int organizationId)
+        {
+            var model = new ManageOrganizationDto
+            {
+                SelectedOrganizationId = organizationId
+            };
+
+            #region UserIdGetter
+            /* pobranie id użytkownika */
+            HttpContext.User.Claims.TryGetAuthenticatedUserId(out var accountId);
+            int userId = await _accountService.GetUserIdFromAccountId(accountId);
+            #endregion
+
+            #region GettingOrganizationNamesAndIdsToDto
+            /* pobranie organizacji użytkownia */
+            var organizations = await _organizationUserService.GetUserOrganizations(userId);
+
+            /* wyselekcjonowanie nazw i id organizacji uzytkownia */
+            List<string> organizationNames = organizations.Select(o => o.Name).ToList();
+            List<int> organizationIds = organizations.Select(o => o.Id).ToList();
+
+            /* przypisanie nazw i id do modelu */
+            model.OrganizationNames = organizationNames;
+            model.OrganizationIds = organizationIds;
+            
+            #endregion
+
+            #region ChooseOrganizationDtoLoading
+            /* zaladowanie do dto ChooseOrganizationDto nazw i id w celu wyswietlenia listy i pobrania id wybranej organizacji */
+            var chooseOragnizationDtoList = new List<ChooseOrganizationDto>();
+
+            for (int i = 0; i < organizationNames.Count; i++)
+            {
+                ChooseOrganizationDto chooseOrganizationDto = new ChooseOrganizationDto()
+                {
+                    OrganizationId = organizationIds[i],
+                    OrganizationName = organizationNames[i]
+                };
+
+                chooseOragnizationDtoList.Add(chooseOrganizationDto);
+            }
+
+            /* przypisanie do modelu dto */
+            model.ChooseOrganizations = chooseOragnizationDtoList;
+            #endregion
+
+            #region GettingUsersFromOrganization
+
+            var organizationUsers = await _organizationUserService.GetOrganizationUsers(organizationId);
+            var organizationUsersNamesList = organizationUsers.Select(u => u.Name).ToList();
+            var organizationUsersIdList = organizationUsers.Select(u => u.Id).ToList();
+            model.OrganizationUserNames = organizationUsersNamesList;
+            
+
+            #endregion
+
+            #region SettingChosenOrganizationName
+
+            var chosenOrganization = await _organizationService.GetById(organizationId);
+            string chosenOranizationName = chosenOrganization.Name;
+            model.OrganizationName = chosenOranizationName;
+
+            #endregion
+
+            #region ChooseUserDtoLoading
+
+            var chooseUserDtoList = new List<ChooseUserDto>();
+
+            for (int i = 0; i < organizationUsersNamesList.Count; i++)
+            {
+                ChooseUserDto chooseUserDto = new ChooseUserDto()
+                {
+                    Id = organizationUsersIdList[i],
+                    Name = organizationUsersNamesList[i]
+                };
+
+                chooseUserDtoList.Add(chooseUserDto);
+            }
+
+            /* przypisanie do modelu dto */
+            model.ChooseUserDto = chooseUserDtoList;
+            #endregion
 
             return View("Manage", model);
 
         }
 
         [HttpPost]
-        public async Task<IActionResult> Choose(int organizationId, int userId)
+        public async Task<IActionResult> InviteUser(int organizationId, string email)
         {
-            ManageOrganizationDto model = new ManageOrganizationDto();
-
-            if (organizationId == 0)
+            var model = new ManageOrganizationDto
             {
-                TempData["NoOrganizationChoosed"] = "You didn't choose organization.";
-                var organizations = await _organizationServices.GetAll();
-                model.Organizations = organizations;
-                return View("Manage", model);
+                SelectedOrganizationId = organizationId
+            };
 
-            }
-            else
+            #region UserIdGetter
+            /* pobranie id użytkownika */
+            HttpContext.User.Claims.TryGetAuthenticatedUserId(out var accountId);
+            int userId = await _accountService.GetUserIdFromAccountId(accountId);
+            #endregion
+
+            #region GettingOrganizationNamesAndIdsToDto
+            /* pobranie organizacji użytkownia */
+            var organizations = await _organizationUserService.GetUserOrganizations(userId);
+
+            /* wyselekcjonowanie nazw i id organizacji uzytkownia */
+            List<string> organizationNames = organizations.Select(o => o.Name).ToList();
+            List<int> organizationIds = organizations.Select(o => o.Id).ToList();
+
+            /* przypisanie nazw i id do modelu */
+            model.OrganizationNames = organizationNames;
+            model.OrganizationIds = organizationIds;
+            
+            #endregion
+
+            #region ChooseOrganizationDtoLoading
+            /* zaladowanie do dto ChooseOrganizationDto nazw i id w celu wyswietlenia listy i pobrania id wybranej organizacji */
+            var chooseOragnizationDtoList = new List<ChooseOrganizationDto>();
+
+            for (int i = 0; i < organizationNames.Count; i++)
             {
-                model = await GetManageOrganizationDto(organizationId, userId);
-                return View("Manage", model);
-            }
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> InviteUser(int organizationId, string email, int userId)
-        {
-            var user = await _userServices.GetByEmail(email);
-            var organization = await _organizationServices.GetById(organizationId);
-
-            ManageOrganizationDto model = new ManageOrganizationDto();
-
-            if (user is null)
-            {
-                model = await GetManageOrganizationDto(organizationId, userId);
-                TempData["UserAddedFailedMessage"] =
-                    $"User with email: {email} hasn't been added to the organization {organizationId}. User is not registered in system.";
-            }
-            else
-            {
-                userId = user.Id;
-
-                bool invited = await _organizationServices.AddUser(organizationId, userId);
-
-                if (invited)
+                ChooseOrganizationDto chooseOrganizationDto = new ChooseOrganizationDto()
                 {
-                    TempData["UserAddedMessage"] = $"User with email: {email} has been added to the organization {organization.Name}.";
+                    OrganizationId = organizationIds[i],
+                    OrganizationName = organizationNames[i]
+                };
+
+                chooseOragnizationDtoList.Add(chooseOrganizationDto);
+            }
+
+            /* przypisanie do modelu dto */
+            model.ChooseOrganizations = chooseOragnizationDtoList;
+            #endregion
+
+            #region SettingChosenOrganizationName
+
+            var chosenOrganization = await _organizationService.GetById(organizationId);
+            string chosenOrganizationName = chosenOrganization.Name;
+            model.OrganizationName = chosenOrganizationName;
+
+            #endregion
+
+
+
+            #region AddingUser
+
+            try
+            {
+                var allUsersFromDatabase = await _userService.GetAll();
+                bool userExist = allUsersFromDatabase.Any(u => u.Email == email);
+              
+                if (!userExist)
+                {
+                    TempData["NoUsersMessage"] = _localizer["AddingUserError"].Value;
                 }
                 else
                 {
-                    TempData["UserAddedFailedMessage"] =
-                        $"User with email: {email} hasn't been added to organization with {organization.Name}.";
-                }
+                    var newUser = allUsersFromDatabase.FirstOrDefault(u => u.Email == email);
+                    int newUserId = newUser.Id;
 
-                model = await GetManageOrganizationDto(organizationId, userId);
+                    if (await _organizationUserService.IsUserSignedToOrganization(newUserId, organizationId))
+                    {
+                        TempData["userAlreadySignedMessage"] = _localizer["UserAlreadySignedError"].Value;
+                    }
+                    
+                    bool addingSucceeded = await _organizationService.AddUser(organizationId, newUserId);
+
+                    if (addingSucceeded)
+                    {
+                        TempData["userAddedMessage"] = _localizer["InvitationSend"].Value;
+                    }
+                }
             }
+            catch
+            {
+                return View("Manage", model);
+            }
+
+
+
+            #endregion
+            #region ChooseUserDtoLoading
+           
+            var updatedOrganizationUsers = await _organizationUserService.GetOrganizationUsers(organizationId);
+            List<string> updatedOrganizationUsersNamesList = updatedOrganizationUsers.Select(u => u.Name).ToList();
+            model.OrganizationUserNames = updatedOrganizationUsersNamesList;
+            var organizationUsersIdList = updatedOrganizationUsers.Select(u => u.Id).ToList();
+            model.OrganizationUserNames = updatedOrganizationUsersNamesList;
+
+            var chooseUserDtoList = new List<ChooseUserDto>();
+
+            for (int i = 0; i < updatedOrganizationUsersNamesList.Count; i++)
+            {
+                ChooseUserDto chooseUserDto = new ChooseUserDto()
+                {
+                    Id = organizationUsersIdList[i],
+                    Name = updatedOrganizationUsersNamesList[i]
+                };
+
+                chooseUserDtoList.Add(chooseUserDto);
+            }
+
+            /* przypisanie do modelu dto */
+            model.ChooseUserDto = chooseUserDtoList;
+            #endregion
 
             return View("Manage", model);
+            
         }
 
-        private async Task<ManageOrganizationDto> GetManageOrganizationDto(int organizationId, int userId)
+        [HttpPost]
+        public async Task<IActionResult> RemoveUserFromOrganization(int organizationId, int userToRemoveId)
         {
-            ManageOrganizationDto model = new ManageOrganizationDto();
-
-            var organizations = await _organizationServices.GetAll();
-            var organization = organizations.FirstOrDefault(o => o.Id == organizationId);
-            var allUsers = await _userServices.GetAll();
-
-            if (organization?.OrganizationUsers?.Count > 0)
+            var model = new ManageOrganizationDto
             {
-                var users = organization.OrganizationUsers.Select(ou => ou.User).ToList();
-                var user = users.FirstOrDefault(u => u.Id == userId);
+                SelectedOrganizationId = organizationId
+            };
 
-                model.OrganizationUsers = users;
-                model.User = user;
-            }
-            else
+            #region UserIdGetter
+            /* pobranie id użytkownika */
+            HttpContext.User.Claims.TryGetAuthenticatedUserId(out var accountId);
+            int userId = await _accountService.GetUserIdFromAccountId(accountId);
+            #endregion
+
+            #region GettingOrganizationNamesAndIdsToDto
+            /* pobranie organizacji użytkownia */
+            var organizations = await _organizationUserService.GetUserOrganizations(userId);
+
+            /* wyselekcjonowanie nazw i id organizacji uzytkownia */
+            List<string> organizationNames = organizations.Select(o => o.Name).ToList();
+            List<int> organizationIds = organizations.Select(o => o.Id).ToList();
+
+            /* przypisanie nazw i id do modelu */
+            model.OrganizationNames = organizationNames;
+            model.OrganizationIds = organizationIds;
+
+            #endregion
+
+            #region ChooseOrganizationDtoLoading
+            /* zaladowanie do dto ChooseOrganizationDto nazw i id w celu wyswietlenia listy i pobrania id wybranej organizacji */
+            var chooseOragnizationDtoList = new List<ChooseOrganizationDto>();
+
+            for (int i = 0; i < organizationNames.Count; i++)
             {
-                TempData["NoUsersMessage"] = "This organization hasn't got users yet.";
-                model.OrganizationUsers = new List<User>();
-                model.User = null;
+                ChooseOrganizationDto chooseOrganizationDto = new ChooseOrganizationDto()
+                {
+                    OrganizationId = organizationIds[i],
+                    OrganizationName = organizationNames[i]
+                };
+
+                chooseOragnizationDtoList.Add(chooseOrganizationDto);
             }
 
-            model.OrganizationId = organizationId;
-            model.Organizations = organizations;
-            model.AllUsers = allUsers;
-            model.Organization = organization;
-            model.SelectedOrganizationId = organizationId;
+            /* przypisanie do modelu dto */
+            model.ChooseOrganizations = chooseOragnizationDtoList;
+            #endregion
 
-            return model;
+            #region SettingChosenOrganizationName
+
+            var chosenOrganization = await _organizationService.GetById(organizationId);
+            string chosenOrganizationName = chosenOrganization.Name;
+            model.OrganizationName = chosenOrganizationName;
+
+            #endregion
+
+            #region RemovingUser
+
+            try
+            {
+               var organizationUserToRemove = _projectClockDbContext.OrganizationsUsers.FirstOrDefault(ou =>
+                    ou.UserId == userToRemoveId && ou.OrganizationId == organizationId);
+
+               var userToBeRemovedFromOrganization = await _userService.GetById(userToRemoveId);
+
+                if (organizationUserToRemove.Role == Position.Manager || organizationUserToRemove.Role == Position.Owner)
+                {
+                    TempData["UserToRemoveIsAnOwnerOrManager"] = _localizer["UserIsOwnerOrManager"].Value;
+                }
+                else if (!await _organizationUserService.IsUserAnOwnerOfParticularOrganization(userId, organizationId))
+                {
+                    TempData["LoggedInUserIsNotAnOwner"] = _localizer["DegradationFailureNoRights"].Value;
+                }
+                else
+                {
+                    if (await _organizationUserService.RemoveUserFromOrganization(userToRemoveId, organizationId))
+                    {
+                        TempData["UserRemovedSuccessfully"] = _localizer["UserRemoved"].Value;
+                    }
+                }
+            }
+            catch
+            {
+                return View("Manage", model);
+            }
+
+            #endregion
+
+            #region ChooseUserDtoLoading
+
+            var updatedOrganizationUsers = await _organizationUserService.GetOrganizationUsers(organizationId);
+            List<string> updatedOrganizationUsersNamesList = updatedOrganizationUsers.Select(u => u.Name).ToList();
+            model.OrganizationUserNames = updatedOrganizationUsersNamesList;
+            var organizationUsersIdList = updatedOrganizationUsers.Select(u => u.Id).ToList();
+            model.OrganizationUserNames = updatedOrganizationUsersNamesList;
+
+            var chooseUserDtoList = new List<ChooseUserDto>();
+
+            for (int i = 0; i < updatedOrganizationUsersNamesList.Count; i++)
+            {
+                ChooseUserDto chooseUserDto = new ChooseUserDto()
+                {
+                    Id = organizationUsersIdList[i],
+                    Name = updatedOrganizationUsersNamesList[i]
+                };
+
+                chooseUserDtoList.Add(chooseUserDto);
+            }
+
+            /* przypisanie do modelu dto */
+            model.ChooseUserDto = chooseUserDtoList;
+            #endregion
+
+            return View("Manage", model);
+
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AssignManagerStatus(int organizationId, int userToBecomeManagerId)
+        {
+            var model = new ManageOrganizationDto
+            {
+                SelectedOrganizationId = organizationId
+            };
+
+            #region UserIdGetter
+            /* pobranie id użytkownika */
+            HttpContext.User.Claims.TryGetAuthenticatedUserId(out var accountId);
+            int userId = await _accountService.GetUserIdFromAccountId(accountId);
+            #endregion
+
+            #region GettingOrganizationNamesAndIdsToDto
+            /* pobranie organizacji użytkownia */
+            var organizations = await _organizationUserService.GetUserOrganizations(userId);
+
+            /* wyselekcjonowanie nazw i id organizacji uzytkownia */
+            List<string> organizationNames = organizations.Select(o => o.Name).ToList();
+            List<int> organizationIds = organizations.Select(o => o.Id).ToList();
+
+            /* przypisanie nazw i id do modelu */
+            model.OrganizationNames = organizationNames;
+            model.OrganizationIds = organizationIds;
+
+            #endregion
+
+            #region ChooseOrganizationDtoLoading
+            /* zaladowanie do dto ChooseOrganizationDto nazw i id w celu wyswietlenia listy i pobrania id wybranej organizacji */
+            var chooseOragnizationDtoList = new List<ChooseOrganizationDto>();
+
+            for (int i = 0; i < organizationNames.Count; i++)
+            {
+                ChooseOrganizationDto chooseOrganizationDto = new ChooseOrganizationDto()
+                {
+                    OrganizationId = organizationIds[i],
+                    OrganizationName = organizationNames[i]
+                };
+
+                chooseOragnizationDtoList.Add(chooseOrganizationDto);
+            }
+
+            /* przypisanie do modelu dto */
+            model.ChooseOrganizations = chooseOragnizationDtoList;
+            #endregion
+
+            #region SettingChosenOrganizationName
+
+            var chosenOrganization = await _organizationService.GetById(organizationId);
+            string chosenOrganizationName = chosenOrganization.Name;
+            model.OrganizationName = chosenOrganizationName;
+
+            #endregion
+
+            #region AssigningUserToManager
+
+            try
+            {
+                var organizationUserToAdvance = _projectClockDbContext.OrganizationsUsers.FirstOrDefault(ou =>
+                     ou.UserId == userToBecomeManagerId && ou.OrganizationId == organizationId);
+
+                var userToBeAdvanced = await _userService.GetById(userToBecomeManagerId);
+
+                if (organizationUserToAdvance.Role == Position.Manager || organizationUserToAdvance.Role == Position.Owner)
+                {
+                    TempData["UserToAdvanceIsManagerOrOwner"] = _localizer["PromotionFailed"].Value ;
+                }
+                else if (!await _organizationUserService.IsUserAnOwnerOfParticularOrganization(userId, organizationId))
+                {
+                    TempData["LoggedInUserIsNotAnOwner"] = _localizer["DegradationFailureNoRights"].Value;
+                }
+                else
+                {
+                    if (await _organizationUserService.AdvanceUserToManager(userToBecomeManagerId, organizationId))
+                    {
+                        TempData["UserAdvancedSuccessfully"] = _localizer["PromotionSuccess"].Value;
+                    }
+                }
+            }
+            catch
+            {
+                return View("Manage", model);
+            }
+
+            #endregion
+
+            #region ChooseUserDtoLoading
+
+            var updatedOrganizationUsers = await _organizationUserService.GetOrganizationUsers(organizationId);
+            List<string> updatedOrganizationUsersNamesList = updatedOrganizationUsers.Select(u => u.Name).ToList();
+            model.OrganizationUserNames = updatedOrganizationUsersNamesList;
+            var organizationUsersIdList = updatedOrganizationUsers.Select(u => u.Id).ToList();
+            model.OrganizationUserNames = updatedOrganizationUsersNamesList;
+
+            var chooseUserDtoList = new List<ChooseUserDto>();
+
+            for (int i = 0; i < updatedOrganizationUsersNamesList.Count; i++)
+            {
+                ChooseUserDto chooseUserDto = new ChooseUserDto()
+                {
+                    Id = organizationUsersIdList[i],
+                    Name = updatedOrganizationUsersNamesList[i]
+                };
+
+                chooseUserDtoList.Add(chooseUserDto);
+            }
+
+            /* przypisanie do modelu dto */
+            model.ChooseUserDto = chooseUserDtoList;
+            #endregion
+
+            return View("Manage", model);
+
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DegregadeFromManagerStatus(int organizationId, int userToDegradeId)
+        {
+            var model = new ManageOrganizationDto
+            {
+                SelectedOrganizationId = organizationId
+            };
+
+            #region UserIdGetter
+            /* pobranie id użytkownika */
+            HttpContext.User.Claims.TryGetAuthenticatedUserId(out var accountId);
+            int userId = await _accountService.GetUserIdFromAccountId(accountId);
+            #endregion
+
+            #region GettingOrganizationNamesAndIdsToDto
+            /* pobranie organizacji użytkownia */
+            var organizations = await _organizationUserService.GetUserOrganizations(userId);
+
+            /* wyselekcjonowanie nazw i id organizacji uzytkownia */
+            List<string> organizationNames = organizations.Select(o => o.Name).ToList();
+            List<int> organizationIds = organizations.Select(o => o.Id).ToList();
+
+            /* przypisanie nazw i id do modelu */
+            model.OrganizationNames = organizationNames;
+            model.OrganizationIds = organizationIds;
+
+            #endregion
+
+            #region ChooseOrganizationDtoLoading
+            /* zaladowanie do dto ChooseOrganizationDto nazw i id w celu wyswietlenia listy i pobrania id wybranej organizacji */
+            var chooseOragnizationDtoList = new List<ChooseOrganizationDto>();
+
+            for (int i = 0; i < organizationNames.Count; i++)
+            {
+                ChooseOrganizationDto chooseOrganizationDto = new ChooseOrganizationDto()
+                {
+                    OrganizationId = organizationIds[i],
+                    OrganizationName = organizationNames[i]
+                };
+
+                chooseOragnizationDtoList.Add(chooseOrganizationDto);
+            }
+
+            /* przypisanie do modelu dto */
+            model.ChooseOrganizations = chooseOragnizationDtoList;
+            #endregion
+
+            #region SettingChosenOrganizationName
+
+            var chosenOrganization = await _organizationService.GetById(organizationId);
+            string chosenOrganizationName = chosenOrganization.Name;
+            model.OrganizationName = chosenOrganizationName;
+
+            #endregion
+
+            #region DegregadeUserToManager
+
+            try
+            {
+                var organizationUserToDegrade = _projectClockDbContext.OrganizationsUsers.FirstOrDefault(ou =>
+                     ou.UserId == userToDegradeId && ou.OrganizationId == organizationId);
+
+                var managerToDegrade = await _userService.GetById(userToDegradeId);
+
+                if (organizationUserToDegrade.Role == Position.User || organizationUserToDegrade.Role == Position.Owner)
+                {
+                    TempData["UserDegradeFromManagerFailedMessage"] = _localizer["DegradationFailure"].Value;
+                }
+                else if (!await _organizationUserService.IsUserAnOwnerOfParticularOrganization(userId, organizationId))
+                {
+                    TempData["LoggedInUserIsNotAnOwner"] = _localizer["DegradationFailureNoRights"].Value;
+                }
+                else
+                {
+                    if (await _organizationUserService.DegradeManager(userToDegradeId, organizationId))
+                    {
+                        TempData["UserAdvancedSuccessfully"] = _localizer["DegradationSuccess"].Value;
+                    }
+                }
+            }
+            catch
+            {
+                return View("Manage", model);
+            }
+
+            #endregion
+
+            #region ChooseUserDtoLoading
+
+            var updatedOrganizationUsers = await _organizationUserService.GetOrganizationUsers(organizationId);
+            List<string> updatedOrganizationUsersNamesList = updatedOrganizationUsers.Select(u => u.Name).ToList();
+            model.OrganizationUserNames = updatedOrganizationUsersNamesList;
+            var organizationUsersIdList = updatedOrganizationUsers.Select(u => u.Id).ToList();
+            model.OrganizationUserNames = updatedOrganizationUsersNamesList;
+
+            var chooseUserDtoList = new List<ChooseUserDto>();
+
+            for (int i = 0; i < updatedOrganizationUsersNamesList.Count; i++)
+            {
+                ChooseUserDto chooseUserDto = new ChooseUserDto()
+                {
+                    Id = organizationUsersIdList[i],
+                    Name = updatedOrganizationUsersNamesList[i]
+                };
+
+                chooseUserDtoList.Add(chooseUserDto);
+            }
+
+            /* przypisanie do modelu dto */
+            model.ChooseUserDto = chooseUserDtoList;
+            #endregion
+
+            return View("Manage", model);
+
+        }
+
+        // GET: OrganizationController/Delete/5
+        public async Task<IActionResult> Invitation()
+        {
+            InvitationToOrganizationDto model = new InvitationToOrganizationDto();
+
+            HttpContext.User.Claims.TryGetAuthenticatedUserId(out var accountId);
+            int userId = await _accountService.GetUserIdFromAccountId(accountId);
+
+            var invitingOrganizations = await _organizationUserService.GetInvitingOrganizations(userId);
+
+            var invitingOrganizationsDtoList = invitingOrganizations.Select(x => new OrganizationDto()
+            {
+                OrganizationId = x.Id,
+                OrganizationName = x.Name
+
+            }).ToList();
+
+            model.InvitingOrganizations = invitingOrganizationsDtoList;
+
+            return View("Invitation", model);
+        }
+
+        // POST: OrganizationController/Delete/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Invitation(int organizationId)
+        {
+            HttpContext.User.Claims.TryGetAuthenticatedUserId(out var accountId);
+            int userId = await _accountService.GetUserIdFromAccountId(accountId);
+
+            try
+            {
+                bool acceptedInvitation = await _organizationUserService.AcceptInvitation(userId, organizationId);
+               
+
+                if (acceptedInvitation)
+                {
+                    TempData["AcceptanceSuccessMessage"] = _localizer["InvitationConfirmed"].Value;
+                }
+                else
+                {
+                    TempData["AcceptanceErrorMessage"] = "There's problem with this invitation";
+                }
+
+                return RedirectToAction(nameof(Invitation));
+            }
+            catch
+            {
+                return RedirectToAction(nameof(Invitation));
+            }
         }
 
     }
